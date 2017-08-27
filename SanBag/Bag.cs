@@ -69,26 +69,26 @@ namespace SanBag
                     return;
                 }
 
-                var next_collection_offset = 0x400;
-                var next_collection_flags = 0x00100000;
+                var next_manifest_offset = 0x400;
+                var next_manifest_length = 0;
                 var filler = new byte[0x3F0];
 
                 // Bag header
-                bag_stream.Write((long)next_collection_offset);
-                bag_stream.Write((int)next_collection_flags);
+                bag_stream.Write((long)next_manifest_offset);
+                bag_stream.Write((int)next_manifest_length);
                 bag_stream.Write(filler);
 
-                // File collection header
-                next_collection_offset = 0;
-                next_collection_flags = 0;
-                bag_stream.Write((long)next_collection_offset);
-                bag_stream.Write((int)next_collection_flags);
+                // Manifest header
+                next_manifest_offset = 0;
+                next_manifest_length = 0;
+                bag_stream.Write((long)next_manifest_offset);
+                bag_stream.Write((int)next_manifest_length);
 
                 var offset_mapping = new Dictionary<string, long>();
                 var file_index = 1;
 
                 // First pass
-                //   Write file headers
+                //   Write manifest
                 foreach (var path in files_to_add)
                 {
                     var file_offset = 0;
@@ -109,8 +109,10 @@ namespace SanBag
                     ++file_index;
                 }
 
+                var total_manifest_length = bag_stream.BaseStream.Position - 0x400;
+
                 // Second pass
-                //   Write file contents and update offsets in file headers
+                //   Update file offsets in manifest
                 foreach (var path in files_to_add)
                 {
                     var current_offset = bag_stream.BaseStream.Position;
@@ -125,6 +127,10 @@ namespace SanBag
                         file_stream.CopyTo(bag_stream.BaseStream);
                     }
                 }
+
+                // Update the manifest length in the root
+                bag_stream.BaseStream.Seek(12, SeekOrigin.Begin);
+                bag_stream.Write((int)total_manifest_length);
             }
         }
 
@@ -140,14 +146,28 @@ namespace SanBag
             using (var bag_stream = new BinaryReader(File.OpenRead(path)))
             {
                 var bag_signature = bag_stream.ReadUInt32();
+                var next_manifest_offset = bag_stream.ReadInt64();
+                var next_manifest_length = bag_stream.ReadUInt32();
 
-                while (true)
+                while (next_manifest_offset != 0 && next_manifest_length > 0)
                 {
-                    var next_offset = bag_stream.ReadInt64();
-                    var next_offset_flags = bag_stream.ReadUInt32();
+                    var current_manifest_end = next_manifest_offset + next_manifest_length;
+                    bag_stream.BaseStream.Seek(next_manifest_offset, SeekOrigin.Begin);
+                    next_manifest_offset = bag_stream.ReadInt64();
+                    next_manifest_length = bag_stream.ReadUInt32();
 
-                    while (bag_stream.ReadByte() == 0xFF)
+                    while (true)
                     {
+                        if (bag_stream.BaseStream.Position >= current_manifest_end)
+                        {
+                            break;
+                        }
+
+                        if (bag_stream.ReadByte() != 0xFF)
+                        {
+                            break;
+                        }
+
                         var file_offset = bag_stream.ReadInt64();
                         var file_length = bag_stream.ReadUInt32();
                         var unknown = bag_stream.ReadUInt64();
@@ -173,13 +193,6 @@ namespace SanBag
                             file_records.Add(file_offset, new_record);
                         }
                     }
-
-                    if (next_offset == 0)
-                    {
-                        break;
-                    }
-
-                    bag_stream.BaseStream.Seek(next_offset, SeekOrigin.Begin);
                 }
             }
 
