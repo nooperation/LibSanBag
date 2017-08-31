@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Text;
 
 namespace SanBag
 {
-    class Bag
+    public class Bag
     {
         private static int BagSignature => 0x66;
 
@@ -14,8 +15,18 @@ namespace SanBag
             public long Offset { get; set; }
             public uint Length { get; set; }
             public string Name { get; set; }
-            public ulong Unknown { get; set; }
+            public long TimestampNs { get; set; }
             public string BagPath { get; set; }
+
+            public FileRecord()
+            {
+
+            }
+
+            public FileRecord(BinaryReader in_stream)
+            {
+                Read(in_stream);
+            }
 
             /// <summary>
             /// Saves the file record to the specified path.
@@ -44,11 +55,64 @@ namespace SanBag
                 }
             }
 
+
+            public void Read(BinaryReader in_stream)
+            {
+                Offset = in_stream.ReadInt64();
+                Length = in_stream.ReadUInt32();
+                TimestampNs = in_stream.ReadInt64();
+
+                var name_length = in_stream.ReadInt32();
+                Name = new string(in_stream.ReadChars(name_length));
+            }
+
             public override string ToString()
             {
-                return $"{Offset} - {Name} - {Length} bytes";
+                return $"{TimestampNs} - {Name} - {Length} bytes";
             }
         }
+
+        public class Manifest
+        {
+            public long NextManifestOffset { get; set; } = 0;
+            public int NextManifestLength { get; set; } = 0;
+            public List<FileRecord> Records { get; set; } = new List<FileRecord>();
+
+            public uint Length
+            {
+                get
+                {
+                    uint length = 0;
+                    foreach (var record in Records)
+                    {
+                        length += record.Length;
+                    }
+                    return length;
+                }
+            }
+
+            public void Read(BinaryReader in_stream, long offset, int length)
+            {
+                in_stream.BaseStream.Seek(offset, SeekOrigin.Begin);
+                NextManifestOffset = in_stream.ReadInt64();
+                NextManifestLength = in_stream.ReadInt32();
+                Records = new List<FileRecord>();
+
+                while (in_stream.BaseStream.Position < offset + length)
+                {
+                    var record_marker = in_stream.ReadByte();
+                    if (record_marker != 0xFF)
+                    {
+                        break;
+                    }
+
+                    var new_record = new FileRecord(in_stream);
+                    Records.Add(new_record);
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// WIP (non-functional)
@@ -56,69 +120,60 @@ namespace SanBag
         /// </summary>
         /// <param name="output_path">Output path.</param>
         /// <param name="files_to_add">Files to add to the bag.</param>
-        static public void CreateNewBag(string output_path, ICollection<string> files_to_add)
+        static public void CreateNewBag(string output_path, ICollection<string> files_to_add, ITimeProvider time_provider)
         {
+            const string OffbaseString = "0fffba5e0fffba5e0fffba5e0fffba5e";
+
             using (var bag_stream = new BinaryWriter(File.OpenWrite(output_path)))
             {
+                var next_manifest_offset = (long)0;
+                var next_manifest_length = (int)0;
+
                 bag_stream.Write(BagSignature);
+                bag_stream.Write(next_manifest_offset);
+                bag_stream.Write(next_manifest_length);
+                bag_stream.Write((int)OffbaseString.Length + 1);
+                bag_stream.Write(Encoding.ASCII.GetBytes(OffbaseString));
+                bag_stream.Write(new byte[0x3F0 - 0x24]);
+
                 if (files_to_add.Count == 0)
                 {
-                    bag_stream.Write((long)0);
-                    bag_stream.Write((int)0);
-                    bag_stream.Write(new byte[0x3F0]);
                     return;
                 }
 
-                var next_manifest_offset = 0x400;
-                var next_manifest_length = 0;
-                var filler = new byte[0x3F0];
+                // First Manifest
+                var manifest_begin_position = bag_stream.BaseStream.Position;
+                bag_stream.Write(next_manifest_offset);
+                bag_stream.Write(next_manifest_length);
 
-                // Bag header
-                bag_stream.Write((long)next_manifest_offset);
-                bag_stream.Write((int)next_manifest_length);
-                bag_stream.Write(filler);
-
-                // Manifest header
-                next_manifest_offset = 0;
-                next_manifest_length = 0;
-                bag_stream.Write((long)next_manifest_offset);
-                bag_stream.Write((int)next_manifest_length);
-
-                var offset_mapping = new Dictionary<string, long>();
-                var file_index = 1;
-
-                // First pass
-                //   Write manifest
+                var file_offset_map = new Dictionary<string, long>();
                 foreach (var path in files_to_add)
                 {
-                    var file_offset = 0;
-                    var file_length = new FileInfo(path).Length;
-                    var unknown = file_index*1000000; // TODO: This needs to be known...
-                    var FilenameBytes = Encoding.ASCII.GetBytes(Path.GetFileName(path));
+                    var file_length = (uint)new FileInfo(path).Length;
+                    var file_name = Path.GetFileName(path);
+                    var timestamp_ns = time_provider.GetCurrentTime();
 
                     bag_stream.Write((byte)0xFF);
 
-                    offset_mapping.Add(path, bag_stream.BaseStream.Position);
+                    file_offset_map[path] = bag_stream.BaseStream.Position;
+                    bag_stream.Write((long)0);
+                    bag_stream.Write(file_length);
+                    bag_stream.Write(timestamp_ns);
 
-                    bag_stream.Write((ulong)file_offset);
-                    bag_stream.Write((uint)file_length);
-                    bag_stream.Write((ulong)unknown);
-                    bag_stream.Write((uint)FilenameBytes.Length);
-                    bag_stream.Write(FilenameBytes);
-
-                    ++file_index;
+                    bag_stream.Write((int)file_name.Length);
+                    bag_stream.Write(Encoding.ASCII.GetBytes(file_name));
                 }
 
-                var total_manifest_length = bag_stream.BaseStream.Position - 0x400;
+                var total_manifest_length = bag_stream.BaseStream.Position - manifest_begin_position;
 
                 // Second pass
                 //   Update file offsets in manifest
                 foreach (var path in files_to_add)
                 {
                     var current_offset = bag_stream.BaseStream.Position;
-                    var file_header_offset = offset_mapping[path];
+                    var file_offset_position = file_offset_map[path];
 
-                    bag_stream.BaseStream.Seek(file_header_offset, SeekOrigin.Begin);
+                    bag_stream.BaseStream.Seek(file_offset_position, SeekOrigin.Begin);
                     bag_stream.Write(current_offset);
                     bag_stream.BaseStream.Seek(current_offset, SeekOrigin.Begin);
 
@@ -129,7 +184,8 @@ namespace SanBag
                 }
 
                 // Update the manifest length in the root
-                bag_stream.BaseStream.Seek(12, SeekOrigin.Begin);
+                bag_stream.BaseStream.Seek(4, SeekOrigin.Begin);
+                bag_stream.Write((long)manifest_begin_position);
                 bag_stream.Write((int)total_manifest_length);
             }
         }
@@ -141,7 +197,7 @@ namespace SanBag
         /// <returns>Bag file contents.</returns>
         static public IDictionary<long, FileRecord> ReadBag(string path)
         {
-            var file_records = new SortedDictionary<long, FileRecord>();
+            var file_records = new Dictionary<long, FileRecord>();
 
             using (var bag_stream = new BinaryReader(File.OpenRead(path)))
             {
@@ -168,29 +224,14 @@ namespace SanBag
                             break;
                         }
 
-                        var file_offset = bag_stream.ReadInt64();
-                        var file_length = bag_stream.ReadUInt32();
-                        var unknown = bag_stream.ReadUInt64();
-
-                        var FilenameLength = bag_stream.ReadInt32();
-                        var Filename = new string(bag_stream.ReadChars(FilenameLength));
-
-                        var new_record = new FileRecord()
-                        {
-                            Unknown = unknown,
-                            Length = file_length,
-                            Name = Filename,
-                            Offset = file_offset,
-                            BagPath = path
-                        };
-
-                        if (file_records.ContainsKey(file_offset))
+                        var new_record = new FileRecord(bag_stream);
+                        if (file_records.ContainsKey(new_record.Offset))
                         {
                             // TODO: What do we do in this situation...
                         }
                         else
                         {
-                            file_records.Add(file_offset, new_record);
+                            file_records.Add(new_record.Offset, new_record);
                         }
                     }
                 }
