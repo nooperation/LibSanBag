@@ -19,17 +19,15 @@ namespace SanBag
             Directory.CreateDirectory(@".\in");
             Directory.CreateDirectory(@".\out");
 
-            //Bag.CreateNewBag(@"Test.bag", new List<string>()
-            //{
-            //    @"r:\csharp\SanBag\SanBag.Tests\In\TestFile1.txt"
-            //});
+            Bag.CreateNewBag(@"Test.bag", Directory.GetFiles(@".\in"), new TimeProvider());
 
-            var bag_contents = Bag.ReadBag(@"C:\Users\Mario\AppData\Local\LindenLab\SansarClient\ClientAssetCacheSmall--.bag");
-            foreach (var item in bag_contents)
+            var records = Bag.ReadBag(@"Test.bag");
+
+            using (var in_stream = File.OpenRead(@"Test.bag"))
             {
-                var file_record = item.Value;
+                foreach (var file_record in records)
                 {
-                    //file_record.Save($@".\out\{file_record.Name}");
+                    file_record.Save(in_stream, $@".\out\{file_record.Name}");
                     Console.WriteLine(file_record);
                 }
             }
