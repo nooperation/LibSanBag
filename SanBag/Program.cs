@@ -19,9 +19,9 @@ namespace SanBag
             Directory.CreateDirectory(@".\in");
             Directory.CreateDirectory(@".\out");
 
-            Bag.CreateNewBag(@"Test.bag", Directory.GetFiles(@".\in"), new TimeProvider());
+            Bag.Write(@"Test.bag", Directory.GetFiles(@".\in"), new TimeProvider());
 
-            var records = Bag.ReadBag(@"Test.bag");
+            var records = Bag.Read(@"Test.bag");
 
             using (var in_stream = File.OpenRead(@"Test.bag"))
             {

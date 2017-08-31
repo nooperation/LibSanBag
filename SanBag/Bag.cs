@@ -12,13 +12,12 @@ namespace SanBag
         private static string OffbaseString => "0fffba5e0fffba5e0fffba5e0fffba5e";
 
         /// <summary>
-        /// WIP (non-functional)
         /// Creates a new bag file with the specified collection of files.
         /// </summary>
         /// <param name="output_path">Output path.</param>
         /// <param name="files_to_add">Files to add to the bag.</param>
         /// <param name="time_provider">Time provider.</param>
-        static public void CreateNewBag(string output_path, ICollection<string> files_to_add, ITimeProvider time_provider)
+        static public void Write(string output_path, ICollection<string> files_to_add, ITimeProvider time_provider)
         {
             using (var bag_stream = new BinaryWriter(File.OpenWrite(output_path)))
             {
@@ -92,7 +91,7 @@ namespace SanBag
         /// </summary>
         /// <param name="path">Path to read from.</param>
         /// <returns>Bag file contents.</returns>
-        static public ICollection<FileRecord> ReadBag(string path)
+        static public ICollection<FileRecord> Read(string path)
         {
             var file_records = new List<FileRecord>();
 
