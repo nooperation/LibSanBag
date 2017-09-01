@@ -14,11 +14,6 @@ namespace SanBag
         public string Name { get; set; }
         public long TimestampNs { get; set; }
 
-        public FileRecord()
-        {
-
-        }
-
         public FileRecord(BinaryReader in_stream)
         {
             Read(in_stream);
@@ -28,23 +23,20 @@ namespace SanBag
         /// Saves the file record to the specified path.
         /// </summary>
         /// <param name="path">Output path.</param>
-        public void Save(Stream in_stream, string path)
+        public void Save(Stream in_stream, Stream out_stream)
         {
-            using (var output_stream = File.OpenWrite(path))
+            in_stream.Seek(Offset, SeekOrigin.Begin);
+            var bytes_remaining = Length;
+            var buffer = new byte[32767];
+
+            while (bytes_remaining > 0)
             {
-                in_stream.Seek(Offset, SeekOrigin.Begin);
-                var bytes_remaining = Length;
-                var buffer = new byte[32767];
+                var bytes_to_read = bytes_remaining > buffer.Length ? buffer.Length : (int)bytes_remaining;
+                var bytes_read = in_stream.Read(buffer, 0, bytes_to_read);
 
-                while (bytes_remaining > 0)
-                {
-                    var bytes_to_read = bytes_remaining > buffer.Length ? buffer.Length : (int)bytes_remaining;
-                    var bytes_read = in_stream.Read(buffer, 0, bytes_to_read);
+                out_stream.Write(buffer, 0, bytes_read);
 
-                    output_stream.Write(buffer, 0, bytes_read);
-
-                    bytes_remaining -= (uint)bytes_read;
-                }
+                bytes_remaining -= (uint)bytes_read;
             }
         }
 

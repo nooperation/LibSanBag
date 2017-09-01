@@ -13,19 +13,6 @@ namespace SanBag
         public int NextManifestLength { get; set; } = 0;
         public List<FileRecord> Records { get; set; } = new List<FileRecord>();
 
-        public uint Length
-        {
-            get
-            {
-                uint length = 0;
-                foreach (var record in Records)
-                {
-                    length += record.Length;
-                }
-                return length;
-            }
-        }
-
         public void Read(BinaryReader in_stream, long offset, int length)
         {
             in_stream.BaseStream.Seek(offset, SeekOrigin.Begin);

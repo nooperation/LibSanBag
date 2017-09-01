@@ -21,14 +21,17 @@ namespace SanBag
 
             Bag.Write(@"Test.bag", Directory.GetFiles(@".\in"), new TimeProvider());
 
-            var records = Bag.Read(@"Test.bag");
-
             using (var in_stream = File.OpenRead(@"Test.bag"))
             {
+                var records = Bag.Read(in_stream);
+
                 foreach (var file_record in records)
                 {
-                    file_record.Save(in_stream, $@".\out\{file_record.Name}");
-                    Console.WriteLine(file_record);
+                    using (var out_stream = File.OpenWrite($@".\out\{file_record.Name}"))
+                    {
+                        file_record.Save(in_stream, out_stream);
+                        Console.WriteLine(file_record);
+                    }
                 }
             }
         }

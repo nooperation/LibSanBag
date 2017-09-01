@@ -91,30 +91,29 @@ namespace SanBag
         /// </summary>
         /// <param name="path">Path to read from.</param>
         /// <returns>Bag file contents.</returns>
-        static public ICollection<FileRecord> Read(string path)
+        static public ICollection<FileRecord> Read(Stream in_stream)
         {
             var file_records = new List<FileRecord>();
 
-            using (var bag_stream = new BinaryReader(File.OpenRead(path)))
+            var bag_stream = new BinaryReader(in_stream);
+
+            var file_signature = bag_stream.ReadInt32();
+            if (file_signature != BagSignature)
             {
-                var file_signature = bag_stream.ReadInt32();
-                if (file_signature != 0x66)
-                {
-                    throw new Exception($"Invalid bag file. Expected file signature of {BagSignature}, got {file_signature}");
-                }
+                throw new Exception($"Invalid bag file. Expected file signature of {BagSignature}, got {file_signature}");
+            }
 
-                var manifest = new Manifest();
-                manifest.Read(bag_stream, 4, 0x3FC);
+            var manifest = new Manifest();
+            manifest.Read(bag_stream, 4, 0x3FC);
 
-                while (manifest.NextManifestOffset != 0)
-                {
-                    var previous_manifest = manifest;
+            while (manifest.NextManifestOffset != 0)
+            {
+                var previous_manifest = manifest;
 
-                    manifest = new Manifest();
-                    manifest.Read(bag_stream, previous_manifest.NextManifestOffset, previous_manifest.NextManifestLength);
+                manifest = new Manifest();
+                manifest.Read(bag_stream, previous_manifest.NextManifestOffset, previous_manifest.NextManifestLength);
 
-                    file_records.AddRange(manifest.Records);
-                }
+                file_records.AddRange(manifest.Records);
             }
 
             return file_records;
