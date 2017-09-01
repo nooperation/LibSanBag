@@ -37,12 +37,14 @@ namespace SanBag.Tests
         [Test]
         public void TestSingleFileBagCreation()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
-
-            Bag.Write(OutputPath, new List<string>()
+            var files_to_add = new string[]
             {
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile1.txt")
-            }, MockTimeProvider.Object);
+            };
+
+            Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
+
+            Bag.Write(OutputPath, files_to_add, MockTimeProvider.Object);
             var file_contents = File.ReadAllBytes(OutputPath);
             File.Delete(OutputPath);
 
@@ -52,12 +54,14 @@ namespace SanBag.Tests
         [Test]
         public void TestMultipleFileBagCreation()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
-            Bag.Write(OutputPath, new List<string>()
+            var files_to_add = new string[]
             {
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile1.txt"),
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile2.txt")
-            }, MockTimeProvider.Object);
+            };
+
+            Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
+            Bag.Write(OutputPath, files_to_add, MockTimeProvider.Object);
             var file_contents = File.ReadAllBytes(OutputPath);
             File.Delete(OutputPath);
 
