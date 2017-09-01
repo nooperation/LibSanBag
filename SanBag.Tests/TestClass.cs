@@ -22,7 +22,7 @@ namespace SanBag.Tests
         }
 
         [Test]
-        public void TestEmptyBagCreation()
+        public void TestCreateEmptyBag()
         {
             using (MemoryStream out_stream = new MemoryStream())
             {
@@ -32,7 +32,7 @@ namespace SanBag.Tests
         }
 
         [Test]
-        public void TestSingleFileBagCreation()
+        public void TestCreateSingleFileBag()
         {
             var files_to_add = new string[]
             {
@@ -47,7 +47,7 @@ namespace SanBag.Tests
         }
 
         [Test]
-        public void TestMultipleFileBagCreation()
+        public void TestCreateMultipleFileBag()
         {
             var files_to_add = new string[]
             {
