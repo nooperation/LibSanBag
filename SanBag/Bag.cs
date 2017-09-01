@@ -17,73 +17,72 @@ namespace SanBag
         /// <param name="output_path">Output path.</param>
         /// <param name="files_to_add">Files to add to the bag.</param>
         /// <param name="time_provider">Time provider.</param>
-        static public void Write(string output_path, ICollection<string> files_to_add, ITimeProvider time_provider)
+        static public void Write(Stream out_stream, ICollection<string> files_to_add, ITimeProvider time_provider)
         {
-            using (var bag_stream = new BinaryWriter(File.OpenWrite(output_path)))
+            var bag_stream = new BinaryWriter(out_stream);
+
+            // Offsets and lengths are popualted after the manifest has been written
+            var next_manifest_offset = (long)0;
+            var next_manifest_length = (int)0;
+
+            bag_stream.Write(BagSignature);
+            bag_stream.Write(next_manifest_offset);
+            bag_stream.Write(next_manifest_length);
+            bag_stream.Write((int)OffbaseString.Length + 1);
+            bag_stream.Write(Encoding.ASCII.GetBytes(OffbaseString));
+            bag_stream.Write(new byte[0x3CC]);
+
+            if (files_to_add.Count == 0)
             {
-                // Offsets and lengths are popualted after the manifest has been written
-                var next_manifest_offset = (long)0;
-                var next_manifest_length = (int)0;
-
-                bag_stream.Write(BagSignature);
-                bag_stream.Write(next_manifest_offset);
-                bag_stream.Write(next_manifest_length);
-                bag_stream.Write((int)OffbaseString.Length + 1);
-                bag_stream.Write(Encoding.ASCII.GetBytes(OffbaseString));
-                bag_stream.Write(new byte[0x3CC]);
-
-                if (files_to_add.Count == 0)
-                {
-                    return;
-                }
-
-                // First Manifest
-                var manifest_begin_position = bag_stream.BaseStream.Position;
-                bag_stream.Write(next_manifest_offset);
-                bag_stream.Write(next_manifest_length);
-
-                var file_offset_map = new Dictionary<string, long>();
-                foreach (var path in files_to_add)
-                {
-                    var file_length = (uint)new FileInfo(path).Length;
-                    var file_name = Path.GetFileName(path);
-                    var timestamp_ns = time_provider.GetCurrentTime();
-
-                    bag_stream.Write((byte)0xFF);
-
-                    file_offset_map[path] = bag_stream.BaseStream.Position;
-                    bag_stream.Write((long)0);
-                    bag_stream.Write(file_length);
-                    bag_stream.Write(timestamp_ns);
-
-                    bag_stream.Write((int)file_name.Length);
-                    bag_stream.Write(Encoding.ASCII.GetBytes(file_name));
-                }
-
-                var total_manifest_length = bag_stream.BaseStream.Position - manifest_begin_position;
-
-                // Second pass
-                //   Update file offsets in manifest
-                foreach (var path in files_to_add)
-                {
-                    var current_offset = bag_stream.BaseStream.Position;
-                    var file_offset_position = file_offset_map[path];
-
-                    bag_stream.BaseStream.Seek(file_offset_position, SeekOrigin.Begin);
-                    bag_stream.Write(current_offset);
-                    bag_stream.BaseStream.Seek(current_offset, SeekOrigin.Begin);
-
-                    using (var file_stream = File.OpenRead(path))
-                    {
-                        file_stream.CopyTo(bag_stream.BaseStream);
-                    }
-                }
-
-                // Update the manifest length in the root
-                bag_stream.BaseStream.Seek(4, SeekOrigin.Begin);
-                bag_stream.Write((long)manifest_begin_position);
-                bag_stream.Write((int)total_manifest_length);
+                return;
             }
+
+            // First Manifest
+            var manifest_begin_position = bag_stream.BaseStream.Position;
+            bag_stream.Write(next_manifest_offset);
+            bag_stream.Write(next_manifest_length);
+
+            var file_offset_map = new Dictionary<string, long>();
+            foreach (var path in files_to_add)
+            {
+                var file_length = (uint)new FileInfo(path).Length;
+                var file_name = Path.GetFileName(path);
+                var timestamp_ns = time_provider.GetCurrentTime();
+
+                bag_stream.Write((byte)0xFF);
+
+                file_offset_map[path] = bag_stream.BaseStream.Position;
+                bag_stream.Write((long)0);
+                bag_stream.Write(file_length);
+                bag_stream.Write(timestamp_ns);
+
+                bag_stream.Write((int)file_name.Length);
+                bag_stream.Write(Encoding.ASCII.GetBytes(file_name));
+            }
+
+            var total_manifest_length = bag_stream.BaseStream.Position - manifest_begin_position;
+
+            // Second pass
+            //   Update file offsets in manifest
+            foreach (var path in files_to_add)
+            {
+                var current_offset = bag_stream.BaseStream.Position;
+                var file_offset_position = file_offset_map[path];
+
+                bag_stream.BaseStream.Seek(file_offset_position, SeekOrigin.Begin);
+                bag_stream.Write(current_offset);
+                bag_stream.BaseStream.Seek(current_offset, SeekOrigin.Begin);
+
+                using (var file_stream = File.OpenRead(path))
+                {
+                    file_stream.CopyTo(bag_stream.BaseStream);
+                }
+            }
+
+            // Update the manifest length in the root
+            bag_stream.BaseStream.Seek(4, SeekOrigin.Begin);
+            bag_stream.Write((long)manifest_begin_position);
+            bag_stream.Write((int)total_manifest_length);
         }
 
         /// <summary>

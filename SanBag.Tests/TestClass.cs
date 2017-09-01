@@ -12,7 +12,6 @@ namespace SanBag.Tests
     [TestFixture]
     public class TestClass
     {
-        private string OutputPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "out", TestContext.CurrentContext.Test.Name + ".bag");
         private Mock<ITimeProvider> MockTimeProvider = new Mock<ITimeProvider>();
         private ulong ExpectedTimestamp => 0x14DF773F94417DC0;
 
@@ -25,13 +24,11 @@ namespace SanBag.Tests
         [Test]
         public void TestEmptyBagCreation()
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
-
-            Bag.Write(OutputPath, new List<string>(), MockTimeProvider.Object);
-            var file_contents = File.ReadAllBytes(OutputPath);
-            File.Delete(OutputPath);
-
-            Assert.AreEqual(file_contents, ExpectedData.EmptyBag);
+            using (MemoryStream out_stream = new MemoryStream())
+            {
+                Bag.Write(out_stream, new List<string>(), MockTimeProvider.Object);
+                Assert.AreEqual(out_stream.ToArray(), ExpectedData.EmptyBag);
+            }
         }
 
         [Test]
@@ -42,13 +39,11 @@ namespace SanBag.Tests
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile1.txt")
             };
 
-            Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
-
-            Bag.Write(OutputPath, files_to_add, MockTimeProvider.Object);
-            var file_contents = File.ReadAllBytes(OutputPath);
-            File.Delete(OutputPath);
-
-            Assert.AreEqual(file_contents, ExpectedData.SingleFile);
+            using (MemoryStream out_stream = new MemoryStream())
+            {
+                Bag.Write(out_stream, files_to_add, MockTimeProvider.Object);
+                Assert.AreEqual(out_stream.ToArray(), ExpectedData.SingleFile);
+            }
         }
 
         [Test]
@@ -60,12 +55,11 @@ namespace SanBag.Tests
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile2.txt")
             };
 
-            Directory.CreateDirectory(Path.GetDirectoryName(OutputPath));
-            Bag.Write(OutputPath, files_to_add, MockTimeProvider.Object);
-            var file_contents = File.ReadAllBytes(OutputPath);
-            File.Delete(OutputPath);
-
-            Assert.AreEqual(file_contents, ExpectedData.MultipleFiles);
+            using (MemoryStream out_stream = new MemoryStream())
+            {
+                Bag.Write(out_stream, files_to_add, MockTimeProvider.Object);
+                Assert.AreEqual(out_stream.ToArray(), ExpectedData.MultipleFiles);
+            }
         }
 
         [Test]
