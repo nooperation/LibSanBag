@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSanBag", "SanBag\LibSanBag.csproj", "{14A58A49-5247-442F-B0F2-C3A5D7A88D76}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSanBag", "LibSanBag\LibSanBag.csproj", "{14A58A49-5247-442F-B0F2-C3A5D7A88D76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSanBag.Tests", "SanBag.Tests\LibSanBag.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSanBag.Tests", "LibSanBag.Tests\LibSanBag.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

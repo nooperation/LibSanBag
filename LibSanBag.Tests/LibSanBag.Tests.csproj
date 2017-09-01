@@ -59,7 +59,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SanBag\LibSanBag.csproj">
+    <ProjectReference Include="..\LibSanBag\LibSanBag.csproj">
       <Project>{14a58a49-5247-442f-b0f2-c3a5d7a88d76}</Project>
       <Name>LibSanBag</Name>
     </ProjectReference>
