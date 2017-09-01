@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Moq;
 
-namespace SanBag.Tests
+namespace LibSanBag.Tests
 {
     [TestFixture]
     public class TestClass

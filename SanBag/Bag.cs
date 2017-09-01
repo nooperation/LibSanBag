@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Text;
 
-namespace SanBag
+namespace LibSanBag
 {
     public class Bag
     {

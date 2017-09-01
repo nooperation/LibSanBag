@@ -7,8 +7,8 @@
     <ProjectGuid>{8EDF4429-251A-416D-BB68-93F227191BCF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SanBag.Tests</RootNamespace>
-    <AssemblyName>SanBag.Tests</AssemblyName>
+    <RootNamespace>LibSanBag.Tests</RootNamespace>
+    <AssemblyName>LibSanBag.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -59,9 +59,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SanBag\SanBag.csproj">
+    <ProjectReference Include="..\SanBag\LibSanBag.csproj">
       <Project>{14a58a49-5247-442f-b0f2-c3a5d7a88d76}</Project>
-      <Name>SanBag</Name>
+      <Name>LibSanBag</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
