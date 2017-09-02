@@ -23,7 +23,7 @@ namespace LibSanBag
         /// Saves the file record to the specified path.
         /// </summary>
         /// <param name="path">Output path.</param>
-        public void Save(Stream in_stream, Stream out_stream)
+        public void Save(Stream in_stream, Stream out_stream, Action<FileRecord, uint> ReportProgress = null, Func<bool> ShouldCancel = null)
         {
             in_stream.Seek(Offset, SeekOrigin.Begin);
             var bytes_remaining = Length;
@@ -31,12 +31,18 @@ namespace LibSanBag
 
             while (bytes_remaining > 0)
             {
+                if (ShouldCancel != null && ShouldCancel())
+                {
+                    throw new Exception("FileRecord::Save() aborted");
+                }
+
                 var bytes_to_read = bytes_remaining > buffer.Length ? buffer.Length : (int)bytes_remaining;
                 var bytes_read = in_stream.Read(buffer, 0, bytes_to_read);
 
                 out_stream.Write(buffer, 0, bytes_read);
 
                 bytes_remaining -= (uint)bytes_read;
+                ReportProgress?.Invoke(this, Length - bytes_remaining);
             }
         }
 
