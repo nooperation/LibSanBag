@@ -24,50 +24,50 @@ namespace LibSanBag.Tests
         [Test]
         public void TestCreateEmptyBag()
         {
-            using (MemoryStream out_stream = new MemoryStream())
+            using (MemoryStream outStream = new MemoryStream())
             {
-                Bag.Write(out_stream, new List<string>(), MockTimeProvider.Object);
-                Assert.AreEqual(out_stream.ToArray(), ExpectedData.EmptyBag);
+                Bag.Write(outStream, new List<string>(), MockTimeProvider.Object);
+                Assert.AreEqual(outStream.ToArray(), ExpectedData.EmptyBag);
             }
         }
 
         [Test]
         public void TestCreateSingleFileBag()
         {
-            var files_to_add = new string[]
+            var filesToAdd = new string[]
             {
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile1.txt")
             };
 
-            using (MemoryStream out_stream = new MemoryStream())
+            using (MemoryStream outStream = new MemoryStream())
             {
-                Bag.Write(out_stream, files_to_add, MockTimeProvider.Object);
-                Assert.AreEqual(out_stream.ToArray(), ExpectedData.SingleFile);
+                Bag.Write(outStream, filesToAdd, MockTimeProvider.Object);
+                Assert.AreEqual(outStream.ToArray(), ExpectedData.SingleFile);
             }
         }
 
         [Test]
         public void TestCreateMultipleFileBag()
         {
-            var files_to_add = new string[]
+            var filesToAdd = new string[]
             {
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile1.txt"),
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile2.txt")
             };
 
-            using (MemoryStream out_stream = new MemoryStream())
+            using (MemoryStream outStream = new MemoryStream())
             {
-                Bag.Write(out_stream, files_to_add, MockTimeProvider.Object);
-                Assert.AreEqual(out_stream.ToArray(), ExpectedData.MultipleFiles);
+                Bag.Write(outStream, filesToAdd, MockTimeProvider.Object);
+                Assert.AreEqual(outStream.ToArray(), ExpectedData.MultipleFiles);
             }
         }
 
         [Test]
         public void TestReadEmptyBag()
         {
-            using (MemoryStream in_stream = new MemoryStream(ExpectedData.EmptyBag))
+            using (MemoryStream inStream = new MemoryStream(ExpectedData.EmptyBag))
             {
-                var files = Bag.Read(in_stream);
+                var files = Bag.Read(inStream);
                 Assert.IsEmpty(files);
             }
         }
@@ -75,9 +75,9 @@ namespace LibSanBag.Tests
         [Test]
         public void TestReadSingleFileBag()
         {
-            using (MemoryStream in_stream = new MemoryStream(ExpectedData.SingleFile))
+            using (MemoryStream inStream = new MemoryStream(ExpectedData.SingleFile))
             {
-                var files = Bag.Read(in_stream).ToList();
+                var files = Bag.Read(inStream).ToList();
                 Assert.AreEqual(files.Count, 1);
 
                 Assert.AreEqual(files[0].Length, 0x0F);
@@ -90,9 +90,9 @@ namespace LibSanBag.Tests
         [Test]
         public void TestReadMultipleFileBag()
         {
-            using (MemoryStream in_stream = new MemoryStream(ExpectedData.MultipleFiles))
+            using (MemoryStream inStream = new MemoryStream(ExpectedData.MultipleFiles))
             {
-                var files = Bag.Read(in_stream).ToList();
+                var files = Bag.Read(inStream).ToList();
                 Assert.AreEqual(files.Count, 2);
 
                 Assert.AreEqual(files[0].Length, 0x0F);
@@ -110,13 +110,13 @@ namespace LibSanBag.Tests
         [Test]
         public void TestExtractSingleFile()
         {
-            using (MemoryStream in_stream = new MemoryStream(ExpectedData.SingleFile))
+            using (MemoryStream inStream = new MemoryStream(ExpectedData.SingleFile))
             {
-                var files = Bag.Read(in_stream).ToList();
-                using (var out_stream = new MemoryStream())
+                var files = Bag.Read(inStream).ToList();
+                using (var outStream = new MemoryStream())
                 {
-                    files[0].Save(in_stream, out_stream);
-                    var buffer = out_stream.ToArray();
+                    files[0].Save(inStream, outStream);
+                    var buffer = outStream.ToArray();
                     var content = Encoding.ASCII.GetString(buffer);
 
                     Assert.AreEqual(content, "First Test File");
@@ -127,24 +127,24 @@ namespace LibSanBag.Tests
         [Test]
         public void TestExtractMultipleFile()
         {
-            using (MemoryStream in_stream = new MemoryStream(ExpectedData.MultipleFiles))
+            using (MemoryStream inStream = new MemoryStream(ExpectedData.MultipleFiles))
             {
-                var expected_content = new string[]
+                var expectedContent = new string[]
                 {
                     "First Test File",
                     "Second Test File"
                 };
 
-                var records = Bag.Read(in_stream).ToList();
+                var records = Bag.Read(inStream).ToList();
                 for(int i = 0; i < records.Count; ++i)
                 {
-                    using (var out_stream = new MemoryStream())
+                    using (var outStream = new MemoryStream())
                     {
-                        records[i].Save(in_stream, out_stream);
-                        var buffer = out_stream.ToArray();
+                        records[i].Save(inStream, outStream);
+                        var buffer = outStream.ToArray();
                         var content = Encoding.ASCII.GetString(buffer);
 
-                        Assert.AreEqual(content, expected_content[i]);
+                        Assert.AreEqual(content, expectedContent[i]);
                     }
                 }
             }

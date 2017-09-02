@@ -13,23 +13,23 @@ namespace LibSanBag
         public int NextManifestLength { get; set; } = 0;
         public List<FileRecord> Records { get; set; } = new List<FileRecord>();
 
-        public void Read(BinaryReader in_stream, long offset, int length)
+        public void Read(BinaryReader inStream, long offset, int length)
         {
-            in_stream.BaseStream.Seek(offset, SeekOrigin.Begin);
-            NextManifestOffset = in_stream.ReadInt64();
-            NextManifestLength = in_stream.ReadInt32();
+            inStream.BaseStream.Seek(offset, SeekOrigin.Begin);
+            NextManifestOffset = inStream.ReadInt64();
+            NextManifestLength = inStream.ReadInt32();
             Records = new List<FileRecord>();
 
-            while (in_stream.BaseStream.Position < offset + length)
+            while (inStream.BaseStream.Position < offset + length)
             {
-                var record_marker = in_stream.ReadByte();
-                if (record_marker != 0xFF)
+                var recordMarker = inStream.ReadByte();
+                if (recordMarker != 0xFF)
                 {
                     break;
                 }
 
-                var new_record = new FileRecord(in_stream);
-                Records.Add(new_record);
+                var newRecord = new FileRecord(inStream);
+                Records.Add(newRecord);
             }
         }
     }

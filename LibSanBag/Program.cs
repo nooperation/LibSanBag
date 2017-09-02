@@ -19,21 +19,21 @@ namespace LibSanBag
             Directory.CreateDirectory(@".\in");
             Directory.CreateDirectory(@".\out");
 
-            using (var out_Stream = File.OpenWrite(@"Test.bag"))
+            using (var outStream = File.OpenWrite(@"Test.bag"))
             {
-                Bag.Write(out_Stream, Directory.GetFiles(@".\in"), new TimeProvider());
+                Bag.Write(outStream, Directory.GetFiles(@".\in"), new TimeProvider());
             }
 
-            using (var in_stream = File.OpenRead(@"Test.bag"))
+            using (var inStream = File.OpenRead(@"Test.bag"))
             {
-                var records = Bag.Read(in_stream);
+                var records = Bag.Read(inStream);
 
-                foreach (var file_record in records)
+                foreach (var fileRecord in records)
                 {
-                    using (var out_stream = File.OpenWrite($@".\out\{file_record.Name}"))
+                    using (var outStream = File.OpenWrite($@".\out\{fileRecord.Name}"))
                     {
-                        file_record.Save(in_stream, out_stream);
-                        Console.WriteLine(file_record);
+                        fileRecord.Save(inStream, outStream);
+                        Console.WriteLine(fileRecord);
                     }
                 }
             }
