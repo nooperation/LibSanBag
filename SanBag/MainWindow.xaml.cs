@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -87,6 +88,26 @@ namespace SanBag
                 var exportDialog = new ExportWindow(filesToExport, Backend.BagPath, outputDirectory);
                 exportDialog.ShowDialog();
             }
+        }
+
+        private void ViewRecord(FileRecord record)
+        {
+            var tempPath = Path.Combine(Path.GetTempPath(), record.Name);
+            using (var inStream = File.OpenRead(Backend.BagPath))
+            {
+                using (var outStream = File.OpenWrite(tempPath))
+                {
+                    record.Save(inStream, outStream);
+                }
+            }
+
+            Process.Start(tempPath);
+        }
+
+        private void buttonView_Click(object sender, RoutedEventArgs e)
+        {
+            var record = dataGridContent.SelectedItem as FileRecord;
+            ViewRecord(record);
         }
     }
 }
