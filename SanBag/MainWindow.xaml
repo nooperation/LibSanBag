@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:SanBag"
         mc:Ignorable="d"
         Title="SanBag" Height="350" Width="925">
+    <Window.Resources>
+        <local:TimestampToStringConverter x:Key="timestampConverter" />
+        <local:SizeToStringConverter x:Key="sizeConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -20,14 +24,21 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Click="Button_Click" Margin="5px">Open</Button>
             <Label Grid.Column="1" Margin="5px">Filter:</Label>
-            <TextBox Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Backend.RecordsFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
+            <TextBox Grid.Column="2" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Text="{Binding Backend.RecordsFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
         </Grid>
-        <DataGrid Grid.Row="1" Name="dataGridContent" ItemsSource="{Binding Backend.Records, Mode=OneWay}" IsReadOnly="True">
+        <DataGrid Grid.Row="1" Name="dataGridContent" ItemsSource="{Binding Backend.Records, Mode=OneWay}" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="View" Click="buttonView_Click" />
                     <MenuItem Header="Export" Click="buttonExport_Click" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding TimestampNs, Converter={StaticResource timestampConverter}}" ClipboardContentBinding="{x:Null}" Header="Timestamp" />
+                <DataGridTextColumn Binding="{Binding Offset}" ClipboardContentBinding="{x:Null}" Header="Offset"/>
+                <DataGridTextColumn Binding="{Binding Length, Converter={StaticResource sizeConverter}}" ClipboardContentBinding="{x:Null}" Header="Length"/>
+                <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Name" Width="*"/>
+            </DataGrid.Columns>
         </DataGrid>
     </Grid>
 </Window>
