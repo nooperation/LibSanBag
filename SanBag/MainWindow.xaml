@@ -30,6 +30,7 @@
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="View" Click="buttonView_Click" />
+                    <MenuItem Header="Copy Url" Click="buttonCopyUrl_Click" />
                     <MenuItem Header="Export" Click="buttonExport_Click" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
