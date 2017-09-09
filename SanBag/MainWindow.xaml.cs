@@ -109,5 +109,14 @@ namespace SanBag
             var record = dataGridContent.SelectedItem as FileRecord;
             ViewRecord(record);
         }
+
+        private void buttonCopyUrl_Click(object sender, RoutedEventArgs e)
+        {
+            var record = dataGridContent.SelectedItem as FileRecord;
+            if (record != null)
+            {
+                Clipboard.SetText($"https://sansar-asset-production.s3-us-west-2.amazonaws.com/{record.Name}");
+            }
+        }
     }
 }
