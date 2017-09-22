@@ -15,7 +15,12 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.ColumnSpan="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="auto"/>
@@ -26,7 +31,7 @@
             <Label Grid.Column="1" Margin="5px">Filter:</Label>
             <TextBox Grid.Column="2" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Text="{Binding Backend.RecordsFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
         </Grid>
-        <DataGrid Grid.Row="1" Name="dataGridContent" ItemsSource="{Binding Backend.Records, Mode=OneWay}" IsReadOnly="True" AutoGenerateColumns="False">
+        <DataGrid Grid.Row="1" Name="dataGridContent" ItemsSource="{Binding Backend.Records, Mode=OneWay}" IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="dataGridContent_SelectionChanged">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="View" Click="buttonView_Click" />
@@ -41,5 +46,9 @@
                 <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Name" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <GridSplitter  Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" />
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Image Name="imagePreview" />
+        </Grid>
     </Grid>
 </Window>
