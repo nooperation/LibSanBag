@@ -77,8 +77,11 @@
     </ApplicationDefinition>
     <Compile Include="ResourceUtils\LibDDS.cs" />
     <Compile Include="ResourceUtils\OodleLz.cs" />
-    <Compile Include="SizeToStringConverter.cs" />
-    <Compile Include="TimestampNsConverter.cs" />
+    <Compile Include="Views\SizeToStringConverter.cs" />
+    <Compile Include="Views\TimestampNsConverter.cs" />
+    <Compile Include="Views\TextureResourceView.xaml.cs">
+      <DependentUpon>TextureResourceView.xaml</DependentUpon>
+    </Compile>
     <Page Include="ExportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -100,6 +103,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\TextureResourceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

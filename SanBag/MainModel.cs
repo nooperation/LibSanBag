@@ -12,6 +12,25 @@ namespace SanBag
 {
     public class MainModel : INotifyPropertyChanged
     {
+        public static MainModel Instance { get; } = new MainModel();
+
+        private MainModel()
+        {
+        }
+
+        public string BagPath { get; set; }
+
+        public void OpenBag(string path)
+        {
+            BagPath = path;
+
+            using (var in_stream = File.OpenRead(path))
+            {
+                Records = Bag.Read(in_stream).ToList();
+            }
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -38,18 +57,6 @@ namespace SanBag
                 _recordsFilter = value;
                 OnPropertyChanged(nameof(Records));
             }
-        }
-
-        public string BagPath { get; set; }
-
-        public void OpenBag(string path)
-        {
-            using (var in_stream = File.OpenRead(path))
-            {
-                Records = Bag.Read(in_stream).ToList();
-            }
-
-            BagPath = path;
         }
     }
 }
