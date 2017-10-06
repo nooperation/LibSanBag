@@ -1,6 +1,7 @@
 ﻿using LibSanBag;
 using Microsoft.Win32;
 using SanBag.Commands;
+using SanBag.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -58,7 +59,18 @@ namespace SanBag.ViewModels
             if (dialog.ShowDialog() == true)
             {
                 var outputDirectory = Path.GetDirectoryName(dialog.FileName);
-                var exportDialog = new ExportWindow(filesToExport, ParentViewModel.BagPath, outputDirectory);
+
+                var exportViewModel = new ExportViewModel()
+                {
+                    RecordsToExport = filesToExport,
+                    BagPath = ParentViewModel.BagPath,
+                    OutputDirectory = outputDirectory
+                };
+
+                var exportDialog = new ExportView
+                {
+                    DataContext = exportViewModel
+                };
                 exportDialog.ShowDialog();
             }
         }
