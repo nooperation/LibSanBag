@@ -24,9 +24,9 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <Button Grid.Column="0" Click="Button_Click" Margin="5px">Open</Button>
+            <Button Grid.Column="0" Command="{Binding CommandOpenBag}" Margin="5px">Open</Button>
             <Label Grid.Column="1" Margin="5px">Filter:</Label>
-            <TextBox Grid.Column="2" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Text="{Binding Backend.RecordsFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
+            <TextBox Grid.Column="2" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Text="{Binding RecordsFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
         </Grid>
         <UserControl Grid.Row="1" Content="{Binding CurrentView}" Background="CornflowerBlue" />
     </Grid>

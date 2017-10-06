@@ -75,10 +75,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\CommandExportSelected.cs" />
+    <Compile Include="Commands\CommandOpenBag.cs" />
+    <Compile Include="Commands\CommandCopyAsUrl.cs" />
     <Compile Include="ResourceUtils\LibDDS.cs" />
     <Compile Include="ResourceUtils\OodleLz.cs" />
-    <Compile Include="Views\SizeToStringConverter.cs" />
-    <Compile Include="Views\TimestampNsConverter.cs" />
+    <Compile Include="ViewModels\GenericBagViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\TextureResourceViewModel.cs" />
+    <Compile Include="Views\GenericBagView.xaml.cs">
+      <DependentUpon>GenericBagView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Converters\SizeToStringConverter.cs" />
+    <Compile Include="Views\Converters\TimestampNsConverter.cs" />
     <Compile Include="Views\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
@@ -94,7 +103,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainModel.cs" />
     <Compile Include="ExportModel.cs" />
     <Compile Include="ExportWindow.xaml.cs">
       <DependentUpon>ExportWindow.xaml</DependentUpon>
@@ -104,6 +112,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\TextureResourceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GenericBagView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -139,6 +151,9 @@
       <Project>{14a58a49-5247-442f-b0f2-c3a5d7a88d76}</Project>
       <Name>LibSanBag</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
