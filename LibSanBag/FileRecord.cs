@@ -3,16 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LibSanBag
 {
     public class FileRecord
     {
-        public long Offset { get; set; }
-        public uint Length { get; set; }
-        public string Name { get; set; }
-        public long TimestampNs { get; set; }
+        public long Offset { get; private set; }
+        public uint Length { get; private set; }
+        public string Name { get; private set; }
+        public long TimestampNs { get; private set; }
+
+        public FileRecordInfo Info { get; private set; }
 
         public FileRecord(BinaryReader inStream)
         {
@@ -54,11 +57,18 @@ namespace LibSanBag
 
             var nameLength = inStream.ReadInt32();
             Name = new string(inStream.ReadChars(nameLength));
+
+            Info = FileRecordInfo.Create(Name);
         }
 
         public override string ToString()
         {
-            return $"{TimestampNs} - {Name} - {Length} bytes";
+            if (Info == null || Info.IsRawImage)
+            {
+                return Name;
+            }
+
+            return $"{TimestampNs} - {Info.Hash} - {Info.ContentType} - {Info.Type} - {Info.Variants} {Length} bytes";
         }
     }
 }

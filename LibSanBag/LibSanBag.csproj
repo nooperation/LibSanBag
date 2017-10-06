@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Bag.cs" />
     <Compile Include="FileRecord.cs" />
+    <Compile Include="FileRecordInfo.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="Manifest.cs" />
     <Compile Include="Program.cs" />
