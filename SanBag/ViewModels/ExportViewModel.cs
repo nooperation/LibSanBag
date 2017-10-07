@@ -1,4 +1,5 @@
 ﻿using LibSanBag;
+using SanBag.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,12 +7,21 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
-namespace SanBag
+namespace SanBag.ViewModels
 {
-    public class ExportModel: INotifyPropertyChanged
+    public class ExportViewModel: INotifyPropertyChanged
     {
+        private CancellationTokenSource ExportCancellationTokenSource { get; set; } = null;
+
+        public CommandCancelExport CommandCancelExport { get; set; }
+        public string OutputDirectory { get; set; }
+        public string BagPath { get; set; }
+        public List<FileRecord> RecordsToExport { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -62,7 +72,29 @@ namespace SanBag
             }
         }
 
-        private List<FileRecord> RecordsToExport { get; set; }
+        private bool _isRunning = true;
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set
+            {
+                _isRunning = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ExportViewModel()
+        {
+            CommandCancelExport = new CommandCancelExport(this);
+        }
+
+        public void CancelExport()
+        {
+            if (ExportCancellationTokenSource != null)
+            {
+                ExportCancellationTokenSource.Cancel();
+            }
+        }
 
         private void OnProgressReport(FileRecord record, uint bytesRead)
         {
@@ -107,6 +139,46 @@ namespace SanBag
             }
 
             return exportSuccessful;
+        }
+
+        private bool ShouldCancel()
+        {
+            return ExportCancellationTokenSource.IsCancellationRequested;
+        }
+        
+        public async Task StartAsync()
+        {
+            IsRunning = true;
+            ExportCancellationTokenSource = new CancellationTokenSource();
+            var taskWasSuccessful = false;
+            
+            await Task.Run(() =>
+            {
+                try
+                {
+                    taskWasSuccessful = Export(RecordsToExport, BagPath, OutputDirectory, ShouldCancel);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to export: {ex.Message}");
+                }
+            }, ExportCancellationTokenSource.Token);
+            
+            if (taskWasSuccessful)
+            {
+                // MVVM is flawed.
+                foreach (var item in Application.Current.Windows)
+                {
+                    var window = item as Window;
+                    if (window != null && window.DataContext == this)
+                    {
+                        window.Close();
+                        break;
+                    }
+                }
+                MessageBox.Show($"Successfully exported {RecordsToExport.Count} record(s) to {OutputDirectory}", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            IsRunning = false;
         }
     }
 }

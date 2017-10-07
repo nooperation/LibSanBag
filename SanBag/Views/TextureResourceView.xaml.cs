@@ -1,14 +1,11 @@
 ﻿using LibSanBag;
 using Microsoft.Win32;
 using ResourceUtils;
-using SanBag.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,17 +17,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
-namespace SanBag
+namespace SanBag.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TextureResourceView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TextureResourceView : UserControl
     {
-        public MainWindow()
+        public TextureResourceView()
         {
             InitializeComponent();
-            this.DataContext = new MainViewModel();
+
+            this.DataContext = this;
         }
     }
 }

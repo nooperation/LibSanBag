@@ -34,6 +34,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -55,9 +75,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="SizeToStringConverter.cs" />
-    <Compile Include="TimestampNsConverter.cs" />
-    <Page Include="ExportWindow.xaml">
+    <Compile Include="Commands\CommandCancelExport.cs" />
+    <Compile Include="Commands\CommandExportSelected.cs" />
+    <Compile Include="Commands\CommandOpenBag.cs" />
+    <Compile Include="Commands\CommandCopyAsUrl.cs" />
+    <Compile Include="Models\ViewType.cs" />
+    <Compile Include="ResourceUtils\LibDDS.cs" />
+    <Compile Include="ResourceUtils\OodleLz.cs" />
+    <Compile Include="ViewModels\GenericBagViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\TextureResourceViewModel.cs" />
+    <Compile Include="Views\Converters\IConverter.cs" />
+    <Compile Include="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Views\Converters\InvertBoolConverter.cs" />
+    <Compile Include="Views\GenericBagView.xaml.cs">
+      <DependentUpon>GenericBagView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Converters\SizeToStringConverter.cs" />
+    <Compile Include="Views\Converters\TimestampNsConverter.cs" />
+    <Compile Include="Views\TextureResourceView.xaml.cs">
+      <DependentUpon>TextureResourceView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\ExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -69,15 +108,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainModel.cs" />
-    <Compile Include="ExportModel.cs" />
-    <Compile Include="ExportWindow.xaml.cs">
-      <DependentUpon>ExportWindow.xaml</DependentUpon>
+    <Compile Include="ViewModels\ExportViewModel.cs" />
+    <Compile Include="Views\ExportView.xaml.cs">
+      <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\TextureResourceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GenericBagView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -111,5 +157,9 @@
       <Name>LibSanBag</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)ThirdParty\LibDDS\$(PlatformName)\*" $(TargetDir) /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>
