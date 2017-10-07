@@ -20,7 +20,7 @@
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid Name="dataGridContent" ItemsSource="{Binding ParentViewModel.Records, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
+        <DataGrid Name="dataGridContent" ItemsSource="{Binding ParentViewModel.Records, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False" SelectedItem="{Binding SelectedRecord}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Copy Url" Command="{Binding CommandCopyAsUrl}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}" />
@@ -36,7 +36,7 @@
         </DataGrid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
         <Grid Grid.Column="2">
-            <Image Name="imagePreview" />
+            <Image Name="imagePreview" Source="{Binding PreviewImage}" />
         </Grid>
     </Grid>
 </UserControl>
