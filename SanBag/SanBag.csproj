@@ -82,6 +82,7 @@
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="ResourceUtils\LibDDS.cs" />
     <Compile Include="ResourceUtils\OodleLz.cs" />
+    <Compile Include="ResourceUtils\Utils.cs" />
     <Compile Include="ViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\TextureResourceViewModel.cs" />

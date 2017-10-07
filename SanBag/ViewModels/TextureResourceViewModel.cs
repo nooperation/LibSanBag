@@ -1,5 +1,5 @@
 ﻿using LibSanBag;
-using ResourceUtils;
+using SanBag.ResourceUtils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,6 +38,8 @@ namespace SanBag.ViewModels
             }
         }
 
+        private static BitmapImage _blankPreview = new BitmapImage();
+
         public TextureResourceViewModel(MainViewModel parentViewModel)
             : base(parentViewModel)
         {
@@ -48,13 +50,9 @@ namespace SanBag.ViewModels
         {
             try
             {
-                if (SelectedRecord == null)
+                if (SelectedRecord == null || SelectedRecord.Info == null || SelectedRecord.Info.Type != FileRecordInfo.ResourceType.TextureResource || SelectedRecord.Info.ContentType != "payload")
                 {
-                    return;
-                }
-
-                if (SelectedRecord?.Info.Type != FileRecordInfo.ResourceType.TextureResource || SelectedRecord?.Info.ContentType != "payload")
-                {
+                    PreviewImage = _blankPreview;
                     return;
                 }
 
@@ -80,7 +78,7 @@ namespace SanBag.ViewModels
                         }
                         catch (Exception)
                         {
-                            PreviewImage = new BitmapImage();
+                            PreviewImage = _blankPreview;
                         }
                     }
                 }
@@ -88,6 +86,7 @@ namespace SanBag.ViewModels
             catch (Exception ex)
             {
                 MessageBox.Show("Failed to view texture: " + ex.Message, "ERROR");
+                PreviewImage = _blankPreview;
             }
         }
 
