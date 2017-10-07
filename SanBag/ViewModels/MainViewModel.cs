@@ -34,7 +34,7 @@ namespace SanBag.ViewModels
         private List<FileRecord> _records = new List<FileRecord>();
         public List<FileRecord> Records
         {
-            get => _records.FindAll(n => n.Name.Contains(RecordsFilter));
+            get => _records.FindAll(CurrentView.Filter);
             set
             {
                 _records = value;
@@ -42,13 +42,13 @@ namespace SanBag.ViewModels
             }
         }
 
-        private string _recordsFilter = string.Empty;
-        public string RecordsFilter
+        private string _recordNameFilter = string.Empty;
+        public string RecordNameFilter
         {
-            get => _recordsFilter;
+            get => _recordNameFilter;
             set
             {
-                _recordsFilter = value;
+                _recordNameFilter = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Records));
             }
@@ -64,7 +64,13 @@ namespace SanBag.ViewModels
             {
                 _currentView = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Records));
             }
+        }
+
+        private bool RecordPassesNameFilter(FileRecord record)
+        {
+            return record.Name.IndexOf(RecordNameFilter, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         public MainViewModel()
@@ -77,6 +83,7 @@ namespace SanBag.ViewModels
                 {
                     DataContext = new GenericBagViewModel(this)
                 },
+                Filter = (record => RecordPassesNameFilter(record)),
                 Name = "Default"
             });
 
@@ -88,6 +95,7 @@ namespace SanBag.ViewModels
                     {
                         DataContext = new TextureResourceViewModel(this)
                     },
+                    Filter = (record => RecordPassesNameFilter(record) && record.Info.Resource == FileRecordInfo.ResourceType.TextureResource),
                     Name = "TextureResource"
                 });
             }
