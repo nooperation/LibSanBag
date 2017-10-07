@@ -50,7 +50,10 @@ namespace SanBag.ViewModels
         {
             try
             {
-                if (SelectedRecord == null || SelectedRecord.Info == null || SelectedRecord.Info.Type != FileRecordInfo.ResourceType.TextureResource || SelectedRecord.Info.ContentType != "payload")
+                if (SelectedRecord == null ||
+                    SelectedRecord.Info == null ||
+                    SelectedRecord.Info.Resource != FileRecordInfo.ResourceType.TextureResource ||
+                    SelectedRecord.Info.Payload != FileRecordInfo.PayloadType.Payload)
                 {
                     PreviewImage = _blankPreview;
                     return;

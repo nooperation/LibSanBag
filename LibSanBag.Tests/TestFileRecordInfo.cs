@@ -37,17 +37,18 @@ namespace LibSanBag.Tests
             var hash = "0f74af948a58a66a96f4fc282a01ebf1";
             var resourceType = "Texture-Resource";
             var versionHash = "9a8d4bbd19b4cd55";
-            var contentType = "payload";
+            var payloadType = "payload";
             var versionNumber = 0;
             var variants = "noVariants";
 
-            var info = FileRecordInfo.Create($"{hash}.{resourceType}.v{versionHash}.{contentType}.v{versionNumber}.{variants}");
+            var info = FileRecordInfo.Create($"{hash}.{resourceType}.v{versionHash}.{payloadType}.v{versionNumber}.{variants}");
             Assert.NotNull(info);
             Assert.AreEqual(info.Hash, hash);
             Assert.AreEqual(info.ImagePath, null);
             Assert.AreEqual(info.IsRawImage, false);
-            Assert.AreEqual(info.Type, FileRecordInfo.ResourceType.TextureResource);
-            Assert.AreEqual(info.Variants, variants);
+            Assert.AreEqual(info.Resource, FileRecordInfo.ResourceType.TextureResource);
+            Assert.AreEqual(info.Variant, FileRecordInfo.VariantType.NoVariants);
+            Assert.AreEqual(info.Payload, FileRecordInfo.PayloadType.Payload);
             Assert.AreEqual(info.VersionHash, versionHash);
             Assert.AreEqual(info.VersionNumber, versionNumber);
         }
@@ -77,7 +78,44 @@ namespace LibSanBag.Tests
             {
                 var filename = $"0f74af948a58a66a96f4fc282a01ebf1.{item.Key}.v9a8d4bbd19b4cd55.payload.v0.noVariants";
                 var info = FileRecordInfo.Create(filename);
-                Assert.AreEqual(info.Type, item.Value);
+                Assert.AreEqual(info.Resource, item.Value);
+                Assert.IsFalse(info.IsRawImage);
+            }
+        }
+
+        [Test]
+        public void TestKnownVariantTypes()
+        {
+            var resourceNames = new Dictionary<string, FileRecordInfo.VariantType>
+            {
+                ["noVariants"] = FileRecordInfo.VariantType.NoVariants,
+                ["pcClient"] = FileRecordInfo.VariantType.PcClient,
+                ["unknown"] = FileRecordInfo.VariantType.Unknown
+            };
+
+            foreach (var item in resourceNames)
+            {
+                var filename = $"0f74af948a58a66a96f4fc282a01ebf1.Texture-Resource.v9a8d4bbd19b4cd55.payload.v0.{item.Key}";
+                var info = FileRecordInfo.Create(filename);
+                Assert.AreEqual(info.Variant, item.Value);
+                Assert.IsFalse(info.IsRawImage);
+            }
+        }
+
+        [Test]
+        public void TestKnownPayloadTypes()
+        {
+            var resourceNames = new Dictionary<string, FileRecordInfo.PayloadType>
+            {
+                ["payload"] = FileRecordInfo.PayloadType.Payload,
+                ["unknown"] = FileRecordInfo.PayloadType.Unknown,
+            };
+
+            foreach (var item in resourceNames)
+            {
+                var filename = $"0f74af948a58a66a96f4fc282a01ebf1.Texture-Resource.v9a8d4bbd19b4cd55.{item.Key}.v0.noVariants";
+                var info = FileRecordInfo.Create(filename);
+                Assert.AreEqual(info.Payload, item.Value);
                 Assert.IsFalse(info.IsRawImage);
             }
         }
