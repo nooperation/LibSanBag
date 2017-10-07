@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibSanBag;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -29,6 +30,17 @@ namespace SanBag.Models
             set
             {
                 _view = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Predicate<FileRecord> _filter;
+        public Predicate<FileRecord> Filter
+        {
+            get => _filter;
+            set
+            {
+                _filter = value;
                 OnPropertyChanged();
             }
         }
