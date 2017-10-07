@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ResourceUtils
+namespace SanBag.ResourceUtils
 {
     static class OodleLz
     {
@@ -19,8 +19,50 @@ namespace ResourceUtils
         [DllImport("oo2core_1_win64.dll")]
         private static extern ulong OodleLZ_Decompress(byte[] compressed, ulong compressedSize, byte[] decompressed, ulong decompressedSize, int a, int b, int c, IntPtr d, IntPtr e, IntPtr f, IntPtr g, IntPtr h, IntPtr i, int j);
 
+        private static bool _isDllAvailable = false;
+        public static bool IsAvailable => _isDllAvailable;
+
+        private static bool SetupEnvironment()
+        {
+            try
+            {
+                if (File.Exists("oo2core_1_win64.dll"))
+                {
+                    return true;
+                }
+
+                var sansarDirectory = ResourceUtils.Utils.GetSansarDirectory();
+                if (sansarDirectory != null)
+                {
+                    sansarDirectory = Path.GetFullPath(sansarDirectory + "\\Client");
+                    var currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
+
+                    if (File.Exists(sansarDirectory + "\\oo2core_1_win64.dll"))
+                    {
+                        Environment.SetEnvironmentVariable("PATH", currentPath + ";" + sansarDirectory, EnvironmentVariableTarget.Process);
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            return false;
+        }
+
+        static OodleLz()
+        {
+            _isDllAvailable = SetupEnvironment();
+        }
+
         public static byte[] Decompress(byte[] compressedData)
         {
+            if (IsAvailable == false)
+            {
+                return null;
+            }
+
             var decompressedSize = BitConverter.ToUInt32(compressedData, 12) + 8;
             var decompressedBuffer = new byte[decompressedSize];
 

@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using SanBag.Commands;
 using SanBag.Models;
+using SanBag.ResourceUtils;
 using SanBag.Views;
 using System;
 using System.Collections.Generic;
@@ -78,14 +79,18 @@ namespace SanBag.ViewModels
                 },
                 Name = "Default"
             });
-            Views.Add(new ViewType()
+
+            if (LibDDS.IsAvailable && OodleLz.IsAvailable)
             {
-                View = new TextureResourceView()
+                Views.Add(new ViewType()
                 {
-                    DataContext = new TextureResourceViewModel(this)
-                },
-                Name = "TextureResource"
-            });
+                    View = new TextureResourceView()
+                    {
+                        DataContext = new TextureResourceViewModel(this)
+                    },
+                    Name = "TextureResource"
+                });
+            }
 
             CurrentView = Views[0];
         }
@@ -124,6 +129,5 @@ namespace SanBag.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }
