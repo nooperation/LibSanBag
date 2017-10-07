@@ -1,6 +1,7 @@
 ﻿using LibSanBag;
 using Microsoft.Win32;
 using SanBag.Commands;
+using SanBag.Models;
 using SanBag.Views;
 using System;
 using System.Collections.Generic;
@@ -17,17 +18,6 @@ namespace SanBag.ViewModels
     public class MainViewModel : INotifyPropertyChanged
     {
         public CommandOpenBag CommandOpenBag { get; set; }
-
-        private UserControl _currentView;
-        public UserControl CurrentView
-        {
-            get => _currentView;
-            set
-            {
-                _currentView = value;
-                OnPropertyChanged();
-            }
-        }
 
         private string _bagPath = string.Empty;
         public string BagPath
@@ -63,13 +53,41 @@ namespace SanBag.ViewModels
             }
         }
 
+        public List<ViewType> Views { get; set; } = new List<ViewType>();
+
+        private ViewType _currentView;
+        public ViewType CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged();
+            }
+        }
+
         public MainViewModel()
         {
             CommandOpenBag = new CommandOpenBag(this);
-            CurrentView = new TextureResourceView()
+
+            Views.Add(new ViewType()
             {
-                DataContext = new TextureResourceViewModel(this)
-            };
+                View = new GenericBagView()
+                {
+                    DataContext = new GenericBagViewModel(this)
+                },
+                Name = "Default"
+            });
+            Views.Add(new ViewType()
+            {
+                View = new TextureResourceView()
+                {
+                    DataContext = new TextureResourceViewModel(this)
+                },
+                Name = "TextureResource"
+            });
+
+            CurrentView = Views[0];
         }
 
         public void OnOpenFile()

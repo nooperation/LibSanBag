@@ -17,8 +17,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition />
-                <ColumnDefinition />
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition />
@@ -26,8 +26,10 @@
             </Grid.RowDefinitions>
             <Button Grid.Column="0" Command="{Binding CommandOpenBag}" Margin="5px">Open</Button>
             <Label Grid.Column="1" Margin="5px">Filter:</Label>
-            <TextBox Grid.Column="2" Grid.ColumnSpan="2" VerticalContentAlignment="Center" Text="{Binding RecordsFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
+            <TextBox Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding RecordsFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
+            <Label Grid.Column="3" Margin="5px">View:</Label>
+            <ComboBox Grid.Column="4" ItemsSource="{Binding Views}" SelectedItem="{Binding CurrentView}" Margin="5px" VerticalContentAlignment="Center" />
         </Grid>
-        <UserControl Grid.Row="1" Content="{Binding CurrentView}" Background="CornflowerBlue" />
+        <UserControl Grid.Row="1" Content="{Binding CurrentView.View}" Background="CornflowerBlue" />
     </Grid>
 </Window>
