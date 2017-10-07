@@ -28,24 +28,37 @@ namespace LibSanBag
             Unknown
         }
 
+        public enum PayloadType
+        {
+            Payload,
+            Unknown
+        }
+
+        public enum VariantType
+        {
+            NoVariants,
+            PcClient,
+            Unknown
+        }
+
         public static Regex PatternRecord = new Regex(
             @"(?<hash>[a-f0-9]{32})\." +
                 @"((?<image_name>.*\.png)|" +
                 @"(?<resource_type>[^\.]+)" +
                     @"\.v(?<version_hash>[a-f0-9]{16})" +
-                    @"\.(?<content_type>[^\.]+)" +
+                    @"\.(?<payload_type>[^\.]+)" +
                     @"\.v(?<version_number>[0-9]+)" +
-                    @"\.(?<unknown_type>[a-zA-Z0-9]+)" +
+                    @"\.(?<variants_type>[a-zA-Z0-9]+)" +
                 @")",
             RegexOptions.ExplicitCapture);
 
         public string Hash { get; set; }
         public string ImagePath { get; set; }
-        public ResourceType Type { get; set; }
+        public ResourceType Resource { get; set; }
         public string VersionHash { get; set; }
-        public string ContentType { get; set; }
+        public PayloadType Payload { get; set; }
         public int VersionNumber { get; set; }
-        public string Variants { get; set; }
+        public VariantType Variant { get; set; }
 
         public bool IsRawImage => ImagePath != null;
 
@@ -67,14 +80,35 @@ namespace LibSanBag
             }
             else
             {
-                result.Type = GetResourceType(match.Groups["resource_type"].Value);
+                result.Resource = GetResourceType(match.Groups["resource_type"].Value);
                 result.VersionHash = match.Groups["version_hash"].Value;
-                result.ContentType = match.Groups["content_type"].Value;
+                result.Payload = GetPayloadType(match.Groups["payload_type"].Value);
                 result.VersionNumber = int.Parse(match.Groups["version_number"].Value);
-                result.Variants = match.Groups["unknown_type"].Value;
+                result.Variant = GetVariantType(match.Groups["variants_type"].Value);
             }
 
             return result;
+        }
+
+        public static VariantType GetVariantType(string variant_type_string)
+        {
+            switch (variant_type_string)
+            {
+                case "noVariants": return VariantType.NoVariants;
+                case "pcClient": return VariantType.PcClient;
+            }
+
+            return VariantType.Unknown;
+        }
+
+        public static PayloadType GetPayloadType(string payload_type_string)
+        {
+            switch (payload_type_string)
+            {
+                case "payload": return PayloadType.Payload;
+            }
+
+            return PayloadType.Unknown;
         }
 
         public static ResourceType GetResourceType(string resource_type_string)

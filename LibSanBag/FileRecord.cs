@@ -68,7 +68,7 @@ namespace LibSanBag
                 return Name;
             }
 
-            return $"{TimestampNs} - {Info.Hash} - {Info.ContentType} - {Info.Type} - {Info.Variants} {Length} bytes";
+            return $"{TimestampNs} - {Info.Hash} - {Info.Payload} - {Info.Resource} - {Info.Variant} {Length} bytes";
         }
     }
 }
