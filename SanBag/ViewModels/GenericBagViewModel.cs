@@ -25,31 +25,18 @@ namespace SanBag.ViewModels
             this.CommandCopyAsUrl = new CommandCopyAsUrl(this);
         }
 
-        internal void ExportRecords(List<FileRecord> fileRecords)
+        internal void ExportRecords(List<FileRecord> recordsToExport)
         {
-            var filesToExport = new List<FileRecord>();
-            foreach (var item in fileRecords)
-            {
-                var record = item as FileRecord;
-                if (record == null)
-                {
-                    MessageBox.Show("Item is not a record");
-                    continue;
-                }
-
-                filesToExport.Add(record);
-            }
-
-            if (filesToExport.Count == 0)
+            if (recordsToExport.Count == 0)
             {
                 return;
             }
 
             var dialog = new SaveFileDialog();
 
-            if (filesToExport.Count == 1)
+            if (recordsToExport.Count == 1)
             {
-                dialog.FileName = filesToExport[0].Name;
+                dialog.FileName = recordsToExport[0].Name;
             }
             else
             {
@@ -62,7 +49,7 @@ namespace SanBag.ViewModels
 
                 var exportViewModel = new ExportViewModel()
                 {
-                    RecordsToExport = filesToExport,
+                    RecordsToExport = recordsToExport,
                     BagPath = ParentViewModel.BagPath,
                     OutputDirectory = outputDirectory
                 };

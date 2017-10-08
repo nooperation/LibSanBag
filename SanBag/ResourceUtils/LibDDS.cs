@@ -194,15 +194,19 @@ namespace SanBag.ResourceUtils
             }
         }
 
-        public static byte[] GetImageBytesFromDds(byte[] ddsBytes)
+        public static byte[] GetImageBytesFromDds(
+            byte[] ddsBytes,
+            int width = 0,
+            int height = 0,
+            ConversionOptions.DXGI_FORMAT format = ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R32G32B32A32_FLOAT)
         {
             IntPtr rawImageData;
             long rawImageDataSize;
 
             var options = ConversionOptions.Default;
-            options.Width = 512;
-            options.Height = 512;
-            options.Format = ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R32G32B32A32_FLOAT;
+            options.Width = width;
+            options.Height = height;
+            options.Format = format;
 
             var result = ConvertDdsInMemory(ddsBytes, ddsBytes.Length, out rawImageData, out rawImageDataSize, options);
             if (result == false)

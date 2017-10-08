@@ -22,10 +22,6 @@ namespace LibSanBag
             Read(inStream);
         }
 
-        /// <summary>
-        /// Saves the file record to the specified path.
-        /// </summary>
-        /// <param name="path">Output path.</param>
         public void Save(Stream inStream, Stream outStream, Action<FileRecord, uint> ReportProgress = null, Func<bool> ShouldCancel = null)
         {
             inStream.Seek(Offset, SeekOrigin.Begin);
