@@ -76,6 +76,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\CommandCancelExport.cs" />
+    <Compile Include="Commands\CommandExportSelectedTextures.cs" />
     <Compile Include="Commands\CommandExportSelected.cs" />
     <Compile Include="Commands\CommandOpenBag.cs" />
     <Compile Include="Commands\CommandCopyAsUrl.cs" />

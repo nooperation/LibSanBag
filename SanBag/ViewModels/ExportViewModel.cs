@@ -83,6 +83,8 @@ namespace SanBag.ViewModels
             }
         }
 
+        public Action<FileRecord, FileStream, Action<FileRecord, uint>, Func<bool>> CustomSaveFunc { get; set; }
+
         public ExportViewModel()
         {
             CommandCancelExport = new CommandCancelExport(this);
@@ -121,10 +123,18 @@ namespace SanBag.ViewModels
                     try
                     {
                         CurrentRecord = record;
-                        var outputPath = Path.Combine(outputDirectory, record.Name);
-                        using (var out_stream = File.OpenWrite(outputPath))
+
+                        if (CustomSaveFunc != null)
                         {
-                            record.Save(bagStream, out_stream, OnProgressReport, shouldCancel);
+                            CustomSaveFunc(record, bagStream, OnProgressReport, shouldCancel);
+                        }
+                        else
+                        {
+                            var outputPath = Path.Combine(outputDirectory, record.Name);
+                            using (var out_stream = File.OpenWrite(outputPath))
+                            {
+                                record.Save(bagStream, out_stream, OnProgressReport, shouldCancel);
+                            }
                         }
 
                         ++totalExported;
