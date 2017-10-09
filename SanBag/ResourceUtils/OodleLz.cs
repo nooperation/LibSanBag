@@ -56,14 +56,13 @@ namespace SanBag.ResourceUtils
             _isDllAvailable = SetupEnvironment();
         }
 
-        public static byte[] Decompress(byte[] compressedData)
+        public static byte[] Decompress(byte[] compressedData, ulong decompressedSize)
         {
             if (IsAvailable == false)
             {
                 return null;
             }
 
-            var decompressedSize = BitConverter.ToUInt32(compressedData, 12) + 8;
             var decompressedBuffer = new byte[decompressedSize];
 
             var x = OodleLZ_Compress(0, null, 0, IntPtr.Zero, 0, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
@@ -94,26 +93,32 @@ namespace SanBag.ResourceUtils
 
             using (var br = new BinaryReader(textureResourceStream, Encoding.ASCII, true))
             {
-                var foundCompressedDataHeader = false;
+                var firstByte = br.ReadByte();
+                var decompressedSize = (ulong)0;
 
-                for (int i = 0; i < 16 && textureResourceStream.Position < textureResourceStream.Length; i++)
+                if (firstByte == 0xF1)
                 {
-                    var currentByte = br.ReadByte();
-                    if (currentByte == 0x8C)
-                    {
-                        --textureResourceStream.Position;
-                        foundCompressedDataHeader = true;
-                        break;
-                    }
+                    decompressedSize = br.ReadUInt16();
+                }
+                else if (firstByte == 0xF2)
+                {
+                    decompressedSize = br.ReadUInt32();
+                }
+                else
+                {
+                    throw new Exception($"Unknown header. Expected 0xF1 or 0xF2, but found 0x{firstByte:X2}");
                 }
 
-                if (foundCompressedDataHeader == false)
+                var expectedOodleMagicByte = br.ReadByte();
+                br.BaseStream.Position--;
+
+                if (expectedOodleMagicByte != 0x8C)
                 {
-                    throw new Exception("Failed to find compressed header");
+                    throw new Exception($"Failed to find oodle magic. Expected 0x8C, but found 0x{expectedOodleMagicByte:X2}");
                 }
 
                 var compressedDataArray = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position - 10));
-                return Decompress(compressedDataArray);
+                return Decompress(compressedDataArray, decompressedSize);
             }
         }
 
