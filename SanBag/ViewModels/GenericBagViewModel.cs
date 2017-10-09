@@ -25,6 +25,11 @@ namespace SanBag.ViewModels
             this.CommandCopyAsUrl = new CommandCopyAsUrl(this);
         }
 
+        public virtual bool IsValidRecord(FileRecord record)
+        {
+            return true;
+        }
+
         internal void ExportRecords(List<FileRecord> recordsToExport)
         {
             if (recordsToExport.Count == 0)

@@ -51,6 +51,11 @@ namespace SanBag.ViewModels
             CommandExportSelectedTextures = new CommandExportSelectedTextures(this);
         }
 
+        public override bool IsValidRecord(FileRecord record)
+        {
+            return record.Info?.Resource == FileRecordInfo.ResourceType.TextureResource;
+        }
+
         private static byte[] ExtractDds(FileRecord record, Stream inStream)
         {
             using (var outStream = new MemoryStream())
@@ -83,7 +88,6 @@ namespace SanBag.ViewModels
                     var ddsBytes = OodleLz.DecompressTextureResource(outStream);
                     if (ddsBytes[0] == 'D' && ddsBytes[1] == 'D' && ddsBytes[2] == 'S')
                     {
-
                         var imageData = LibDDS.GetImageBytesFromDds(ddsBytes, width, height, format);
 
                         var image = new BitmapImage();

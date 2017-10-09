@@ -77,25 +77,27 @@ namespace SanBag.ViewModels
         {
             CommandOpenBag = new CommandOpenBag(this);
 
+            var genericBagViewModel = new GenericBagViewModel(this);
             Views.Add(new ViewType()
             {
                 View = new GenericBagView()
                 {
-                    DataContext = new GenericBagViewModel(this)
+                    DataContext = genericBagViewModel
                 },
-                Filter = (record => RecordPassesNameFilter(record)),
+                Filter = (record => RecordPassesNameFilter(record) && genericBagViewModel.IsValidRecord(record)),
                 Name = "Default"
             });
 
             if (LibDDS.IsAvailable && OodleLz.IsAvailable)
             {
+                var textureResourceViewModel = new TextureResourceViewModel(this);
                 Views.Add(new ViewType()
                 {
-                    View = new TextureResourceView()
+                    View = new TextureResourceView
                     {
-                        DataContext = new TextureResourceViewModel(this)
+                        DataContext = textureResourceViewModel
                     },
-                    Filter = (record => RecordPassesNameFilter(record) && record.Info.Resource == FileRecordInfo.ResourceType.TextureResource),
+                    Filter = (record => RecordPassesNameFilter(record) && textureResourceViewModel.IsValidRecord(record)),
                     Name = "TextureResource"
                 });
             }
