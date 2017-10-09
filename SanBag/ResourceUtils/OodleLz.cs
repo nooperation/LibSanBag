@@ -87,11 +87,11 @@ namespace SanBag.ResourceUtils
             return fixedArray;
         }
 
-        public static byte[] DecompressTextureResource(Stream textureResourceStream)
+        public static byte[] DecompressResource(Stream resourceStream)
         {
-            textureResourceStream.Seek(0, SeekOrigin.Begin);
+            resourceStream.Seek(0, SeekOrigin.Begin);
 
-            using (var br = new BinaryReader(textureResourceStream, Encoding.ASCII, true))
+            using (var br = new BinaryReader(resourceStream, Encoding.ASCII, true))
             {
                 var firstByte = br.ReadByte();
                 var decompressedSize = (ulong)0;
@@ -118,15 +118,18 @@ namespace SanBag.ResourceUtils
                 }
 
                 var compressedDataArray = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position - 10));
-                return Decompress(compressedDataArray, decompressedSize);
+                var decompressed = Decompress(compressedDataArray, decompressedSize);
+
+                return decompressed;
             }
         }
 
-        public static byte[] DecompressTextureResource(string targetPath)
+        public static byte[] DecompressResource(string resourcePath)
         {
-            using (var textureResourceStream = File.OpenRead(targetPath))
+            using (var textureResourceStream = File.OpenRead(resourcePath))
             {
-                return DecompressTextureResource(textureResourceStream);
+                var decompressed = DecompressResource(textureResourceStream);
+                return decompressed;
             }
         }
     }

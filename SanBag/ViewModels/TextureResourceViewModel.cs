@@ -63,7 +63,7 @@ namespace SanBag.ViewModels
                 try
                 {
                     record.Save(inStream, outStream);
-                    return OodleLz.DecompressTextureResource(outStream);
+                    return OodleLz.DecompressResource(outStream);
                 }
                 catch (Exception)
                 {
@@ -85,7 +85,7 @@ namespace SanBag.ViewModels
                 try
                 {
                     record.Save(inStream, outStream);
-                    var ddsBytes = OodleLz.DecompressTextureResource(outStream);
+                    var ddsBytes = OodleLz.DecompressResource(outStream);
                     if (ddsBytes[0] == 'D' && ddsBytes[1] == 'D' && ddsBytes[2] == 'S')
                     {
                         var imageData = LibDDS.GetImageBytesFromDds(ddsBytes, width, height, format);
