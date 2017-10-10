@@ -111,19 +111,47 @@ namespace SanBag.ViewModels
             }
         }
 
-        private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream inStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        class ScriptCompiledBytecode
+        {
+            public string ScriptSourceTextPath { get; set; }
+            public byte[] AssemblyBytes { get; set; }
+        }
+
+        private static ScriptCompiledBytecode ExtractAssembly(byte[] fileBytes)
+        {
+            var assemblyData = new ScriptCompiledBytecode();
+
+            using (MemoryStream ms = new MemoryStream(fileBytes))
+            {
+                using (BinaryReader br = new BinaryReader(ms))
+                {
+                    var stringBytes = br.ReadChars(0x66);
+                    assemblyData.ScriptSourceTextPath = new string(stringBytes);
+                    var assemblyLength = br.ReadInt32();
+                    assemblyData.AssemblyBytes = br.ReadBytes(assemblyLength);
+                }
+            }
+
+            return assemblyData;
+        }
+
+        private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
             try
             {
-                var fileBytes = new byte[fileRecord.Length];
-
-                inStream.Seek(fileRecord.Offset, SeekOrigin.Begin);
-                inStream.Read(fileBytes, 0, fileBytes.Length);
-
-                var outputPath = Path.GetFullPath(outputDirectory + "\\" + fileRecord.Name + fileType);
-                using (var outFile = File.OpenWrite(outputPath))
+                byte[] decompressedBytes = null;
+                using (var compressedStream = new MemoryStream())
                 {
+                    fileRecord.Save(bagStream, compressedStream);
+                    decompressedBytes = OodleLz.DecompressResource(compressedStream);
+                }
 
+                var scriptCompiledBytecode = ExtractAssembly(decompressedBytes);
+                var outputPath = Path.GetFullPath(outputDirectory + "\\" + fileRecord.Name + fileType);
+
+                if (fileType == ".dll")
+                {
+                    File.WriteAllBytes(outputPath, scriptCompiledBytecode.AssemblyBytes);
                 }
             }
             catch (Exception)
