@@ -25,6 +25,9 @@ namespace LibSanBag
             TextureSource,
             WorldChunkDefinition,
             WorldSource,
+            ScriptMetadataResource,
+            ScriptCompiledBytecodeResource,
+            ScriptSourceTextResource,
             Unknown
         }
 
@@ -129,6 +132,9 @@ namespace LibSanBag
                 case "Texture-Source": return ResourceType.TextureSource;
                 case "WorldChunk-Definition": return ResourceType.WorldChunkDefinition;
                 case "World-Source": return ResourceType.WorldSource;
+                case "ScriptMetadata-Resource": return ResourceType.ScriptMetadataResource;
+                case "ScriptCompiledBytecode-Resource": return ResourceType.ScriptCompiledBytecodeResource;
+                case "ScriptSourceText-Resource": return ResourceType.ScriptSourceTextResource;
             }
 
             return ResourceType.Unknown;

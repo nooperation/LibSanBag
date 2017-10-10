@@ -102,6 +102,17 @@ namespace SanBag.ViewModels
                 });
             }
 
+            var scriptCompiledBytecodeResourceView = new ScriptCompiledBytecodeResourceViewModel(this);
+            Views.Add(new ViewType()
+            {
+                View = new ScriptCompiledBytecodeResourceView()
+                {
+                    DataContext = scriptCompiledBytecodeResourceView
+                },
+                Filter = (record => RecordPassesNameFilter(record) && scriptCompiledBytecodeResourceView.IsValidRecord(record)),
+                Name = "ScriptCompiledBytecodeResource"
+            });
+
             CurrentView = Views[0];
         }
 
