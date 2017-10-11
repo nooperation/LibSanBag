@@ -60,17 +60,9 @@ namespace SanBag.ViewModels
         {
             using (var outStream = new MemoryStream())
             {
-                try
-                {
-                    record.Save(inStream, outStream);
-                    return OodleLz.DecompressResource(outStream);
-                }
-                catch (Exception)
-                {
-                }
+                record.Save(inStream, outStream);
+                return OodleLz.DecompressResource(outStream);
             }
-
-            return null;
         }
 
         private static BitmapImage ExtractImage(
@@ -82,24 +74,18 @@ namespace SanBag.ViewModels
         {
             using (var outStream = new MemoryStream())
             {
-                try
+                record.Save(inStream, outStream);
+                var ddsBytes = OodleLz.DecompressResource(outStream);
+                if (ddsBytes[0] == 'D' && ddsBytes[1] == 'D' && ddsBytes[2] == 'S')
                 {
-                    record.Save(inStream, outStream);
-                    var ddsBytes = OodleLz.DecompressResource(outStream);
-                    if (ddsBytes[0] == 'D' && ddsBytes[1] == 'D' && ddsBytes[2] == 'S')
-                    {
-                        var imageData = LibDDS.GetImageBytesFromDds(ddsBytes, width, height, format);
+                    var imageData = LibDDS.GetImageBytesFromDds(ddsBytes, width, height, format);
 
-                        var image = new BitmapImage();
-                        image.BeginInit();
-                        image.StreamSource = new MemoryStream(imageData);
-                        image.EndInit();
+                    var image = new BitmapImage();
+                    image.BeginInit();
+                    image.StreamSource = new MemoryStream(imageData);
+                    image.EndInit();
 
-                        return image;
-                    }
-                }
-                catch (Exception)
-                {
+                    return image;
                 }
             }
 
@@ -142,7 +128,7 @@ namespace SanBag.ViewModels
             {
                 var outputDirectory = Path.GetDirectoryName(dialog.FileName);
 
-                var exportViewModel = new ExportViewModel()
+                var exportViewModel = new ExportViewModel
                 {
                     RecordsToExport = recordsToExport,
                     BagPath = ParentViewModel.BagPath,
@@ -170,26 +156,21 @@ namespace SanBag.ViewModels
             }
         }
 
-        private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream inStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
             try
             {
-                var fileBytes = new byte[fileRecord.Length];
-
-                inStream.Seek(fileRecord.Offset, SeekOrigin.Begin);
-                inStream.Read(fileBytes, 0, fileBytes.Length);
-
-                var outputPath = Path.GetFullPath(outputDirectory + "\\" + fileRecord.Name + fileType);
+                var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
                 using (var outFile = File.OpenWrite(outputPath))
                 {
                     if (string.Equals(fileType, ".dds", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        var imageBytes = ExtractDds(fileRecord, inStream);
+                        var imageBytes = ExtractDds(fileRecord, bagStream);
                         outFile.Write(imageBytes, 0, imageBytes.Length);
                     }
                     else
                     {
-                        var image = ExtractImage(fileRecord, inStream);
+                        var image = ExtractImage(fileRecord, bagStream);
                         BitmapEncoder encoder = null;
                         switch (fileType.ToLower())
                         {
@@ -235,7 +216,7 @@ namespace SanBag.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Failed to view texture: " + ex.Message, "ERROR");
+                MessageBox.Show($"Failed to view texture: {ex.Message}", "ERROR");
                 PreviewImage = _blankPreview;
             }
         }

@@ -176,7 +176,6 @@ namespace SanBag.ViewModels
             
             if (taskWasSuccessful)
             {
-                // MVVM is flawed.
                 foreach (var item in Application.Current.Windows)
                 {
                     var window = item as Window;
