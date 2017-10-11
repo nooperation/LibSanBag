@@ -43,23 +43,6 @@ namespace SanBag.ViewModels
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
         }
 
-        private static byte[] ExtractDds(FileRecord record, Stream inStream)
-        {
-            using (var outStream = new MemoryStream())
-            {
-                try
-                {
-                    record.Save(inStream, outStream);
-                    return OodleLz.DecompressResource(outStream);
-                }
-                catch (Exception)
-                {
-                }
-            }
-
-            return null;
-        }
-
         public void ExportRecordsAsAssemblies(List<FileRecord> recordsToExport)
         {
             if (recordsToExport.Count == 0)
@@ -83,7 +66,7 @@ namespace SanBag.ViewModels
             {
                 var outputDirectory = Path.GetDirectoryName(dialog.FileName);
 
-                var exportViewModel = new ExportViewModel()
+                var exportViewModel = new ExportViewModel
                 {
                     RecordsToExport = recordsToExport,
                     BagPath = ParentViewModel.BagPath,
@@ -95,7 +78,7 @@ namespace SanBag.ViewModels
                         shouldCancel
                     ) => CustomSaveFunction(
                              fileRecord,
-                             Path.GetExtension(dialog.SafeFileName),
+                             Path.GetExtension(dialog.SafeFileName).ToLower(),
                              outputDirectory,
                              bagStream,
                              onProgressReport,
@@ -121,9 +104,9 @@ namespace SanBag.ViewModels
         {
             var assemblyData = new ScriptCompiledBytecode();
 
-            using (MemoryStream ms = new MemoryStream(fileBytes))
+            using (var ms = new MemoryStream(fileBytes))
             {
-                using (BinaryReader br = new BinaryReader(ms))
+                using (var br = new BinaryReader(ms))
                 {
                     var stringBytes = br.ReadChars(0x66);
                     assemblyData.ScriptSourceTextPath = new string(stringBytes);
@@ -147,7 +130,7 @@ namespace SanBag.ViewModels
                 }
 
                 var scriptCompiledBytecode = ExtractAssembly(decompressedBytes);
-                var outputPath = Path.GetFullPath(outputDirectory + "\\" + fileRecord.Name + fileType);
+                var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
 
                 if (fileType == ".dll")
                 {

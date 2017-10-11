@@ -52,7 +52,7 @@ namespace SanBag.ViewModels
             {
                 var outputDirectory = Path.GetDirectoryName(dialog.FileName);
 
-                var exportViewModel = new ExportViewModel()
+                var exportViewModel = new ExportViewModel
                 {
                     RecordsToExport = recordsToExport,
                     BagPath = ParentViewModel.BagPath,

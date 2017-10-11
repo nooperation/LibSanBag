@@ -78,9 +78,9 @@ namespace SanBag.ViewModels
             CommandOpenBag = new CommandOpenBag(this);
 
             var genericBagViewModel = new GenericBagViewModel(this);
-            Views.Add(new ViewType()
+            Views.Add(new ViewType
             {
-                View = new GenericBagView()
+                View = new GenericBagView
                 {
                     DataContext = genericBagViewModel
                 },
@@ -91,7 +91,7 @@ namespace SanBag.ViewModels
             if (LibDDS.IsAvailable && OodleLz.IsAvailable)
             {
                 var textureResourceViewModel = new TextureResourceViewModel(this);
-                Views.Add(new ViewType()
+                Views.Add(new ViewType
                 {
                     View = new TextureResourceView
                     {
@@ -103,9 +103,9 @@ namespace SanBag.ViewModels
             }
 
             var scriptCompiledBytecodeResourceView = new ScriptCompiledBytecodeResourceViewModel(this);
-            Views.Add(new ViewType()
+            Views.Add(new ViewType
             {
-                View = new ScriptCompiledBytecodeResourceView()
+                View = new ScriptCompiledBytecodeResourceView
                 {
                     DataContext = scriptCompiledBytecodeResourceView
                 },
@@ -120,7 +120,7 @@ namespace SanBag.ViewModels
         {
             try
             {
-                var dialog = new OpenFileDialog()
+                var dialog = new OpenFileDialog
                 {
                     Filter = "Bag files|*.bag|All files|*.*"
                 };
