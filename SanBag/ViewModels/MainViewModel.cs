@@ -113,6 +113,18 @@ namespace SanBag.ViewModels
                 Name = "ScriptCompiledBytecodeResource"
             });
 
+            var scriptSourceTextResourceViewModel = new ScriptSourceTextResourceViewModel(this);
+            Views.Add(new ViewType
+            {
+                View = new ScriptSourceTextResourceView
+                {
+                    DataContext = scriptSourceTextResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && scriptSourceTextResourceViewModel.IsValidRecord(record)),
+                Name = "ScriptSourceTextResource"
+            });
+
+
             CurrentView = Views[0];
         }
 
