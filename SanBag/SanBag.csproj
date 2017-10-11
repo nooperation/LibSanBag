@@ -76,6 +76,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\CommandCancelExport.cs" />
+    <Compile Include="Commands\CommandExportSelectedScriptSourceText.cs" />
     <Compile Include="Commands\CommandExportSelectedAssembly.cs" />
     <Compile Include="Commands\CommandExportSelectedTextures.cs" />
     <Compile Include="Commands\CommandExportSelected.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="ViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
+    <Compile Include="ViewModels\ScriptSourceTextResourceViewModel.cs" />
     <Compile Include="ViewModels\TextureResourceViewModel.cs" />
     <Compile Include="Views\Converters\IConverter.cs" />
     <Compile Include="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
@@ -99,6 +101,9 @@
     <Compile Include="Views\Converters\TimestampNsConverter.cs" />
     <Compile Include="Views\ScriptCompiledBytecodeResourceView.xaml.cs">
       <DependentUpon>ScriptCompiledBytecodeResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScriptSourceTextResourceView.xaml.cs">
+      <DependentUpon>ScriptSourceTextResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
@@ -124,6 +129,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\ScriptCompiledBytecodeResourceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScriptSourceTextResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
