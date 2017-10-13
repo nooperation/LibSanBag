@@ -82,6 +82,9 @@
     <Compile Include="Commands\CommandExportSelected.cs" />
     <Compile Include="Commands\CommandOpenBag.cs" />
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
+    <Compile Include="Models\ScriptCompiledBytecodeResource.cs" />
+    <Compile Include="Models\ScriptSourceTextResource.cs" />
+    <Compile Include="Models\TextureResource.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="ResourceUtils\LibDDS.cs" />
     <Compile Include="ResourceUtils\OodleLz.cs" />

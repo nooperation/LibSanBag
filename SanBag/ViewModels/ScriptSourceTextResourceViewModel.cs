@@ -1,6 +1,7 @@
 ﻿using LibSanBag;
 using Microsoft.Win32;
 using SanBag.Commands;
+using SanBag.Models;
 using SanBag.ResourceUtils;
 using SanBag.Views;
 using System;
@@ -25,24 +26,7 @@ namespace SanBag.ViewModels
             set
             {
                 _selectedRecord = value;
-
-                try
-                {
-                    using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
-                    {
-                        using (var compressedStream = new MemoryStream())
-                        {
-                            _selectedRecord.Save(bagStream, compressedStream);
-                            var scriptSourceText = ExtractScriptSourceText(compressedStream.GetBuffer());
-                            PreviewCode = scriptSourceText.Source;
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    PreviewCode = "";
-                }
-
+                UpdatePreviewText();
                 OnPropertyChanged();
             }
         }
@@ -68,6 +52,26 @@ namespace SanBag.ViewModels
         {
             return record.Info?.Resource == FileRecordInfo.ResourceType.ScriptSourceTextResource &&
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
+        }
+
+        private void UpdatePreviewText()
+        {
+            try
+            {
+                using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+                {
+                    using (var compressedStream = new MemoryStream())
+                    {
+                        SelectedRecord.Save(bagStream, compressedStream);
+                        var scriptSourceText = ScriptSourceTextResource.ExtractScriptSourceText(compressedStream.GetBuffer());
+                        PreviewCode = scriptSourceText.Source;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                PreviewCode = "";
+            }
         }
 
         public void ExportRecordsAsAssemblies(List<FileRecord> recordsToExport)
@@ -121,46 +125,6 @@ namespace SanBag.ViewModels
             }
         }
 
-        class ScriptSourceText
-        {
-            public string Filename { get; set; }
-            public string Source { get; set; }
-        }
-
-        private static ScriptSourceText ExtractScriptSourceText(byte[] compressedBytes)
-        {
-            var scriptSourceText = new ScriptSourceText();
-            byte[] decompressedSourceBytes = null;
-
-            using (var compressedStream = new MemoryStream(compressedBytes))
-            {
-                decompressedSourceBytes = OodleLz.DecompressResource(compressedStream);
-            }
-
-            using (var decompressedStream = new MemoryStream(decompressedSourceBytes))
-            {
-                using (var br = new BinaryReader(decompressedStream))
-                {
-                    // TODO: Find the actual length...
-                    var filenameString = "";
-                    while (br.BaseStream.Position < br.BaseStream.Length)
-                    {
-                        filenameString += br.ReadChar();
-                        if (filenameString.EndsWith(".cs"))
-                        {
-                            break;
-                        }
-                    }
-
-                    scriptSourceText.Filename = filenameString;
-                    var assemblyLength = br.ReadInt32();
-                    scriptSourceText.Source = new string(br.ReadChars(assemblyLength));
-                }
-            }
-
-            return scriptSourceText;
-        }
-
         private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
             try
@@ -172,7 +136,7 @@ namespace SanBag.ViewModels
                     decompressedBytes = OodleLz.DecompressResource(compressedStream);
                 }
 
-                var scriptCompiledBytecode = ExtractScriptSourceText(decompressedBytes);
+                var scriptCompiledBytecode = ScriptSourceTextResource.ExtractScriptSourceText(decompressedBytes);
                 var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
 
                 if (fileType == ".cs")
