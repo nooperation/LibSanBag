@@ -1,6 +1,7 @@
 ﻿using LibSanBag;
 using Microsoft.Win32;
 using SanBag.Commands;
+using SanBag.Models;
 using SanBag.ResourceUtils;
 using SanBag.Views;
 using System;
@@ -94,30 +95,6 @@ namespace SanBag.ViewModels
             }
         }
 
-        class ScriptCompiledBytecode
-        {
-            public string ScriptSourceTextPath { get; set; }
-            public byte[] AssemblyBytes { get; set; }
-        }
-
-        private static ScriptCompiledBytecode ExtractAssembly(byte[] fileBytes)
-        {
-            var assemblyData = new ScriptCompiledBytecode();
-
-            using (var ms = new MemoryStream(fileBytes))
-            {
-                using (var br = new BinaryReader(ms))
-                {
-                    var stringBytes = br.ReadChars(0x66);
-                    assemblyData.ScriptSourceTextPath = new string(stringBytes);
-                    var assemblyLength = br.ReadInt32();
-                    assemblyData.AssemblyBytes = br.ReadBytes(assemblyLength);
-                }
-            }
-
-            return assemblyData;
-        }
-
         private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
             try
@@ -129,7 +106,7 @@ namespace SanBag.ViewModels
                     decompressedBytes = OodleLz.DecompressResource(compressedStream);
                 }
 
-                var scriptCompiledBytecode = ExtractAssembly(decompressedBytes);
+                var scriptCompiledBytecode = ScriptCompiledBytecodeResource.ExtractAssembly(decompressedBytes);
                 var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
 
                 if (fileType == ".dll")
