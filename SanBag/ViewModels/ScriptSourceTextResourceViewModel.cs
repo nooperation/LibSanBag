@@ -1,4 +1,6 @@
 ﻿using LibSanBag;
+using LibSanBag.FileResources;
+using LibSanBag.ResourceUtils;
 using Microsoft.Win32;
 using SanBag.Commands;
 using SanBag.Models;
@@ -60,12 +62,8 @@ namespace SanBag.ViewModels
             {
                 using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
                 {
-                    using (var compressedStream = new MemoryStream())
-                    {
-                        SelectedRecord.Save(bagStream, compressedStream);
-                        var scriptSourceText = ScriptSourceTextResource.ExtractScriptSourceText(compressedStream.GetBuffer());
-                        PreviewCode = scriptSourceText.Source;
-                    }
+                    var scriptSourceText = new ScriptSourceTextResource(bagStream, SelectedRecord);
+                    PreviewCode = scriptSourceText.Source;
                 }
             }
             catch (Exception)
@@ -136,7 +134,7 @@ namespace SanBag.ViewModels
                     decompressedBytes = OodleLz.DecompressResource(compressedStream);
                 }
 
-                var scriptCompiledBytecode = ScriptSourceTextResource.ExtractScriptSourceText(decompressedBytes);
+                var scriptCompiledBytecode = new ScriptSourceTextResource(bagStream, fileRecord);
                 var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
 
                 if (fileType == ".cs")

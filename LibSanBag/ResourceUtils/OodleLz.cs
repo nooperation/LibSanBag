@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SanBag.ResourceUtils
+namespace LibSanBag.ResourceUtils
 {
-    static class OodleLz
+    public static class OodleLz
     {
         [DllImport("oo2core_1_win64.dll")]
         private static extern ulong OodleLZ_GetCompressedBufferSizeNeeded(ulong size);

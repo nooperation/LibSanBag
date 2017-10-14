@@ -1,4 +1,6 @@
 ﻿using LibSanBag;
+using LibSanBag.FileResources;
+using LibSanBag.ResourceUtils;
 using Microsoft.Win32;
 using SanBag.Commands;
 using SanBag.Models;
@@ -19,6 +21,8 @@ namespace SanBag.ViewModels
 {
     public class TextureResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
     {
+        private static BitmapImage _blankPreview = new BitmapImage();
+
         public CommandExportSelectedTextures CommandExportSelectedTextures { get; set; }
 
         private FileRecord _selectedRecord;
@@ -43,8 +47,6 @@ namespace SanBag.ViewModels
                 OnPropertyChanged();
             }
         }
-
-        private static BitmapImage _blankPreview = new BitmapImage();
 
         public TextureResourceViewModel(MainViewModel parentViewModel)
             : base(parentViewModel)
@@ -115,33 +117,39 @@ namespace SanBag.ViewModels
                 var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
                 using (var outFile = File.OpenWrite(outputPath))
                 {
+                    var textureResource = new TextureResource(bagStream, fileRecord);
                     if (string.Equals(fileType, ".dds", StringComparison.CurrentCultureIgnoreCase))
                     {
-                        var imageBytes = TextureResource.ExtractDds(fileRecord, bagStream);
+                        var imageBytes = textureResource.DdsBytes;
                         outFile.Write(imageBytes, 0, imageBytes.Length);
                     }
                     else
                     {
-                        var image = TextureResource.ExtractImage(fileRecord, bagStream);
-                        BitmapEncoder encoder = null;
+                        var codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
                         switch (fileType.ToLower())
                         {
                             case ".png":
-                                encoder = new PngBitmapEncoder();
+                                codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
                                 break;
                             case ".jpg":
                             case ".jpeg":
-                                encoder = new JpegBitmapEncoder();
+                                codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
                                 break;
                             case ".gif":
-                                encoder = new GifBitmapEncoder();
+                                codec = LibDDS.ConversionOptions.CodecType.CODEC_GIF;
                                 break;
-                            default:
-                                encoder = new BmpBitmapEncoder();
+                            case ".bmp":
+                                codec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
+                                break;
+                            case ".ico":
+                                codec = LibDDS.ConversionOptions.CodecType.CODEC_ICO;
+                                break;
+                            case ".wmp":
+                                codec = LibDDS.ConversionOptions.CodecType.CODEC_WMP;
                                 break;
                         }
-                        encoder.Frames.Add(BitmapFrame.Create(image));
-                        encoder.Save(outFile);
+                        var imageBytes = textureResource.ConvertTo(codec);
+                        outFile.Write(imageBytes, 0, imageBytes.Length);
                     }
                 }
             }
@@ -164,7 +172,18 @@ namespace SanBag.ViewModels
                     return;
                 }
 
-                PreviewImage = TextureResource.ExtractImage(SelectedRecord, ParentViewModel.BagPath, 512, 512);
+                using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+                {
+                    var textureResource = new TextureResource(bagStream, SelectedRecord);
+                    var bmpBytes = textureResource.ConvertTo(LibDDS.ConversionOptions.CodecType.CODEC_BMP, 256, 256);
+
+                    var tempPreview = new BitmapImage();
+                    tempPreview.BeginInit();
+                    tempPreview.StreamSource = new MemoryStream(bmpBytes);
+                    tempPreview.EndInit();
+
+                    PreviewImage = tempPreview;
+                }
             }
             catch (Exception ex)
             {
