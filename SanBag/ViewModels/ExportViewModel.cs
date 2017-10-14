@@ -83,7 +83,8 @@ namespace SanBag.ViewModels
             }
         }
 
-        public Action<FileRecord, string, FileStream, Action<FileRecord, uint>, Func<bool>> CustomSaveFunc { get; set; }
+        public Action<FileRecord, string, string, FileStream, Action<FileRecord, uint>, Func<bool>> CustomSaveFunc { get; set; }
+        public string FileExtension { get; set; }
 
         public ExportViewModel()
         {
@@ -126,7 +127,7 @@ namespace SanBag.ViewModels
 
                         if (CustomSaveFunc != null)
                         {
-                            CustomSaveFunc(record, OutputDirectory, bagStream, OnProgressReport, shouldCancel);
+                            CustomSaveFunc(record, FileExtension, OutputDirectory, bagStream, OnProgressReport, shouldCancel);
                         }
                         else
                         {

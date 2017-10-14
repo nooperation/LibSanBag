@@ -19,8 +19,6 @@ namespace SanBag.ViewModels
 {
     public class ScriptSourceTextResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
     {
-        public CommandExportSelectedScriptSourceText CommandExportSelectedScriptSourceText { get; set; }
-
         private FileRecord _selectedRecord;
         public FileRecord SelectedRecord
         {
@@ -47,7 +45,7 @@ namespace SanBag.ViewModels
         public ScriptSourceTextResourceViewModel(MainViewModel parentViewModel)
                 : base(parentViewModel)
         {
-            CommandExportSelectedScriptSourceText = new CommandExportSelectedScriptSourceText(this);
+            ExportFilter += "|Script Source|*.cs";
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -72,49 +70,10 @@ namespace SanBag.ViewModels
             }
         }
 
-        public void ExportRecordsAsAssemblies(List<FileRecord> recordsToExport)
-        {
-            if (recordsToExport.Count == 0)
-            {
-                return;
-            }
-
-            var dialog = new SaveFileDialog();
-            dialog.Filter = "Script Source|*.cs";
-            dialog.FilterIndex = 0;
-            if (recordsToExport.Count == 1)
-            {
-                dialog.FileName = recordsToExport[0].Info.Hash;
-            }
-            else
-            {
-                dialog.FileName = "Multiple Files";
-            }
-
-            if (dialog.ShowDialog() == true)
-            {
-                var outputDirectory = Path.GetDirectoryName(dialog.FileName);
-
-                var exportViewModel = new ExportViewModel
-                {
-                    RecordsToExport = recordsToExport,
-                    BagPath = ParentViewModel.BagPath,
-                    OutputDirectory = outputDirectory,
-                    CustomSaveFunc = SaveAsSource
-                };
-
-                var exportDialog = new ExportView
-                {
-                    DataContext = exportViewModel
-                };
-                exportDialog.ShowDialog();
-            }
-        }
-
-        private static void SaveAsSource(FileRecord fileRecord, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        protected override void CustomFileExport(FileRecord fileRecord, string fileExtension, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
             var scriptCompiledBytecode = new ScriptSourceTextResource(bagStream, fileRecord);
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + ".cs"));
+            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileExtension));
             File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
 
             onProgressReport?.Invoke(fileRecord, 0);

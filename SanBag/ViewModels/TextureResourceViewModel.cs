@@ -23,8 +23,6 @@ namespace SanBag.ViewModels
     {
         private static BitmapImage _blankPreview = new BitmapImage();
 
-        public CommandExportSelectedTextures CommandExportSelectedTextures { get; set; }
-
         private FileRecord _selectedRecord;
         public FileRecord SelectedRecord
         {
@@ -51,7 +49,7 @@ namespace SanBag.ViewModels
         public TextureResourceViewModel(MainViewModel parentViewModel)
             : base(parentViewModel)
         {
-            CommandExportSelectedTextures = new CommandExportSelectedTextures(this);
+            ExportFilter += "|DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp|GIF Image|*.gif";
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -59,65 +57,13 @@ namespace SanBag.ViewModels
             return record.Info?.Resource == FileRecordInfo.ResourceType.TextureResource;
         }
 
-        public void ExportRecordsAsTextures(List<FileRecord> recordsToExport)
+        protected override void CustomFileExport(FileRecord fileRecord, string fileExtension, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
-            if (recordsToExport.Count == 0)
-            {
-                return;
-            }
-
-            var dialog = new SaveFileDialog();
-            dialog.Filter = "DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp|GIF Image|*.gif";
-            dialog.FilterIndex = 0;
-            if (recordsToExport.Count == 1)
-            {
-                dialog.FileName = recordsToExport[0].Info.Hash;
-            }
-            else
-            {
-                dialog.FileName = "Multiple Files";
-            }
-
-            if (dialog.ShowDialog() == true)
-            {
-                var outputDirectory = Path.GetDirectoryName(dialog.FileName);
-
-                var exportViewModel = new ExportViewModel
-                {
-                    RecordsToExport = recordsToExport,
-                    BagPath = ParentViewModel.BagPath,
-                    OutputDirectory = outputDirectory,
-                    CustomSaveFunc = (
-                        fileRecord,
-                        outputDirectory_,
-                        bagStream,
-                        onProgressReport,
-                        shouldCancel
-                    ) => CustomSaveFunction(
-                             fileRecord,
-                             Path.GetExtension(dialog.SafeFileName),
-                             outputDirectory_,
-                             bagStream,
-                             onProgressReport,
-                             shouldCancel
-                         )
-                };
-
-                var exportDialog = new ExportView
-                {
-                    DataContext = exportViewModel
-                };
-                exportDialog.ShowDialog();
-            }
-        }
-
-        private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
-        {
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
+            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileExtension));
             using (var outFile = File.OpenWrite(outputPath))
             {
                 var textureResource = new TextureResource(bagStream, fileRecord);
-                if (string.Equals(fileType, ".dds", StringComparison.CurrentCultureIgnoreCase))
+                if (string.Equals(fileExtension, ".dds", StringComparison.CurrentCultureIgnoreCase))
                 {
                     var imageBytes = textureResource.DdsBytes;
                     outFile.Write(imageBytes, 0, imageBytes.Length);
@@ -125,7 +71,7 @@ namespace SanBag.ViewModels
                 else
                 {
                     var codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
-                    switch (fileType.ToLower())
+                    switch (fileExtension.ToLower())
                     {
                         case ".png":
                             codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;

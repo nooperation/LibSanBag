@@ -20,8 +20,6 @@ namespace SanBag.ViewModels
 {
     public class ScriptCompiledBytecodeResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
     {
-        public CommandExportSelectedAssembly CommandExportSelectedAssembly { get; set; }
-
         private FileRecord _selectedRecord;
         public FileRecord SelectedRecord
         {
@@ -36,7 +34,7 @@ namespace SanBag.ViewModels
         public ScriptCompiledBytecodeResourceViewModel(MainViewModel parentViewModel)
             : base(parentViewModel)
         {
-            CommandExportSelectedAssembly = new CommandExportSelectedAssembly(this);
+            ExportFilter += "|.Net Assembly|*.dll";
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -45,54 +43,14 @@ namespace SanBag.ViewModels
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
         }
 
-        public void ExportRecordsAsAssemblies(List<FileRecord> recordsToExport)
-        {
-            if (recordsToExport.Count == 0)
-            {
-                return;
-            }
-
-            var dialog = new SaveFileDialog();
-            dialog.Filter = ".Net Assembly|*.dll";
-            dialog.FilterIndex = 0;
-            if (recordsToExport.Count == 1)
-            {
-                dialog.FileName = recordsToExport[0].Info.Hash;
-            }
-            else
-            {
-                dialog.FileName = "Multiple Files";
-            }
-
-            if (dialog.ShowDialog() == true)
-            {
-                var outputDirectory = Path.GetDirectoryName(dialog.FileName);
-
-                var exportViewModel = new ExportViewModel
-                {
-                    RecordsToExport = recordsToExport,
-                    BagPath = ParentViewModel.BagPath,
-                    OutputDirectory = outputDirectory,
-                    CustomSaveFunc = SaveAsAssembly
-                };
-
-                var exportDialog = new ExportView
-                {
-                    DataContext = exportViewModel
-                };
-                exportDialog.ShowDialog();
-            }
-        }
-
-        private static void SaveAsAssembly(FileRecord fileRecord, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        protected override void CustomFileExport(FileRecord fileRecord, string fileExtension, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
             var scriptCompiledBytecode = new ScriptCompiledBytecodeResource(bagStream, fileRecord);
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + ".dll"));
+            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileExtension));
             File.WriteAllBytes(outputPath, scriptCompiledBytecode.AssemblyBytes);
 
             onProgressReport?.Invoke(fileRecord, 0);
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
