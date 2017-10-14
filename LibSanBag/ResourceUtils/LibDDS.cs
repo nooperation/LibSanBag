@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.ResourceUtils
 {
-    static class LibDDS
+    public static class LibDDS
     {
         [StructLayout(LayoutKind.Sequential)]
-        internal struct ConversionOptions
+        public struct ConversionOptions
         {
-            internal enum CodecType
+            public enum CodecType
             {
                 CODEC_BMP = 1,     // Windows Bitmap (.bmp)
                 CODEC_JPEG,        // Joint Photographic Experts Group (.jpg, .jpeg)
@@ -24,7 +24,7 @@ namespace LibSanBag.ResourceUtils
                 CODEC_ICO,         // Windows Icon (.ico)
             }
 
-            internal enum DXGI_FORMAT
+            public enum DXGI_FORMAT
             {
                 DXGI_FORMAT_UNKNOWN = 0,
                 DXGI_FORMAT_R32G32B32A32_TYPELESS = 1,
@@ -198,6 +198,7 @@ namespace LibSanBag.ResourceUtils
             byte[] ddsBytes,
             int width = 0,
             int height = 0,
+            ConversionOptions.CodecType codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG,
             ConversionOptions.DXGI_FORMAT format = ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R32G32B32A32_FLOAT)
         {
             IntPtr rawImageData;
@@ -207,6 +208,7 @@ namespace LibSanBag.ResourceUtils
             options.Width = width;
             options.Height = height;
             options.Format = format;
+            options.Codec = codec;
 
             var result = ConvertDdsInMemory(ddsBytes, ddsBytes.Length, out rawImageData, out rawImageDataSize, options);
             if (result == false)

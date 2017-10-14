@@ -83,6 +83,8 @@
     <Compile Include="FileRecord.cs" />
     <Compile Include="FileRecordInfo.cs" />
     <Compile Include="FileResources\ScriptCompiledBytecodeResource.cs" />
+    <Compile Include="FileResources\ScriptSourceTextResource.cs" />
+    <Compile Include="FileResources\TextureResource.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="Manifest.cs" />
     <Compile Include="Program.cs" />

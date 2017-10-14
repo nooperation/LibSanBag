@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.ResourceUtils
 {
-    static class OodleLz
+    public static class OodleLz
     {
         [DllImport("oo2core_1_win64.dll")]
         private static extern ulong OodleLZ_GetCompressedBufferSizeNeeded(ulong size);
