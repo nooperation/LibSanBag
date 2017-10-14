@@ -79,6 +79,7 @@
     <Compile Include="Commands\CommandExportSelected.cs" />
     <Compile Include="Commands\CommandOpenBag.cs" />
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
+    <Compile Include="Models\ExportParams.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
     <Compile Include="ViewModels\GenericBagViewModel.cs" />

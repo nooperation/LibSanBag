@@ -1,6 +1,7 @@
 ﻿using LibSanBag;
 using Microsoft.Win32;
 using SanBag.Commands;
+using SanBag.Models;
 using SanBag.Views;
 using System;
 using System.Collections.Generic;
@@ -73,32 +74,32 @@ namespace SanBag.ViewModels
             }
         }
 
-        private static void ExportRawFile(FileRecord fileRecord, string fileExtension, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        private static void ExportRawFile(ExportParameters exportParameters)
         {
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileExtension));
+            var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
 
             using (var outStream = File.OpenWrite(outputPath))
             {
-                fileRecord.Save(bagStream, outStream, onProgressReport, shouldCancel);
+                exportParameters.FileRecord.Save(exportParameters.BagStream, outStream, exportParameters.OnProgressReport, exportParameters.ShouldCancel);
             }
         }
 
-        private void OnExportFile(FileRecord fileRecord, string fileExtension, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        private void OnExportFile(ExportParameters exportParameters)
         {
-            var recordExtension = Path.GetExtension(fileRecord.Name);
-            if (string.Equals(recordExtension, fileExtension, StringComparison.OrdinalIgnoreCase))
+            var recordExtension = Path.GetExtension(exportParameters.FileRecord.Name);
+            if (string.Equals(recordExtension, exportParameters.FileExtension, StringComparison.OrdinalIgnoreCase))
             {
-                ExportRawFile(fileRecord, fileExtension, outputDirectory, bagStream, onProgressReport, shouldCancel);
+                ExportRawFile(exportParameters);
             }
             else
             {
-                CustomFileExport(fileRecord, fileExtension, outputDirectory, bagStream, onProgressReport, shouldCancel);
+                CustomFileExport(exportParameters);
             }
         }
 
-        protected virtual void CustomFileExport(FileRecord fileRecord, string fileExtension, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        protected virtual void CustomFileExport(ExportParameters exportParameters)
         {
-            ExportRawFile(fileRecord, Path.GetExtension(fileRecord.Name), outputDirectory, bagStream, onProgressReport, shouldCancel);
+            ExportRawFile(exportParameters);
         }
 
         public static void CopyAsUrl(FileRecord fileRecord)

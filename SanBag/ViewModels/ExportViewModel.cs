@@ -1,5 +1,6 @@
 ﻿using LibSanBag;
 using SanBag.Commands;
+using SanBag.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +14,7 @@ using System.Windows;
 
 namespace SanBag.ViewModels
 {
-    public class ExportViewModel: INotifyPropertyChanged
+    public class ExportViewModel : INotifyPropertyChanged
     {
         private CancellationTokenSource ExportCancellationTokenSource { get; set; } = null;
 
@@ -83,7 +84,7 @@ namespace SanBag.ViewModels
             }
         }
 
-        public Action<FileRecord, string, string, FileStream, Action<FileRecord, uint>, Func<bool>> CustomSaveFunc { get; set; }
+        public Action<ExportParameters> CustomSaveFunc { get; set; }
         public string FileExtension { get; set; }
 
         public ExportViewModel()
@@ -115,7 +116,7 @@ namespace SanBag.ViewModels
             {
                 foreach (var record in recordsToExport)
                 {
-                    if(shouldCancel != null && shouldCancel())
+                    if (shouldCancel != null && shouldCancel())
                     {
                         exportSuccessful = false;
                         break;
@@ -127,7 +128,15 @@ namespace SanBag.ViewModels
 
                         if (CustomSaveFunc != null)
                         {
-                            CustomSaveFunc(record, FileExtension, OutputDirectory, bagStream, OnProgressReport, shouldCancel);
+                            CustomSaveFunc(new ExportParameters()
+                            {
+                                FileRecord = record,
+                                FileExtension = FileExtension,
+                                OutputDirectory = OutputDirectory,
+                                BagStream = bagStream,
+                                OnProgressReport = OnProgressReport,
+                                ShouldCancel = shouldCancel
+                            });
                         }
                         else
                         {
@@ -157,13 +166,13 @@ namespace SanBag.ViewModels
         {
             return ExportCancellationTokenSource.IsCancellationRequested;
         }
-        
+
         public async Task StartAsync()
         {
             IsRunning = true;
             ExportCancellationTokenSource = new CancellationTokenSource();
             var taskWasSuccessful = false;
-            
+
             await Task.Run(() =>
             {
                 try
@@ -175,7 +184,7 @@ namespace SanBag.ViewModels
                     MessageBox.Show($"Failed to export: {ex.Message}");
                 }
             }, ExportCancellationTokenSource.Token);
-            
+
             if (taskWasSuccessful)
             {
                 foreach (var item in Application.Current.Windows)

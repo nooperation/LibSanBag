@@ -43,13 +43,13 @@ namespace SanBag.ViewModels
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
         }
 
-        protected override void CustomFileExport(FileRecord fileRecord, string fileExtension, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var scriptCompiledBytecode = new ScriptCompiledBytecodeResource(bagStream, fileRecord);
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileExtension));
+            var scriptCompiledBytecode = new ScriptCompiledBytecodeResource(exportParameters.BagStream, exportParameters.FileRecord);
+            var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
             File.WriteAllBytes(outputPath, scriptCompiledBytecode.AssemblyBytes);
 
-            onProgressReport?.Invoke(fileRecord, 0);
+            exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

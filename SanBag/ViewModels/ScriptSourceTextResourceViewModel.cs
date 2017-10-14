@@ -70,13 +70,13 @@ namespace SanBag.ViewModels
             }
         }
 
-        protected override void CustomFileExport(FileRecord fileRecord, string fileExtension, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var scriptCompiledBytecode = new ScriptSourceTextResource(bagStream, fileRecord);
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileExtension));
+            var scriptCompiledBytecode = new ScriptSourceTextResource(exportParameters.BagStream, exportParameters.FileRecord);
+            var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
             File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
 
-            onProgressReport?.Invoke(fileRecord, 0);
+            exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

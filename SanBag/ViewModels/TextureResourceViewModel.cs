@@ -57,13 +57,13 @@ namespace SanBag.ViewModels
             return record.Info?.Resource == FileRecordInfo.ResourceType.TextureResource;
         }
 
-        protected override void CustomFileExport(FileRecord fileRecord, string fileExtension, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileExtension));
+            var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
             using (var outFile = File.OpenWrite(outputPath))
             {
-                var textureResource = new TextureResource(bagStream, fileRecord);
-                if (string.Equals(fileExtension, ".dds", StringComparison.CurrentCultureIgnoreCase))
+                var textureResource = new TextureResource(exportParameters.BagStream, exportParameters.FileRecord);
+                if (string.Equals(exportParameters.FileExtension, ".dds", StringComparison.CurrentCultureIgnoreCase))
                 {
                     var imageBytes = textureResource.DdsBytes;
                     outFile.Write(imageBytes, 0, imageBytes.Length);
@@ -71,7 +71,7 @@ namespace SanBag.ViewModels
                 else
                 {
                     var codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
-                    switch (fileExtension.ToLower())
+                    switch (exportParameters.FileExtension.ToLower())
                     {
                         case ".png":
                             codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
@@ -97,7 +97,7 @@ namespace SanBag.ViewModels
                     outFile.Write(imageBytes, 0, imageBytes.Length);
                 }
             }
-            onProgressReport?.Invoke(fileRecord, 0);
+            exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 
         private void UpdatePreviewImage()
