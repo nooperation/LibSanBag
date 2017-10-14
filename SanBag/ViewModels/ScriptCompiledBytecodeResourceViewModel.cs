@@ -1,4 +1,5 @@
 ﻿using LibSanBag;
+using LibSanBag.FileResources;
 using Microsoft.Win32;
 using SanBag.Commands;
 using SanBag.Models;
@@ -99,14 +100,7 @@ namespace SanBag.ViewModels
         {
             try
             {
-                byte[] decompressedBytes = null;
-                using (var compressedStream = new MemoryStream())
-                {
-                    fileRecord.Save(bagStream, compressedStream);
-                    decompressedBytes = OodleLz.DecompressResource(compressedStream);
-                }
-
-                var scriptCompiledBytecode = ScriptCompiledBytecodeResource.ExtractAssembly(decompressedBytes);
+                var scriptCompiledBytecode = new ScriptCompiledBytecodeResource(bagStream, fileRecord);
                 var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
 
                 if (fileType == ".dll")
