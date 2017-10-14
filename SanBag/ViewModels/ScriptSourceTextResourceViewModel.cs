@@ -100,19 +100,7 @@ namespace SanBag.ViewModels
                     RecordsToExport = recordsToExport,
                     BagPath = ParentViewModel.BagPath,
                     OutputDirectory = outputDirectory,
-                    CustomSaveFunc = (
-                        fileRecord,
-                        bagStream,
-                        onProgressReport,
-                        shouldCancel
-                    ) => CustomSaveFunction(
-                             fileRecord,
-                             Path.GetExtension(dialog.SafeFileName).ToLower(),
-                             outputDirectory,
-                             bagStream,
-                             onProgressReport,
-                             shouldCancel
-                         )
+                    CustomSaveFunc = SaveAsSource
                 };
 
                 var exportDialog = new ExportView
@@ -123,32 +111,14 @@ namespace SanBag.ViewModels
             }
         }
 
-        private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        private static void SaveAsSource(FileRecord fileRecord, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
-            try
-            {
-                byte[] decompressedBytes = null;
-                using (var compressedStream = new MemoryStream())
-                {
-                    fileRecord.Save(bagStream, compressedStream);
-                    decompressedBytes = OodleLz.DecompressResource(compressedStream);
-                }
-
-                var scriptCompiledBytecode = new ScriptSourceTextResource(bagStream, fileRecord);
-                var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
-
-                if (fileType == ".cs")
-                {
-                    File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
-                }
-            }
-            catch (Exception)
-            {
-            }
+            var scriptCompiledBytecode = new ScriptSourceTextResource(bagStream, fileRecord);
+            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + ".cs"));
+            File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
 
             onProgressReport?.Invoke(fileRecord, 0);
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

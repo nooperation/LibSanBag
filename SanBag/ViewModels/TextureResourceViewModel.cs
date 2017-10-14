@@ -89,13 +89,14 @@ namespace SanBag.ViewModels
                     OutputDirectory = outputDirectory,
                     CustomSaveFunc = (
                         fileRecord,
+                        outputDirectory_,
                         bagStream,
                         onProgressReport,
                         shouldCancel
                     ) => CustomSaveFunction(
                              fileRecord,
                              Path.GetExtension(dialog.SafeFileName),
-                             outputDirectory,
+                             outputDirectory_,
                              bagStream,
                              onProgressReport,
                              shouldCancel
@@ -112,49 +113,43 @@ namespace SanBag.ViewModels
 
         private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
-            try
+            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
+            using (var outFile = File.OpenWrite(outputPath))
             {
-                var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
-                using (var outFile = File.OpenWrite(outputPath))
+                var textureResource = new TextureResource(bagStream, fileRecord);
+                if (string.Equals(fileType, ".dds", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    var textureResource = new TextureResource(bagStream, fileRecord);
-                    if (string.Equals(fileType, ".dds", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        var imageBytes = textureResource.DdsBytes;
-                        outFile.Write(imageBytes, 0, imageBytes.Length);
-                    }
-                    else
-                    {
-                        var codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
-                        switch (fileType.ToLower())
-                        {
-                            case ".png":
-                                codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
-                                break;
-                            case ".jpg":
-                            case ".jpeg":
-                                codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
-                                break;
-                            case ".gif":
-                                codec = LibDDS.ConversionOptions.CodecType.CODEC_GIF;
-                                break;
-                            case ".bmp":
-                                codec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
-                                break;
-                            case ".ico":
-                                codec = LibDDS.ConversionOptions.CodecType.CODEC_ICO;
-                                break;
-                            case ".wmp":
-                                codec = LibDDS.ConversionOptions.CodecType.CODEC_WMP;
-                                break;
-                        }
-                        var imageBytes = textureResource.ConvertTo(codec);
-                        outFile.Write(imageBytes, 0, imageBytes.Length);
-                    }
+                    var imageBytes = textureResource.DdsBytes;
+                    outFile.Write(imageBytes, 0, imageBytes.Length);
                 }
-            }
-            catch (Exception)
-            {
+                else
+                {
+                    var codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
+                    switch (fileType.ToLower())
+                    {
+                        case ".png":
+                            codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
+                            break;
+                        case ".jpg":
+                        case ".jpeg":
+                            codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
+                            break;
+                        case ".gif":
+                            codec = LibDDS.ConversionOptions.CodecType.CODEC_GIF;
+                            break;
+                        case ".bmp":
+                            codec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
+                            break;
+                        case ".ico":
+                            codec = LibDDS.ConversionOptions.CodecType.CODEC_ICO;
+                            break;
+                        case ".wmp":
+                            codec = LibDDS.ConversionOptions.CodecType.CODEC_WMP;
+                            break;
+                    }
+                    var imageBytes = textureResource.ConvertTo(codec);
+                    outFile.Write(imageBytes, 0, imageBytes.Length);
+                }
             }
             onProgressReport?.Invoke(fileRecord, 0);
         }

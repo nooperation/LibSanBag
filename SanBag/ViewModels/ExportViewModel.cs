@@ -83,7 +83,7 @@ namespace SanBag.ViewModels
             }
         }
 
-        public Action<FileRecord, FileStream, Action<FileRecord, uint>, Func<bool>> CustomSaveFunc { get; set; }
+        public Action<FileRecord, string, FileStream, Action<FileRecord, uint>, Func<bool>> CustomSaveFunc { get; set; }
 
         public ExportViewModel()
         {
@@ -126,7 +126,7 @@ namespace SanBag.ViewModels
 
                         if (CustomSaveFunc != null)
                         {
-                            CustomSaveFunc(record, bagStream, OnProgressReport, shouldCancel);
+                            CustomSaveFunc(record, OutputDirectory, bagStream, OnProgressReport, shouldCancel);
                         }
                         else
                         {
@@ -140,8 +140,9 @@ namespace SanBag.ViewModels
                         ++totalExported;
                         Progress = 100.0f * (totalExported / (float)RecordsToExport.Count);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        MessageBox.Show($"Failed to export '{record.Name}'\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                         exportSuccessful = false;
                         continue;
                     }

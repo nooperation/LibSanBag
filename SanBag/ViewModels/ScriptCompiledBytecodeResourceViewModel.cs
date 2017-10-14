@@ -73,19 +73,7 @@ namespace SanBag.ViewModels
                     RecordsToExport = recordsToExport,
                     BagPath = ParentViewModel.BagPath,
                     OutputDirectory = outputDirectory,
-                    CustomSaveFunc = (
-                        fileRecord,
-                        bagStream,
-                        onProgressReport,
-                        shouldCancel
-                    ) => CustomSaveFunction(
-                             fileRecord,
-                             Path.GetExtension(dialog.SafeFileName).ToLower(),
-                             outputDirectory,
-                             bagStream,
-                             onProgressReport,
-                             shouldCancel
-                         )
+                    CustomSaveFunc = SaveAsAssembly
                 };
 
                 var exportDialog = new ExportView
@@ -96,21 +84,11 @@ namespace SanBag.ViewModels
             }
         }
 
-        private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
+        private static void SaveAsAssembly(FileRecord fileRecord, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
         {
-            try
-            {
-                var scriptCompiledBytecode = new ScriptCompiledBytecodeResource(bagStream, fileRecord);
-                var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
-
-                if (fileType == ".dll")
-                {
-                    File.WriteAllBytes(outputPath, scriptCompiledBytecode.AssemblyBytes);
-                }
-            }
-            catch (Exception)
-            {
-            }
+            var scriptCompiledBytecode = new ScriptCompiledBytecodeResource(bagStream, fileRecord);
+            var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + ".dll"));
+            File.WriteAllBytes(outputPath, scriptCompiledBytecode.AssemblyBytes);
 
             onProgressReport?.Invoke(fileRecord, 0);
         }
