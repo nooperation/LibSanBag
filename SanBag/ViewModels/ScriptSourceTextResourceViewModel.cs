@@ -19,8 +19,6 @@ namespace SanBag.ViewModels
 {
     public class ScriptSourceTextResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
     {
-        public CommandExportSelectedScriptSourceText CommandExportSelectedScriptSourceText { get; set; }
-
         private FileRecord _selectedRecord;
         public FileRecord SelectedRecord
         {
@@ -47,7 +45,7 @@ namespace SanBag.ViewModels
         public ScriptSourceTextResourceViewModel(MainViewModel parentViewModel)
                 : base(parentViewModel)
         {
-            CommandExportSelectedScriptSourceText = new CommandExportSelectedScriptSourceText(this);
+            ExportFilter += "|Script Source|*.cs";
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -72,83 +70,14 @@ namespace SanBag.ViewModels
             }
         }
 
-        public void ExportRecordsAsAssemblies(List<FileRecord> recordsToExport)
+        protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            if (recordsToExport.Count == 0)
-            {
-                return;
-            }
+            var scriptCompiledBytecode = new ScriptSourceTextResource(exportParameters.BagStream, exportParameters.FileRecord);
+            var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
+            File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
 
-            var dialog = new SaveFileDialog();
-            dialog.Filter = "Script Source|*.cs";
-            dialog.FilterIndex = 0;
-            if (recordsToExport.Count == 1)
-            {
-                dialog.FileName = recordsToExport[0].Info.Hash;
-            }
-            else
-            {
-                dialog.FileName = "Multiple Files";
-            }
-
-            if (dialog.ShowDialog() == true)
-            {
-                var outputDirectory = Path.GetDirectoryName(dialog.FileName);
-
-                var exportViewModel = new ExportViewModel
-                {
-                    RecordsToExport = recordsToExport,
-                    BagPath = ParentViewModel.BagPath,
-                    OutputDirectory = outputDirectory,
-                    CustomSaveFunc = (
-                        fileRecord,
-                        bagStream,
-                        onProgressReport,
-                        shouldCancel
-                    ) => CustomSaveFunction(
-                             fileRecord,
-                             Path.GetExtension(dialog.SafeFileName).ToLower(),
-                             outputDirectory,
-                             bagStream,
-                             onProgressReport,
-                             shouldCancel
-                         )
-                };
-
-                var exportDialog = new ExportView
-                {
-                    DataContext = exportViewModel
-                };
-                exportDialog.ShowDialog();
-            }
+            exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
-
-        private static void CustomSaveFunction(FileRecord fileRecord, string fileType, string outputDirectory, FileStream bagStream, Action<FileRecord, uint> onProgressReport, Func<bool> shouldCancel)
-        {
-            try
-            {
-                byte[] decompressedBytes = null;
-                using (var compressedStream = new MemoryStream())
-                {
-                    fileRecord.Save(bagStream, compressedStream);
-                    decompressedBytes = OodleLz.DecompressResource(compressedStream);
-                }
-
-                var scriptCompiledBytecode = new ScriptSourceTextResource(bagStream, fileRecord);
-                var outputPath = Path.GetFullPath(Path.Combine(outputDirectory, fileRecord.Name + fileType));
-
-                if (fileType == ".cs")
-                {
-                    File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
-                }
-            }
-            catch (Exception)
-            {
-            }
-
-            onProgressReport?.Invoke(fileRecord, 0);
-        }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)

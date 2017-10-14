@@ -25,7 +25,6 @@
                 <ContextMenu>
                     <MenuItem Header="Copy Url" Command="{Binding CommandCopyAsUrl}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}" />
                     <MenuItem Header="Export" Command="{Binding CommandExportSelected}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}" />
-                    <MenuItem Header="Export Textures" Command="{Binding CommandExportSelectedTextures}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <DataGrid.Columns>

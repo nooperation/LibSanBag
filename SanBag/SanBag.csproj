@@ -76,12 +76,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\CommandCancelExport.cs" />
-    <Compile Include="Commands\CommandExportSelectedScriptSourceText.cs" />
-    <Compile Include="Commands\CommandExportSelectedAssembly.cs" />
-    <Compile Include="Commands\CommandExportSelectedTextures.cs" />
     <Compile Include="Commands\CommandExportSelected.cs" />
     <Compile Include="Commands\CommandOpenBag.cs" />
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
+    <Compile Include="Models\ExportParams.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
     <Compile Include="ViewModels\GenericBagViewModel.cs" />
