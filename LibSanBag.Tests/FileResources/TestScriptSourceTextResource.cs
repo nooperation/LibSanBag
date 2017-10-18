@@ -11,12 +11,12 @@ namespace LibSanBag.Tests.FileResources
 {
     class TestScriptSourceTextResource
     {
-        byte[] expectedSourceBytes;
+        string expectedSource;
 
         [SetUp]
         public void Setup()
         {
-            expectedSourceBytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.cs"));
+            expectedSource = File.ReadAllText(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.cs"));
         }
 
         [Test]
@@ -28,7 +28,7 @@ namespace LibSanBag.Tests.FileResources
             {
                 var resource = new ScriptSourceTextResource(ms);
                 Assert.AreEqual(resource.Filename, "ExampleScript.cs");
-                Assert.AreEqual(resource.Source, expectedSourceBytes);
+                Assert.AreEqual(resource.Source, expectedSource);
             }
         }
 
@@ -47,7 +47,7 @@ namespace LibSanBag.Tests.FileResources
 
             var resource = new ScriptSourceTextResource(fileStream, fileRecord);
             Assert.AreEqual(resource.Filename, "ExampleScript.cs");
-            Assert.AreEqual(resource.Source, expectedSourceBytes);
+            Assert.AreEqual(resource.Source, expectedSource);
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace LibSanBag.Tests.FileResources
 
             var resource = new ScriptSourceTextResource(filebytes);
             Assert.AreEqual(resource.Filename, "ExampleScript.cs");
-            Assert.AreEqual(resource.Source, expectedSourceBytes);
+            Assert.AreEqual(resource.Source, expectedSource);
         }
     }
 }

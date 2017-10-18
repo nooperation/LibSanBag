@@ -49,20 +49,13 @@ namespace LibSanBag.FileResources
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                // TODO: Find the actual length...
-                var filenameString = "";
-                while (decompressedStream.BaseStream.Position < decompressedStream.BaseStream.Length)
-                {
-                    filenameString += decompressedStream.ReadChar();
-                    if (filenameString.EndsWith(".cs"))
-                    {
-                        break;
-                    }
-                }
+                var nameLength = decompressedStream.ReadInt32();
+                var nameChars = decompressedStream.ReadChars(nameLength);
+                Filename = new string(nameChars);
 
-                Filename = filenameString;
-                var assemblyLength = decompressedStream.ReadInt32();
-                Source = new string(decompressedStream.ReadChars(assemblyLength));
+                var sourceLength = decompressedStream.ReadInt32();
+                var sourceChars = decompressedStream.ReadChars(sourceLength);
+                Source = new string(sourceChars);
             }
         }
     }

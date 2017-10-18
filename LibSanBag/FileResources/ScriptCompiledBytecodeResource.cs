@@ -49,8 +49,10 @@ namespace LibSanBag.FileResources
         {
             using (var br = new BinaryReader(new MemoryStream(decompressedStream)))
             {
-                var stringBytes = br.ReadChars(0x66);
-                ScriptSourceTextPath = new string(stringBytes);
+                var stringLength = br.ReadInt32();
+                var stringChars = br.ReadChars(stringLength);
+                ScriptSourceTextPath = new string(stringChars);
+
                 var assemblyLength = br.ReadInt32();
                 AssemblyBytes = br.ReadBytes(assemblyLength);
             }
