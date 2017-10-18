@@ -22,9 +22,37 @@ namespace LibSanBag.FileResources
                 decompressedBytes = OodleLz.DecompressResource(compressedStream);
             }
 
+            InitFrom(decompressedBytes);
+        }
+
+        public TextureResource(Stream compressedStream)
+        {
+            var decompressedBytes = OodleLz.DecompressResource(compressedStream);
+
+            InitFrom(decompressedBytes);
+        }
+
+        public TextureResource(byte[] compressedBytes)
+        {
+            byte[] decompressedBytes = null;
+
+            using (var compressedStream = new MemoryStream(compressedBytes))
+            {
+                decompressedBytes = OodleLz.DecompressResource(compressedStream);
+            }
+
+            InitFrom(decompressedBytes);
+        }
+
+        private void InitFrom(byte[] decompressedBytes)
+        {
             if (decompressedBytes[0] == 'D' && decompressedBytes[1] == 'D' && decompressedBytes[2] == 'S')
             {
                 DdsBytes = decompressedBytes;
+            }
+            else
+            {
+                throw new Exception("Could not find DDS header in decompressed data");
             }
         }
 
