@@ -23,13 +23,37 @@ namespace LibSanBag.FileResources
                 decompressedBytes = OodleLz.DecompressResource(compressedStream);
             }
 
-            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
+            InitFrom(decompressedBytes);
+        }
+
+        public ScriptCompiledBytecodeResource(Stream compressedStream)
+        {
+            var decompressedBytes = OodleLz.DecompressResource(compressedStream);
+
+            InitFrom(decompressedBytes);
+        }
+
+        public ScriptCompiledBytecodeResource(byte[] compressedBytes)
+        {
+            byte[] decompressedBytes = null;
+
+            using (var compressedStream = new MemoryStream(compressedBytes))
             {
-                var stringBytes = decompressedStream.ReadChars(0x66);
-                ScriptSourceTextPath = new string(stringBytes);
-                var assemblyLength = decompressedStream.ReadInt32();
-                AssemblyBytes = decompressedStream.ReadBytes(assemblyLength);
+                decompressedBytes = OodleLz.DecompressResource(compressedStream);
             }
-         }
+
+            InitFrom(decompressedBytes);
+        }
+
+        private void InitFrom(byte[] decompressedStream)
+        {
+            using (var br = new BinaryReader(new MemoryStream(decompressedStream)))
+            {
+                var stringBytes = br.ReadChars(0x66);
+                ScriptSourceTextPath = new string(stringBytes);
+                var assemblyLength = br.ReadInt32();
+                AssemblyBytes = br.ReadBytes(assemblyLength);
+            }
+        }
     }
 }
