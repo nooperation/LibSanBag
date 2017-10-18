@@ -23,6 +23,30 @@ namespace LibSanBag.FileResources
                 decompressedBytes = OodleLz.DecompressResource(compressedStream);
             }
 
+            InitFrom(decompressedBytes);
+        }
+
+        public ScriptSourceTextResource(Stream compressedStream)
+        {
+            var decompressedBytes = OodleLz.DecompressResource(compressedStream);
+
+            InitFrom(decompressedBytes);
+        }
+
+        public ScriptSourceTextResource(byte[] compressedBytes)
+        {
+            byte[] decompressedBytes = null;
+
+            using (var compressedStream = new MemoryStream(compressedBytes))
+            {
+                decompressedBytes = OodleLz.DecompressResource(compressedStream);
+            }
+
+            InitFrom(decompressedBytes);
+        }
+
+        private void InitFrom(byte[] decompressedBytes)
+        {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 // TODO: Find the actual length...
