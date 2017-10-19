@@ -22,47 +22,16 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestConstructCompressedStream()
         {
-            var files = Directory.GetFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples"), "*.*", SearchOption.TopDirectoryOnly);
-            Console.WriteLine("Files in samples directory:");
-            foreach (var file in files)
-            {
-                Console.WriteLine("  " + file);
-            }
+            var compressedFileBytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin"));
 
-            byte[] compressedFileBytes = null;
-            try
+            using (var ms = new MemoryStream(compressedFileBytes))
             {
-                compressedFileBytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin"));
-                Console.WriteLine("Bytes read: " + compressedFileBytes.Length);
+                var resource = new TextureResource(ms);
+                Assert.AreEqual(resource.DdsBytes, expectedTextureBytes);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Failed to read all bytes -> " + ex.Message);
-            }
-
-
-            try
-            {
-                using (var ms = new MemoryStream(compressedFileBytes))
-                {
-                    var resource = new TextureResource(ms);
-                    Assert.AreEqual(resource.DdsBytes, expectedTextureBytes);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Test failed because ===> " + ex.Message);
-                if (compressedFileBytes == null)
-                    Console.WriteLine("compressedFileBytes is null");
-                else
-                    Console.WriteLine("compressedFileBytes is NOT null");
-
-                throw;
-            }
-
         }
 
-        //[Test]
+        [Test]
         public void TestConstructFileInfo()
         {
             var fileStream = File.OpenRead(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin"));
@@ -79,7 +48,7 @@ namespace LibSanBag.Tests.FileResources
             Assert.AreEqual(resource.DdsBytes, expectedTextureBytes);
         }
 
-        //[Test]
+        [Test]
         public void TestConstructBytes()
         {
             var filebytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin"));

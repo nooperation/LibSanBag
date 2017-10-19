@@ -60,7 +60,7 @@ namespace LibSanBag.ResourceUtils
         {
             if (IsAvailable == false)
             {
-                return null;
+                throw new Exception("OodleLz is not available");
             }
 
             var decompressedBuffer = new byte[decompressedSize];
