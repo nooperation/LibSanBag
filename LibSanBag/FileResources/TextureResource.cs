@@ -46,13 +46,18 @@ namespace LibSanBag.FileResources
 
         private void InitFrom(byte[] decompressedBytes)
         {
-            if (decompressedBytes[0] == 'D' && decompressedBytes[1] == 'D' && decompressedBytes[2] == 'S')
+            using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                DdsBytes = decompressedBytes;
-            }
-            else
-            {
-                throw new Exception("Could not find DDS header in decompressed data");
+                var numBytes = br.ReadInt32();
+                var textureBytes = br.ReadBytes(numBytes);
+                if (textureBytes[0] == 'D' && textureBytes[1] == 'D' && textureBytes[2] == 'S')
+                {
+                    DdsBytes = textureBytes;
+                }
+                else
+                {
+                    throw new Exception("Could not find DDS header in decompressed data");
+                }
             }
         }
 
