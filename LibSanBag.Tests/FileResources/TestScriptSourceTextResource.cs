@@ -19,7 +19,7 @@ namespace LibSanBag.Tests.FileResources
             expectedSource = File.ReadAllText(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.cs"));
         }
 
-        [Test]
+        //[Test]
         public void TestConstructCompressedStream()
         {
             var compressedFileBytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.bin"));
@@ -32,7 +32,7 @@ namespace LibSanBag.Tests.FileResources
             }
         }
 
-        [Test]
+        //[Test]
         public void TestConstructFileInfo()
         {
             var fileStream = File.OpenRead(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.bin"));
@@ -50,7 +50,7 @@ namespace LibSanBag.Tests.FileResources
             Assert.AreEqual(resource.Source, expectedSource);
         }
 
-        [Test]
+        //[Test]
         public void TestConstructBytes()
         {
             var filebytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.bin"));
