@@ -22,7 +22,24 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestConstructCompressedStream()
         {
-            var compressedFileBytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin"));
+            var files = Directory.GetFiles(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples"), "*.*", SearchOption.TopDirectoryOnly);
+            Console.WriteLine("Files in samples directory:");
+            foreach (var file in files)
+            {
+                Console.WriteLine("  " + file);
+            }
+
+            byte[] compressedFileBytes = null;
+            try
+            {
+                compressedFileBytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin"));
+                Console.WriteLine("Bytes read: " + compressedFileBytes.Length);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Failed to read all bytes -> " + ex.Message);
+            }
+
 
             using (var ms = new MemoryStream(compressedFileBytes))
             {
