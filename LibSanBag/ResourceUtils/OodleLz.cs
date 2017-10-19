@@ -60,7 +60,7 @@ namespace LibSanBag.ResourceUtils
         {
             if (IsAvailable == false)
             {
-                return null;
+                throw new Exception("OodleLz is not available");
             }
 
             var decompressedBuffer = new byte[decompressedSize];
@@ -82,8 +82,9 @@ namespace LibSanBag.ResourceUtils
                 IntPtr.Zero,
                 0);
 
-            var fixedArray = new byte[decompressedSize - 8];
-            Buffer.BlockCopy(decompressedBuffer, 8, fixedArray, 0, fixedArray.Length);
+            // Remove the 4 byte compression header
+            var fixedArray = new byte[decompressedSize - 4];
+            Buffer.BlockCopy(decompressedBuffer, 4, fixedArray, 0, fixedArray.Length);
             return fixedArray;
         }
 
@@ -107,8 +108,9 @@ namespace LibSanBag.ResourceUtils
                 else if (firstByte == 0x01)
                 {
                     br.BaseStream.Seek(3, SeekOrigin.Current);
-                    decompressedSize = br.ReadUInt32();
-                    return br.ReadBytes((int)decompressedSize);
+
+                    var remainingBytes = br.BaseStream.Length - br.BaseStream.Position;
+                    return br.ReadBytes((int)remainingBytes);
                 }
                 else
                 {
@@ -125,7 +127,6 @@ namespace LibSanBag.ResourceUtils
 
                 var compressedDataArray = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position - 10));
                 var decompressed = Decompress(compressedDataArray, decompressedSize);
-
                 return decompressed;
             }
         }

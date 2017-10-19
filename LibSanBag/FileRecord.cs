@@ -10,12 +10,17 @@ namespace LibSanBag
 {
     public class FileRecord
     {
-        public long Offset { get; private set; }
-        public uint Length { get; private set; }
-        public string Name { get; private set; }
-        public long TimestampNs { get; private set; }
+        public long Offset { get; set; }
+        public uint Length { get; set; }
+        public string Name { get; set; }
+        public long TimestampNs { get; set; }
 
-        public FileRecordInfo Info { get; private set; }
+        public FileRecordInfo Info { get; set; }
+
+        public FileRecord()
+        {
+
+        }
 
         public FileRecord(BinaryReader inStream)
         {
@@ -37,6 +42,10 @@ namespace LibSanBag
 
                 var bytesToRead = bytesRemaining > buffer.Length ? buffer.Length : (int)bytesRemaining;
                 var bytesRead = inStream.Read(buffer, 0, bytesToRead);
+                if (bytesRead == 0)
+                {
+                    throw new Exception("Reached unexpected end of stream");
+                }
 
                 outStream.Write(buffer, 0, bytesRead);
 

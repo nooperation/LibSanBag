@@ -109,5 +109,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)\..\LibSanBag\ThirdParty\LibDDS\$(PlatformName)\LibDDS.dll" $(TargetDir) /y</PostBuildEvent>
+  </PropertyGroup>
 </Project>
