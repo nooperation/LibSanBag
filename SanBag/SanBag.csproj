@@ -173,9 +173,8 @@
       <Name>LibSanBag</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)ThirdParty\LibDDS\$(PlatformName)\*" $(TargetDir) /y</PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)\..\LibSanBag\ThirdParty\LibDDS\$(PlatformName)\LibDDS.dll" $(TargetDir) /y</PostBuildEvent>
   </PropertyGroup>
 </Project>
