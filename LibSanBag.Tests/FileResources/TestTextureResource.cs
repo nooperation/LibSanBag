@@ -11,18 +11,21 @@ namespace LibSanBag.Tests.FileResources
 {
     class TestTextureResource
     {
-        byte[] expectedTextureBytes;
+        private byte[] expectedTextureBytes;
+
+        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin");
+        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.dds");
 
         [SetUp]
         public void Setup()
         {
-            expectedTextureBytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.dds"));
+            expectedTextureBytes = File.ReadAllBytes(ExpectedFilePath);
         }
 
         [Test]
         public void TestConstructCompressedStream()
         {
-            var compressedFileBytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin"));
+            var compressedFileBytes = File.ReadAllBytes(CompressedFilePath);
 
             using (var ms = new MemoryStream(compressedFileBytes))
             {
@@ -34,7 +37,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestConstructFileInfo()
         {
-            var fileStream = File.OpenRead(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin"));
+            var fileStream = File.OpenRead(CompressedFilePath);
             var fileRecord = new FileRecord
             {
                 Length = (uint)fileStream.Length,
@@ -51,7 +54,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestConstructBytes()
         {
-            var filebytes = File.ReadAllBytes(Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin"));
+            var filebytes = File.ReadAllBytes(CompressedFilePath);
 
             var resource = new TextureResource(filebytes);
             Assert.AreEqual(resource.DdsBytes, expectedTextureBytes);
