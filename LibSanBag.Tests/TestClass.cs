@@ -15,6 +15,14 @@ namespace LibSanBag.Tests
         private Mock<ITimeProvider> MockTimeProvider = new Mock<ITimeProvider>();
         private ulong ExpectedTimestamp => 0x14DF773F94417DC0;
 
+        private string EmptyBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "Empty.bag");
+        private string SingleFileBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "SingleFile.bag");
+        private string MultipleFileBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "MultipleFile.bag");
+        private string InvalidHeaderBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidHeader.bag");
+        private string InvalidPaddingBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidPadding.bag");
+        private string InvalidNextManifestLengthBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidNextManifestLength.bag");
+        private string InvalidNextManifestOffsetBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidNextManifestOffset.bag");
+
         [SetUp]
         public void Setup()
         {
@@ -24,10 +32,12 @@ namespace LibSanBag.Tests
         [Test]
         public void TestCreateEmptyBag()
         {
+            var expectedBytes = File.ReadAllBytes(EmptyBagPath);
+
             using (MemoryStream outStream = new MemoryStream())
             {
                 Bag.Write(outStream, new List<string>(), MockTimeProvider.Object);
-                Assert.AreEqual(outStream.ToArray(), ExpectedData.EmptyBag);
+                Assert.AreEqual(outStream.ToArray(), expectedBytes);
             }
         }
 
@@ -39,10 +49,12 @@ namespace LibSanBag.Tests
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile1.txt")
             };
 
+            var expectedBytes = File.ReadAllBytes(SingleFileBagPath);
+
             using (MemoryStream outStream = new MemoryStream())
             {
                 Bag.Write(outStream, filesToAdd, MockTimeProvider.Object);
-                Assert.AreEqual(outStream.ToArray(), ExpectedData.SingleFile);
+                Assert.AreEqual(outStream.ToArray(), expectedBytes);
             }
         }
 
@@ -55,17 +67,19 @@ namespace LibSanBag.Tests
                 Path.Combine(TestContext.CurrentContext.TestDirectory, "in", "TestFile2.txt")
             };
 
+            var expectedBytes = File.ReadAllBytes(MultipleFileBagPath);
+
             using (MemoryStream outStream = new MemoryStream())
             {
                 Bag.Write(outStream, filesToAdd, MockTimeProvider.Object);
-                Assert.AreEqual(outStream.ToArray(), ExpectedData.MultipleFiles);
+                Assert.AreEqual(outStream.ToArray(), expectedBytes);
             }
         }
 
         [Test]
         public void TestReadEmptyBag()
         {
-            using (MemoryStream inStream = new MemoryStream(ExpectedData.EmptyBag))
+            using (var inStream = File.OpenRead(EmptyBagPath))
             {
                 var files = Bag.Read(inStream);
                 Assert.IsEmpty(files);
@@ -73,9 +87,45 @@ namespace LibSanBag.Tests
         }
 
         [Test]
+        public void TestInvalidHeaderBag()
+        {
+            using (var inStream = File.OpenRead(InvalidHeaderBagPath))
+            {
+                Assert.Throws<Exception>(() => Bag.Read(inStream));
+            }
+        }
+
+        [Test]
+        public void TestInvalidPaddingBag()
+        {
+            using (var inStream = File.OpenRead(InvalidPaddingBagPath))
+            {
+                Assert.Throws<Exception>(() => Bag.Read(inStream));
+            }
+        }
+
+        [Test]
+        public void TestInvalidNextManifestLengthBag()
+        {
+            using (var inStream = File.OpenRead(InvalidNextManifestLengthBagPath))
+            {
+                Assert.Throws<Exception>(() => Bag.Read(inStream));
+            }
+        }
+
+        [Test]
+        public void TestInvalidNextManifestOffsetBag()
+        {
+            using (var inStream = File.OpenRead(InvalidNextManifestOffsetBagPath))
+            {
+                Assert.Throws<Exception>(() => Bag.Read(inStream));
+            }
+        }
+
+        [Test]
         public void TestReadSingleFileBag()
         {
-            using (MemoryStream inStream = new MemoryStream(ExpectedData.SingleFile))
+            using (var inStream = File.OpenRead(SingleFileBagPath))
             {
                 var files = Bag.Read(inStream).ToList();
                 Assert.AreEqual(files.Count, 1);
@@ -90,7 +140,7 @@ namespace LibSanBag.Tests
         [Test]
         public void TestReadMultipleFileBag()
         {
-            using (MemoryStream inStream = new MemoryStream(ExpectedData.MultipleFiles))
+            using (var inStream = File.OpenRead(MultipleFileBagPath))
             {
                 var files = Bag.Read(inStream).ToList();
                 Assert.AreEqual(files.Count, 2);
@@ -110,7 +160,7 @@ namespace LibSanBag.Tests
         [Test]
         public void TestExtractSingleFile()
         {
-            using (MemoryStream inStream = new MemoryStream(ExpectedData.SingleFile))
+            using (var inStream = File.OpenRead(SingleFileBagPath))
             {
                 var files = Bag.Read(inStream).ToList();
                 using (var outStream = new MemoryStream())
@@ -127,7 +177,7 @@ namespace LibSanBag.Tests
         [Test]
         public void TestExtractMultipleFile()
         {
-            using (MemoryStream inStream = new MemoryStream(ExpectedData.MultipleFiles))
+            using (var inStream = File.OpenRead(MultipleFileBagPath))
             {
                 var expectedContent = new string[]
                 {
