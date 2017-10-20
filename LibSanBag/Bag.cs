@@ -85,16 +85,16 @@ namespace LibSanBag
             bagStream.Write((int)totalManifestLength);
         }
 
-        /// <summary>
-        /// Reads the contents of a bag file.
-        /// </summary>
-        /// <param name="path">Path to read from.</param>
-        /// <returns>Bag file contents.</returns>
         static public ICollection<FileRecord> Read(Stream inStream)
         {
             var fileRecords = new List<FileRecord>();
 
             var bagStream = new BinaryReader(inStream);
+
+            if (inStream.Length < 1024)
+            {
+                throw new Exception("Invalid bag file size. Minimum length is 1024 bytes, zero padded");
+            }
 
             var fileSignature = bagStream.ReadInt32();
             if (fileSignature != BagSignature)
@@ -102,12 +102,18 @@ namespace LibSanBag
                 throw new Exception($"Invalid bag file. Expected file signature of {BagSignature}, got {fileSignature}");
             }
 
+            // First manifest is a special case. It will only contain a NextManifest and NextManifestLength
             var manifest = new Manifest();
             manifest.Read(bagStream, 4, 0x3FC);
 
             while (manifest.NextManifestOffset != 0)
             {
                 var previousManifest = manifest;
+
+                if ((previousManifest.NextManifestOffset + previousManifest.NextManifestLength) > inStream.Length)
+                {
+                    throw new Exception("Invalid bag file. Next manifest exceeds bag length");
+                }
 
                 manifest = new Manifest();
                 manifest.Read(bagStream, previousManifest.NextManifestOffset, previousManifest.NextManifestLength);

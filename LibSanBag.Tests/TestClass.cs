@@ -18,6 +18,10 @@ namespace LibSanBag.Tests
         private string EmptyBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "Empty.bag");
         private string SingleFileBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "SingleFile.bag");
         private string MultipleFileBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "MultipleFile.bag");
+        private string InvalidHeaderBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidHeader.bag");
+        private string InvalidPaddingBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidPadding.bag");
+        private string InvalidNextManifestLengthBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidNextManifestLength.bag");
+        private string InvalidNextManifestOffsetBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidNextManifestOffset.bag");
 
         [SetUp]
         public void Setup()
@@ -79,6 +83,42 @@ namespace LibSanBag.Tests
             {
                 var files = Bag.Read(inStream);
                 Assert.IsEmpty(files);
+            }
+        }
+
+        [Test]
+        public void TestInvalidHeaderBag()
+        {
+            using (var inStream = File.OpenRead(InvalidHeaderBagPath))
+            {
+                Assert.Throws<Exception>(() => Bag.Read(inStream));
+            }
+        }
+
+        [Test]
+        public void TestInvalidPaddingBag()
+        {
+            using (var inStream = File.OpenRead(InvalidPaddingBagPath))
+            {
+                Assert.Throws<Exception>(() => Bag.Read(inStream));
+            }
+        }
+
+        [Test]
+        public void TestInvalidNextManifestLengthBag()
+        {
+            using (var inStream = File.OpenRead(InvalidNextManifestLengthBagPath))
+            {
+                Assert.Throws<Exception>(() => Bag.Read(inStream));
+            }
+        }
+
+        [Test]
+        public void TestInvalidNextManifestOffsetBag()
+        {
+            using (var inStream = File.OpenRead(InvalidNextManifestOffsetBagPath))
+            {
+                Assert.Throws<Exception>(() => Bag.Read(inStream));
             }
         }
 
