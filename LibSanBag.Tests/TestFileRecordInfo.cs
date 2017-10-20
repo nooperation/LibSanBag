@@ -71,7 +71,11 @@ namespace LibSanBag.Tests
                 ["Texture-Resource"] = FileRecordInfo.ResourceType.TextureResource,
                 ["Texture-Source"] = FileRecordInfo.ResourceType.TextureSource,
                 ["WorldChunk-Definition"] = FileRecordInfo.ResourceType.WorldChunkDefinition,
-                ["World-Source"] = FileRecordInfo.ResourceType.WorldSource
+                ["World-Source"] = FileRecordInfo.ResourceType.WorldSource,
+                ["ScriptMetadata-Resource"] = FileRecordInfo.ResourceType.ScriptMetadataResource,
+                ["ScriptCompiledBytecode-Resource"] = FileRecordInfo.ResourceType.ScriptCompiledBytecodeResource,
+                ["ScriptSourceText-Resource"] = FileRecordInfo.ResourceType.ScriptSourceTextResource,
+                ["InvalidResourceName"] = FileRecordInfo.ResourceType.Unknown
             };
 
             foreach (var item in resourceNames)
