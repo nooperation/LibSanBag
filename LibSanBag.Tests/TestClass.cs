@@ -22,6 +22,8 @@ namespace LibSanBag.Tests
         private string InvalidPaddingBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidPadding.bag");
         private string InvalidNextManifestLengthBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidNextManifestLength.bag");
         private string InvalidNextManifestOffsetBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidNextManifestOffset.bag");
+        private string InvalidFileOffsetBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidFileOffset.bag");
+        private string InvalidFileLengthBagPath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Bag", "InvalidFileLength.bag");
 
         [SetUp]
         public void Setup()
@@ -196,6 +198,79 @@ namespace LibSanBag.Tests
 
                         Assert.AreEqual(content, expectedContent[i]);
                     }
+                }
+            }
+        }
+
+        [Test]
+        public void TestExtractFileCancel()
+        {
+            using (var inStream = File.OpenRead(SingleFileBagPath))
+            {
+                var files = Bag.Read(inStream).ToList();
+                using (var outStream = new MemoryStream())
+                {
+                    Assert.Throws<Exception>(() =>
+                    {
+                        files[0].Save(inStream, outStream, null, () => true);
+                    });
+                }
+            }
+        }
+
+        [Test]
+        public void TestExtractInvalidFileOffset()
+        {
+            using (var inStream = File.OpenRead(InvalidFileOffsetBagPath))
+            {
+                var files = Bag.Read(inStream).ToList();
+                using (var outStream = new MemoryStream())
+                {
+                    Assert.Throws<Exception>(() =>
+                    {
+                        files[0].Save(inStream, outStream);
+                    });
+                }
+            }
+        }
+
+        [Test]
+        public void TestExtractInvalidFileLength()
+        {
+            using (var inStream = File.OpenRead(InvalidFileLengthBagPath))
+            {
+                var files = Bag.Read(inStream).ToList();
+                using (var outStream = new MemoryStream())
+                {
+                    Assert.Throws<Exception>(() =>
+                    {
+                        files[0].Save(inStream, outStream);
+                    });
+                }
+            }
+        }
+
+        [Test]
+        public void TestToStringWorks()
+        {
+            using (var inStream = File.OpenRead(SingleFileBagPath))
+            {
+                var files = Bag.Read(inStream).ToList();
+                using (var outStream = new MemoryStream())
+                {
+                    files[0].Info = null;
+
+                    Assert.DoesNotThrow(() =>
+                    {
+                        files[0].ToString();
+                    });
+
+                    files[0].Info = FileRecordInfo.Create($"0f74af948a58a66a96f4fc282a01ebf1.Texture-Resource.v9a8d4bbd19b4cd55.payload.v0.noVariants");
+
+                    Assert.DoesNotThrow(() =>
+                    {
+                        files[0].ToString();
+                    });
                 }
             }
         }
