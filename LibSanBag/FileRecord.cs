@@ -37,14 +37,14 @@ namespace LibSanBag
             {
                 if (ShouldCancel != null && ShouldCancel())
                 {
-                    throw new Exception("FileRecord::Save() aborted");
+                    throw new Exception("Failed to save: FileRecord::Save() aborted");
                 }
 
                 var bytesToRead = bytesRemaining > buffer.Length ? buffer.Length : (int)bytesRemaining;
                 var bytesRead = inStream.Read(buffer, 0, bytesToRead);
                 if (bytesRead == 0)
                 {
-                    throw new Exception("Reached unexpected end of stream");
+                    throw new Exception("Failed to save: Reached unexpected end of stream");
                 }
 
                 outStream.Write(buffer, 0, bytesRead);
