@@ -101,6 +101,19 @@ namespace LibSanBag.Tests
                 ["PickableModel-Resource"] = FileRecordInfo.ResourceType.PickableModelResource,
                 ["SpeechGraphicsEngine-Resource"] = FileRecordInfo.ResourceType.SpeechGraphicsEngineResource,
                 ["SpeechGraphicsAnimation-Resource"] = FileRecordInfo.ResourceType.SpeechGraphicsAnimationResource,
+                ["VertexDefinitionResource-Resource"] = FileRecordInfo.ResourceType.VertexDefinitionResourceResource,
+                ["Buffer-Resource"] = FileRecordInfo.ResourceType.BufferResource,
+                ["Mesh-Resource"] = FileRecordInfo.ResourceType.MeshResource,
+                ["Terrain-RuntimeData"] = FileRecordInfo.ResourceType.TerrainRuntimeData,
+                ["Terrain-SourceData"] = FileRecordInfo.ResourceType.TerrainSourceData,
+                ["hkpConstraintData-Resource"] = FileRecordInfo.ResourceType.hkpConstraintDataResource,
+                ["hkaSkeletonMapper-Resource"] = FileRecordInfo.ResourceType.hkaSkeletonMapperResource,
+                ["hknpRagdollData-Resource"] = FileRecordInfo.ResourceType.hknpRagdollDataResource,
+                ["Test-Resource"] = FileRecordInfo.ResourceType.TestResource,
+                ["Heightmap-Import"] = FileRecordInfo.ResourceType.HeightmapImport,
+                ["hknpShape-Import"] = FileRecordInfo.ResourceType.hknpShapeImport,
+                ["Animation-Canonical"] = FileRecordInfo.ResourceType.AnimationCanonical,
+                ["Animation-Import"] = FileRecordInfo.ResourceType.AnimationImport,
                 ["InvalidResourceName"] = FileRecordInfo.ResourceType.Unknown
             };
 
