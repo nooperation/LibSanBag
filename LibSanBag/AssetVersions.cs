@@ -9,6 +9,11 @@ namespace LibSanBag
 {
     static class AssetVersions
     {
+        public static List<string> GetResourceVersions(ResourceType resourceType)
+        {
+            return ResourceVersions[resourceType];
+        }
+
         private static Dictionary<ResourceType, List<string>> ResourceVersions = new Dictionary<ResourceType, List<string>>
         {
             //[ResourceType.] = new List<string>()
@@ -412,11 +417,11 @@ namespace LibSanBag
                 "152137D932762673",
                 "A5E5740CAF72F738",
             },
-            [ResourceType.hkAnimationBindingResource] = new List<string>()
+            [ResourceType.hkaAnimationBindingResource] = new List<string>()
             {
                 "FCED9919CB285F6F",
             },
-            [ResourceType.hkSekeletonResource] = new List<string>()
+            [ResourceType.hkaSekeletonResource] = new List<string>()
             {
                 "B728547FDB2C4522",
             },

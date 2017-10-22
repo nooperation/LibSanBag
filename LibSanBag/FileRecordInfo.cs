@@ -11,7 +11,6 @@ namespace LibSanBag
     {
         public enum ResourceType
         {
-            AnimationBindingResource,
             BankResource,
             BlueprintResource,
             ClusterDefinition,
@@ -19,7 +18,6 @@ namespace LibSanBag
             GeometryResourceResource,
             ModelMorphResource,
             PickResource,
-            ShapeResource,
             SoundResource,
             TextureResource,
             TextureSource,
@@ -35,8 +33,8 @@ namespace LibSanBag
             AudioMaterialResource,
             MaterialResource,
             ScriptResource,
-            hkAnimationBindingResource,
-            hkSekeletonResource,
+            hkaAnimationBindingResource,
+            hkaSekeletonResource,
             hknpMaterialResource,
             hknpPhysicsSystemDataResource,
             hknpShapeResource,
@@ -151,8 +149,6 @@ namespace LibSanBag
                 case "Cluster-Definition": return ResourceType.ClusterDefinition;
                 case "Environment-Resource": return ResourceType.EnvironmentResource;
                 case "GeometryResource-Resource": return ResourceType.GeometryResourceResource;
-                case "hkaAnimationBinding-Resource": return ResourceType.AnimationBindingResource;
-                case "hknpShape-Resource": return ResourceType.ShapeResource;
                 case "ModelMorph-Resource": return ResourceType.ModelMorphResource;
                 case "Pick-Resource": return ResourceType.PickResource;
                 case "Sound-Resource": return ResourceType.SoundResource;
@@ -163,6 +159,34 @@ namespace LibSanBag
                 case "ScriptMetadata-Resource": return ResourceType.ScriptMetadataResource;
                 case "ScriptCompiledBytecode-Resource": return ResourceType.ScriptCompiledBytecodeResource;
                 case "ScriptSourceText-Resource": return ResourceType.ScriptSourceTextResource;
+                case "Cluster-Source": return ResourceType.ClusterSource;
+                case "WorldChunk-Source": return ResourceType.WorldChunkSource;
+                case "License-Resource": return ResourceType.LicenseResource;
+                case "World-Definition": return ResourceType.WorldDefinition;
+                case "AudioMaterial-Resource": return ResourceType.AudioMaterialResource;
+                case "Material-Resource": return ResourceType.MaterialResource;
+                case "Script-Resource": return ResourceType.ScriptResource;
+                case "hkaAnimationBinding-Resource": return ResourceType.hkaAnimationBindingResource;
+                case "hkaSekeleton-Resource": return ResourceType.hkaSekeletonResource;
+                case "hknpMaterial-Resource": return ResourceType.hknpMaterialResource;
+                case "hknpPhysicsSystemData-Resource": return ResourceType.hknpPhysicsSystemDataResource;
+                case "hknpShape-Resource": return ResourceType.hknpShapeResource;
+                case "File-Resource": return ResourceType.FileResource;
+                case "Texture-Import": return ResourceType.TextureImport;
+                case "GeometryResource-Canonical": return ResourceType.GeometryResourceCanonical;
+                case "GeometryResource-Import": return ResourceType.GeometryResourceImport;
+                case "Sound-Import": return ResourceType.SoundImport;
+                case "hkbBehaviorGraph-Resource": return ResourceType.hkbBehaviorGraphResource;
+                case "hkbCharacterData-Resource": return ResourceType.hkbCharacterDataResource;
+                case "LuaScript-Resource": return ResourceType.LuaScriptResource;
+                case "AudioGraph-Resource": return ResourceType.AudioGraphResource;
+                case "Terrain-RuntimeTextureData": return ResourceType.TerrainRuntimeTextureData;
+                case "Terrain-RuntimeDecalTextureData": return ResourceType.TerrainRuntimeDecalTextureData;
+                case "BehaviorProject-Data": return ResourceType.BehaviorProjectData;
+                case "hkbProjectData-Resource": return ResourceType.hkbProjectDataResource;
+                case "PickableModel-Resource": return ResourceType.PickableModelResource;
+                case "SpeechGraphicsEngine-Resource": return ResourceType.SpeechGraphicsEngineResource;
+                case "SpeechGraphicsAnimation-Resource": return ResourceType.SpeechGraphicsAnimationResource;
             }
 
             return ResourceType.Unknown;
