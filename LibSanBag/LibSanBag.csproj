@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssetVersions.cs" />
     <Compile Include="Bag.cs" />
     <Compile Include="FileRecord.cs" />
     <Compile Include="FileRecordInfo.cs" />
