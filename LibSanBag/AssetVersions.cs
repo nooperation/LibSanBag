@@ -422,8 +422,8 @@ namespace LibSanBag
             },
             [ResourceType.ScriptSourceTextResource] = new List<string>()
             {
-                    "6301A7D31AA6F628",
-                    "DEDD8914F8DFE71E",
+                "6301A7D31AA6F628",
+                "DEDD8914F8DFE71E",
             },
             [ResourceType.hknpMaterialResource] = new List<string>()
             {
