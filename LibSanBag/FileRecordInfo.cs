@@ -34,7 +34,7 @@ namespace LibSanBag
             MaterialResource,
             ScriptResource,
             hkaAnimationBindingResource,
-            hkaSekeletonResource,
+            hkaSkeletonResource,
             hknpMaterialResource,
             hknpPhysicsSystemDataResource,
             hknpShapeResource,
@@ -55,6 +55,14 @@ namespace LibSanBag
             SpeechGraphicsEngineResource,
             SpeechGraphicsAnimationResource,
             Unknown,
+            VertexDefinitionResourceResource,
+            BufferResource,
+            MeshResource,
+            TerrainRuntimeData,
+            TerrainSourceData,
+            hkpConstraintDataResource,
+            hkaSkeletonMapperResource,
+            hknpRagdollDataResource,
         }
 
         public enum PayloadType
@@ -65,8 +73,14 @@ namespace LibSanBag
 
         public enum VariantType
         {
-            NoVariants,
-            PcClient,
+            NoVariants,     // "noVariants"
+            Server,         // "server"
+            PcClient,       // "pcClient"
+            Payload,        // "payload"
+            Manifest,       // "manifest"
+            Debug,          // "debug"
+            Capabilities,   // "capabilities"
+            Null,           // "null"
             Unknown
         }
 
@@ -167,7 +181,7 @@ namespace LibSanBag
                 case "Material-Resource": return ResourceType.MaterialResource;
                 case "Script-Resource": return ResourceType.ScriptResource;
                 case "hkaAnimationBinding-Resource": return ResourceType.hkaAnimationBindingResource;
-                case "hkaSekeleton-Resource": return ResourceType.hkaSekeletonResource;
+                case "hkaSkeleton-Resource": return ResourceType.hkaSkeletonResource;
                 case "hknpMaterial-Resource": return ResourceType.hknpMaterialResource;
                 case "hknpPhysicsSystemData-Resource": return ResourceType.hknpPhysicsSystemDataResource;
                 case "hknpShape-Resource": return ResourceType.hknpShapeResource;

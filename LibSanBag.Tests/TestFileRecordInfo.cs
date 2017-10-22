@@ -81,7 +81,7 @@ namespace LibSanBag.Tests
                 ["Material-Resource"] = FileRecordInfo.ResourceType.MaterialResource,
                 ["Script-Resource"] = FileRecordInfo.ResourceType.ScriptResource,
                 ["hkaAnimationBinding-Resource"] = FileRecordInfo.ResourceType.hkaAnimationBindingResource,
-                ["hkaSekeleton-Resource"] = FileRecordInfo.ResourceType.hkaSekeletonResource,
+                ["hkaSkeleton-Resource"] = FileRecordInfo.ResourceType.hkaSkeletonResource,
                 ["hknpMaterial-Resource"] = FileRecordInfo.ResourceType.hknpMaterialResource,
                 ["hknpPhysicsSystemData-Resource"] = FileRecordInfo.ResourceType.hknpPhysicsSystemDataResource,
                 ["hknpShape-Resource"] = FileRecordInfo.ResourceType.hknpShapeResource,

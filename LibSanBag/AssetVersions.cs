@@ -162,7 +162,7 @@ namespace LibSanBag
                 "4D6F1A76AD1172A0",
                 "6125B4297B7AFD56",
             },
-            [ResourceType.ClusterDefinition] = new List<string>()
+            [ResourceType.ClusterDefinition] = new List<string>() // server
             {
                 "C567A82D6E5AFB95",
                 "E950C3912B648F3A",
@@ -179,7 +179,7 @@ namespace LibSanBag
                 "6DBEB10A90FCC37B",
                 "8B88B41AD1F1DA6C",
             },
-            [ResourceType.WorldChunkDefinition] = new List<string>()
+            [ResourceType.WorldChunkDefinition] = new List<string>() // server
             {
                 "9EB043CAFFC8A44A",
                 "13453A1BE74E6B37",
@@ -198,7 +198,7 @@ namespace LibSanBag
                 "F61A5E9BDD322E24",
                 "118146A43A52335B",
             },
-            [ResourceType.WorldDefinition] = new List<string>()
+            [ResourceType.WorldDefinition] = new List<string>() // server
             {
                 "B1FF2160BECAC496",
                 "BC02539F2587AEDC",
@@ -211,62 +211,62 @@ namespace LibSanBag
                 "CF0AED661FF93453",
                 "5D5C681B6114F944",
             },
-            [ResourceType.AudioGraphResource] = new List<string>()
+            [ResourceType.AudioGraphResource] = new List<string>() // noVariants
             {
                  "3A334EDB7033226C",
             },
-            [ResourceType.AudioMaterialResource] = new List<string>()
+            [ResourceType.AudioMaterialResource] = new List<string>() // noVariants
             {
                 "667EB286039A558A",
                 "9B0B082BE71D2673",
                 "069A3E3B9F25828F",
             },
-            [ResourceType.BankResource] = new List<string>()
+            [ResourceType.BankResource] = new List<string>() // noVariants
             {
                 "5BFED512939BA7FF",
             },
-            [ResourceType.EnvironmentResource] = new List<string>()
+            [ResourceType.EnvironmentResource] = new List<string>() // noVariants
             {
                 "C84526638C38A906",
                 "67BCA340237EBE96",
             },
-            [ResourceType.SoundResource] = new List<string>()
+            [ResourceType.SoundResource] = new List<string>() // noVariants
             {
                 "8510A121D70371A2",
                 "FFE353A492E99156",
                 "5D4DDA35B60493D7",
             },
-            [ResourceType.PickResource] = new List<string>()
+            [ResourceType.PickResource] = new List<string>() // noVariants
             {
                 "4A2F6332EED3DFB0",
             },
-            [ResourceType.PickableModelResource] = new List<string>()
+            [ResourceType.PickableModelResource] = new List<string>() // noVariants
             {
                  "42AE078BDAAB63C6",
             },
-            [ResourceType.TextureSource] = new List<string>()
+            [ResourceType.TextureSource] = new List<string>() // noVariants
             {
                 "0D049586F771978E",
                 "896B078DB905E876",
                 "C4D25F70C6245BD0",
             },
-            [ResourceType.BehaviorProjectData] = new List<string>()
+            [ResourceType.BehaviorProjectData] = new List<string>() // noVariants
             {
                  "A72E0B0662CB4408",
             },
-            [ResourceType.LuaScriptResource] = new List<string>()
+            [ResourceType.LuaScriptResource] = new List<string>() // noVariants
             {
                  "2487DCCDDADF7656",
             },
-            [ResourceType.SpeechGraphicsAnimationResource] = new List<string>()
+            [ResourceType.SpeechGraphicsAnimationResource] = new List<string>() // noVariants
             {
                  "86E523FB88AE256E",
             },
-            [ResourceType.SpeechGraphicsEngineResource] = new List<string>()
+            [ResourceType.SpeechGraphicsEngineResource] = new List<string>() // noVariants
             {
                  "0346F2CE5A5F36E1",
             },
-            [ResourceType.FileResource] = new List<string>()
+            [ResourceType.FileResource] = new List<string>() // noVariants
             {
                 "78E422AAA1E1BA00",
                 "7C29DACD363B945A",
@@ -286,18 +286,18 @@ namespace LibSanBag
                 "187D9530F9FC2DED",
                 "8E2A33DD70F661F5",
             },
-            [ResourceType.TextureImport] = new List<string>()
+            [ResourceType.TextureImport] = new List<string>() // noVariants
             {
                 "26130B88ACF15586",
                 "2C4AA80CE491B33A",
                 "94EC565217EF3AD2",
                 "6D5FCB91B158F2F6",
             },
-            //[ResourceType.] = new List<string>()
-            //{
-            //     "D5F5DDA636EB2E1A",
-            //},
-            [ResourceType.GeometryResourceResource] = new List<string>()
+            [ResourceType.BufferResource] = new List<string>() // noVariants
+            {
+                 "D5F5DDA636EB2E1A",
+            },
+            [ResourceType.GeometryResourceResource] = new List<string>() // noVariants
             {
                 "581A503DA8D3E98A",
             },
@@ -307,18 +307,18 @@ namespace LibSanBag
                 "D18B41DB83AA2D3D",
                 "0D82CDBF668F2669",
             },
-            //[ResourceType.] = new List<string>()
-            //{
-            //     "1248859D98C4FAC2",
-            //},
-            [ResourceType.TextureResource] = new List<string>()
+            [ResourceType.MeshResource] = new List<string>() // noVariants
+            {
+                 "1248859D98C4FAC2",
+            },
+            [ResourceType.TextureResource] = new List<string>() // noVariants
             {
                 "9A8D4BBD19B4CD55",
             },
-            //[ResourceType.] = new List<string>()
-            //{
-            //     "6D98A5D596161190",
-            //},
+            [ResourceType.VertexDefinitionResourceResource] = new List<string>() // noVariants
+            {
+                 "6D98A5D596161190",
+            },
             //[ResourceType.] = new List<string>()
             //{
             //     "051D3C49B715C035",
@@ -356,11 +356,11 @@ namespace LibSanBag
             //{
             //     "44CFE32795D22FB8",
             //},
-            [ResourceType.TerrainRuntimeDecalTextureData] = new List<string>()
+            [ResourceType.TerrainRuntimeDecalTextureData] = new List<string>() // noVariants
             {
                  "9882829EBEC65BF7",
             },
-            [ResourceType.TerrainRuntimeTextureData] = new List<string>()
+            [ResourceType.TerrainRuntimeTextureData] = new List<string>() // noVariants
             {
                  "4A5A9CCBB88BC6A8",
                  "0D35975A737B7740",
@@ -368,42 +368,42 @@ namespace LibSanBag
                  "024124019CCA5F13",
                  "BAE152F9473BFD9E",
             },
-            //[ResourceType.] = new List<string>()
-            //{
-            //     "B725168F4D55F177",
-            //     "C753E74EB6A75D30",
-            //     "1C6A583E69BBBB63",
-            //     "3AD97681339BE3F9",
-            //     "F55AFE96DF07399A",
-            //     "E60417205D24B485",
-            //     "27B4B1C5BE5CB7E2",
-            //     "A4309AAE24195D9F",
-            //},
-            //[ResourceType.] = new List<string>()
-            //{
-            //     "2CDABEE8BC4DFD3A",
-            //     "F7F4BF1D96AE304B",
-            //     "BFCFC0233EEB4828",
-            //     "EC59C258E54EF2E2",
-            //     "7E3CA64894C50744",
-            //     "904B1504D2231CA3",
-            //     "3900DF4491028AAB",
-            //     "F6559F7ACC6B0FFA",
-            //     "5247C0A7AADC4BAC",
-            //     "3110ED031DA3FAF5",
-            //     "C331ED9D8D072201",
-            //     "B2317354D8CBEE44",
-            //     "6653D0B621C48F71",
-            //     "DCE772D42637897D",
-            //     "6F97B6CF2D949F8E",
-            //     "1CC505341F2922C1",
-            //},
-            [ResourceType.ScriptCompiledBytecodeResource] = new List<string>()
+            [ResourceType.TerrainRuntimeData] = new List<string>() // Terrain-RuntimeData // noVariants
+            {
+                 "B725168F4D55F177",
+                 "C753E74EB6A75D30",
+                 "1C6A583E69BBBB63",
+                 "3AD97681339BE3F9",
+                 "F55AFE96DF07399A",
+                 "E60417205D24B485",
+                 "27B4B1C5BE5CB7E2",
+                 "A4309AAE24195D9F",
+            },
+            [ResourceType.TerrainSourceData] = new List<string>() // Terrain-SourceData // noVariants
+            {
+                 "2CDABEE8BC4DFD3A",
+                 "F7F4BF1D96AE304B",
+                 "BFCFC0233EEB4828",
+                 "EC59C258E54EF2E2",
+                 "7E3CA64894C50744",
+                 "904B1504D2231CA3",
+                 "3900DF4491028AAB",
+                 "F6559F7ACC6B0FFA",
+                 "5247C0A7AADC4BAC",
+                 "3110ED031DA3FAF5",
+                 "C331ED9D8D072201",
+                 "B2317354D8CBEE44",
+                 "6653D0B621C48F71",
+                 "DCE772D42637897D",
+                 "6F97B6CF2D949F8E",
+                 "1CC505341F2922C1",
+            },
+            [ResourceType.ScriptCompiledBytecodeResource] = new List<string>() // noVariants
             {
                 "C84707DA067146A9",
                 "E6AC3244F1076F7B",
             },
-            [ResourceType.ScriptMetadataResource] = new List<string>()
+            [ResourceType.ScriptMetadataResource] = new List<string>() // noVariants
             {
                 "02575C46762A7C3C",
                 "D97016058B281211",
@@ -412,60 +412,60 @@ namespace LibSanBag
                 "D75DE17DF1892F86",
                 "0A316EA155E30EDA",
             },
-            [ResourceType.ScriptResource] = new List<string>()
+            [ResourceType.ScriptResource] = new List<string>() // noVariants
             {
                 "152137D932762673",
                 "A5E5740CAF72F738",
             },
-            [ResourceType.hkaAnimationBindingResource] = new List<string>()
+            [ResourceType.hkaAnimationBindingResource] = new List<string>() // noVariants
             {
                 "FCED9919CB285F6F",
             },
-            [ResourceType.hkaSekeletonResource] = new List<string>()
+            [ResourceType.hkaSkeletonResource] = new List<string>() // noVariants
             {
                 "B728547FDB2C4522",
             },
-            [ResourceType.ScriptSourceTextResource] = new List<string>()
+            [ResourceType.ScriptSourceTextResource] = new List<string>() // noVariants
             {
                 "6301A7D31AA6F628",
                 "DEDD8914F8DFE71E",
             },
-            [ResourceType.hknpMaterialResource] = new List<string>()
+            [ResourceType.hknpMaterialResource] = new List<string>() // noVariants
             {
                 "161F13AFEC1887AD",
             },
-            [ResourceType.hknpPhysicsSystemDataResource] = new List<string>()
+            [ResourceType.hknpPhysicsSystemDataResource] = new List<string>() // noVariants
             {
                 "E06EFC4882AF72E6",
             },
-            //[ResourceType.] = new List<string>()
-            //{
-            //     "92C58B13B94629AA",
-            //},
-            [ResourceType.hkbBehaviorGraphResource] = new List<string>()
+            [ResourceType.hkaSkeletonMapperResource] = new List<string>() // hkaSkeletonMapper-Resource // noVariants
+            {
+                 "92C58B13B94629AA",
+            },
+            [ResourceType.hkbBehaviorGraphResource] = new List<string>() // noVariants
             {
                  "8A45B4789B7B4BDA",
             },
-            [ResourceType.hkbCharacterDataResource] = new List<string>()
+            [ResourceType.hkbCharacterDataResource] = new List<string>() // noVariants
             {
                  "E0027325AE4E853F",
             },
-            [ResourceType.hkbProjectDataResource] = new List<string>()
+            [ResourceType.hkbProjectDataResource] = new List<string>() // noVariants
             {
                  "1FD92E78456F6EB8",
             },
-            //[ResourceType.] = new List<string>()
-            //{
-            //     "FD48F1A0E5BA9AE7",
-            //},
-            [ResourceType.hknpShapeResource] = new List<string>()
+            [ResourceType.hknpRagdollDataResource] = new List<string>() // hknpRagdollData-Resource // noVariants
+            {
+                 "FD48F1A0E5BA9AE7",
+            },
+            [ResourceType.hknpShapeResource] = new List<string>() // noVariants
             {
                 "A11E4B205F3213D8",
             },
-            //[ResourceType.] = new List<string>()
-            //{
-            //     "07D6E3A87B889802",
-            //},
+            [ResourceType.hkpConstraintDataResource] = new List<string>() // hkpConstraintData-Resource // noVariants
+            {
+                 "07D6E3A87B889802",
+            },
         };
     }
 }
