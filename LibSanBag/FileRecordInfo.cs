@@ -45,6 +45,17 @@ namespace LibSanBag
             GeometryResourceCanonical,
             GeometryResourceImport,
             SoundImport,
+            hkbBehaviorGraphResource,
+            hkbCharacterDataResource,
+            LuaScriptResource,
+            AudioGraphResource,
+            TerrainRuntimeTextureData,
+            TerrainRuntimeDecalTextureData,
+            BehaviorProjectData,
+            hkbProjectDataResource,
+            PickableModelResource,
+            SpeechGraphicsEngineResource,
+            SpeechGraphicsAnimationResource,
             Unknown,
         }
 
