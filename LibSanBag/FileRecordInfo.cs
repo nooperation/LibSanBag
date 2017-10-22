@@ -63,6 +63,8 @@ namespace LibSanBag
             hkpConstraintDataResource,
             hkaSkeletonMapperResource,
             hknpRagdollDataResource,
+            TestResource,
+            HeightmapImport,
         }
 
         public enum PayloadType

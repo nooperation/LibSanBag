@@ -37,7 +37,7 @@ namespace LibSanBag
             //{
             //    "08FE8AEA3C42C6A4",
             //},
-            [ResourceType.BlueprintResource] = new List<string>
+            [ResourceType.BlueprintResource] = new List<string> // noVariants
             {
                 "EAE4930C62C804A0",
                 "F9D85F400B9D36ED",
@@ -81,7 +81,7 @@ namespace LibSanBag
                 "445C85C1B379DEF5",
                 "CA2CE5ECB73235D2",
             },
-            [ResourceType.ClusterSource] = new List<string>()
+            [ResourceType.ClusterSource] = new List<string>() // noVariants
             {
                 "EF8F474EAA16AB5E",
                 "04C2F16F40E01874",
@@ -100,11 +100,11 @@ namespace LibSanBag
             {
                 "FA4AA7BC04C023EA",
             },
-            //[ResourceType.] = new List<string>()
-            //{
-            //    "30F1F410150FE2EA",
-            //},
-            [ResourceType.WorldChunkSource] = new List<string>()
+            [ResourceType.TestResource] = new List<string>() // noVariants
+            {
+                "30F1F410150FE2EA",
+            },
+            [ResourceType.WorldChunkSource] = new List<string>() // noVariants
             {
                 "500DE0FDE708E6A6",
                 "784CCF8A091E11E3",
@@ -134,7 +134,7 @@ namespace LibSanBag
                 "F6799E449B62D8B9",
                 "867C247C814D7098",
             },
-            [ResourceType.WorldSource] = new List<string>()
+            [ResourceType.WorldSource] = new List<string>() // noVariants
             {
                 "9FC809792B20A5A2",
                 "A887ECA9F519C56E",
@@ -153,7 +153,7 @@ namespace LibSanBag
                 "0B4054CCFE539F38",
                 "64CC0F97184D14C1",
             },
-            [ResourceType.LicenseResource] = new List<string>()
+            [ResourceType.LicenseResource] = new List<string>() // noVariants
             {
                 "0D56CE89D133F52B",
                 "EBB993B8AECC41B5",
@@ -271,10 +271,10 @@ namespace LibSanBag
                 "78E422AAA1E1BA00",
                 "7C29DACD363B945A",
             },
-            //[ResourceType.] = new List<string>()
-            //{
-            //     "F196C4728C3BDA4C",
-            //},
+            [ResourceType.HeightmapImport] = new List<string>() // Heightmap-Import // noVariants
+            {
+                 "F196C4728C3BDA4C",
+            },
             //[ResourceType.] = new List<string>()
             //{
             //     "AC9FBFC60E051E0D",
