@@ -28,7 +28,24 @@ namespace LibSanBag
             ScriptMetadataResource,
             ScriptCompiledBytecodeResource,
             ScriptSourceTextResource,
-            Unknown
+            ClusterSource,
+            WorldChunkSource,
+            LicenseResource,
+            WorldDefinition,
+            AudioMaterialResource,
+            MaterialResource,
+            ScriptResource,
+            hkAnimationBindingResource,
+            hkSekeletonResource,
+            hknpMaterialResource,
+            hknpPhysicsSystemDataResource,
+            hknpShapeResource,
+            FileResource,
+            TextureImport,
+            GeometryResourceCanonical,
+            GeometryResourceImport,
+            SoundImport,
+            Unknown,
         }
 
         public enum PayloadType
