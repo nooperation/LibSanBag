@@ -34,7 +34,7 @@ namespace LibSanBag
             MaterialResource,
             ScriptResource,
             hkaAnimationBindingResource,
-            hkaSekeletonResource,
+            hkaSkeletonResource,
             hknpMaterialResource,
             hknpPhysicsSystemDataResource,
             hknpShapeResource,
@@ -54,7 +54,21 @@ namespace LibSanBag
             PickableModelResource,
             SpeechGraphicsEngineResource,
             SpeechGraphicsAnimationResource,
+            VertexDefinitionResourceResource,
+            BufferResource,
+            MeshResource,
+            TerrainRuntimeData,
+            TerrainSourceData,
+            hkpConstraintDataResource,
+            hkaSkeletonMapperResource,
+            hknpRagdollDataResource,
+            TestResource,
+            HeightmapImport,
+            hknpShapeImport,
+            AnimationCanonical,
+            AnimationImport,
             Unknown,
+
         }
 
         public enum PayloadType
@@ -65,8 +79,14 @@ namespace LibSanBag
 
         public enum VariantType
         {
-            NoVariants,
-            PcClient,
+            NoVariants,     // "noVariants"
+            Server,         // "server"
+            PcClient,       // "pcClient"
+            Payload,        // "payload"
+            Manifest,       // "manifest"
+            Debug,          // "debug"
+            Capabilities,   // "capabilities"
+            Null,           // "null"
             Unknown
         }
 
@@ -167,7 +187,7 @@ namespace LibSanBag
                 case "Material-Resource": return ResourceType.MaterialResource;
                 case "Script-Resource": return ResourceType.ScriptResource;
                 case "hkaAnimationBinding-Resource": return ResourceType.hkaAnimationBindingResource;
-                case "hkaSekeleton-Resource": return ResourceType.hkaSekeletonResource;
+                case "hkaSkeleton-Resource": return ResourceType.hkaSkeletonResource;
                 case "hknpMaterial-Resource": return ResourceType.hknpMaterialResource;
                 case "hknpPhysicsSystemData-Resource": return ResourceType.hknpPhysicsSystemDataResource;
                 case "hknpShape-Resource": return ResourceType.hknpShapeResource;
@@ -187,6 +207,19 @@ namespace LibSanBag
                 case "PickableModel-Resource": return ResourceType.PickableModelResource;
                 case "SpeechGraphicsEngine-Resource": return ResourceType.SpeechGraphicsEngineResource;
                 case "SpeechGraphicsAnimation-Resource": return ResourceType.SpeechGraphicsAnimationResource;
+                case "VertexDefinitionResource-Resource": return ResourceType.VertexDefinitionResourceResource;
+                case "Buffer-Resource": return ResourceType.BufferResource;
+                case "Mesh-Resource": return ResourceType.MeshResource;
+                case "Terrain-RuntimeData": return ResourceType.TerrainRuntimeData;
+                case "Terrain-SourceData": return ResourceType.TerrainSourceData;
+                case "hkpConstraintData-Resource": return ResourceType.hkpConstraintDataResource;
+                case "hkaSkeletonMapper-Resource": return ResourceType.hkaSkeletonMapperResource;
+                case "hknpRagdollData-Resource": return ResourceType.hknpRagdollDataResource;
+                case "Test-Resource": return ResourceType.TestResource;
+                case "Heightmap-Import": return ResourceType.HeightmapImport;
+                case "hknpShape-Import": return ResourceType.hknpShapeImport;
+                case "Animation-Canonical": return ResourceType.AnimationCanonical;
+                case "Animation-Import": return ResourceType.AnimationImport;
             }
 
             return ResourceType.Unknown;
