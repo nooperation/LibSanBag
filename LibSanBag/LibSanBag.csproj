@@ -86,6 +86,7 @@
     <Compile Include="FileResources\Manifest.cs" />
     <Compile Include="FileResources\ScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\ScriptSourceTextResource.cs" />
+    <Compile Include="FileResources\LuaScriptResource.cs" />
     <Compile Include="FileResources\TextureResource.cs" />
     <Compile Include="ITimeProvider.cs" />
     <Compile Include="Manifest.cs" />

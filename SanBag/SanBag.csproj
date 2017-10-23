@@ -85,6 +85,7 @@
     <Compile Include="ViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
+    <Compile Include="ViewModels\LuaScriptViewModel.cs" />
     <Compile Include="ViewModels\ScriptSourceTextResourceViewModel.cs" />
     <Compile Include="ViewModels\TextureResourceViewModel.cs" />
     <Compile Include="Views\Converters\IConverter.cs" />
