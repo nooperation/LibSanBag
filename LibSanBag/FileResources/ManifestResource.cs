@@ -12,13 +12,13 @@ namespace LibSanBag.FileResources
     {
         public class ManifestEntry
         {
-            public string HashString;
-            public long Unknown;
-            public string Name;
+            public string HashString { get; set; }
+            public long Unknown { get; set; }
+            public string Name { get; set; }
 
             public override string ToString()
             {
-                return $"{Unknown} | {HashString}.{Name}";
+                return $"{HashString}.{Name}";
             }
         }
 

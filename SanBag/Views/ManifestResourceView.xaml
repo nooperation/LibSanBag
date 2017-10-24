@@ -20,7 +20,7 @@
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid Name="dataGridContent" ItemsSource="{Binding ParentViewModel.Records, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False"  SelectedItem="{Binding SelectedRecord}">
+        <DataGrid ItemsSource="{Binding ParentViewModel.Records, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False"  SelectedItem="{Binding SelectedRecord}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Copy Url" Command="{Binding CommandCopyAsUrl}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}" />
@@ -33,7 +33,17 @@
         </DataGrid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
         <Grid Grid.Column="2">
-            <ListBox ItemsSource="{Binding ManifestList}" />
+            <DataGrid ItemsSource="{Binding ManifestList, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Export" Command="{Binding CommandManifestExportSelected}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding HashString}" ClipboardContentBinding="{x:Null}" Header="Hash" Width="*"/>
+                    <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Type" Width="*"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

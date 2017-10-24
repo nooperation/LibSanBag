@@ -14,12 +14,15 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using static LibSanBag.FileResources.ManifestResource;
 
 namespace SanBag.ViewModels
 {
     public class ManifestViewModel : GenericBagViewModel, INotifyPropertyChanged
     {
+        public CommandManifestExportSelected CommandManifestExportSelected { get; set; }
+
         private FileRecord _selectedRecord;
         public FileRecord SelectedRecord
         {
@@ -33,6 +36,7 @@ namespace SanBag.ViewModels
         }
 
         private List<ManifestEntry> _manifestList = new List<ManifestEntry>();
+
         public List<ManifestEntry> ManifestList
         {
             get => _manifestList;
@@ -47,6 +51,8 @@ namespace SanBag.ViewModels
                 : base(parentViewModel)
         {
             ExportFilter += "|Manifest Dump|*.txt";
+
+            CommandManifestExportSelected = new CommandManifestExportSelected(this);
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -108,6 +114,33 @@ namespace SanBag.ViewModels
             File.WriteAllText(outputPath, sb.ToString());
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
+        }
+
+        internal void ExportRecords(List<ManifestEntry> recordsToExport)
+        {
+            if (recordsToExport.Count == 0)
+            {
+                return;
+            }
+
+            var dialog = new SaveFileDialog();
+            dialog.Filter = ExportFilter;
+
+            if (recordsToExport.Count == 1)
+            {
+                dialog.FileName = recordsToExport[0].Name;
+            }
+            else
+            {
+                dialog.FileName = "Multiple Files";
+            }
+
+            if (dialog.ShowDialog() == true)
+            {
+                var outputDirectory = Path.GetDirectoryName(dialog.FileName);
+
+                // TODO
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
