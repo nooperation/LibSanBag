@@ -132,7 +132,13 @@ namespace LibSanBag.Tests
             var resourceNames = new Dictionary<string, FileRecordInfo.VariantType>
             {
                 ["noVariants"] = FileRecordInfo.VariantType.NoVariants,
+                ["server"] = FileRecordInfo.VariantType.Server,
                 ["pcClient"] = FileRecordInfo.VariantType.PcClient,
+                ["payload"] = FileRecordInfo.VariantType.Payload,
+                ["manifest"] = FileRecordInfo.VariantType.Manifest,
+                ["debug"] = FileRecordInfo.VariantType.Debug,
+                ["capabilities"] = FileRecordInfo.VariantType.Capabilities,
+                ["null"] = FileRecordInfo.VariantType.Null,
                 ["unknown"] = FileRecordInfo.VariantType.Unknown
             };
 
@@ -151,6 +157,7 @@ namespace LibSanBag.Tests
             var resourceNames = new Dictionary<string, FileRecordInfo.PayloadType>
             {
                 ["payload"] = FileRecordInfo.PayloadType.Payload,
+                ["manifest"] = FileRecordInfo.PayloadType.Manifest,
                 ["unknown"] = FileRecordInfo.PayloadType.Unknown,
             };
 
