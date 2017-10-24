@@ -83,7 +83,7 @@
     <Compile Include="Bag.cs" />
     <Compile Include="FileRecord.cs" />
     <Compile Include="FileRecordInfo.cs" />
-    <Compile Include="FileResources\Manifest.cs" />
+    <Compile Include="FileResources\ManifestResource.cs" />
     <Compile Include="FileResources\ScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\ScriptSourceTextResource.cs" />
     <Compile Include="FileResources\LuaScriptResource.cs" />

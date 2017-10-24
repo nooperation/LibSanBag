@@ -136,6 +136,17 @@ namespace SanBag.ViewModels
                 Name = "LuaScriptResource"
             });
 
+            var manifestViewModel = new ManifestViewModel(this);
+            Views.Add(new ViewType
+            {
+                View = new ManifestResourceView
+                {
+                    DataContext = manifestViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && manifestViewModel.IsValidRecord(record)),
+                Name = "Manifest"
+            });
+
             CurrentView = Views[0];
         }
 
