@@ -74,7 +74,8 @@ namespace LibSanBag
         public enum PayloadType
         {
             Payload,
-            Unknown
+            Manifest,
+            Unknown,
         }
 
         public enum VariantType
@@ -144,10 +145,33 @@ namespace LibSanBag
             switch (variant_type_string)
             {
                 case "noVariants": return VariantType.NoVariants;
+                case "server": return VariantType.Server;
                 case "pcClient": return VariantType.PcClient;
+                case "payload": return VariantType.Payload;
+                case "manifest": return VariantType.Manifest;
+                case "debug": return VariantType.Debug;
+                case "capabilities": return VariantType.Capabilities;
+                case "null": return VariantType.Null;
             }
 
             return VariantType.Unknown;
+        }
+
+        public static string GetVariantTypeName(VariantType variant_type)
+        {
+            switch (variant_type)
+            {
+                case VariantType.NoVariants: return "noVariants";
+                case VariantType.Server: return "server";
+                case VariantType.PcClient: return "pcClient";
+                case VariantType.Payload: return "payload";
+                case VariantType.Manifest: return "manifest";
+                case VariantType.Debug: return "debug";
+                case VariantType.Capabilities: return "capabilities";
+                case VariantType.Null: return "null";
+            }
+
+            return "unknown";
         }
 
         public static PayloadType GetPayloadType(string payload_type_string)
@@ -155,9 +179,21 @@ namespace LibSanBag
             switch (payload_type_string)
             {
                 case "payload": return PayloadType.Payload;
+                case "manifest": return PayloadType.Manifest;
             }
 
             return PayloadType.Unknown;
+        }
+
+        public static string GetPayloadTypeName(PayloadType payload_type)
+        {
+            switch (payload_type)
+            {
+                case PayloadType.Payload: return "payload";
+                case PayloadType.Manifest: return "manifest";
+            }
+
+            return "unknown";
         }
 
         public static ResourceType GetResourceType(string resource_type_string)
@@ -223,6 +259,71 @@ namespace LibSanBag
             }
 
             return ResourceType.Unknown;
+        }
+
+        public static string GetResourceTypeName(ResourceType resourceType)
+        {
+            switch (resourceType)
+            {
+                case ResourceType.BankResource: return "Bank-Resource";
+                case ResourceType.BlueprintResource: return "Blueprint-Resource";
+                case ResourceType.ClusterDefinition: return "Cluster-Definition";
+                case ResourceType.EnvironmentResource: return "Environment-Resource";
+                case ResourceType.GeometryResourceResource: return "GeometryResource-Resource";
+                case ResourceType.ModelMorphResource: return "ModelMorph-Resource";
+                case ResourceType.PickResource: return "Pick-Resource";
+                case ResourceType.SoundResource: return "Sound-Resource";
+                case ResourceType.TextureResource: return "Texture-Resource";
+                case ResourceType.TextureSource: return "Texture-Source";
+                case ResourceType.WorldChunkDefinition: return "WorldChunk-Definition";
+                case ResourceType.WorldSource: return "World-Source";
+                case ResourceType.ScriptMetadataResource: return "ScriptMetadata-Resource";
+                case ResourceType.ScriptCompiledBytecodeResource: return "ScriptCompiledBytecode-Resource";
+                case ResourceType.ScriptSourceTextResource: return "ScriptSourceText-Resource";
+                case ResourceType.ClusterSource: return "Cluster-Source";
+                case ResourceType.WorldChunkSource: return "WorldChunk-Source";
+                case ResourceType.LicenseResource: return "License-Resource";
+                case ResourceType.WorldDefinition: return "World-Definition";
+                case ResourceType.AudioMaterialResource: return "AudioMaterial-Resource";
+                case ResourceType.MaterialResource: return "Material-Resource";
+                case ResourceType.ScriptResource: return "Script-Resource";
+                case ResourceType.hkaAnimationBindingResource: return "hkaAnimationBinding-Resource";
+                case ResourceType.hkaSkeletonResource: return "hkaSkeleton-Resource";
+                case ResourceType.hknpMaterialResource: return "hknpMaterial-Resource";
+                case ResourceType.hknpPhysicsSystemDataResource: return "hknpPhysicsSystemData-Resource";
+                case ResourceType.hknpShapeResource: return "hknpShape-Resource";
+                case ResourceType.FileResource: return "File-Resource";
+                case ResourceType.TextureImport: return "Texture-Import";
+                case ResourceType.GeometryResourceCanonical: return "GeometryResource-Canonical";
+                case ResourceType.GeometryResourceImport: return "GeometryResource-Import";
+                case ResourceType.SoundImport: return "Sound-Import";
+                case ResourceType.hkbBehaviorGraphResource: return "hkbBehaviorGraph-Resource";
+                case ResourceType.hkbCharacterDataResource: return "hkbCharacterData-Resource";
+                case ResourceType.LuaScriptResource: return "LuaScript-Resource";
+                case ResourceType.AudioGraphResource: return "AudioGraph-Resource";
+                case ResourceType.TerrainRuntimeTextureData: return "Terrain-RuntimeTextureData";
+                case ResourceType.TerrainRuntimeDecalTextureData: return "Terrain-RuntimeDecalTextureData";
+                case ResourceType.BehaviorProjectData: return "BehaviorProject-Data";
+                case ResourceType.hkbProjectDataResource: return "hkbProjectData-Resource";
+                case ResourceType.PickableModelResource: return "PickableModel-Resource";
+                case ResourceType.SpeechGraphicsEngineResource: return "SpeechGraphicsEngine-Resource";
+                case ResourceType.SpeechGraphicsAnimationResource: return "SpeechGraphicsAnimation-Resource";
+                case ResourceType.VertexDefinitionResourceResource: return "VertexDefinitionResource-Resource";
+                case ResourceType.BufferResource: return "Buffer-Resource";
+                case ResourceType.MeshResource: return "Mesh-Resource";
+                case ResourceType.TerrainRuntimeData: return "Terrain-RuntimeData";
+                case ResourceType.TerrainSourceData: return "Terrain-SourceData";
+                case ResourceType.hkpConstraintDataResource: return "hkpConstraintData-Resource";
+                case ResourceType.hkaSkeletonMapperResource: return "hkaSkeletonMapper-Resource";
+                case ResourceType.hknpRagdollDataResource: return "hknpRagdollData-Resource";
+                case ResourceType.TestResource: return "Test-Resource";
+                case ResourceType.HeightmapImport: return "Heightmap-Import";
+                case ResourceType.hknpShapeImport: return "hknpShape-Import";
+                case ResourceType.AnimationCanonical: return "Animation-Canonical";
+                case ResourceType.AnimationImport: return "Animation-Import";
+            }
+
+            return "Unknown";
         }
     }
 }

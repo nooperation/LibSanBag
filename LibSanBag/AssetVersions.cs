@@ -7,7 +7,7 @@ using static LibSanBag.FileRecordInfo;
 
 namespace LibSanBag
 {
-    static class AssetVersions
+    public static class AssetVersions
     {
         public static List<string> GetResourceVersions(ResourceType resourceType)
         {
