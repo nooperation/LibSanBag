@@ -75,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\CommandManifestCancelExport.cs" />
     <Compile Include="Commands\CommandCancelExport.cs" />
     <Compile Include="Commands\CommandExportSelected.cs" />
     <Compile Include="Commands\CommandManifestExportSelected.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Models\ExportParams.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
+    <Compile Include="ViewModels\ExportManifestViewModel.cs" />
     <Compile Include="ViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
@@ -93,6 +95,9 @@
     <Compile Include="Views\Converters\IConverter.cs" />
     <Compile Include="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\InvertBoolConverter.cs" />
+    <Compile Include="Views\ExportManifestView.xaml.cs">
+      <DependentUpon>ExportManifestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GenericBagView.xaml.cs">
       <DependentUpon>GenericBagView.xaml</DependentUpon>
     </Compile>
@@ -110,6 +115,10 @@
     <Compile Include="Views\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ExportManifestView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

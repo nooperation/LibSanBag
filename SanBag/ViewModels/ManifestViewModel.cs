@@ -140,6 +140,19 @@ namespace SanBag.ViewModels
                 var outputDirectory = Path.GetDirectoryName(dialog.FileName);
 
                 // TODO
+
+                var exportManifestViewModel = new ExportManifestViewModel
+                {
+                    RecordsToExport = recordsToExport,
+                    BagPath = ParentViewModel.BagPath,
+                    OutputDirectory = outputDirectory,
+                };
+
+                var exportDialog = new ExportManifestView
+                {
+                    DataContext = exportManifestViewModel
+                };
+                exportDialog.ShowDialog();
             }
         }
 
