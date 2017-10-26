@@ -349,7 +349,7 @@ namespace LibSanBag
                         var itemName = $"{ resourceId }.{ resourceTypeName}.v{ versions[i].ToLower()}.{payloadType}.v0.noVariants";
                         var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
                         var bytes = await client.GetByteArrayAsync(address);
-                        
+
                         return new DownloadResults
                         {
                             Name = itemName,
