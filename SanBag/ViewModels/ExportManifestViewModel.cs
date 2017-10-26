@@ -22,7 +22,6 @@ namespace SanBag.ViewModels
 
         public CommandManifestCancelExport CommandManifestCancelExport { get; set; }
         public string OutputDirectory { get; set; }
-        public string BagPath { get; set; }
         public List<ManifestEntry> RecordsToExport { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -86,9 +85,6 @@ namespace SanBag.ViewModels
             }
         }
 
-        //public Action<ExportParameters> CustomSaveFunc { get; set; }
-        public string FileExtension { get; set; }
-
         public ExportManifestViewModel()
         {
             CommandManifestCancelExport = new CommandManifestCancelExport(this);
@@ -100,12 +96,6 @@ namespace SanBag.ViewModels
             {
                 ExportCancellationTokenSource.Cancel();
             }
-        }
-
-        private void OnProgressReport(FileRecord record, uint bytesRead)
-        {
-            MinorProgress = 100.0f * ((float)bytesRead / record.Length);
-            TotalRead = bytesRead;
         }
 
         public bool Export(List<ManifestEntry> recordsToExport, string outputDirectory, Func<bool> shouldCancel)
@@ -131,23 +121,25 @@ namespace SanBag.ViewModels
 
                     foreach (var payloadType in payloadTypes)
                     {
-                        var downloadResult = DownloadResourceAsync(record.HashString.ToLower(), assetType, payloadType).Result;
-                        if (downloadResult == null)
+                        FileRecordInfo.DownloadResults downloadResult;
+                        try
                         {
-                            MessageBox.Show("Failed");
-                            break;
+                            downloadResult = FileRecordInfo.DownloadResourceAsync(record.HashString.ToLower(), assetType, payloadType).Result;
+                            var outputPath = Path.Combine(outputDirectory, downloadResult.Name);
+
+                            using (var out_stream = File.OpenWrite(outputPath))
+                            {
+                                out_stream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
+                            }
+
+                            ++totalExported;
+                            Progress = 100.0f * (totalExported / (float)(RecordsToExport.Count * payloadTypes.Count));
                         }
-
-                        var outputPath = Path.Combine(outputDirectory, downloadResult.Item1);
-
-                        using (var out_stream = File.OpenWrite(outputPath))
+                        catch (Exception)
                         {
-                            out_stream.Write(downloadResult.Item2, 0, downloadResult.Item2.Length);
+                            continue;
                         }
                     }
-
-                    ++totalExported;
-                    Progress = 100.0f * (totalExported / (float)RecordsToExport.Count);
                 }
                 catch (Exception ex)
                 {
@@ -197,31 +189,6 @@ namespace SanBag.ViewModels
                 MessageBox.Show($"Successfully exported {RecordsToExport.Count} record(s) to {OutputDirectory}", "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             IsRunning = false;
-        }
-
-        private async static Task<Tuple<string, byte[]>> DownloadResourceAsync(string resourceId, FileRecordInfo.ResourceType resourceType, string payloadType)
-        {
-            using (var client = new HttpClient())
-            {
-                var resourceTypeName = FileRecordInfo.GetResourceTypeName(resourceType);
-                var versions = AssetVersions.GetResourceVersions(resourceType);
-                for (int i = 0; i < versions.Count; i++)
-                {
-                    try
-                    {
-                        var itemName = $"{ resourceId }.{ resourceTypeName}.v{ versions[i].ToLower()}.{payloadType}.v0.noVariants";
-                        var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
-                        var bytes = await client.GetByteArrayAsync(address);
-                        return Tuple.Create(itemName, bytes);
-                    }
-                    catch (Exception)
-                    {
-                        continue;
-                    }
-                }
-            }
-
-            return null;
         }
     }
 }
