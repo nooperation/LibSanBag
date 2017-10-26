@@ -75,22 +75,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\CommandManifestCancelExport.cs" />
     <Compile Include="Commands\CommandCancelExport.cs" />
     <Compile Include="Commands\CommandExportSelected.cs" />
+    <Compile Include="Commands\CommandManifestExportSelected.cs" />
     <Compile Include="Commands\CommandOpenBag.cs" />
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
     <Compile Include="Models\ExportParams.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
+    <Compile Include="ViewModels\ExportManifestViewModel.cs" />
     <Compile Include="ViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
     <Compile Include="ViewModels\LuaScriptViewModel.cs" />
+    <Compile Include="ViewModels\ManifestViewModel.cs" />
     <Compile Include="ViewModels\ScriptSourceTextResourceViewModel.cs" />
     <Compile Include="ViewModels\TextureResourceViewModel.cs" />
     <Compile Include="Views\Converters\IConverter.cs" />
     <Compile Include="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\InvertBoolConverter.cs" />
+    <Compile Include="Views\ExportManifestView.xaml.cs">
+      <DependentUpon>ExportManifestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GenericBagView.xaml.cs">
       <DependentUpon>GenericBagView.xaml</DependentUpon>
     </Compile>
@@ -99,12 +106,19 @@
     <Compile Include="Views\ScriptCompiledBytecodeResourceView.xaml.cs">
       <DependentUpon>ScriptCompiledBytecodeResourceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ManifestResourceView.xaml.cs">
+      <DependentUpon>ManifestResourceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ScriptSourceTextResourceView.xaml.cs">
       <DependentUpon>ScriptSourceTextResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ExportManifestView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -128,6 +142,10 @@
     <Page Include="Views\ScriptCompiledBytecodeResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ManifestResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ScriptSourceTextResourceView.xaml">
       <SubType>Designer</SubType>

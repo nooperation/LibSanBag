@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LibSanBag.ResourceUtils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class Manifest
+    public class ManifestResource
     {
         public class ManifestEntry
         {
-            public string HashString;
-            public long Unknown;
-            public string Name;
+            public string HashString { get; set; }
+            public long Unknown { get; set; }
+            public string Name { get; set; }
 
             public override string ToString()
             {
-                return $"{Unknown} | {HashString}.{Name}";
+                return $"{HashString}.{Name}";
             }
         }
 
@@ -26,12 +27,22 @@ namespace LibSanBag.FileResources
         public List<Tuple<long, long, long>> UnknownListA;
         public List<int> UnknownListB;
 
-        public Manifest(Stream manifestStream)
+        public ManifestResource(Stream sourceStream, FileRecord fileRecord)
+        {
+            using (var manifestStream = new MemoryStream())
+            {
+                fileRecord.Save(sourceStream, manifestStream);
+                manifestStream.Seek(0, SeekOrigin.Begin);
+                InitFrom(manifestStream);
+            }
+        }
+
+        public ManifestResource(Stream manifestStream)
         {
             InitFrom(manifestStream);
         }
 
-        public Manifest(byte[] manifestBytes)
+        public ManifestResource(byte[] manifestBytes)
         {
             using (var manifestStream = new MemoryStream(manifestBytes))
             {
