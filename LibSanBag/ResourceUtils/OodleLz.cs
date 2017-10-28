@@ -19,9 +19,13 @@ namespace LibSanBag.ResourceUtils
         [DllImport("oo2core_1_win64.dll")]
         private static extern ulong OodleLZ_Decompress(byte[] compressed, ulong compressedSize, byte[] decompressed, ulong decompressedSize, int a, int b, int c, IntPtr d, IntPtr e, IntPtr f, IntPtr g, IntPtr h, IntPtr i, int j);
 
-        private static bool _isDllAvailable = false;
+        private static bool _isDllAvailable;
         public static bool IsAvailable => _isDllAvailable;
 
+        /// <summary>
+        /// Sets up the current environment in attempt to find sansar's oodle dll
+        /// </summary>
+        /// <returns>True if oodle was found, otherwise false</returns>
         private static bool SetupEnvironment()
         {
             try
@@ -56,6 +60,13 @@ namespace LibSanBag.ResourceUtils
             _isDllAvailable = SetupEnvironment();
         }
 
+        /// <summary>
+        /// Decompresses an oodle compressed buffer
+        /// </summary>
+        /// <param name="compressedData">Oodle compressed data</param>
+        /// <param name="decompressedSize">Expected size of the compressed data</param>
+        /// <returns>Decompressed data on success</returns>
+        /// <exception cref="Exception">Failed to decompress</exception>
         public static byte[] Decompress(byte[] compressedData, ulong decompressedSize)
         {
             if (IsAvailable == false)
@@ -88,6 +99,12 @@ namespace LibSanBag.ResourceUtils
             return fixedArray;
         }
 
+        /// <summary>
+        /// Decompresses a sansar resource/asset
+        /// </summary>
+        /// <param name="resourceStream">Stream containing sansar resource</param>
+        /// <returns>Raw decompressed resource data on success</returns>
+        /// <exception cref="Exception">Failed to decompress</exception>
         public static byte[] DecompressResource(Stream resourceStream)
         {
             resourceStream.Seek(0, SeekOrigin.Begin);
@@ -131,6 +148,12 @@ namespace LibSanBag.ResourceUtils
             }
         }
 
+        /// <summary>
+        /// Decompresses a sansar resource/asset
+        /// </summary>
+        /// <param name="resourcePath">Path to a sansar resource</param>
+        /// <returns>Raw decompressed resource data on success</returns>
+        /// <exception cref="Exception">Failed to decompress</exception>
         public static byte[] DecompressResource(string resourcePath)
         {
             using (var textureResourceStream = File.OpenRead(resourcePath))

@@ -10,11 +10,25 @@ namespace LibSanBag
 {
     public class FileRecord
     {
+        /// <summary>
+        /// File offset in the Bag
+        /// </summary>
         public long Offset { get; set; }
+        /// <summary>
+        /// File length
+        /// </summary>
         public uint Length { get; set; }
+        /// <summary>
+        /// File name
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// File timestamp in nanoseconds
+        /// </summary>
         public long TimestampNs { get; set; }
-
+        /// <summary>
+        /// Extended file info. May be Null.
+        /// </summary>
         public FileRecordInfo Info { get; set; }
 
         public FileRecord()
@@ -22,11 +36,22 @@ namespace LibSanBag
 
         }
 
+        /// <summary>
+        /// Creates a new FileRecord using the specified Bag stream.
+        /// </summary>
+        /// <param name="inStream">Stream containing FileRecord data. Assumes stream is already positioned to the FileRecord data</param>
         public FileRecord(BinaryReader inStream)
         {
             Read(inStream);
         }
 
+        /// <summary>
+        /// Saves a file described by this FileRecord to the specified output stream.
+        /// </summary>
+        /// <param name="inStream">Bag stream containing this FileRecord</param>
+        /// <param name="outStream">Output stream where file described by this FileRecord will be written to</param>
+        /// <param name="ReportProgress">Callback function to report write process</param>
+        /// <param name="ShouldCancel">Function to check to see if the write process should be aborted</param>
         public void Save(Stream inStream, Stream outStream, Action<FileRecord, uint> ReportProgress = null, Func<bool> ShouldCancel = null)
         {
             inStream.Seek(Offset, SeekOrigin.Begin);
@@ -54,6 +79,10 @@ namespace LibSanBag
             }
         }
 
+        /// <summary>
+        /// Reads a file record from a Bag stream.
+        /// </summary>
+        /// <param name="inStream">Stream containing FileRecord data. Assumes stream is already positioned to the FileRecord data</param>
         public void Read(BinaryReader inStream)
         {
             Offset = inStream.ReadInt64();

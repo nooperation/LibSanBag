@@ -85,6 +85,12 @@ namespace LibSanBag
             bagStream.Write((int)totalManifestLength);
         }
 
+        /// <summary>
+        /// Reads a Bag file
+        /// </summary>
+        /// <param name="inStream">Stream containing Bag file data</param>
+        /// <returns>Collection of FileRecords contained in Bag</returns>
+        /// <exception cref="Exception">Failed to read Bag</exception>
         static public ICollection<FileRecord> Read(Stream inStream)
         {
             var fileRecords = new List<FileRecord>();
