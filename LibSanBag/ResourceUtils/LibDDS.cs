@@ -181,6 +181,10 @@ namespace LibSanBag.ResourceUtils
 
         public static bool IsAvailable => File.Exists("LibDDS.dll");
 
+        /// <summary>
+        /// Resturns the last error encountered by LibDDS
+        /// </summary>
+        /// <returns>Error string</returns>
         private static string GetErrorString()
         {
             try
@@ -194,6 +198,15 @@ namespace LibSanBag.ResourceUtils
             }
         }
 
+        /// <summary>
+        /// Converts a DDS to a different resolution, codec, or format
+        /// </summary>
+        /// <param name="ddsBytes">DDS bytes</param>
+        /// <param name="width">New image width or 0 for original image width</param>
+        /// <param name="height">New image height or 0 for original image height</param>
+        /// <param name="codec">Type of image to convert DDS to</param>
+        /// <param name="format">Color format</param>
+        /// <returns>Converted image bytes</returns>
         public static byte[] GetImageBytesFromDds(
             byte[] ddsBytes,
             int width = 0,
