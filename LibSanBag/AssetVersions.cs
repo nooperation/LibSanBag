@@ -9,6 +9,11 @@ namespace LibSanBag
 {
     public static class AssetVersions
     {
+        /// <summary>
+        /// Gets a list of all known resource version hashes for the specified resource type
+        /// </summary>
+        /// <param name="resourceType">Resource type to get version hash history of</param>
+        /// <returns>Collection of version hashes for the specified resource type</returns>
         public static List<string> GetResourceVersions(ResourceType resourceType)
         {
             return ResourceVersions[resourceType];

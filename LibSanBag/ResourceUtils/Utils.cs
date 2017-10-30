@@ -10,6 +10,10 @@ namespace LibSanBag.ResourceUtils
 {
     static class Utils
     {
+        /// <summary>
+        /// Attempts to get the Sansar installation directory
+        /// </summary>
+        /// <returns>Sansar installation directory on success, otherwise null</returns>
         public static string GetSansarDirectory()
         {
             var installLocation = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Sansar", "InstallLocation", null) as string;
