@@ -179,6 +179,9 @@ namespace LibSanBag.ResourceUtils
         [DllImport("LibDDS.dll")]
         private static extern void FreeMemory(IntPtr data);
 
+        /// <summary>
+        /// Determines if LibDDS is available
+        /// </summary>
         public static bool IsAvailable => File.Exists("LibDDS.dll");
 
         /// <summary>

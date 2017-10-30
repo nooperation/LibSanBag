@@ -11,7 +11,13 @@ namespace LibSanBag.FileResources
 {
     public class ScriptSourceTextResource
     {
+        /// <summary>
+        /// Script filename
+        /// </summary>
         public string Filename { get; set; }
+        /// <summary>
+        /// Script source code
+        /// </summary>
         public string Source { get; set; }
 
         public ScriptSourceTextResource(Stream sourceStream, FileRecord fileRecord)

@@ -9,10 +9,25 @@ namespace LibSanBag
 {
     public class Manifest
     {
+        /// <summary>
+        /// File offset to the next bag manifest
+        /// </summary>
         public long NextManifestOffset { get; set; } = 0;
+        /// <summary>
+        /// Length of the next manifest
+        /// </summary>
         public int NextManifestLength { get; set; } = 0;
+        /// <summary>
+        /// File records this manifest describes
+        /// </summary>
         public List<FileRecord> Records { get; set; } = new List<FileRecord>();
 
+        /// <summary>
+        /// Reads a manifest record starting from the specified stream
+        /// </summary>
+        /// <param name="inStream">Bag stream</param>
+        /// <param name="offset">Offset into bag stream where manifest exists</param>
+        /// <param name="length">Manifest length</param>
         public void Read(BinaryReader inStream, long offset, int length)
         {
             inStream.BaseStream.Seek(offset, SeekOrigin.Begin);
