@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using LibSanBag.Providers;
 
 namespace LibSanBag.ResourceUtils
 {
@@ -35,7 +36,7 @@ namespace LibSanBag.ResourceUtils
                     return true;
                 }
 
-                var sansarDirectory = ResourceUtils.Utils.GetSansarDirectory();
+                var sansarDirectory = ResourceUtils.Utils.GetSansarDirectory(new RegistryProvider());
                 if (sansarDirectory != null)
                 {
                     sansarDirectory = Path.GetFullPath(sansarDirectory + "\\Client");

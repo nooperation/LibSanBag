@@ -63,10 +63,12 @@
   <ItemGroup>
     <Compile Include="FileResources\TestScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\TestScriptSourceTextResource.cs" />
+    <Compile Include="TestUtils.cs" />
     <Content Include="Samples\ScriptSourceText-Resource.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="FileResources\TestTextureResource.cs" />
+    <Compile Include="TestAssetVersions.cs" />
     <Compile Include="TestFileRecordInfo.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

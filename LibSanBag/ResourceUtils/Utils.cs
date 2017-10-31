@@ -5,21 +5,23 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibSanBag.Providers;
 
 namespace LibSanBag.ResourceUtils
 {
-    static class Utils
+    public static class Utils
     {
         /// <summary>
         /// Attempts to get the Sansar installation directory
         /// </summary>
+        /// <param name="registryProvider">Registry provider</param>
         /// <returns>Sansar installation directory on success, otherwise null</returns>
-        public static string GetSansarDirectory()
+        public static string GetSansarDirectory(IRegistryProvider registryProvider)
         {
-            var installLocation = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Sansar", "InstallLocation", null) as string;
+            var installLocation = registryProvider.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Sansar", "InstallLocation", null) as string;
             if (installLocation == null)
             {
-                var iconPath = Registry.GetValue(@"HKEY_CLASSES_ROOT\sansar\DefaultIcon", "", null) as string;
+                var iconPath = registryProvider.GetValue(@"HKEY_CLASSES_ROOT\sansar\DefaultIcon", "", null) as string;
                 installLocation = Path.GetFullPath(iconPath + @"\..\..");
             }
 

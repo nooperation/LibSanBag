@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibSanBag.Providers;
 using Moq;
 
 namespace LibSanBag.Tests
