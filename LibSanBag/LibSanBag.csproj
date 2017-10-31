@@ -88,14 +88,16 @@
     <Compile Include="FileResources\ScriptSourceTextResource.cs" />
     <Compile Include="FileResources\LuaScriptResource.cs" />
     <Compile Include="FileResources\TextureResource.cs" />
-    <Compile Include="ITimeProvider.cs" />
+    <Compile Include="Providers\IRegistryProvider.cs" />
+    <Compile Include="Providers\ITimeProvider.cs" />
     <Compile Include="Manifest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\RegistryProvider.cs" />
     <Compile Include="ResourceUtils\LibDDS.cs" />
     <Compile Include="ResourceUtils\OodleLz.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
-    <Compile Include="TimeProvider.cs" />
+    <Compile Include="Providers\TimeProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

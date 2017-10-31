@@ -471,6 +471,7 @@ namespace LibSanBag
             {
                 "07D6E3A87B889802",
             },
+            [ResourceType.Unknown] = new List<string>(),
         };
     }
 }

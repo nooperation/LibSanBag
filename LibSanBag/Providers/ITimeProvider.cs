@@ -4,20 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibSanBag
+namespace LibSanBag.Providers
 {
     /// <summary>
-    /// Provides a time source
+    /// Time provider interface. Used for providing a stable time source during testing.
     /// </summary>
-    public class TimeProvider : ITimeProvider
+    public interface ITimeProvider
     {
         /// <summary>
         /// Gets the current time in a Windows file time format
         /// </summary>
         /// <returns>Current time in a Windows file time format</returns>
-        public ulong GetCurrentTime()
-        {
-            return (ulong)DateTime.Now.ToFileTime();
-        }
+        ulong GetCurrentTime();
     }
 }
