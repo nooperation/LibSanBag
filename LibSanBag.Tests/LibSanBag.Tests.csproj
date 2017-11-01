@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="FileResources\TestScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\TestScriptSourceTextResource.cs" />
+    <Compile Include="TestOodleLz.cs" />
     <Compile Include="TestUtils.cs" />
     <Content Include="Samples\ScriptSourceText-Resource.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -137,6 +138,30 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="Samples\OodleLz\BadOodleHeader.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\OodleLz\Compressed_01_Resource.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\OodleLz\Compressed_F1_Resource.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\OodleLz\Compressed_F2_Resource.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\OodleLz\Decompressed_01_resource.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\OodleLz\Decompressed_f1_resource.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\OodleLz\Decompressed_f2_resource.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\OodleLz\UnknownCompressionHeader.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
