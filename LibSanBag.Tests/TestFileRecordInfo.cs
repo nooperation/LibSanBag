@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibSanBag.Providers;
 using static LibSanBag.FileRecordInfo;
 
 namespace LibSanBag.Tests

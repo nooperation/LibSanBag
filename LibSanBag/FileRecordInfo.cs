@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using LibSanBag.Providers;
 
 namespace LibSanBag
 {
@@ -334,54 +335,59 @@ namespace LibSanBag
             return "Unknown";
         }
 
-        public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, string payloadType)
+        public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, PayloadType payloadType, VariantType variantType, IHttpClientProvider client)
         {
             Exception lastException = null;
 
-            using (var client = new HttpClient())
-            {
-                var resourceTypeName = GetResourceTypeName(resourceType);
-                var versions = AssetVersions.GetResourceVersions(resourceType);
-                for (int i = 0; i < versions.Count; i++)
-                {
-                    try
-                    {
-                        var itemName = $"{ resourceId }.{ resourceTypeName}.v{ versions[i].ToLower()}.{payloadType}.v0.noVariants";
-                        var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
-                        var bytes = await client.GetByteArrayAsync(address);
+            var resourceTypeName = GetResourceTypeName(resourceType);
+            var versions = AssetVersions.GetResourceVersions(resourceType);
+            var payloadTypeName = GetPayloadTypeName(payloadType);
+            var variantTypeName = GetVariantTypeName(variantType);
 
-                        return new DownloadResults
-                        {
-                            Name = itemName,
-                            Version = versions[i],
-                            Bytes = bytes
-                        };
-                    }
-                    catch (Exception ex)
+            foreach (string version in versions)
+            {
+                try
+                {
+                    var itemName = $"{ resourceId }.{ resourceTypeName}.v{version.ToLower()}.{payloadTypeName}.v0.{variantTypeName}";
+                    var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
+                    var bytes = await client.GetByteArrayAsync(address);
+
+                    return new DownloadResults
                     {
-                        lastException = ex;
-                    }
+                        Name = itemName,
+                        Version = version,
+                        Bytes = bytes
+                    };
+                }
+                catch (Exception ex)
+                {
+                    lastException = ex;
                 }
             }
 
-            throw lastException;
+            if (lastException != null)
+            {
+                throw lastException;
+            }
+
+            return null;
         }
 
-        public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, string payloadType, string version)
+        public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, PayloadType payloadType, VariantType variantType, string version, IHttpClientProvider client)
         {
-            using (var client = new HttpClient())
-            {
-                var resourceTypeName = GetResourceTypeName(resourceType);
-                var itemName = $"{ resourceId }.{ resourceTypeName}.v{version}.{payloadType}.v0.noVariants";
-                var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
+            var resourceTypeName = GetResourceTypeName(resourceType);
+            var payloadTypeName = GetPayloadTypeName(payloadType);
+            var variantTypeName = GetVariantTypeName(variantType);
 
-                return new DownloadResults
-                {
-                    Name = itemName,
-                    Version = version,
-                    Bytes = await client.GetByteArrayAsync(address)
-                };
-            }
+            var itemName = $"{ resourceId }.{ resourceTypeName}.v{version}.{payloadTypeName}.v0.{variantTypeName}";
+            var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
+
+            return new DownloadResults
+            {
+                Name = itemName,
+                Version = version,
+                Bytes = await client.GetByteArrayAsync(address)
+            };
         }
     }
 }
