@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using LibSanBag.Providers;
 using static LibSanBag.FileResources.ManifestResource;
 
 namespace SanBag.ViewModels
@@ -115,7 +116,7 @@ namespace SanBag.ViewModels
                 try
                 {
                     CurrentRecord = record;
-                    var payloadTypes = new List<string>{ "payload", "manifest" };
+                    var payloadTypes = new List<FileRecordInfo.PayloadType>{ FileRecordInfo.PayloadType.Payload, FileRecordInfo.PayloadType.Manifest };
                     var assetType = FileRecordInfo.GetResourceType(record.Name);
                     var assetVersions = AssetVersions.GetResourceVersions(assetType);
 
@@ -124,16 +125,19 @@ namespace SanBag.ViewModels
                         FileRecordInfo.DownloadResults downloadResult;
                         try
                         {
-                            downloadResult = FileRecordInfo.DownloadResourceAsync(record.HashString.ToLower(), assetType, payloadType).Result;
-                            var outputPath = Path.Combine(outputDirectory, downloadResult.Name);
-
-                            using (var out_stream = File.OpenWrite(outputPath))
+                            downloadResult = FileRecordInfo.DownloadResourceAsync(record.HashString.ToLower(), assetType, payloadType, FileRecordInfo.VariantType.NoVariants, new HttpClientProvider()).Result;
+                            if (downloadResult != null)
                             {
-                                out_stream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
-                            }
+                                var outputPath = Path.Combine(outputDirectory, downloadResult.Name);
 
-                            ++totalExported;
-                            Progress = 100.0f * (totalExported / (float)(RecordsToExport.Count * payloadTypes.Count));
+                                using (var out_stream = File.OpenWrite(outputPath))
+                                {
+                                    out_stream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
+                                }
+
+                                ++totalExported;
+                                Progress = 100.0f * (totalExported / (float)(RecordsToExport.Count * payloadTypes.Count));
+                            }
                         }
                         catch (Exception)
                         {

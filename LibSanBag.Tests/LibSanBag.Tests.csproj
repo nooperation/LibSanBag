@@ -64,6 +64,7 @@
   <ItemGroup>
     <Compile Include="FileResources\TestScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\TestScriptSourceTextResource.cs" />
+    <Compile Include="TestDownloadAsset.cs" />
     <Compile Include="TestOodleLz.cs" />
     <Compile Include="TestUtils.cs" />
     <Content Include="Samples\ScriptSourceText-Resource.cs">
