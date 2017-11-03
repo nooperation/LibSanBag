@@ -59,5 +59,17 @@ namespace LibSanBag.Tests.FileResources
             var resource = new TextureResource(filebytes);
             Assert.AreEqual(resource.DdsBytes, expectedTextureBytes);
         }
+
+        [Test]
+        public void TestBadDdsHeader()
+        {
+            var badDdsHeaderPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-ResourceBadDdsHeader.bin");
+            var filebytes = File.ReadAllBytes(badDdsHeaderPath);
+
+            Assert.Throws<Exception>(() =>
+            {
+                var resource = new TextureResource(filebytes);
+            });
+        }
     }
 }
