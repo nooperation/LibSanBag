@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibSanBag.Providers;
 using LibSanBag.ResourceUtils;
+using LibSanBag.Tests.Providers;
 using NUnit.Framework;
 
 namespace LibSanBag.Tests
@@ -57,6 +59,111 @@ namespace LibSanBag.Tests
         {
             var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "OodleLz", "UnknownCompressionHeader.bin");
 
+            Assert.Throws<Exception>(() =>
+            {
+                OodleLz.DecompressResource(path);
+            });
+        }
+
+
+        [Test]
+        public void TestSetup_InternalException()
+        {
+            var fileProvider = new MockFileProvider();
+            var registryProvider = new MockRegistryProvider();
+            var environmentProvider = new MockEnvironmentProvider();
+
+            OodleLz.SetupEnvironment(fileProvider, environmentProvider, registryProvider);
+
+            Assert.IsFalse(OodleLz.IsAvailable);
+        }
+
+        [Test]
+        public void TestSetup_YesLocalFile()
+        {
+            var fileProvider = new MockFileProvider();
+            fileProvider.FileExistsResultQueue.Enqueue(true);
+            
+            var registryProvider = new MockRegistryProvider();
+            var environmentProvider = new MockEnvironmentProvider();
+
+            OodleLz.SetupEnvironment(fileProvider, environmentProvider, registryProvider);
+
+            Assert.IsTrue(OodleLz.IsAvailable);
+        }
+
+        [Test]
+        public void TestSetup_NoLocalFile_NoRegistry()
+        {
+            var fileProvider = new MockFileProvider();
+            fileProvider.FileExistsResultQueue.Enqueue(false);
+
+            var registryProvider = new MockRegistryProvider();
+            registryProvider.ReturnValueQueue.Enqueue(null);
+            registryProvider.ReturnValueQueue.Enqueue(null);
+
+            var environmentProvider = new MockEnvironmentProvider();
+
+            OodleLz.SetupEnvironment(fileProvider, environmentProvider, registryProvider);
+
+            Assert.IsFalse(OodleLz.IsAvailable);
+        }
+
+        [Test]
+        public void TestSetup_NoLocalFile_YesRegistry_NoRegistryFile()
+        {
+            var fileProvider = new MockFileProvider();
+            fileProvider.FileExistsResultQueue.Enqueue(false);
+            fileProvider.FileExistsResultQueue.Enqueue(false);
+
+            var registryProvider = new MockRegistryProvider();
+            registryProvider.ReturnValueQueue.Enqueue(@"c:\program files\sansar");
+
+            var environmentProvider = new MockEnvironmentProvider();
+
+            OodleLz.SetupEnvironment(fileProvider, environmentProvider, registryProvider);
+
+            Assert.IsFalse(OodleLz.IsAvailable);
+        }
+
+        [Test]
+        public void TestSetup_NoLocalFile_YesRegistry_YesRegistryFile()
+        {
+            var sansarDirectory = @"c:\program files\sansar";
+            var systemPath = "current_path";
+
+            var fileProvider = new MockFileProvider();
+            fileProvider.FileExistsResultQueue.Enqueue(false);
+            fileProvider.FileExistsResultQueue.Enqueue(true);
+
+            var registryProvider = new MockRegistryProvider();
+            registryProvider.ReturnValueQueue.Enqueue(sansarDirectory);
+
+            var environmentProvider = new MockEnvironmentProvider();
+            environmentProvider.EnvironmentVariableQueue.Enqueue(systemPath);
+
+            OodleLz.SetupEnvironment(fileProvider, environmentProvider, registryProvider);
+
+            Assert.AreEqual("PATH", environmentProvider.LastSetVariable);
+            Assert.AreEqual($"{systemPath};{sansarDirectory}\\Client", environmentProvider.LastSetValue);
+            Assert.IsTrue(OodleLz.IsAvailable);
+        }
+
+        [Test]
+        public void TestExtractWhileUnavailable()
+        {
+            var fileProvider = new MockFileProvider();
+            fileProvider.FileExistsResultQueue.Enqueue(false);
+
+            var registryProvider = new MockRegistryProvider();
+            registryProvider.ReturnValueQueue.Enqueue(null);
+            registryProvider.ReturnValueQueue.Enqueue(null);
+
+            var environmentProvider = new MockEnvironmentProvider();
+
+            OodleLz.SetupEnvironment(fileProvider, environmentProvider, registryProvider);
+
+            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "OodleLz", "Compressed_F2_Resource.bin");
             Assert.Throws<Exception>(() =>
             {
                 OodleLz.DecompressResource(path);

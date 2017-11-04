@@ -88,7 +88,11 @@
     <Compile Include="FileResources\ScriptSourceTextResource.cs" />
     <Compile Include="FileResources\LuaScriptResource.cs" />
     <Compile Include="FileResources\TextureResource.cs" />
+    <Compile Include="Providers\EnvironmentProvider.cs" />
+    <Compile Include="Providers\FileProvider.cs" />
     <Compile Include="Providers\HttpClientProvider.cs" />
+    <Compile Include="Providers\IEnvironmentProvider.cs" />
+    <Compile Include="Providers\IFileProvider.cs" />
     <Compile Include="Providers\IHttpClientProvider.cs" />
     <Compile Include="Providers\IRegistryProvider.cs" />
     <Compile Include="Providers\ITimeProvider.cs" />

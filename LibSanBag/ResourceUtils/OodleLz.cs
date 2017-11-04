@@ -27,24 +27,28 @@ namespace LibSanBag.ResourceUtils
         /// Sets up the current environment in attempt to find sansar's oodle dll
         /// </summary>
         /// <returns>True if oodle was found, otherwise false</returns>
-        private static bool SetupEnvironment()
+        public static bool SetupEnvironment(IFileProvider fileProvider, IEnvironmentProvider environmentProvider, IRegistryProvider registryProvider)
         {
+            _isDllAvailable = false;
+
             try
             {
-                if (File.Exists("oo2core_1_win64.dll"))
+                if (fileProvider.FileExists("oo2core_1_win64.dll"))
                 {
+                    _isDllAvailable = true;
                     return true;
                 }
 
-                var sansarDirectory = ResourceUtils.Utils.GetSansarDirectory(new RegistryProvider());
+                var sansarDirectory = ResourceUtils.Utils.GetSansarDirectory(registryProvider);
                 if (sansarDirectory != null)
                 {
                     sansarDirectory = Path.GetFullPath(sansarDirectory + "\\Client");
-                    var currentPath = Environment.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
 
-                    if (File.Exists(sansarDirectory + "\\oo2core_1_win64.dll"))
+                    if (fileProvider.FileExists(sansarDirectory + "\\oo2core_1_win64.dll"))
                     {
-                        Environment.SetEnvironmentVariable("PATH", currentPath + ";" + sansarDirectory, EnvironmentVariableTarget.Process);
+                        var currentPath = environmentProvider.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
+                        environmentProvider.SetEnvironmentVariable("PATH", currentPath + ";" + sansarDirectory, EnvironmentVariableTarget.Process);
+                        _isDllAvailable = true;
                         return true;
                     }
                 }
@@ -58,7 +62,7 @@ namespace LibSanBag.ResourceUtils
 
         static OodleLz()
         {
-            _isDllAvailable = SetupEnvironment();
+             SetupEnvironment(new FileProvider(), new EnvironmentProvider(), new RegistryProvider());
         }
 
         /// <summary>
