@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibSanBag.Providers;
+using LibSanBag.Tests.Providers;
 using NUnit.Framework;
 
 namespace LibSanBag.Tests
@@ -31,41 +32,11 @@ namespace LibSanBag.Tests
             }
         }
 
-        public class MockHttpClient : IHttpClientProvider
-        {
-            public class ClientAction
-            {
-                public string ExpectedAddress { get; set; }
-                public byte[] ReturnedValue { get; set; }
-                public Exception ThrownException { get; set; }
-            }
-
-            public Queue<ClientAction> ClientActionQueue { get; set; } = new Queue<ClientAction>();
-
-            public Task<byte[]> GetByteArrayAsync(string requestUri)
-            {
-                var currentClientAction = ClientActionQueue.Dequeue();
-                if (currentClientAction.ThrownException != null)
-                {
-                    throw currentClientAction.ThrownException;
-                }
-
-                if (currentClientAction.ExpectedAddress != null)
-                {
-                    Assert.AreEqual(currentClientAction.ExpectedAddress, requestUri);
-                }
-
-                var task = new Task<byte[]>(() => currentClientAction.ReturnedValue);
-                task.Start();
-                return task;
-            }
-        }
-
         [Test]
         public void TestDownloadResourceAsyncAllVersions()
         {
-            var mockClient = new MockHttpClient();
-            mockClient.ClientActionQueue.Enqueue(new MockHttpClient.ClientAction()
+            var mockClient = new MockHttpClientProvider();
+            mockClient.ClientActionQueue.Enqueue(new MockHttpClientProvider.ClientAction()
             {
                 ExpectedAddress = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{AssetName}",
                 ReturnedValue = ExpectedResult,
@@ -81,8 +52,8 @@ namespace LibSanBag.Tests
         [Test]
         public void TestDownloadResourceAsyncException()
         {
-            var mockClient = new MockHttpClient();
-            mockClient.ClientActionQueue.Enqueue(new MockHttpClient.ClientAction()
+            var mockClient = new MockHttpClientProvider();
+            mockClient.ClientActionQueue.Enqueue(new MockHttpClientProvider.ClientAction()
             {
                 ExpectedAddress = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{AssetName}",
                 ReturnedValue = ExpectedResult,
@@ -98,8 +69,8 @@ namespace LibSanBag.Tests
         [Test]
         public void TestDownloadResourceAsynsUnknown()
         {
-            var mockClient = new MockHttpClient();
-            mockClient.ClientActionQueue.Enqueue(new MockHttpClient.ClientAction()
+            var mockClient = new MockHttpClientProvider();
+            mockClient.ClientActionQueue.Enqueue(new MockHttpClientProvider.ClientAction()
             {
                 ExpectedAddress = null,
                 ReturnedValue = ExpectedResult,
@@ -113,8 +84,8 @@ namespace LibSanBag.Tests
         [Test]
         public void TestDownloadResourceAsyncSpecificVersion()
         {
-            var mockClient = new MockHttpClient();
-            mockClient.ClientActionQueue.Enqueue(new MockHttpClient.ClientAction()
+            var mockClient = new MockHttpClientProvider();
+            mockClient.ClientActionQueue.Enqueue(new MockHttpClientProvider.ClientAction()
             {
                 ExpectedAddress = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{AssetName}",
                 ReturnedValue = ExpectedResult,

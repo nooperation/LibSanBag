@@ -22,7 +22,10 @@ namespace LibSanBag.ResourceUtils
             if (installLocation == null)
             {
                 var iconPath = registryProvider.GetValue(@"HKEY_CLASSES_ROOT\sansar\DefaultIcon", "", null) as string;
-                installLocation = Path.GetFullPath(iconPath + @"\..\..");
+                if (iconPath != null)
+                {
+                    installLocation = Path.GetFullPath(iconPath + @"\..\..");
+                }
             }
 
             return installLocation;

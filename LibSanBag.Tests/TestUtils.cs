@@ -5,17 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using LibSanBag.Providers;
 using LibSanBag.ResourceUtils;
+using LibSanBag.Tests.Providers;
 using NUnit.Framework;
 
 namespace LibSanBag.Tests
 {
-    class MockRegistryProvider : IRegistryProvider
-    {
-        public Queue<object> ReturnValueQueue { get; set; } = new Queue<object>();
-
-        public object GetValue(string keyName, string valueName, object defaultValue) => ReturnValueQueue.Dequeue();
-    }
-
     [TestFixture]
     class TestUtils
     {
