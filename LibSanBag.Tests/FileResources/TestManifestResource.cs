@@ -13,8 +13,88 @@ namespace LibSanBag.Tests.FileResources
     [TestFixture]
     class TestManifestResource
     {
+
         [Test]
         public void TestMultipleResourceManifest()
+        {
+            var multipleFileManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleFileManifest.bin");
+            var manifestBytes = File.ReadAllBytes(multipleFileManifest);
+            var manifest = new ManifestResource(manifestBytes);
+            CheckMultipleResourceManifest(manifest);
+        }
+
+        [Test]
+        public void TestMultipleResourceManifestStream()
+        {
+            var multipleFileManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleFileManifest.bin");
+            using (var manifestStream = File.OpenRead(multipleFileManifest))
+            {
+                var manifest = new ManifestResource(manifestStream);
+                CheckMultipleResourceManifest(manifest);
+            }
+        }
+
+        [Test]
+        public void TestMultipleResourceManifestFileRecord()
+        {
+            var multipleFileManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleFileManifest.bin");
+            using (var manifestStream = File.OpenRead(multipleFileManifest))
+            {
+                var fileRecord = new FileRecord
+                {
+                    Length = (uint)manifestStream.Length,
+                    Info = null,
+                    Offset = 0,
+                    TimestampNs = 0,
+                    Name = "File Record"
+                };
+
+                var manifest = new ManifestResource(manifestStream, fileRecord);
+                CheckMultipleResourceManifest(manifest);
+            }
+        }
+
+        [Test]
+        public void TestMultipleHashManifest()
+        {
+            var multipleHashManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleHashManifest.bin");
+            var manifestBytes = File.ReadAllBytes(multipleHashManifest);
+            var manifest = new ManifestResource(manifestBytes);
+            CheckMultipleHashManifest(manifest);
+        }
+
+        [Test]
+        public void TestMultipleHashManifestStream()
+        {
+            var multipleHashManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleHashmanifest.bin");
+            using (var manifestStream = File.OpenRead(multipleHashManifest))
+            {
+                var manifest = new ManifestResource(manifestStream);
+                CheckMultipleHashManifest(manifest);
+            }
+        }
+
+        [Test]
+        public void TestMultipleHashManifestFileRecord()
+        {
+            var multipleHashManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleHashManifest.bin");
+            using (var manifestStream = File.OpenRead(multipleHashManifest))
+            {
+                var fileRecord = new FileRecord
+                {
+                    Length = (uint)manifestStream.Length,
+                    Info = null,
+                    Offset = 0,
+                    TimestampNs = 0,
+                    Name = "File Record"
+                };
+
+                var manifest = new ManifestResource(manifestStream, fileRecord);
+                CheckMultipleHashManifest(manifest);
+            }
+        }
+
+        private void CheckMultipleResourceManifest(ManifestResource manifest)
         {
             var expectedEntries = new List<ManifestResource.ManifestEntry>()
             {
@@ -44,10 +124,6 @@ namespace LibSanBag.Tests.FileResources
                 1,
             };
 
-            var multipleFileManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleFileManifest.bin");
-            var manifestBytes = File.ReadAllBytes(multipleFileManifest);
-            var manifest = new ManifestResource(manifestBytes);
-
             Assert.AreEqual(expectedEntries.Count, manifest.Entries.Count);
             for (var i = 0; i < manifest.Entries.Count; i++)
             {
@@ -60,8 +136,7 @@ namespace LibSanBag.Tests.FileResources
             Assert.True(expectedUnknownB.SequenceEqual(manifest.UnknownListB));
         }
 
-        [Test]
-        public void TestMultipleHashManifest()
+        private void CheckMultipleHashManifest(ManifestResource manifest)
         {
             var expectedEntries = new List<ManifestResource.ManifestEntry>()
             {
@@ -97,10 +172,6 @@ namespace LibSanBag.Tests.FileResources
             {
             };
 
-            var multipleHashManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleHashManifest.bin");
-            var manifestBytes = File.ReadAllBytes(multipleHashManifest);
-            var manifest = new ManifestResource(manifestBytes);
-
             Assert.AreEqual(expectedEntries.Count, manifest.Entries.Count);
             for (var i = 0; i < manifest.Entries.Count; i++)
             {
@@ -111,6 +182,19 @@ namespace LibSanBag.Tests.FileResources
             Assert.True(expectedHashes.SequenceEqual(manifest.HashList));
             Assert.True(expectedUnknownA.SequenceEqual(manifest.UnknownListA));
             Assert.True(expectedUnknownB.SequenceEqual(manifest.UnknownListB));
+        }
+
+        [Test]
+        public void TestManifestToString()
+        {
+            var multipleHashManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleHashManifest.bin");
+            var manifestBytes = File.ReadAllBytes(multipleHashManifest);
+            var manifest = new ManifestResource(manifestBytes);
+
+            var name = manifest.Entries[0].ToString();
+            var expectedName = "af86c2b4266db473d57fe6b08f609ee6.LuaScript-Resource";
+
+            Assert.AreEqual(expectedName, name);
         }
     }
 }
