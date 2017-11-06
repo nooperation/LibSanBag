@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using LibSanBag.Providers;
 
 namespace LibSanBag.ResourceUtils
 {
@@ -179,10 +180,29 @@ namespace LibSanBag.ResourceUtils
         [DllImport("LibDDS.dll")]
         private static extern void FreeMemory(IntPtr data);
 
+
+        private static bool _isDllAvailable;
+
         /// <summary>
         /// Determines if LibDDS is available
         /// </summary>
-        public static bool IsAvailable => File.Exists("LibDDS.dll");
+        public static bool IsAvailable => _isDllAvailable;
+
+        /// <summary>
+        /// Attempts to locate all of the dependencies required by LibDDS
+        /// </summary>
+        /// <param name="fileProvider">File provider</param>
+        /// <returns>True if LibDDS is available, otherwise false</returns>
+        public static bool FindDependencies(IFileProvider fileProvider)
+        {
+            _isDllAvailable = fileProvider.FileExists("LibDDS.dll");
+            return _isDllAvailable;
+        }
+
+        static LibDDS()
+        {
+            FindDependencies(new FileProvider());
+        }
 
         /// <summary>
         /// Resturns the last error encountered by LibDDS
@@ -193,7 +213,8 @@ namespace LibSanBag.ResourceUtils
             try
             {
                 var rawString = GetError();
-                return Marshal.PtrToStringAnsi(rawString);
+                var errorString = Marshal.PtrToStringAnsi(rawString);
+                return errorString;
             }
             catch (Exception ex)
             {
@@ -217,6 +238,11 @@ namespace LibSanBag.ResourceUtils
             ConversionOptions.CodecType codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG,
             ConversionOptions.DXGI_FORMAT format = ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R32G32B32A32_FLOAT)
         {
+            if (IsAvailable == false)
+            {
+                throw new Exception("LibDDS is not available");
+            }
+
             IntPtr rawImageData;
             long rawImageDataSize;
 

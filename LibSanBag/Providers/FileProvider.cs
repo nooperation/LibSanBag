@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.Providers
 {
-    class FileProvider : IFileProvider
+    public class FileProvider : IFileProvider
     {
         public bool FileExists(string path)
         {
