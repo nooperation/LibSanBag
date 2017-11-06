@@ -22,16 +22,23 @@ namespace LibSanBag.Tests
         {
             if (LibDDS.IsAvailable == false)
             {
-                // Hacks to make NUNIT work. Copy dependencies to the assembly location and set the assembly location as the current directory.
-                var currentAssemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                Assert.NotNull(currentAssemblyDirectory);
+                try
+                {
+                    // Hacks to make NUNIT work. Copy dependencies to the assembly location and set the assembly location as the current directory.
+                    var currentAssemblyDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                    Assert.NotNull(currentAssemblyDirectory);
 
-                Environment.CurrentDirectory = currentAssemblyDirectory;
-                var source = Path.Combine(TestContext.CurrentContext.TestDirectory, "LibDDS.dll");
-                var dest = Path.Combine(currentAssemblyDirectory, "LibDDS.dll");
-                File.Copy(source, dest, true);
+                    Environment.CurrentDirectory = currentAssemblyDirectory;
+                    var source = Path.Combine(TestContext.CurrentContext.TestDirectory, "LibDDS.dll");
+                    var dest = Path.Combine(currentAssemblyDirectory, "LibDDS.dll");
+                    File.Copy(source, dest, true);
 
-                LibDDS.FindDependencies(new FileProvider());
+                    LibDDS.FindDependencies(new FileProvider());
+                }
+                catch (Exception)
+                {
+                    // Oh well. we tried.
+                }
             }
         }
 
