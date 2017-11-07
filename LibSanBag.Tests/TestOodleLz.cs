@@ -145,6 +145,7 @@ namespace LibSanBag.Tests
             OodleLz.SetupEnvironment(fileProvider, environmentProvider, registryProvider);
 
             Assert.AreEqual("PATH", environmentProvider.LastSetVariable);
+            Assert.AreEqual(environmentProvider.LastSetTarget, EnvironmentVariableTarget.Process);
             Assert.AreEqual($"{systemPath};{sansarDirectory}\\Client", environmentProvider.LastSetValue);
             Assert.IsTrue(OodleLz.IsAvailable);
         }
