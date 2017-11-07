@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibSanBag.Providers;
+using LibSanBag.ResourceUtils;
 
 namespace LibSanBag.Tests.FileResources
 {
@@ -20,6 +22,12 @@ namespace LibSanBag.Tests.FileResources
         [SetUp]
         public void Setup()
         {
+            if (LibDDS.IsAvailable == false)
+            {
+                Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
+                LibDDS.FindDependencies(new FileProvider());
+            }
+
             expectedTextureBytes = File.ReadAllBytes(ExpectedFilePath);
         }
 
