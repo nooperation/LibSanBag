@@ -6,12 +6,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibSanBag.Providers;
+using LibSanBag.ResourceUtils;
 
 namespace LibSanBag.Tests.FileResources
 {
     class TestTextureResource
     {
         private byte[] expectedTextureBytes;
+        public ulong PngHeader => 0x0a1a0a0d474e5089;
 
         private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin");
         private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.dds");
@@ -19,6 +22,12 @@ namespace LibSanBag.Tests.FileResources
         [SetUp]
         public void Setup()
         {
+            if (LibDDS.IsAvailable == false)
+            {
+                Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
+                LibDDS.FindDependencies(new FileProvider());
+            }
+
             expectedTextureBytes = File.ReadAllBytes(ExpectedFilePath);
         }
 
@@ -70,6 +79,18 @@ namespace LibSanBag.Tests.FileResources
             {
                 var resource = new TextureResource(filebytes);
             });
+        }
+
+        [Test]
+        public void TestConvertTo()
+        {
+            var filebytes = File.ReadAllBytes(CompressedFilePath);
+
+            var resource = new TextureResource(filebytes);
+            var imageBytes = resource.ConvertTo(ResourceUtils.LibDDS.ConversionOptions.CodecType.CODEC_PNG);
+
+            var header = BitConverter.ToUInt64(imageBytes, 0);
+            Assert.AreEqual(PngHeader, header);
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LibSanBag.Providers;
 
-namespace LibSanBag
+namespace LibSanBag.Providers
 {
     /// <summary>
     /// Provides a time source

@@ -17,7 +17,7 @@ namespace LibSanBag.Tests.Providers
             public Exception ThrownException { get; set; }
         }
 
-        public Queue<ClientAction> ClientActionQueue { get; set; } = new Queue<ClientAction>();
+        public Queue<ClientAction> ClientActionQueue { get; } = new Queue<ClientAction>();
 
         public Task<byte[]> GetByteArrayAsync(string requestUri)
         {

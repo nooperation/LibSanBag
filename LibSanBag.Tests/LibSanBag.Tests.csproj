@@ -73,6 +73,7 @@
     <Compile Include="TestDownloadAsset.cs" />
     <Compile Include="TestLibDDS.cs" />
     <Compile Include="TestOodleLz.cs" />
+    <Compile Include="TestProviders.cs" />
     <Compile Include="TestUtils.cs" />
     <Content Include="..\LibSanBag\ThirdParty\LibDDS\x64\LibDDS.dll">
       <Link>LibDDS.dll</Link>
