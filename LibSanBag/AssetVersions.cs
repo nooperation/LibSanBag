@@ -16,10 +16,28 @@ namespace LibSanBag
         /// <returns>Collection of version hashes for the specified resource type</returns>
         public static List<string> GetResourceVersions(ResourceType resourceType)
         {
-            return ResourceVersions[resourceType];
+            return AllResourceVersions[resourceType];
         }
 
-        private static Dictionary<ResourceType, List<string>> ResourceVersions = new Dictionary<ResourceType, List<string>>
+        /// <summary>
+        /// Gets the resource type for the specified version string
+        /// </summary>
+        /// <param name="version">Asset version</param>
+        /// <returns>Associated recource type on success otherwise ResourceType.Unknown</returns>
+        public static ResourceType GetResourceTypeFromVersion(string version)
+        {
+            foreach (var versions in AllResourceVersions)
+            {
+                if (versions.Value.Contains(version))
+                {
+                    return versions.Key;
+                }
+            }
+
+            return ResourceType.Unknown;
+        }
+
+        private static readonly Dictionary<ResourceType, List<string>> AllResourceVersions = new Dictionary<ResourceType, List<string>>
         {
             [ResourceType.AnimationCanonical] = new List<string>
             {
