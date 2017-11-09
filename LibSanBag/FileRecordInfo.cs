@@ -227,6 +227,7 @@ namespace LibSanBag
                 case "ScriptMetadata-Resource": return ResourceType.ScriptMetadataResource;
                 case "ScriptCompiledBytecode-Resource": return ResourceType.ScriptCompiledBytecodeResource;
                 case "ScriptSourceText-Resource": return ResourceType.ScriptSourceTextResource;
+                case "Clothing-Source": return ResourceType.ClothingSource;
                 case "Cluster-Source": return ResourceType.ClusterSource;
                 case "WorldChunk-Source": return ResourceType.WorldChunkSource;
                 case "License-Resource": return ResourceType.LicenseResource;
@@ -239,6 +240,7 @@ namespace LibSanBag
                 case "hknpMaterial-Resource": return ResourceType.hknpMaterialResource;
                 case "hknpPhysicsSystemData-Resource": return ResourceType.hknpPhysicsSystemDataResource;
                 case "hknpShape-Resource": return ResourceType.hknpShapeResource;
+                case "Clothing-Import": return ResourceType.ClothingImport;
                 case "File-Resource": return ResourceType.FileResource;
                 case "Texture-Import": return ResourceType.TextureImport;
                 case "GeometryResource-Canonical": return ResourceType.GeometryResourceCanonical;
@@ -264,6 +266,7 @@ namespace LibSanBag
                 case "hkaSkeletonMapper-Resource": return ResourceType.hkaSkeletonMapperResource;
                 case "hknpRagdollData-Resource": return ResourceType.hknpRagdollDataResource;
                 case "Test-Resource": return ResourceType.TestResource;
+                case "Script-Import": return ResourceType.ScriptImport;
                 case "Heightmap-Import": return ResourceType.HeightmapImport;
                 case "hknpShape-Import": return ResourceType.hknpShapeImport;
                 case "Animation-Canonical": return ResourceType.AnimationCanonical;
@@ -292,6 +295,7 @@ namespace LibSanBag
                 case ResourceType.ScriptMetadataResource: return "ScriptMetadata-Resource";
                 case ResourceType.ScriptCompiledBytecodeResource: return "ScriptCompiledBytecode-Resource";
                 case ResourceType.ScriptSourceTextResource: return "ScriptSourceText-Resource";
+                case ResourceType.ClothingSource: return "Clothing-Source";
                 case ResourceType.ClusterSource: return "Cluster-Source";
                 case ResourceType.WorldChunkSource: return "WorldChunk-Source";
                 case ResourceType.LicenseResource: return "License-Resource";
@@ -304,6 +308,7 @@ namespace LibSanBag
                 case ResourceType.hknpMaterialResource: return "hknpMaterial-Resource";
                 case ResourceType.hknpPhysicsSystemDataResource: return "hknpPhysicsSystemData-Resource";
                 case ResourceType.hknpShapeResource: return "hknpShape-Resource";
+                case ResourceType.ClothingImport: return "Clothing-Import";
                 case ResourceType.FileResource: return "File-Resource";
                 case ResourceType.TextureImport: return "Texture-Import";
                 case ResourceType.GeometryResourceCanonical: return "GeometryResource-Canonical";
@@ -329,6 +334,7 @@ namespace LibSanBag
                 case ResourceType.hkaSkeletonMapperResource: return "hkaSkeletonMapper-Resource";
                 case ResourceType.hknpRagdollDataResource: return "hknpRagdollData-Resource";
                 case ResourceType.TestResource: return "Test-Resource";
+                case ResourceType.ScriptImport: return "Script-Import";
                 case ResourceType.HeightmapImport: return "Heightmap-Import";
                 case ResourceType.hknpShapeImport: return "hknpShape-Import";
                 case ResourceType.AnimationCanonical: return "Animation-Canonical";
