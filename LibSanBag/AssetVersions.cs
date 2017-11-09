@@ -106,10 +106,10 @@ namespace LibSanBag
                 "445c85c1b379def5",
                 "ca2ce5ecb73235d2",
             },
-            //[ResourceType.] = new List<string>
-            //{
-            //    "d57956a9e8755ea1",
-            //},
+            [ResourceType.ClothingSource] = new List<string>
+            {
+                "d57956a9e8755ea1",
+            },
             [ResourceType.ClusterSource] = new List<string>
             {
                 "ef8f474eaa16ab5e",
@@ -299,10 +299,10 @@ namespace LibSanBag
             {
                 "0346f2ce5a5f36e1",
             },
-            //[ResourceType.] = new List<string>
-            //{
-            //    "823084584bf5029c",
-            //},
+            [ResourceType.ClothingImport] = new List<string>
+            {
+                "823084584bf5029c",
+            },
             [ResourceType.FileResource] = new List<string>
             {
                 "78e422aaa1e1ba00",
@@ -312,11 +312,11 @@ namespace LibSanBag
             {
                 "f196c4728c3bda4c",
             },
-            //[ResourceType.] = new List<string>
-            //{
-            //    "ac9fbfc60e051e0d",
-            //    "cb63525ec60d2ea0",
-            //},
+            [ResourceType.ScriptImport] = new List<string>
+            {
+                "ac9fbfc60e051e0d",
+                "cb63525ec60d2ea0",
+            },
             [ResourceType.SoundImport] = new List<string>
             {
                 "6b714f812579233c",
