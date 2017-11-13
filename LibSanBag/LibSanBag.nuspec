@@ -3,18 +3,19 @@
   <metadata>
     <id>LibSanBag</id>
     <version>$version$</version>
-    <title>SanBag</title>
+    <title>LibSanBag</title>
     <authors>NoOperation</authors>
     <owners>NoOperation</owners>
     <licenseUrl>https://github.com/nooperation/LibSanBag/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/nooperation/LibSanBag</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Project Sansar Bag Utilities Library</description>
+    <description>Library for interacting with the contents of Sansar Bag files</description>
     <copyright>Copyright ©  2017</copyright>
-    <tags>sansar bag utilities</tags>
+    <tags>Sansar Bag Utilities</tags>
     <dependencies />
   </metadata>
   <files>
-    <file src=".\ThirdParty\LibDDS\x64\LibDDS.dll" target="Content" />
+    <file src="build\**" target="build" />
+    <file src="content\x64\LibDDS.dll" target="content\x64\LibDDS.dll" />
   </files>
 </package>
