@@ -75,7 +75,7 @@
     <Compile Include="TestOodleLz.cs" />
     <Compile Include="TestProviders.cs" />
     <Compile Include="TestUtils.cs" />
-    <Content Include="..\LibSanBag\ThirdParty\LibDDS\x64\LibDDS.dll">
+    <Content Include="..\LibSanBag\content\x64\LibDDS.dll">
       <Link>LibDDS.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
