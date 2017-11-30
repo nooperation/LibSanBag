@@ -15,10 +15,10 @@ namespace LibSanBag.Tests
         [Test]
         public void TestGetImageBytes()
         {
-            var fsbPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Sample.fsb");
+            var fsbPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Sound-Resource.fsb");
             var fsbBytes = File.ReadAllBytes(fsbPath);
 
-            var expectedWavPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Sample.wav");
+            var expectedWavPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Sound-Resource.wav");
             var expectedWavBytes = File.ReadAllBytes(expectedWavPath);
 
             var outputWavPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "output.wav");
