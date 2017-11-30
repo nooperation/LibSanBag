@@ -69,6 +69,7 @@
     <Compile Include="FileResources\TestScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\TestLuaScriptResource.cs" />
     <Compile Include="FileResources\TestScriptSourceTextResource.cs" />
+    <Compile Include="FileResources\TestSoundResource.cs" />
     <Compile Include="Providers\MockEnvironmentProvider.cs" />
     <Compile Include="Providers\MockFileProvider.cs" />
     <Compile Include="Providers\MockHttpClientProvider.cs" />
@@ -83,9 +84,6 @@
       <Link>LibDDS.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Sample.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Samples\ScriptSourceText-Resource.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -94,6 +92,9 @@
     <Compile Include="TestFileRecordInfo.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="Samples\Sound-Resource.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Samples\Texture-Resource.dds">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -188,9 +189,12 @@
     <Content Include="Samples\MultipleHashManifest.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Samples\Sample.fsb">
+    <Content Include="Samples\Sound-Resource.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <Content Include="Samples\Sound-Resource.fsb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Samples\Texture-ResourceBadDdsHeader.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
