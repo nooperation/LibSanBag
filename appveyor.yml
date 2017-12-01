@@ -1,0 +1,48 @@
+version: 1.0.{build}
+pull_requests:
+  do_not_increment_build_number: true
+branches:
+  only:
+  - master
+skip_tags: true
+image: Visual Studio 2017
+configuration: Release
+platform: x64
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+environment:
+  DEPENDENCIES: https://nooperation.net/ci/sanbag_depends.zip
+before_build:
+- ps: >-
+    nuget restore
+
+
+    echo "Downloading dependencies..."
+
+    Invoke-WebRequest $env:DEPENDENCIES -OutFile sanbag_depends.zip
+
+
+    echo "Extracting dependencies..."
+
+    Expand-Archive -v -f sanbag_depends.zip -DestinationPath "$env:APPVEYOR_BUILD_FOLDER"
+build:
+  publish_nuget: true
+  publish_nuget_symbols: true
+  verbosity: minimal
+artifacts:
+- path: LibSanBag\bin\x64\Release
+  name: LibSanBag_$(appveyor_build_version)
+  type: WebDeployPackage
+deploy:
+- provider: Environment
+  name: Github
+  on:
+    branch: Master
+- provider: Environment
+  name: Nuget_SanTools
+  on:
+    branch: Master
