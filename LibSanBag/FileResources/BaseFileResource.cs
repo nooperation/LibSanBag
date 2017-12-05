@@ -8,7 +8,7 @@ using LibSanBag.ResourceUtils;
 
 namespace LibSanBag.FileResources
 {
-    public class BaseFileResource
+    public abstract class BaseFileResource
     {
         public void InitFromRecord(Stream sourceStream, FileRecord fileRecord)
         {
@@ -41,9 +41,6 @@ namespace LibSanBag.FileResources
             InitFromRawDecompressed(decompressedBytes);
         }
 
-        public virtual void InitFromRawDecompressed(byte[] decompressedBytes)
-        {
-
-        }
+        public abstract void InitFromRawDecompressed(byte[] decompressedBytes);
     }
 }
