@@ -30,7 +30,8 @@ namespace LibSanBag.Tests.FileResources
 
             using (var ms = new MemoryStream(compressedFileBytes))
             {
-                var resource = new SoundResource(ms);
+                var resource = new SoundResource();
+                resource.InitFromStream(ms);
                 Assert.AreEqual(resource.Name, ExpectedName);
                 Assert.AreEqual(resource.SoundBytes, expectedSoundBytes);
             }
@@ -49,7 +50,8 @@ namespace LibSanBag.Tests.FileResources
                 Name = "File Record"
             };
 
-            var resource = new SoundResource(fileStream, fileRecord);
+            var resource = new SoundResource();
+            resource.InitFromRecord(fileStream, fileRecord);
             Assert.AreEqual(resource.Name, ExpectedName);
             Assert.AreEqual(resource.SoundBytes, expectedSoundBytes);
         }
@@ -59,7 +61,8 @@ namespace LibSanBag.Tests.FileResources
         {
             var filebytes = File.ReadAllBytes(CompressedFilePath);
 
-            var resource = new SoundResource(filebytes);
+            var resource = new SoundResource();
+            resource.InitFromRawCompressed(filebytes);
             Assert.AreEqual(resource.Name, ExpectedName);
             Assert.AreEqual(resource.SoundBytes, expectedSoundBytes);
         }

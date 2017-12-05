@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class LuaScriptResource
+    public class LuaScriptResource : BaseFileResource
     {
         /// <summary>
         /// Lua source filename
@@ -20,38 +20,7 @@ namespace LibSanBag.FileResources
         /// </summary>
         public string Source { get; set; }
 
-        public LuaScriptResource(Stream sourceStream, FileRecord fileRecord)
-        {
-            byte[] decompressedBytes = null;
-            using (var compressedStream = new MemoryStream())
-            {
-                fileRecord.Save(sourceStream, compressedStream);
-                decompressedBytes = OodleLz.DecompressResource(compressedStream);
-            }
-
-            InitFrom(decompressedBytes);
-        }
-
-        public LuaScriptResource(Stream compressedStream)
-        {
-            var decompressedBytes = OodleLz.DecompressResource(compressedStream);
-
-            InitFrom(decompressedBytes);
-        }
-
-        public LuaScriptResource(byte[] compressedBytes)
-        {
-            byte[] decompressedBytes = null;
-
-            using (var compressedStream = new MemoryStream(compressedBytes))
-            {
-                decompressedBytes = OodleLz.DecompressResource(compressedStream);
-            }
-
-            InitFrom(decompressedBytes);
-        }
-
-        private void InitFrom(byte[] decompressedBytes)
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
