@@ -8,42 +8,12 @@ using LibSanBag.ResourceUtils;
 
 namespace LibSanBag.FileResources
 {
-    public class SoundResource
+    public class SoundResource : BaseFileResource
     {
         public string Name { get; set; }
         public byte[] SoundBytes { get; set; }
-        public SoundResource(Stream sourceStream, FileRecord fileRecord)
-        {
-            byte[] decompressedBytes = null;
-            using (var compressedStream = new MemoryStream())
-            {
-                fileRecord.Save(sourceStream, compressedStream);
-                decompressedBytes = OodleLz.DecompressResource(compressedStream);
-            }
 
-            InitFrom(decompressedBytes);
-        }
-
-        public SoundResource(Stream compressedStream)
-        {
-            var decompressedBytes = OodleLz.DecompressResource(compressedStream);
-
-            InitFrom(decompressedBytes);
-        }
-
-        public SoundResource(byte[] compressedBytes)
-        {
-            byte[] decompressedBytes = null;
-
-            using (var compressedStream = new MemoryStream(compressedBytes))
-            {
-                decompressedBytes = OodleLz.DecompressResource(compressedStream);
-            }
-
-            InitFrom(decompressedBytes);
-        }
-
-        private void InitFrom(byte[] decompressedBytes)
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {

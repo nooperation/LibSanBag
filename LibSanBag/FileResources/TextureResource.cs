@@ -9,62 +9,14 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class TextureResource
+    public class TextureResource : BaseFileResource
     {
         /// <summary>
         /// Raw DDS texture bytes
         /// </summary>
         public byte[] DdsBytes { get; set; }
 
-        /// <summary>
-        /// Creates a new TextureResource from the specified FileRecord using the source stream
-        /// </summary>
-        /// <param name="sourceStream">Bag stream containing the FileRecord</param>
-        /// <param name="fileRecord">FileRecord to extract TextureResource from using the source stream</param>
-        public TextureResource(Stream sourceStream, FileRecord fileRecord)
-        {
-            byte[] decompressedBytes = null;
-            using (var compressedStream = new MemoryStream())
-            {
-                fileRecord.Save(sourceStream, compressedStream);
-                decompressedBytes = OodleLz.DecompressResource(compressedStream);
-            }
-
-            InitFrom(decompressedBytes);
-        }
-
-        /// <summary>
-        /// Initializes this from a stream containing a compressed TextureResource file
-        /// </summary>
-        /// <param name="compressedStream">Stream containing compressed TextureResource data</param>
-        public TextureResource(Stream compressedStream)
-        {
-            var decompressedBytes = OodleLz.DecompressResource(compressedStream);
-
-            InitFrom(decompressedBytes);
-        }
-
-        /// <summary>
-        /// Initializes this from a byte collection containing a compressed TextureResource file
-        /// </summary>
-        /// <param name="compressedBytes">Collection containing compressed TextureResource data</param>
-        public TextureResource(byte[] compressedBytes)
-        {
-            byte[] decompressedBytes = null;
-
-            using (var compressedStream = new MemoryStream(compressedBytes))
-            {
-                decompressedBytes = OodleLz.DecompressResource(compressedStream);
-            }
-
-            InitFrom(decompressedBytes);
-        }
-
-        /// <summary>
-        /// Initializes this from a byte collection containing a TextureResource file
-        /// </summary>
-        /// <param name="decompressedBytes">Collection containing decompressed TextureResource data</param>
-        private void InitFrom(byte[] decompressedBytes)
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
