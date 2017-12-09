@@ -9,12 +9,11 @@ namespace LibSanBag.Providers
 {
     public class HttpClientProvider : IHttpClientProvider
     {
+        private static readonly HttpClient Client = new HttpClient();
+
         public Task<byte[]> GetByteArrayAsync(string requestUri)
         {
-            using (var client = new HttpClient())
-            {
-                return client.GetByteArrayAsync(requestUri);
-            }
+            return Client.GetByteArrayAsync(requestUri);
         }
     }
 }
