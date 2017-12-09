@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class ManifestResource
+    public class ManifestResource : BaseFileResource
     {
         public class ManifestEntry
         {
@@ -27,32 +27,23 @@ namespace LibSanBag.FileResources
         public List<Tuple<long, long, long>> UnknownListA;
         public List<int> UnknownListB;
 
-        public ManifestResource(Stream sourceStream, FileRecord fileRecord)
+        private static string ReadHash(BinaryReader manifestStream)
         {
-            using (var manifestStream = new MemoryStream())
-            {
-                fileRecord.Save(sourceStream, manifestStream);
-                manifestStream.Seek(0, SeekOrigin.Begin);
-                InitFrom(manifestStream);
-            }
+            var hashUpper = manifestStream.ReadBytes(0x08);
+            var hashLower = manifestStream.ReadBytes(0x08);
+
+            var reverseUpperHash = hashUpper.Reverse().ToArray();
+            var reverseLowerHash = hashLower.Reverse().ToArray();
+
+            var hashString = BitConverter.ToString(reverseUpperHash) + BitConverter.ToString(reverseLowerHash);
+            hashString = hashString.Replace("-", "").ToLower();
+
+            return hashString;
         }
 
-        public ManifestResource(Stream manifestStream)
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
-            InitFrom(manifestStream);
-        }
-
-        public ManifestResource(byte[] manifestBytes)
-        {
-            using (var manifestStream = new MemoryStream(manifestBytes))
-            {
-                InitFrom(manifestStream);
-            }
-        }
-
-        private void InitFrom(Stream manifestStream)
-        {
-            using (var br = new BinaryReader(manifestStream))
+            using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 var numUnknownHashes = br.ReadInt32();
                 HashList = new List<string>(numUnknownHashes);
@@ -98,20 +89,6 @@ namespace LibSanBag.FileResources
                     UnknownListB.Add(br.ReadInt32());
                 }
             }
-        }
-
-        private static string ReadHash(BinaryReader manifestStream)
-        {
-            var hashUpper = manifestStream.ReadBytes(0x08);
-            var hashLower = manifestStream.ReadBytes(0x08);
-
-            var reverseUpperHash = hashUpper.Reverse().ToArray();
-            var reverseLowerHash = hashLower.Reverse().ToArray();
-
-            var hashString = BitConverter.ToString(reverseUpperHash) + BitConverter.ToString(reverseLowerHash);
-            hashString = hashString.Replace("-", "").ToLower();
-
-            return hashString;
         }
     }
 }
