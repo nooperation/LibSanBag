@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,7 +14,10 @@ namespace LibSanBag.FileResources
         public List<float> Vertices { get; set; }
         public List<float> Tangents { get; set; }
         public List<float> Bitangents { get; set; }
-        public List<float> TexCoords { get; set; }
+        public List<float> TexCoords0 { get; set; }
+        public List<float> TexCoords1 { get; set; }
+        public List<float> BlendWeights { get; set; }
+        public List<uint> BlendIndices { get; set; }
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
@@ -21,7 +25,10 @@ namespace LibSanBag.FileResources
             Vertices = new List<float>();
             Tangents = new List<float>();
             Bitangents = new List<float>();
-            TexCoords = new List<float>();
+            TexCoords0 = new List<float>();
+            TexCoords1 = new List<float>();
+            BlendWeights = new List<float>();
+            BlendIndices = new List<uint>();
 
             using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
@@ -84,6 +91,7 @@ namespace LibSanBag.FileResources
                     var tagUnknown = br.ReadUInt32();
                     var payloadByteCount = br.ReadInt32();
 
+                    // TODO: These are most likely incorrect datatypes
                     switch (tag)
                     {
                         case "position":
@@ -111,11 +119,33 @@ namespace LibSanBag.FileResources
                             for (var i = 0; i < payloadByteCount / 4; i++)
                             {
                                 var vert = br.ReadSingle();
-                                TexCoords.Add(vert);
+                                TexCoords0.Add(vert);
+                            }
+                            break;
+                        case "texCoord1":
+                            for (var i = 0; i < payloadByteCount / 4; i++)
+                            {
+                                var vert = br.ReadSingle();
+                                TexCoords1.Add(vert);
+                            }
+                            break;
+                        case "blendWeights":
+                            for (var i = 0; i < payloadByteCount / 4; i++)
+                            {
+                                var vert = br.ReadSingle();
+                                BlendWeights.Add(vert);
+                            }
+                            break;
+                        case "blendIndices":
+                            for (var i = 0; i < payloadByteCount / 4; i++)
+                            {
+                                var vert = br.ReadUInt32();
+                                BlendIndices.Add(vert);
                             }
                             break;
                         default:
-                            Console.WriteLine("Unknown tag: " + tag);
+                            Debug.WriteLine("Unknown tag: " + tag);
+                            br.ReadBytes(payloadByteCount);
                             break;
                     }
                 }
