@@ -60,8 +60,8 @@ namespace LibSanBag.FileResources
                 var unknown6 = br.ReadUInt32();
                 var unknown7 = br.ReadUInt32();
                 var unknown8 = br.ReadUInt32();
-                var unknown9 = br.ReadUInt32();
-                var unknown10 = br.ReadUInt32();
+                var numIndices = br.ReadUInt32();
+                var numTexCoords = br.ReadUInt32();
                 var unknown11 = br.ReadUInt32();
 
                 var indexByteCount = br.ReadUInt32();
@@ -73,11 +73,11 @@ namespace LibSanBag.FileResources
                 }
 
                 var unknown12 = br.ReadUInt32();
-                var unknown13 = br.ReadUInt32();
+                var numTags = br.ReadUInt32();
                 var unknown14 = br.ReadUInt32();
                 var unknown15 = br.ReadUInt32();
 
-                while(br.BaseStream.Position < br.BaseStream.Length)
+                for(var tagIndex = 0; tagIndex < numTags; ++tagIndex)
                 {
                     var tagLength = br.ReadInt32();
                     var tag = new string(br.ReadChars(tagLength));
@@ -87,28 +87,28 @@ namespace LibSanBag.FileResources
                     switch (tag)
                     {
                         case "position":
-                            for (int i = 0; i < payloadByteCount/4; i++)
+                            for (var i = 0; i < payloadByteCount/4; i++)
                             {
                                 var vert = br.ReadSingle();
                                 Vertices.Add(vert);
                             }
                             break;
                         case "tangent":
-                            for (int i = 0; i < payloadByteCount / 4; i++)
+                            for (var i = 0; i < payloadByteCount / 4; i++)
                             {
                                 var vert = br.ReadSingle();
                                 Tangents.Add(vert);
                             }
                             break;
                         case "bitangent":
-                            for (int i = 0; i < payloadByteCount / 4; i++)
+                            for (var i = 0; i < payloadByteCount / 4; i++)
                             {
                                 var vert = br.ReadSingle();
                                 Bitangents.Add(vert);
                             }
                             break;
                         case "texCoord0":
-                            for (int i = 0; i < payloadByteCount / 4; i++)
+                            for (var i = 0; i < payloadByteCount / 4; i++)
                             {
                                 var vert = br.ReadSingle();
                                 TexCoords.Add(vert);
