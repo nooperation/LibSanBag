@@ -87,6 +87,7 @@
     <Compile Include="FileRecord.cs" />
     <Compile Include="FileRecordInfo.cs" />
     <Compile Include="FileResources\BaseFileResource.cs" />
+    <Compile Include="FileResources\GeometryResource.cs" />
     <Compile Include="FileResources\ManifestResource.cs" />
     <Compile Include="FileResources\ScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\ScriptSourceTextResource.cs" />
