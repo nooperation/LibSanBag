@@ -69,14 +69,26 @@ namespace LibSanBag.FileResources
                 var unknown8 = br.ReadUInt32();
                 var numIndices = br.ReadUInt32();
                 var numTexCoords = br.ReadUInt32();
-                var unknown11 = br.ReadUInt32();
+                var bytesPerIndex = br.ReadUInt32();
 
                 var indexByteCount = br.ReadUInt32();
-                var indexCount = indexByteCount / 4;
-                for (int i = 0; i < indexCount; i++)
+                var indexCount = indexByteCount / bytesPerIndex;
+
+                if (bytesPerIndex == 4)
                 {
-                    var index = br.ReadUInt32();
-                    Indices.Add(index);
+                    for (int i = 0; i < indexCount; i++)
+                    {
+                        var index = br.ReadUInt32();
+                        Indices.Add(index);
+                    }
+                }
+                else if (bytesPerIndex == 2)
+                {
+                    for (int i = 0; i < indexCount; i++)
+                    {
+                        var index = br.ReadUInt16();
+                        Indices.Add(index);
+                    }
                 }
 
                 var unknown12 = br.ReadUInt32();
