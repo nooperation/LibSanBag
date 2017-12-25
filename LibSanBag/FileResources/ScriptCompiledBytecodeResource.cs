@@ -14,6 +14,8 @@ namespace LibSanBag.FileResources
         public string ScriptSourceTextPath { get; set; }
         public byte[] AssemblyBytes { get; set; }
 
+        public override bool IsCompressed => true;
+
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))

@@ -204,5 +204,19 @@ namespace LibSanBag.Tests.FileResources
 
             Assert.AreEqual(expectedName, name);
         }
+
+        [Test]
+        public void TestOneHashOneFile()
+        {
+            var manifestPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ManifestOneHashOneFile.bin");
+            var manifestBytes = File.ReadAllBytes(manifestPath);
+            var manifest = new ManifestResource();
+            manifest.InitFromRawDecompressed(manifestBytes);
+
+            var name = manifest.Entries[0].ToString();
+            var expectedName = "f6cb837a26516e3693f255a9cdc63d9a.ScriptCompiledBytecode-Resource";
+
+            Assert.AreEqual(expectedName, name);
+        }
     }
 }
