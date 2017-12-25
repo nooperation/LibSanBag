@@ -13,6 +13,8 @@ namespace LibSanBag.FileResources
         public string Name { get; set; }
         public byte[] SoundBytes { get; set; }
 
+        public override bool IsCompressed => true;
+
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))

@@ -199,6 +199,9 @@
     <Content Include="Samples\GeometryResource-Resource.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Samples\ManifestOneHashOneFile.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Samples\Texture-ResourceBadDdsHeader.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

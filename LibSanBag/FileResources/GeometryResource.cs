@@ -19,6 +19,8 @@ namespace LibSanBag.FileResources
         public List<float> BlendWeights { get; set; }
         public List<uint> BlendIndices { get; set; }
 
+        public override bool IsCompressed => true;
+
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             Indices = new List<uint>();

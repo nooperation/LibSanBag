@@ -27,6 +27,8 @@ namespace LibSanBag.FileResources
         public List<Tuple<long, long, long>> UnknownListA;
         public List<int> UnknownListB;
 
+        public override bool IsCompressed => false;
+
         private static string ReadHash(BinaryReader manifestStream)
         {
             var hashUpper = manifestStream.ReadBytes(0x08);
