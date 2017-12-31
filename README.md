@@ -3,7 +3,7 @@
 Project Sansar Bag Utilities
 
 # Bag File Format
-![image](https://raw.githubusercontent.com/nooperation/SanBag/master/Docs/BagFormat.png)
+![image](https://raw.githubusercontent.com/nooperation/LibSanBag/master/Docs/BagFormat.png)
 
 The majority of bag files follow a fairly straight forward binary format.
 * The minimum size is exactly 1024 bytes. Any unused data in that first 1024 bytes is zero filled.
@@ -15,7 +15,7 @@ The majority of bag files follow a fairly straight forward binary format.
   * Offset to file contents in bag file
 
 # Compression
-![image](https://raw.githubusercontent.com/nooperation/SanBag/master/Docs/Compression.png)
+![image](https://raw.githubusercontent.com/nooperation/LibSanBag/master/Docs/Compression.png)
 
 Most assets will be compressed using commercial [Oodle compression](http://www.radgametools.com/oodlecompressors.htm).
 * The first byte of an asset determines the compression type
@@ -31,7 +31,7 @@ Texture-Resource contains a single DDS image.
   * 9A8D4BBD19B4CD55
 
 ## ScriptCompiledBytecodeResource
-![image](https://raw.githubusercontent.com/nooperation/SanBag/master/Docs/ScriptCompiledBytecodeResource.png)
+![image](https://raw.githubusercontent.com/nooperation/LibSanBag/master/Docs/ScriptCompiledBytecodeResource.png)
 
 ScriptCompiledBytecode-Resource contains a path to the source script along with compiled .Net assembly for the specified script.
 * Asset versions
