@@ -80,6 +80,9 @@ namespace LibSanBag.Tests
         {
             ["payload"] = PayloadType.Payload,
             ["manifest"] = PayloadType.Manifest,
+            ["debug"] = PayloadType.Debug,
+            ["capabilities"] = PayloadType.Capabilities,
+            ["null"] = PayloadType.Null,
             ["unknown"] = PayloadType.Unknown,
         };
 
@@ -88,11 +91,6 @@ namespace LibSanBag.Tests
             ["noVariants"] = VariantType.NoVariants,
             ["server"] = VariantType.Server,
             ["pcClient"] = VariantType.PcClient,
-            ["payload"] = VariantType.Payload,
-            ["manifest"] = VariantType.Manifest,
-            ["debug"] = VariantType.Debug,
-            ["capabilities"] = VariantType.Capabilities,
-            ["null"] = VariantType.Null,
             ["unknown"] = VariantType.Unknown,
         };
 
@@ -132,9 +130,9 @@ namespace LibSanBag.Tests
             Assert.AreEqual(info.Hash, hash);
             Assert.AreEqual(info.ImagePath, null);
             Assert.AreEqual(info.IsRawImage, false);
-            Assert.AreEqual(info.Resource, FileRecordInfo.ResourceType.TextureResource);
-            Assert.AreEqual(info.Variant, FileRecordInfo.VariantType.NoVariants);
-            Assert.AreEqual(info.Payload, FileRecordInfo.PayloadType.Payload);
+            Assert.AreEqual(info.Resource, ResourceType.TextureResource);
+            Assert.AreEqual(info.Variant, VariantType.NoVariants);
+            Assert.AreEqual(info.Payload, PayloadType.Payload);
             Assert.AreEqual(info.VersionHash, versionHash);
             Assert.AreEqual(info.VersionNumber, versionNumber);
         }
@@ -154,17 +152,12 @@ namespace LibSanBag.Tests
         [Test]
         public void TestRecordCreationVariantTypes()
         {
-            var resourceNames = new Dictionary<string, FileRecordInfo.VariantType>
+            var resourceNames = new Dictionary<string, VariantType>
             {
-                ["noVariants"] = FileRecordInfo.VariantType.NoVariants,
-                ["server"] = FileRecordInfo.VariantType.Server,
-                ["pcClient"] = FileRecordInfo.VariantType.PcClient,
-                ["payload"] = FileRecordInfo.VariantType.Payload,
-                ["manifest"] = FileRecordInfo.VariantType.Manifest,
-                ["debug"] = FileRecordInfo.VariantType.Debug,
-                ["capabilities"] = FileRecordInfo.VariantType.Capabilities,
-                ["null"] = FileRecordInfo.VariantType.Null,
-                ["unknown"] = FileRecordInfo.VariantType.Unknown
+                ["noVariants"] = VariantType.NoVariants,
+                ["server"] = VariantType.Server,
+                ["pcClient"] = VariantType.PcClient,
+                ["unknown"] = VariantType.Unknown
             };
 
             foreach (var item in resourceNames)
@@ -179,11 +172,14 @@ namespace LibSanBag.Tests
         [Test]
         public void TestRecordCreationPayloadTypes()
         {
-            var resourceNames = new Dictionary<string, FileRecordInfo.PayloadType>
+            var resourceNames = new Dictionary<string, PayloadType>
             {
-                ["payload"] = FileRecordInfo.PayloadType.Payload,
-                ["manifest"] = FileRecordInfo.PayloadType.Manifest,
-                ["unknown"] = FileRecordInfo.PayloadType.Unknown,
+                ["payload"] = PayloadType.Payload,
+                ["manifest"] = PayloadType.Manifest,
+                ["debug"] = PayloadType.Debug,
+                ["capabilities"] = PayloadType.Capabilities,
+                ["null"] = PayloadType.Null,
+                ["unknown"] = PayloadType.Unknown,
             };
 
             foreach (var item in resourceNames)

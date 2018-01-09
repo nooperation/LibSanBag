@@ -73,13 +73,15 @@ namespace LibSanBag
             AnimationCanonical,
             AnimationImport,
             Unknown,
-
         }
 
         public enum PayloadType
         {
-            Payload,
-            Manifest,
+            Payload,        // "payload"
+            Manifest,       // "manifest"
+            Debug,          // "debug"
+            Capabilities,   // "capabilities"
+            Null,           // "null"
             Unknown,
         }
 
@@ -88,11 +90,6 @@ namespace LibSanBag
             NoVariants,     // "noVariants"
             Server,         // "server"
             PcClient,       // "pcClient"
-            Payload,        // "payload"
-            Manifest,       // "manifest"
-            Debug,          // "debug"
-            Capabilities,   // "capabilities"
-            Null,           // "null"
             Unknown
         }
 
@@ -159,11 +156,6 @@ namespace LibSanBag
                 case "noVariants": return VariantType.NoVariants;
                 case "server": return VariantType.Server;
                 case "pcClient": return VariantType.PcClient;
-                case "payload": return VariantType.Payload;
-                case "manifest": return VariantType.Manifest;
-                case "debug": return VariantType.Debug;
-                case "capabilities": return VariantType.Capabilities;
-                case "null": return VariantType.Null;
             }
 
             return VariantType.Unknown;
@@ -176,11 +168,6 @@ namespace LibSanBag
                 case VariantType.NoVariants: return "noVariants";
                 case VariantType.Server: return "server";
                 case VariantType.PcClient: return "pcClient";
-                case VariantType.Payload: return "payload";
-                case VariantType.Manifest: return "manifest";
-                case VariantType.Debug: return "debug";
-                case VariantType.Capabilities: return "capabilities";
-                case VariantType.Null: return "null";
             }
 
             return "unknown";
@@ -192,6 +179,9 @@ namespace LibSanBag
             {
                 case "payload": return PayloadType.Payload;
                 case "manifest": return PayloadType.Manifest;
+                case "debug": return PayloadType.Debug;
+                case "capabilities": return PayloadType.Capabilities;
+                case "null": return PayloadType.Null;
             }
 
             return PayloadType.Unknown;
@@ -203,6 +193,9 @@ namespace LibSanBag
             {
                 case PayloadType.Payload: return "payload";
                 case PayloadType.Manifest: return "manifest";
+                case PayloadType.Debug: return "debug";
+                case PayloadType.Capabilities: return "capabilities";
+                case PayloadType.Null: return "null";
             }
 
             return "unknown";
