@@ -14,7 +14,7 @@ namespace LibSanBag.Tests.FileResources
     {
         private string expectedSource;
 
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.bin");
+        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-ResourceV1.bin");
         private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.cs");
         private string ExpectedSourceTextFilename => "ExampleScript.cs";
 

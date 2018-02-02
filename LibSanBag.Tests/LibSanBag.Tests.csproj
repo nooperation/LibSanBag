@@ -104,7 +104,7 @@
     <Content Include="Samples\ScriptCompiledBytecode-Resource.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\ScriptSourceText-Resource.bin">
+    <Content Include="Samples\ScriptSourceText-ResourceV1.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Texture-Resource.bin">

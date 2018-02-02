@@ -6,10 +6,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibSanBag.FileResources;
 
 namespace LibSanBag.FileResources
 {
-    public class ScriptSourceTextResource : BaseFileResource
+    public abstract class ScriptSourceTextResource : BaseFileResource
     {
         /// <summary>
         /// Script filename
@@ -20,6 +21,39 @@ namespace LibSanBag.FileResources
         /// </summary>
         public string Source { get; set; }
 
+        public static ScriptSourceTextResource Create(string version = "")
+        {
+            switch (version)
+            {
+                case "6301a7d31aa6f628":
+                case "dedd8914f8dfe71e":
+                    return new ScriptSourceTextResourceV1();
+                default:
+                    return new ScriptSourceTextResourceV2();
+            }
+        }
+    }
+
+    public class ScriptSourceTextResourceV2 : ScriptSourceTextResource
+    {
+        public override bool IsCompressed => true;
+
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                // 4cde67396803610f no longer keeps track of source filename
+                Filename = "Unavailable";
+
+                var sourceLength = decompressedStream.ReadInt32();
+                var sourceChars = decompressedStream.ReadChars(sourceLength);
+                Source = new string(sourceChars);
+            }
+        }
+    }
+
+    public class ScriptSourceTextResourceV1 : ScriptSourceTextResource
+    {
         public override bool IsCompressed => true;
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
