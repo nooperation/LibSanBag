@@ -9,29 +9,19 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class TextureResource : BaseFileResource
+    public abstract class TextureResource : BaseFileResource
     {
         /// <summary>
         /// Raw DDS texture bytes
         /// </summary>
         public byte[] DdsBytes { get; set; }
 
-        public override bool IsCompressed => true;
-
-        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        public static TextureResource Create(string version = "")
         {
-            using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
+            switch (version)
             {
-                var numBytes = br.ReadInt32();
-                var textureBytes = br.ReadBytes(numBytes);
-                if (textureBytes[0] == 'D' && textureBytes[1] == 'D' && textureBytes[2] == 'S')
-                {
-                    DdsBytes = textureBytes;
-                }
-                else
-                {
-                    throw new Exception("Could not find DDS header in decompressed data");
-                }
+                default:
+                    return new TextureResourceV1();
             }
         }
 
@@ -50,6 +40,28 @@ namespace LibSanBag.FileResources
             LibDDS.ConversionOptions.DXGI_FORMAT format = LibDDS.ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R32G32B32A32_FLOAT)
         {
             return LibDDS.GetImageBytesFromDds(DdsBytes, width, height, codec, format);
+        }
+    }
+
+    public class TextureResourceV1 : TextureResource
+    {
+        public override bool IsCompressed => true;
+
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                var numBytes = br.ReadInt32();
+                var textureBytes = br.ReadBytes(numBytes);
+                if (textureBytes[0] == 'D' && textureBytes[1] == 'D' && textureBytes[2] == 'S')
+                {
+                    DdsBytes = textureBytes;
+                }
+                else
+                {
+                    throw new Exception("Could not find DDS header in decompressed data");
+                }
+            }
         }
     }
 }

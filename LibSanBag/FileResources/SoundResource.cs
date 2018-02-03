@@ -8,11 +8,23 @@ using LibSanBag.ResourceUtils;
 
 namespace LibSanBag.FileResources
 {
-    public class SoundResource : BaseFileResource
+    public abstract class SoundResource : BaseFileResource
     {
         public string Name { get; set; }
         public byte[] SoundBytes { get; set; }
 
+        public static SoundResource Create(string version = "")
+        {
+            switch (version)
+            {
+                default:
+                    return new SoundResourceV1();
+            }
+        }
+    }
+
+    public class SoundResourceV1 : SoundResource
+    {
         public override bool IsCompressed => true;
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)

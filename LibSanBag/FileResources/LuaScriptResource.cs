@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class LuaScriptResource : BaseFileResource
+    public abstract class LuaScriptResource : BaseFileResource
     {
         /// <summary>
         /// Lua source filename
@@ -20,6 +20,18 @@ namespace LibSanBag.FileResources
         /// </summary>
         public string Source { get; set; }
 
+        public static LuaScriptResource Create(string version = "")
+        {
+            switch (version)
+            {
+                default:
+                    return new LuaScriptResourceV1();
+            }
+        }
+    }
+
+    public class LuaScriptResourceV1 : LuaScriptResource
+    {
         public override bool IsCompressed => true;
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
