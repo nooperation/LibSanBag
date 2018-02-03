@@ -68,6 +68,11 @@ namespace LibSanBag
             //},
             [ResourceType.BlueprintResource] = new List<string>
             {
+                "32a23cdd28d3561f",
+                "cc197a25a23af4e3",
+                "236db40d1d7855d1",
+                "230f1609dda95d17",
+                "b6aadef4bd599337",
                 "8bd8b80cc46c85ec",
                 "9947e8633fc915f0",
                 "aa5fd02d4db51fbd",
@@ -178,6 +183,9 @@ namespace LibSanBag
             },
             [ResourceType.WorldSource] = new List<string>
             {
+                "a6cced6fccd44c99",
+                "5748bfc933c206a7",
+                "8bd76b1dc560ff24",
                 "726ed5c60c66c08c",
                 "9fc809792b20a5a2",
                 "a887eca9f519c56e",
@@ -198,6 +206,8 @@ namespace LibSanBag
             },
             [ResourceType.LicenseResource] = new List<string>
             {
+                "2dd5f090ab6b5468",
+                "31ee0708ce0b7879",
                 "7aafdf777b01caf5",
                 "e4fa764cb431ab8b",
                 "b385897104fffda1",
@@ -211,6 +221,8 @@ namespace LibSanBag
             },
             [ResourceType.ClusterDefinition] = new List<string>
             {
+                "47356b09b73b7da3",
+                "97cd2435e43058ea",
                 "4553f50c35b6f430",
                 "9006e0bbe22c3bda",
                 "380ef86ad442ee18",
@@ -252,6 +264,7 @@ namespace LibSanBag
             },
             [ResourceType.WorldDefinition] = new List<string>
             {
+                "ef77d68a4b0cfd4d",
                 "a9a4ef13fc3b00f9",
                 "c1a95aac3eae483f",
                 "b1ff2160becac496",
@@ -461,6 +474,7 @@ namespace LibSanBag
             },
             [ResourceType.TerrainSourceData] = new List<string>
             {
+                "642effccc24622a4",
                 "eba4ff98ea0b09f2",
                 "2cdabee8bc4dfd3a",
                 "f7f4bf1d96ae304b",
