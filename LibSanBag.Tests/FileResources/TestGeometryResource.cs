@@ -26,7 +26,7 @@ namespace LibSanBag.Tests.FileResources
 
             using (var ms = new MemoryStream(compressedFileBytes))
             {
-                var resource = new GeometryResource();
+                var resource = GeometryResource.Create();
                 resource.InitFromStream(ms);
             }
         }

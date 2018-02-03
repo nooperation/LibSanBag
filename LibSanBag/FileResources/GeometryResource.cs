@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class GeometryResource : BaseFileResource
+    public abstract class GeometryResource : BaseFileResource
     {
         public List<uint> Indices { get; set; }
         public List<float> Vertices { get; set; }
@@ -19,6 +19,18 @@ namespace LibSanBag.FileResources
         public List<float> BlendWeights { get; set; }
         public List<uint> BlendIndices { get; set; }
 
+        public static GeometryResource Create(string version = "")
+        {
+            switch (version)
+            {
+                default:
+                    return new GeometryResourceV1();
+            }
+        }
+    }
+
+    public class GeometryResourceV1 : GeometryResource
+    {
         public override bool IsCompressed => true;
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)

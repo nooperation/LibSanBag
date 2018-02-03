@@ -9,11 +9,23 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class ScriptCompiledBytecodeResource : BaseFileResource
+    public abstract class ScriptCompiledBytecodeResource : BaseFileResource
     {
         public string ScriptSourceTextPath { get; set; }
         public byte[] AssemblyBytes { get; set; }
 
+        public static ScriptCompiledBytecodeResource Create(string version = "")
+        {
+            switch (version)
+            {
+                default:
+                    return new ScriptCompiledBytecodeResourceV1();
+            }
+        }
+    }
+
+    public class ScriptCompiledBytecodeResourceV1 : ScriptCompiledBytecodeResource
+    {
         public override bool IsCompressed => true;
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)

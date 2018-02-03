@@ -14,7 +14,7 @@ namespace LibSanBag.Tests.FileResources
     {
         private string expectedSource;
 
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.bin");
+        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-ResourceV1.bin");
         private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.cs");
         private string ExpectedSourceTextFilename => "ExampleScript.cs";
 
@@ -31,7 +31,7 @@ namespace LibSanBag.Tests.FileResources
 
             using (var ms = new MemoryStream(compressedFileBytes))
             {
-                var resource = new LuaScriptResource();
+                var resource = LuaScriptResource.Create();
                 resource.InitFromStream(ms);
                 Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
                 Assert.AreEqual(resource.Source, expectedSource);
@@ -51,7 +51,7 @@ namespace LibSanBag.Tests.FileResources
                 Name = "File Record"
             };
 
-            var resource = new LuaScriptResource();
+            var resource = LuaScriptResource.Create();
             resource.InitFromRecord(fileStream, fileRecord);
             Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
             Assert.AreEqual(resource.Source, expectedSource);
@@ -62,7 +62,7 @@ namespace LibSanBag.Tests.FileResources
         {
             var filebytes = File.ReadAllBytes(CompressedFilePath);
 
-            var resource = new LuaScriptResource();
+            var resource = LuaScriptResource.Create();
             resource.InitFromRawCompressed(filebytes);
             Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
             Assert.AreEqual(resource.Source, expectedSource);

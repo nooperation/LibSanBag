@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class ManifestResource : BaseFileResource
+    public abstract class ManifestResource : BaseFileResource
     {
         public class ManifestEntry
         {
@@ -27,6 +27,18 @@ namespace LibSanBag.FileResources
         public List<Tuple<long, long, long>> UnknownListA;
         public List<int> UnknownListB;
 
+        public static ManifestResource Create(string version = "")
+        {
+            switch (version)
+            {
+                default:
+                    return new ManifestResourceV1();
+            }
+        }
+    }
+
+    public class ManifestResourceV1 : ManifestResource
+    {
         public override bool IsCompressed => false;
 
         private static string ReadHash(BinaryReader manifestStream)
