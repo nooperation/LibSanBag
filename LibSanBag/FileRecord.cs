@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace LibSanBag
 {
@@ -29,6 +30,7 @@ namespace LibSanBag
         /// <summary>
         /// Extended file info. May be Null.
         /// </summary>
+        [CanBeNull]
         public FileRecordInfo Info { get; set; }
 
         public FileRecord()
