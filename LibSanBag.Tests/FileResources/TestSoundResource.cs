@@ -13,8 +13,8 @@ namespace LibSanBag.Tests.FileResources
     {
         private byte[] expectedSoundBytes;
 
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Sound-Resource.bin");
-        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Sound-Resource.fsb");
+        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Sound", "06996b132758196af622e23df4fe5811.Sound-Resource.v8510a121d70371a2.payload.v0.noVariants");
+        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Sound", "Sample.fsb");
         private string ExpectedName => "enterprise";
 
         [SetUp]

@@ -12,7 +12,7 @@ namespace LibSanBag.Tests.FileResources
     [TestFixture]
     class TestGeometryResource
     {
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "GeometryResource-Resource.bin");
+        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Geometry", "587fcb85b61131545bab31b864ecf6b1.GeometryResource-Resource.v581a503da8d3e98a.payload.v0.noVariants");
 
         [SetUp]
         public void Setup()
