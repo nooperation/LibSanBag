@@ -13,9 +13,9 @@ namespace LibSanBag.Tests.FileResources
     {
         private string expectedSource;
 
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-ResourceV1.bin");
-        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.cs");
-        private string ExpectedSourceTextFilename => "ExampleScript.cs";
+        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "ScriptSourceText", "4b6e1436d155d91deeab038bb225ab21.ScriptSourceText-Resource.v4cde67396803610f.payload.v0.noVariants");
+        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "ScriptSourceText", "ScriptSourceText-Resource.cs");
+        private string ExpectedSourceTextFilename => ""; //"ExampleScript.cs";
 
         [SetUp]
         public void Setup()
@@ -30,7 +30,7 @@ namespace LibSanBag.Tests.FileResources
 
             using (var ms = new MemoryStream(compressedFileBytes))
             {
-                var resource = ScriptSourceTextResource.Create("6301a7d31aa6f628");
+                var resource = ScriptSourceTextResource.Create("4cde67396803610f");
                 resource.InitFromStream(ms);
                 Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
                 Assert.AreEqual(resource.Source, expectedSource);
@@ -50,7 +50,7 @@ namespace LibSanBag.Tests.FileResources
                 Name = "File Record"
             };
 
-            var resource = ScriptSourceTextResource.Create("6301a7d31aa6f628");
+            var resource = ScriptSourceTextResource.Create("4cde67396803610f");
             resource.InitFromRecord(fileStream, fileRecord);
             Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
             Assert.AreEqual(resource.Source, expectedSource);
@@ -61,7 +61,7 @@ namespace LibSanBag.Tests.FileResources
         {
             var filebytes = File.ReadAllBytes(CompressedFilePath);
 
-            var resource = ScriptSourceTextResource.Create("6301a7d31aa6f628");
+            var resource = ScriptSourceTextResource.Create("4cde67396803610f");
             resource.InitFromRawCompressed(filebytes);
             Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
             Assert.AreEqual(resource.Source, expectedSource);

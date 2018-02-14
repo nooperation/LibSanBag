@@ -16,8 +16,8 @@ namespace LibSanBag.Tests.FileResources
         private byte[] expectedTextureBytes;
         public ulong PngHeader => 0x0a1a0a0d474e5089;
 
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin");
-        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.dds");
+        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Texture", "4d0ab27f42b14326ed4987ed25566663.Texture-Resource.v9a8d4bbd19b4cd55.payload.v0.noVariants");
+        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Texture", "Texture-Resource.dds");
 
         [SetUp]
         public void Setup()
@@ -75,7 +75,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestBadDdsHeader()
         {
-            var badDdsHeaderPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-ResourceBadDdsHeader.bin");
+            var badDdsHeaderPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Texture", "Texture-ResourceBadDdsHeader.bin");
             var filebytes = File.ReadAllBytes(badDdsHeaderPath);
 
             Assert.Throws<Exception>(() =>
