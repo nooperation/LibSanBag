@@ -12,7 +12,20 @@ namespace LibSanBag.Tests.FileResources
     [TestFixture]
     class TestGeometryResource
     {
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Geometry", "587fcb85b61131545bab31b864ecf6b1.GeometryResource-Resource.v581a503da8d3e98a.payload.v0.noVariants");
+        private struct TestData
+        {
+            public string CompressedFilePath { get; set; }
+        }
+
+        private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Geometry");
+
+        private IEnumerable<TestData> Tests { get; } = new[]
+        {
+            new TestData
+            {
+                CompressedFilePath = Path.Combine(RootPath, "587fcb85b61131545bab31b864ecf6b1.GeometryResource-Resource.v581a503da8d3e98a.payload.v0.noVariants"),
+            }
+        };
 
         [SetUp]
         public void Setup()
@@ -22,12 +35,15 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestConstructCompressedStream()
         {
-            var compressedFileBytes = File.ReadAllBytes(CompressedFilePath);
-
-            using (var ms = new MemoryStream(compressedFileBytes))
+            foreach (var testData in Tests)
             {
-                var resource = GeometryResource.Create();
-                resource.InitFromStream(ms);
+                var compressedFileBytes = File.ReadAllBytes(testData.CompressedFilePath);
+
+                using (var ms = new MemoryStream(compressedFileBytes))
+                {
+                    var resource = GeometryResource.Create();
+                    resource.InitFromStream(ms);
+                }
             }
         }
     }
