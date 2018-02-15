@@ -16,6 +16,14 @@ namespace LibSanBag.Tests.FileResources
         {
             public string CompressedFilePath { get; set; }
             public string ExpectedAssemblyPath { get; set; }
+            public FileRecordInfo RecordInfo { get; set; }
+
+            public TestData(string compressedFilePath, string expectedAssemblyPath)
+            {
+                CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
+                RecordInfo = FileRecordInfo.Create(compressedFilePath);
+                ExpectedAssemblyPath = expectedAssemblyPath;
+            }
         }
 
         private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples");
@@ -24,11 +32,7 @@ namespace LibSanBag.Tests.FileResources
         private byte[] ExpectedBytes { get; set; }
         private IEnumerable<TestData> Tests { get; } = new[]
         {
-            new TestData
-            {
-                CompressedFilePath = Path.Combine(RootPath, "ScriptCompiledBytecode-Resource.bin"),
-                ExpectedAssemblyPath = "63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll"
-            }
+            new TestData("ScriptCompiledBytecode-Resource.bin", "63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll"),
         };
 
         [SetUp]

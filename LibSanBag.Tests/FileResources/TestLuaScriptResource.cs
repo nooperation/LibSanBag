@@ -18,6 +18,14 @@ namespace LibSanBag.Tests.FileResources
         {
             public string CompressedFilePath { get; set; }
             public string ExpectedFileName { get; set; }
+            public FileRecordInfo RecordInfo { get; set; }
+
+            public TestData(string compressedFilePath, string expectedFileName)
+            {
+                CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
+                RecordInfo = FileRecordInfo.Create(compressedFilePath);
+                ExpectedFileName = expectedFileName;
+            }
         }
 
         private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "ScriptSourceText");
@@ -26,11 +34,7 @@ namespace LibSanBag.Tests.FileResources
         private string ExpectedSource { get; set; }
         private IEnumerable<TestData> Tests { get; } = new[]
         {
-            new TestData
-            {
-                CompressedFilePath = Path.Combine(RootPath, "63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants"),
-                ExpectedFileName = "ExampleScript.cs"
-            }
+            new TestData("63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants", "ExampleScript.cs"),
         };
 
         [SetUp]
@@ -48,7 +52,7 @@ namespace LibSanBag.Tests.FileResources
 
                 using (var ms = new MemoryStream(compressedFileBytes))
                 {
-                    var resource = LuaScriptResource.Create("cb63525ec60d2ea0");
+                    var resource = LuaScriptResource.Create(testData.RecordInfo.VersionHash);
                     resource.InitFromStream(ms);
                     Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
                     Assert.AreEqual(resource.Source, ExpectedSource);
@@ -71,7 +75,7 @@ namespace LibSanBag.Tests.FileResources
                     Name = "File Record"
                 };
 
-                var resource = LuaScriptResource.Create("cb63525ec60d2ea0");
+                var resource = LuaScriptResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRecord(fileStream, fileRecord);
                 Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
                 Assert.AreEqual(resource.Source, ExpectedSource);
@@ -85,7 +89,7 @@ namespace LibSanBag.Tests.FileResources
             {
                 var filebytes = File.ReadAllBytes(testData.CompressedFilePath);
 
-                var resource = LuaScriptResource.Create("cb63525ec60d2ea0");
+                var resource = LuaScriptResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRawCompressed(filebytes);
                 Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
                 Assert.AreEqual(resource.Source, ExpectedSource);

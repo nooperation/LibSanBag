@@ -15,6 +15,14 @@ namespace LibSanBag.Tests.FileResources
         {
             public string CompressedFilePath { get; set; }
             public string ExpectedName { get; set; }
+            public FileRecordInfo RecordInfo { get; set; }
+
+            public TestData(string compressedFilePath, string expectedFileName)
+            {
+                CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
+                RecordInfo = FileRecordInfo.Create(compressedFilePath);
+                ExpectedName = expectedFileName;
+            }
         }
 
         private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Sound");
@@ -23,11 +31,7 @@ namespace LibSanBag.Tests.FileResources
         private byte[] ExpectedSoundBytes { get; set; }
         private IEnumerable<TestData> Tests { get; } = new[]
         {
-            new TestData
-            {
-                CompressedFilePath = Path.Combine(RootPath, "06996b132758196af622e23df4fe5811.Sound-Resource.v8510a121d70371a2.payload.v0.noVariants"),
-                ExpectedName = "Sample"
-            }
+            new TestData("06996b132758196af622e23df4fe5811.Sound-Resource.v8510a121d70371a2.payload.v0.noVariants", "Sample"),
         };
 
         [SetUp]
@@ -45,7 +49,7 @@ namespace LibSanBag.Tests.FileResources
 
                 using (var ms = new MemoryStream(compressedFileBytes))
                 {
-                    var resource = SoundResource.Create();
+                    var resource = SoundResource.Create(testData.RecordInfo.VersionHash);
                     resource.InitFromStream(ms);
                     Assert.AreEqual(resource.Name, testData.ExpectedName);
                     Assert.AreEqual(resource.SoundBytes, ExpectedSoundBytes);
@@ -68,7 +72,7 @@ namespace LibSanBag.Tests.FileResources
                     Name = "File Record"
                 };
 
-                var resource = SoundResource.Create();
+                var resource = SoundResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRecord(fileStream, fileRecord);
                 Assert.AreEqual(resource.Name, testData.ExpectedName);
                 Assert.AreEqual(resource.SoundBytes, ExpectedSoundBytes);
@@ -82,7 +86,7 @@ namespace LibSanBag.Tests.FileResources
             {
                 var filebytes = File.ReadAllBytes(testData.CompressedFilePath);
 
-                var resource = SoundResource.Create();
+                var resource = SoundResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRawCompressed(filebytes);
                 Assert.AreEqual(resource.Name, testData.ExpectedName);
                 Assert.AreEqual(resource.SoundBytes, ExpectedSoundBytes);
