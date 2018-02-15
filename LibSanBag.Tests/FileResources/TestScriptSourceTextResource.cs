@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.Tests.FileResources
 {
-    class TestScriptSourceTextResource
+    [TestFixture]
+    internal class TestScriptSourceTextResource
     {
         private struct TestData
         {
@@ -86,7 +87,6 @@ namespace LibSanBag.Tests.FileResources
         {
             foreach (var testData in Tests)
             {
-
                 var filebytes = File.ReadAllBytes(testData.CompressedFilePath);
 
                 var resource = ScriptSourceTextResource.Create(testData.RecordInfo.VersionHash);

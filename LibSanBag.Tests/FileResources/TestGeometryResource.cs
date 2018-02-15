@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LibSanBag.FileResources;
 using NUnit.Framework;
 
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    class TestGeometryResource
+    internal class TestGeometryResource
     {
         private struct TestData
         {
-            public string CompressedFilePath { get; set; }
-            public FileRecordInfo RecordInfo { get; set; }
+            public string CompressedFilePath { get; }
+            public FileRecordInfo RecordInfo { get; }
 
             public TestData(string compressedFilePath)
             {

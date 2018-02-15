@@ -1,22 +1,18 @@
 ﻿using LibSanBag.FileResources;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    class TestScriptCompiledBytecodeResource
+    internal class TestScriptCompiledBytecodeResource
     {
         private struct TestData
         {
-            public string CompressedFilePath { get; set; }
-            public string ExpectedAssemblyPath { get; set; }
-            public FileRecordInfo RecordInfo { get; set; }
+            public string CompressedFilePath { get; }
+            public string ExpectedAssemblyPath { get; }
+            public FileRecordInfo RecordInfo { get; }
 
             public TestData(string compressedFilePath, string expectedAssemblyPath)
             {
@@ -50,7 +46,7 @@ namespace LibSanBag.Tests.FileResources
 
                 using (var ms = new MemoryStream(compressedFileBytes))
                 {
-                    var resource = ScriptCompiledBytecodeResource.Create();
+                    var resource = ScriptCompiledBytecodeResource.Create(testData.RecordInfo.VersionHash);
                     resource.InitFromStream(ms);
                     Assert.AreEqual(resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
                     Assert.AreEqual(resource.AssemblyBytes, ExpectedBytes);
@@ -73,7 +69,7 @@ namespace LibSanBag.Tests.FileResources
                     Name = "File Record"
                 };
 
-                var resource = ScriptCompiledBytecodeResource.Create();
+                var resource = ScriptCompiledBytecodeResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRecord(fileStream, fileRecord);
                 Assert.AreEqual(resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
                 Assert.AreEqual(resource.AssemblyBytes, ExpectedBytes);
@@ -87,7 +83,7 @@ namespace LibSanBag.Tests.FileResources
             {
                 var filebytes = File.ReadAllBytes(testData.CompressedFilePath);
 
-                var resource = ScriptCompiledBytecodeResource.Create();
+                var resource = ScriptCompiledBytecodeResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRawCompressed(filebytes);
                 Assert.AreEqual(resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
                 Assert.AreEqual(resource.AssemblyBytes, ExpectedBytes);

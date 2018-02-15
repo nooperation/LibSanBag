@@ -1,24 +1,19 @@
 ﻿using LibSanBag.FileResources;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    class TestLuaScriptResource
+    internal class TestLuaScriptResource
     {
         // TODO: Create some actual lua samples to mimic the compressed havok lua scripts
-
         private struct TestData
         {
-            public string CompressedFilePath { get; set; }
-            public string ExpectedFileName { get; set; }
-            public FileRecordInfo RecordInfo { get; set; }
+            public string CompressedFilePath { get; }
+            public string ExpectedFileName { get; }
+            public FileRecordInfo RecordInfo { get; }
 
             public TestData(string compressedFilePath, string expectedFileName)
             {

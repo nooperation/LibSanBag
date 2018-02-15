@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LibSanBag.FileResources;
 using NUnit.Framework;
 
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    class TestManifestResource
+    internal class TestManifestResource
     {
-
         [Test]
         public void TestMultipleResourceManifest()
         {

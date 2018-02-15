@@ -11,7 +11,8 @@ using LibSanBag.ResourceUtils;
 
 namespace LibSanBag.Tests.FileResources
 {
-    class TestTextureResource
+    [TestFixture]
+    internal class TestTextureResource
     {
         private struct TestData
         {

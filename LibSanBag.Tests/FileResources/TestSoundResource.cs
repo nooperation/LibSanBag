@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LibSanBag.FileResources;
 using NUnit.Framework;
 
 namespace LibSanBag.Tests.FileResources
 {
-    class TestSoundResource
+    [TestFixture]
+    internal class TestSoundResource
     {
         private struct TestData
         {
