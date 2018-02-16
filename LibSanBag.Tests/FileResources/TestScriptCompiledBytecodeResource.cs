@@ -11,30 +11,32 @@ namespace LibSanBag.Tests.FileResources
         private struct TestData
         {
             public string CompressedFilePath { get; }
+            public string AssemblyPath { get; }
             public string ExpectedAssemblyPath { get; }
             public FileRecordInfo RecordInfo { get; }
 
             public TestData(string compressedFilePath, string expectedAssemblyPath)
             {
                 CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
-                RecordInfo = FileRecordInfo.Create(compressedFilePath);
+                AssemblyPath = Path.Combine(RootPath, expectedAssemblyPath);
                 ExpectedAssemblyPath = expectedAssemblyPath;
+                RecordInfo = FileRecordInfo.Create(compressedFilePath);
             }
         }
 
-        private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples");
-        private static readonly string ExpectedFilePath = Path.Combine(RootPath, "ScriptCompiledBytecode-Resource.dll");
+        private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "ScriptCompiledBytecode");
 
-        private byte[] ExpectedBytes { get; set; }
         private IEnumerable<TestData> Tests { get; } = new[]
         {
-            new TestData("ScriptCompiledBytecode-Resource.bin", "63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll"),
+            new TestData(
+                "63d3d75933432b36adca64c6d778a1d7.ScriptCompiledBytecode-Resource.vc84707da067146a9.payload.v0.noVariants",
+                "63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll"
+            ),
         };
 
         [SetUp]
         public void Setup()
         {
-            ExpectedBytes = File.ReadAllBytes(ExpectedFilePath);
         }
 
         [Test]
@@ -48,8 +50,10 @@ namespace LibSanBag.Tests.FileResources
                 {
                     var resource = ScriptCompiledBytecodeResource.Create(testData.RecordInfo.VersionHash);
                     resource.InitFromStream(ms);
+
+                    var expectedAssemblyBytes = File.ReadAllBytes(testData.AssemblyPath);
                     Assert.AreEqual(resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
-                    Assert.AreEqual(resource.AssemblyBytes, ExpectedBytes);
+                    Assert.AreEqual(resource.AssemblyBytes, expectedAssemblyBytes);
                 }
             }
         }
@@ -71,8 +75,10 @@ namespace LibSanBag.Tests.FileResources
 
                 var resource = ScriptCompiledBytecodeResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRecord(fileStream, fileRecord);
+
+                var expectedAssemblyBytes = File.ReadAllBytes(testData.AssemblyPath);
                 Assert.AreEqual(resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
-                Assert.AreEqual(resource.AssemblyBytes, ExpectedBytes);
+                Assert.AreEqual(resource.AssemblyBytes, expectedAssemblyBytes);
             }
         }
 
@@ -85,8 +91,10 @@ namespace LibSanBag.Tests.FileResources
 
                 var resource = ScriptCompiledBytecodeResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRawCompressed(filebytes);
+
+                var expectedAssemblyBytes = File.ReadAllBytes(testData.AssemblyPath);
                 Assert.AreEqual(resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
-                Assert.AreEqual(resource.AssemblyBytes, ExpectedBytes);
+                Assert.AreEqual(resource.AssemblyBytes, expectedAssemblyBytes);
             }
         }
     }
