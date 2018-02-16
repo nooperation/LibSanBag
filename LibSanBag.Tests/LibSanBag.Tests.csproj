@@ -181,13 +181,13 @@
     <Content Include="Samples\OodleLz\UnknownCompressionHeader.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\MultipleFileManifest.bin">
+    <Content Include="Samples\Resources\Manifest\MultipleFileManifest.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\MultipleHashManifest.bin">
+    <Content Include="Samples\Resources\Manifest\MultipleHashManifest.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\ManifestOneHashOneFile.bin">
+    <Content Include="Samples\Resources\Manifest\ManifestOneHashOneFile.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Resources\Geometry\587fcb85b61131545bab31b864ecf6b1.GeometryResource-Resource.v581a503da8d3e98a.payload.v0.noVariants">

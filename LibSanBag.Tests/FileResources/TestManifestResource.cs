@@ -10,10 +10,12 @@ namespace LibSanBag.Tests.FileResources
     [TestFixture]
     internal class TestManifestResource
     {
+        private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Manifest");
+
         [Test]
         public void TestMultipleResourceManifest()
         {
-            var multipleFileManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleFileManifest.bin");
+            var multipleFileManifest = Path.Combine(RootPath, "MultipleFileManifest.bin");
             var manifestBytes = File.ReadAllBytes(multipleFileManifest);
             var manifest = ManifestResource.Create();
             manifest.InitFromRawDecompressed(manifestBytes);
@@ -23,7 +25,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestMultipleResourceManifestStream()
         {
-            var multipleFileManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleFileManifest.bin");
+            var multipleFileManifest = Path.Combine(RootPath, "MultipleFileManifest.bin");
             using (var manifestStream = File.OpenRead(multipleFileManifest))
             {
                 var manifest = ManifestResource.Create();
@@ -35,7 +37,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestMultipleResourceManifestFileRecord()
         {
-            var multipleFileManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleFileManifest.bin");
+            var multipleFileManifest = Path.Combine(RootPath, "MultipleFileManifest.bin");
             using (var manifestStream = File.OpenRead(multipleFileManifest))
             {
                 var fileRecord = new FileRecord
@@ -56,7 +58,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestMultipleHashManifest()
         {
-            var multipleHashManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleHashManifest.bin");
+            var multipleHashManifest = Path.Combine(RootPath, "MultipleHashManifest.bin");
             var manifestBytes = File.ReadAllBytes(multipleHashManifest);
             var manifest = ManifestResource.Create();
 
@@ -67,7 +69,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestMultipleHashManifestStream()
         {
-            var multipleHashManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleHashmanifest.bin");
+            var multipleHashManifest = Path.Combine(RootPath, "MultipleHashmanifest.bin");
             using (var manifestStream = File.OpenRead(multipleHashManifest))
             {
                 var manifest = ManifestResource.Create();
@@ -79,7 +81,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestMultipleHashManifestFileRecord()
         {
-            var multipleHashManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleHashManifest.bin");
+            var multipleHashManifest = Path.Combine(RootPath, "MultipleHashManifest.bin");
             using (var manifestStream = File.OpenRead(multipleHashManifest))
             {
                 var fileRecord = new FileRecord
@@ -190,7 +192,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestManifestToString()
         {
-            var multipleHashManifest = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "MultipleHashManifest.bin");
+            var multipleHashManifest = Path.Combine(RootPath, "MultipleHashManifest.bin");
             var manifestBytes = File.ReadAllBytes(multipleHashManifest);
             var manifest = ManifestResource.Create();
             manifest.InitFromRawDecompressed(manifestBytes);
@@ -204,7 +206,7 @@ namespace LibSanBag.Tests.FileResources
         [Test]
         public void TestOneHashOneFile()
         {
-            var manifestPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ManifestOneHashOneFile.bin");
+            var manifestPath = Path.Combine(RootPath, "ManifestOneHashOneFile.bin");
             var manifestBytes = File.ReadAllBytes(manifestPath);
             var manifest = ManifestResource.Create();
             manifest.InitFromRawDecompressed(manifestBytes);
