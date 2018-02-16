@@ -11,13 +11,30 @@ using LibSanBag.ResourceUtils;
 
 namespace LibSanBag.Tests.FileResources
 {
-    class TestTextureResource
+    [TestFixture]
+    internal class TestTextureResource
     {
-        private byte[] expectedTextureBytes;
-        public ulong PngHeader => 0x0a1a0a0d474e5089;
+        private struct TestData
+        {
+            public string CompressedFilePath { get; set; }
+            public FileRecordInfo RecordInfo { get; set; }
 
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.bin");
-        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-Resource.dds");
+            public TestData(string compressedFilePath)
+            {
+                CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
+                RecordInfo = FileRecordInfo.Create(compressedFilePath);
+            }
+        }
+
+        private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Texture");
+        private static readonly string ExpectedFilePath = Path.Combine(RootPath, "Texture-Resource.dds");
+        private static readonly ulong PngHeader = 0x0a1a0a0d474e5089;
+
+        private byte[] ExpectedBytes { get; set; }
+        private IEnumerable<TestData> Tests { get; } = new[]
+        {
+            new TestData("4d0ab27f42b14326ed4987ed25566663.Texture-Resource.v9a8d4bbd19b4cd55.payload.v0.noVariants"),
+        };
 
         [SetUp]
         public void Setup()
@@ -28,74 +45,89 @@ namespace LibSanBag.Tests.FileResources
                 LibDDS.FindDependencies(new FileProvider());
             }
 
-            expectedTextureBytes = File.ReadAllBytes(ExpectedFilePath);
+            ExpectedBytes = File.ReadAllBytes(ExpectedFilePath);
         }
 
         [Test]
         public void TestConstructCompressedStream()
         {
-            var compressedFileBytes = File.ReadAllBytes(CompressedFilePath);
-
-            using (var ms = new MemoryStream(compressedFileBytes))
+            foreach (var testData in Tests)
             {
-                var resource = TextureResource.Create();
-                resource.InitFromStream(ms);
-                Assert.AreEqual(resource.DdsBytes, expectedTextureBytes);
+                var compressedFileBytes = File.ReadAllBytes(testData.CompressedFilePath);
+
+                using (var ms = new MemoryStream(compressedFileBytes))
+                {
+                    var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
+                    resource.InitFromStream(ms);
+                    Assert.AreEqual(resource.DdsBytes, ExpectedBytes);
+                }
             }
         }
 
         [Test]
         public void TestConstructFileInfo()
         {
-            var fileStream = File.OpenRead(CompressedFilePath);
-            var fileRecord = new FileRecord
+            foreach (var testData in Tests)
             {
-                Length = (uint)fileStream.Length,
-                Info = null,
-                Offset = 0,
-                TimestampNs = 0,
-                Name = "File Record"
-            };
+                var fileStream = File.OpenRead(testData.CompressedFilePath);
+                var fileRecord = new FileRecord
+                {
+                    Length = (uint)fileStream.Length,
+                    Info = null,
+                    Offset = 0,
+                    TimestampNs = 0,
+                    Name = "File Record"
+                };
 
-            var resource = TextureResource.Create();
-            resource.InitFromRecord(fileStream, fileRecord);
-            Assert.AreEqual(resource.DdsBytes, expectedTextureBytes);
+                var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
+                resource.InitFromRecord(fileStream, fileRecord);
+                Assert.AreEqual(resource.DdsBytes, ExpectedBytes);
+            }
         }
 
         [Test]
         public void TestConstructBytes()
         {
-            var filebytes = File.ReadAllBytes(CompressedFilePath);
+            foreach (var testData in Tests)
+            {
+                var filebytes = File.ReadAllBytes(testData.CompressedFilePath);
 
-            var resource = TextureResource.Create();
-            resource.InitFromRawCompressed(filebytes);
-            Assert.AreEqual(resource.DdsBytes, expectedTextureBytes);
+                var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
+                resource.InitFromRawCompressed(filebytes);
+                Assert.AreEqual(resource.DdsBytes, ExpectedBytes);
+            }
         }
 
         [Test]
         public void TestBadDdsHeader()
         {
-            var badDdsHeaderPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Texture-ResourceBadDdsHeader.bin");
-            var filebytes = File.ReadAllBytes(badDdsHeaderPath);
-
-            Assert.Throws<Exception>(() =>
+            foreach (var testData in Tests)
             {
-                var resource = TextureResource.Create();
-                resource.InitFromRawCompressed(filebytes);
-            });
+                var badDdsHeaderPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Texture", "Texture-ResourceBadDdsHeader.bin");
+                var filebytes = File.ReadAllBytes(badDdsHeaderPath);
+
+                Assert.Throws<Exception>(() =>
+                {
+                    var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
+                    resource.InitFromRawCompressed(filebytes);
+                });
+            }
         }
 
         [Test]
         public void TestConvertTo()
         {
-            var filebytes = File.ReadAllBytes(CompressedFilePath);
+            foreach (var testData in Tests)
+            {
+                var filebytes = File.ReadAllBytes(testData.CompressedFilePath);
 
-            var resource = TextureResource.Create();
-            resource.InitFromRawCompressed(filebytes);
-            var imageBytes = resource.ConvertTo(ResourceUtils.LibDDS.ConversionOptions.CodecType.CODEC_PNG);
+                var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
+                resource.InitFromRawCompressed(filebytes);
+                var imageBytes = resource.ConvertTo(ResourceUtils.LibDDS.ConversionOptions.CodecType.CODEC_PNG);
 
-            var header = BitConverter.ToUInt64(imageBytes, 0);
-            Assert.AreEqual(PngHeader, header);
+                var header = BitConverter.ToUInt64(imageBytes, 0);
+                Assert.AreEqual(PngHeader, header);
+            }
         }
     }
 }
