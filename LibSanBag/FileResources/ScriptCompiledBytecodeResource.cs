@@ -18,8 +18,11 @@ namespace LibSanBag.FileResources
         {
             switch (version)
             {
-                default:
+                case "c84707da067146a9":
+                case "e6ac3244f1076f7b":
                     return new ScriptCompiledBytecodeResourceV1();
+                default:
+                    return new ScriptCompiledBytecodeResourceV2();
             }
         }
     }
@@ -35,6 +38,22 @@ namespace LibSanBag.FileResources
                 var stringLength = br.ReadInt32();
                 var stringChars = br.ReadChars(stringLength);
                 ScriptSourceTextPath = new string(stringChars);
+
+                var assemblyLength = br.ReadInt32();
+                AssemblyBytes = br.ReadBytes(assemblyLength);
+            }
+        }
+    }
+
+    public class ScriptCompiledBytecodeResourceV2 : ScriptCompiledBytecodeResource
+    {
+        public override bool IsCompressed => true;
+
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                ScriptSourceTextPath = string.Empty;
 
                 var assemblyLength = br.ReadInt32();
                 AssemblyBytes = br.ReadBytes(assemblyLength);
