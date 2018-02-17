@@ -42,8 +42,7 @@ namespace LibSanBag.FileResources
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                // 4cde67396803610f no longer keeps track of source filename
-                Filename = "Unavailable";
+                Filename = string.Empty;
 
                 var sourceLength = decompressedStream.ReadInt32();
                 var sourceChars = decompressedStream.ReadChars(sourceLength);
