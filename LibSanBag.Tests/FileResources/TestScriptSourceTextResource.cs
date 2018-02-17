@@ -33,6 +33,7 @@ namespace LibSanBag.Tests.FileResources
         private IEnumerable<TestData> Tests { get; } = new[]
         {
             new TestData("63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants", "ExampleScript.cs"),
+            new TestData("4b6e1436d155d91deeab038bb225ab21.ScriptSourceText-Resource.v4cde67396803610f.payload.v0.noVariants", string.Empty),
         };
 
         [SetUp]
