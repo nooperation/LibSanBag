@@ -9,62 +9,92 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.Tests.FileResources
 {
-    class TestScriptSourceTextResource
+    [TestFixture]
+    internal class TestScriptSourceTextResource
     {
-        private string expectedSource;
+        private struct TestData
+        {
+            public string CompressedFilePath { get; set; }
+            public string ExpectedFileName { get; set; }
+            public FileRecordInfo RecordInfo { get; set; }
 
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-ResourceV1.bin");
-        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.cs");
-        private string ExpectedSourceTextFilename => "ExampleScript.cs";
+            public TestData(string compressedFilePath, string expectedFileName)
+            {
+                CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
+                RecordInfo = FileRecordInfo.Create(compressedFilePath);
+                ExpectedFileName = expectedFileName;
+            }
+        }
+
+        private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "ScriptSourceText");
+        private static readonly string ExpectedFilePath = Path.Combine(RootPath, "ScriptSourceText-Resource.cs");
+
+        private string ExpectedSource { get; set; }
+        private IEnumerable<TestData> Tests { get; } = new[]
+        {
+            new TestData("63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants", "ExampleScript.cs"),
+            new TestData("4b6e1436d155d91deeab038bb225ab21.ScriptSourceText-Resource.v4cde67396803610f.payload.v0.noVariants", string.Empty),
+        };
 
         [SetUp]
         public void Setup()
         {
-            expectedSource = File.ReadAllText(ExpectedFilePath);
+            ExpectedSource = File.ReadAllText(ExpectedFilePath);
         }
 
         [Test]
         public void TestConstructCompressedStream()
         {
-            var compressedFileBytes = File.ReadAllBytes(CompressedFilePath);
-
-            using (var ms = new MemoryStream(compressedFileBytes))
+            foreach (var testData in Tests)
             {
-                var resource = ScriptSourceTextResource.Create("6301a7d31aa6f628");
-                resource.InitFromStream(ms);
-                Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
-                Assert.AreEqual(resource.Source, expectedSource);
+
+                var compressedFileBytes = File.ReadAllBytes(testData.CompressedFilePath);
+
+                using (var ms = new MemoryStream(compressedFileBytes))
+                {
+                    var resource = ScriptSourceTextResource.Create(testData.RecordInfo.VersionHash);
+                    resource.InitFromStream(ms);
+                    Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
+                    Assert.AreEqual(resource.Source, ExpectedSource);
+                }
             }
         }
 
         [Test]
         public void TestConstructFileInfo()
         {
-            var fileStream = File.OpenRead(CompressedFilePath);
-            var fileRecord = new FileRecord
+            foreach (var testData in Tests)
             {
-                Length = (uint)fileStream.Length,
-                Info = null,
-                Offset = 0,
-                TimestampNs = 0,
-                Name = "File Record"
-            };
 
-            var resource = ScriptSourceTextResource.Create("6301a7d31aa6f628");
-            resource.InitFromRecord(fileStream, fileRecord);
-            Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
-            Assert.AreEqual(resource.Source, expectedSource);
+                var fileStream = File.OpenRead(testData.CompressedFilePath);
+                var fileRecord = new FileRecord
+                {
+                    Length = (uint)fileStream.Length,
+                    Info = null,
+                    Offset = 0,
+                    TimestampNs = 0,
+                    Name = "File Record"
+                };
+
+                var resource = ScriptSourceTextResource.Create(testData.RecordInfo.VersionHash);
+                resource.InitFromRecord(fileStream, fileRecord);
+                Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
+                Assert.AreEqual(resource.Source, ExpectedSource);
+            }
         }
 
         [Test]
         public void TestConstructBytes()
         {
-            var filebytes = File.ReadAllBytes(CompressedFilePath);
+            foreach (var testData in Tests)
+            {
+                var filebytes = File.ReadAllBytes(testData.CompressedFilePath);
 
-            var resource = ScriptSourceTextResource.Create("6301a7d31aa6f628");
-            resource.InitFromRawCompressed(filebytes);
-            Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
-            Assert.AreEqual(resource.Source, expectedSource);
+                var resource = ScriptSourceTextResource.Create(testData.RecordInfo.VersionHash);
+                resource.InitFromRawCompressed(filebytes);
+                Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
+                Assert.AreEqual(resource.Source, ExpectedSource);
+            }
         }
     }
 }

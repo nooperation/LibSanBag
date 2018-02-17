@@ -1,71 +1,94 @@
 ﻿using LibSanBag.FileResources;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    class TestLuaScriptResource
+    internal class TestLuaScriptResource
     {
-        private string expectedSource;
+        // TODO: Create some actual lua samples to mimic the compressed havok lua scripts
+        private struct TestData
+        {
+            public string CompressedFilePath { get; }
+            public string ExpectedFileName { get; }
+            public FileRecordInfo RecordInfo { get; }
 
-        private string CompressedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-ResourceV1.bin");
-        private string ExpectedFilePath => Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "ScriptSourceText-Resource.cs");
-        private string ExpectedSourceTextFilename => "ExampleScript.cs";
+            public TestData(string compressedFilePath, string expectedFileName)
+            {
+                CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
+                RecordInfo = FileRecordInfo.Create(compressedFilePath);
+                ExpectedFileName = expectedFileName;
+            }
+        }
+
+        private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "ScriptSourceText");
+        private static readonly string ExpectedFilePath = Path.Combine(RootPath, "ScriptSourceText-Resource.cs");
+
+        private string ExpectedSource { get; set; }
+        private IEnumerable<TestData> Tests { get; } = new[]
+        {
+            new TestData("63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants", "ExampleScript.cs"),
+        };
 
         [SetUp]
         public void Setup()
         {
-            expectedSource = File.ReadAllText(ExpectedFilePath);
+            ExpectedSource = File.ReadAllText(ExpectedFilePath);
         }
 
         [Test]
         public void TestConstructCompressedStream()
         {
-            var compressedFileBytes = File.ReadAllBytes(CompressedFilePath);
-
-            using (var ms = new MemoryStream(compressedFileBytes))
+            foreach (var testData in Tests)
             {
-                var resource = LuaScriptResource.Create();
-                resource.InitFromStream(ms);
-                Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
-                Assert.AreEqual(resource.Source, expectedSource);
+                var compressedFileBytes = File.ReadAllBytes(testData.CompressedFilePath);
+
+                using (var ms = new MemoryStream(compressedFileBytes))
+                {
+                    var resource = LuaScriptResource.Create(testData.RecordInfo.VersionHash);
+                    resource.InitFromStream(ms);
+                    Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
+                    Assert.AreEqual(resource.Source, ExpectedSource);
+                }
             }
         }
 
         [Test]
         public void TestConstructFileInfo()
         {
-            var fileStream = File.OpenRead(CompressedFilePath);
-            var fileRecord = new FileRecord
+            foreach (var testData in Tests)
             {
-                Length = (uint)fileStream.Length,
-                Info = null,
-                Offset = 0,
-                TimestampNs = 0,
-                Name = "File Record"
-            };
+                var fileStream = File.OpenRead(testData.CompressedFilePath);
+                var fileRecord = new FileRecord
+                {
+                    Length = (uint)fileStream.Length,
+                    Info = null,
+                    Offset = 0,
+                    TimestampNs = 0,
+                    Name = "File Record"
+                };
 
-            var resource = LuaScriptResource.Create();
-            resource.InitFromRecord(fileStream, fileRecord);
-            Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
-            Assert.AreEqual(resource.Source, expectedSource);
+                var resource = LuaScriptResource.Create(testData.RecordInfo.VersionHash);
+                resource.InitFromRecord(fileStream, fileRecord);
+                Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
+                Assert.AreEqual(resource.Source, ExpectedSource);
+            }
         }
 
         [Test]
         public void TestConstructBytes()
         {
-            var filebytes = File.ReadAllBytes(CompressedFilePath);
+            foreach (var testData in Tests)
+            {
+                var filebytes = File.ReadAllBytes(testData.CompressedFilePath);
 
-            var resource = LuaScriptResource.Create();
-            resource.InitFromRawCompressed(filebytes);
-            Assert.AreEqual(resource.Filename, ExpectedSourceTextFilename);
-            Assert.AreEqual(resource.Source, expectedSource);
+                var resource = LuaScriptResource.Create(testData.RecordInfo.VersionHash);
+                resource.InitFromRawCompressed(filebytes);
+                Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
+                Assert.AreEqual(resource.Source, ExpectedSource);
+            }
         }
     }
 }

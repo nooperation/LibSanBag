@@ -85,7 +85,13 @@
       <Link>LibDDS.dll</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\ScriptSourceText-Resource.cs">
+    <Content Include="Samples\Resources\ScriptCompiledBytecode\4b6e1436d155d91deeab038bb225ab21.ScriptSourceText-Resource.v4cde67396803610f.payload.v0.noVariants.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptCompiledBytecode\63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptSourceText\ScriptSourceText-Resource.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="FileResources\TestTextureResource.cs" />
@@ -93,21 +99,15 @@
     <Compile Include="TestFileRecordInfo.cs" />
     <Compile Include="TestClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="Samples\Sound-Resource.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Samples\Texture-Resource.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Samples\ScriptCompiledBytecode-Resource.bin">
+    <Content Include="Samples\Resources\Sound\ExpectedOutput.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\ScriptSourceText-ResourceV1.bin">
+    <Content Include="Samples\Resources\Texture\Sample.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Texture-Resource.bin">
+    <Content Include="Samples\Resources\Texture\Texture-Resource.dds">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Bag\Empty.bag">
@@ -143,9 +143,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="In\TestFile2.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Samples\ScriptCompiledBytecode-Resource.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -184,27 +181,51 @@
     <Content Include="Samples\OodleLz\UnknownCompressionHeader.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\MultipleFileManifest.bin">
+    <Content Include="Samples\Resources\Manifest\MultipleFileManifest.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\MultipleHashManifest.bin">
+    <Content Include="Samples\Resources\Manifest\MultipleHashManifest.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Sound-Resource.bin">
+    <Content Include="Samples\Resources\Manifest\ManifestOneHashOneFile.bin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Sound-Resource.fsb">
+    <Content Include="Samples\Resources\Geometry\587fcb85b61131545bab31b864ecf6b1.GeometryResource-Resource.v581a503da8d3e98a.payload.v0.noVariants">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\GeometryResource-Resource.bin">
+    <Content Include="Samples\Resources\ScriptSourceText\4b6e1436d155d91deeab038bb225ab21.ScriptSourceText-Resource.v4cde67396803610f.payload.v0.noVariants">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\ManifestOneHashOneFile.bin">
+    <Content Include="Samples\Resources\ScriptSourceText\63d3d75933432b36adca64c6d778a1d7.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Samples\Texture-ResourceBadDdsHeader.bin">
+    <Content Include="Samples\Resources\Texture\4d0ab27f42b14326ed4987ed25566663.Texture-Resource.v9a8d4bbd19b4cd55.payload.v0.noVariants">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <Content Include="Samples\Resources\Texture\Texture-ResourceBadDdsHeader.bin">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\Sound\Sample.fsb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\Sound\06996b132758196af622e23df4fe5811.Sound-Resource.v8510a121d70371a2.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\Sound\Sample.ogg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptCompiledBytecode\4b6e1436d155d91deeab038bb225ab21.ScriptCompiledBytecode-Resource.v695aad7e1181dc46.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptCompiledBytecode\63d3d75933432b36adca64c6d778a1d7.ScriptCompiledBytecode-Resource.vc84707da067146a9.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\63d3d75933432b36adca64c6d778a1d7.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
