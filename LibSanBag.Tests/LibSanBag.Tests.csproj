@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileResources\TestGeometryResource.cs" />
+    <Compile Include="FileResources\TestGeometryResourceCanonical.cs" />
     <Compile Include="FileResources\TestManifestResource.cs" />
     <Compile Include="FileResources\TestScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\TestLuaScriptResource.cs" />
@@ -224,6 +225,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Resources\ScriptMetadata\63d3d75933432b36adca64c6d778a1d7.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\Geometry\a1142263356f82516bd7908acf4527cd.GeometryResource-Canonical.v51b89e39caab7b79.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\Geometry\BasicCube.fbx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
