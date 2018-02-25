@@ -127,7 +127,7 @@ namespace LibSanBag.ResourceUtils
                 {
                     decompressedSize = br.ReadUInt32();
                 }
-                else if (firstByte == 0x01 || firstByte == 0x02)
+                else if (firstByte == 0x01 || firstByte == 0x02 || firstByte == 0x03)
                 {
                     br.BaseStream.Seek(3, SeekOrigin.Current);
 
