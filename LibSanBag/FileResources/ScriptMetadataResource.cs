@@ -71,7 +71,7 @@ namespace LibSanBag.FileResources
                     var shouldCheckForAttributes = true;
 
                     var typeCode = decompressedStream.ReadInt32();
-                    if (typeCode == 0x400)
+                    if (typeCode == 0x400 || typeCode == 0x1003)
                     {
                         var unknownG = decompressedStream.ReadInt32();
                         shouldCheckForAttributes = unknownG == 1;
@@ -93,7 +93,7 @@ namespace LibSanBag.FileResources
                         }
                         else
                         {
-                            if (typeCode == 0x400)
+                            if (typeCode == 0x400 || typeCode == 0x1003)
                             {
                                 var unknownZ = decompressedStream.ReadInt32();
                             }
