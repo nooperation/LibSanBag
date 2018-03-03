@@ -37,6 +37,12 @@ namespace LibSanBag.FileResources
 
     public class ScriptMetadataResourceV3 : ScriptMetadataResource
     {
+        struct TypeCode
+        {
+            public static int DoubleType = 0x208;
+            public static int StringType = 0x400;
+        }
+
         public override bool IsCompressed => true;
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
@@ -71,7 +77,7 @@ namespace LibSanBag.FileResources
                     var shouldCheckForAttributes = true;
 
                     var typeCode = decompressedStream.ReadInt32();
-                    if (typeCode == 0x400 || typeCode == 0x1003)
+                    if (typeCode == 0x400 || typeCode == 0x1003 || typeCode == 0x208)
                     {
                         var unknownG = decompressedStream.ReadInt32();
                         shouldCheckForAttributes = unknownG == 1;
@@ -93,7 +99,7 @@ namespace LibSanBag.FileResources
                         }
                         else
                         {
-                            if (typeCode == 0x400 || typeCode == 0x1003)
+                            if (typeCode == 0x400 || typeCode == 0x1003 || typeCode == 0x208)
                             {
                                 var unknownZ = decompressedStream.ReadInt32();
                             }
@@ -109,6 +115,11 @@ namespace LibSanBag.FileResources
                                     var attributeValueLength = decompressedStream.ReadInt32();
                                     var attributeValue = new string(decompressedStream.ReadChars(attributeValueLength));
 
+                                    attributes.Add(new KeyValuePair<string, string>(attributeKey, attributeValue));
+                                }
+                                else if (attributeValueCode == 0x208)
+                                {
+                                    var attributeValue = decompressedStream.ReadDouble().ToString();
                                     attributes.Add(new KeyValuePair<string, string>(attributeKey, attributeValue));
                                 }
                                 else
