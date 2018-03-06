@@ -37,10 +37,29 @@ namespace LibSanBag.FileResources
 
     public class ScriptMetadataResourceV3 : ScriptMetadataResource
     {
-        struct TypeCode
+        public struct TypeCode
         {
-            public static int DoubleType = 0x208;
-            public static int StringType = 0x400;
+            public static readonly int System_Boolean = 4101;
+            public static readonly int System_SByte   =  101;
+            public static readonly int System_Byte    = 8101;
+            public static readonly int System_Int16   =  102;
+            public static readonly int System_UInt16  = 8102;
+            public static readonly int System_Int32   =  104;
+            public static readonly int System_UInt32  = 8104;
+            public static readonly int System_Int64   =  108;
+            public static readonly int System_UInt64  = 8108;
+            public static readonly int System_Single  =  204;
+            public static readonly int System_Double  =  208;
+            public static readonly int System_String  =  400;
+            public static readonly int System_Object  =  800;
+            public static readonly int Sansar_Simulation_RigidBodyComponent =  802;
+            public static readonly int Sansar_Simulation_AnimationComponent =  801;
+            public static readonly int Sansar_Simulation_AudioComponent     =  803;
+            public static readonly int Sansar_Simulation_ClusterResource    = 2002;
+            public static readonly int Sansar_Simulation_SoundResource      = 2003;
+            public static readonly int Mono_Simd_Vector4f = 1001;
+            public static readonly int Sansar_Vector      = 1002;
+            public static readonly int Sansar_Quaternion  = 1003;
         }
 
         public override bool IsCompressed => true;
@@ -77,10 +96,10 @@ namespace LibSanBag.FileResources
                     var shouldCheckForAttributes = true;
 
                     var typeCode = decompressedStream.ReadInt32();
-                    if (typeCode == 0x400 || typeCode == 0x1003 || typeCode == 0x208)
+                    if (i == 0 && (typeCode == 0x400 || typeCode == 0x1003 || typeCode == 0x208))
                     {
                         var unknownG = decompressedStream.ReadInt32();
-                        shouldCheckForAttributes = unknownG == 1;
+                        shouldCheckForAttributes = unknownG > 0;
                     }
 
                     if(shouldCheckForAttributes)
@@ -99,7 +118,7 @@ namespace LibSanBag.FileResources
                         }
                         else
                         {
-                            if (typeCode == 0x400 || typeCode == 0x1003 || typeCode == 0x208)
+                            if (i == 0 && (typeCode == 0x400 || typeCode == 0x1003 || typeCode == 0x208))
                             {
                                 var unknownZ = decompressedStream.ReadInt32();
                             }
