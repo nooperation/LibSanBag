@@ -163,6 +163,16 @@ namespace LibSanBag.FileResources
                     return new ScriptMetadataResourceV3();
             }
         }
+
+        public static Type GetTypeFor(string version = "")
+        {
+            switch (version)
+            {
+                case "67df52a55a73f7d3":
+                default:
+                    return typeof(ScriptMetadataResourceV3);
+            }
+        }
     }
 
     public class ScriptMetadataResourceV3 : ScriptMetadataResource

@@ -16,16 +16,14 @@ namespace LibSanBag.Tests.FileResources
         private struct TestData
         {
             public string CompressedFilePath { get; }
-            public ScriptMetadataResource Expected { get; }
+            public string JsonFilePath { get; }
             public FileRecordInfo RecordInfo { get; }
 
             public TestData(string compressedFilePath, string jsonFilePath)
             {
+                JsonFilePath = jsonFilePath;
                 CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
                 RecordInfo = FileRecordInfo.Create(compressedFilePath);
-
-                var expectedJson = File.ReadAllText(jsonFilePath);
-                Expected = JsonConvert.DeserializeObject<ScriptMetadataResourceV3>(expectedJson);
             }
         }
 
@@ -51,8 +49,10 @@ namespace LibSanBag.Tests.FileResources
         {
             foreach (var testData in Tests)
             {
+                var expectedJson = File.ReadAllText(testData.JsonFilePath);
+                var expected = (ScriptMetadataResource)JsonConvert.DeserializeObject(expectedJson, ScriptMetadataResource.GetTypeFor(testData.RecordInfo.VersionHash));
+
                 var compressedFileBytes = File.ReadAllBytes(testData.CompressedFilePath);
-                var expected = testData.Expected;
 
                 using (var ms = new MemoryStream(compressedFileBytes))
                 {
@@ -63,24 +63,30 @@ namespace LibSanBag.Tests.FileResources
                     Assert.AreEqual(expected.Warnings, actual.Warnings);
 
                     Assert.AreEqual(expected.Properties.Count, actual.Properties.Count);
-                    for (int i = 0; i < actual.Properties.Count; i++)
+                    for (var propertyIndex = 0; propertyIndex < actual.Properties.Count; propertyIndex++)
                     {
-                        Assert.AreEqual(expected.Properties[i].Name, actual.Properties[i].Name);
-                        Assert.AreEqual(expected.Properties[i].Type, actual.Properties[i].Type);
+                        var expectedProperty = expected.Properties[propertyIndex];
+                        var actualProperty = actual.Properties[propertyIndex];
 
-                        Assert.AreEqual(expected.Properties[i].Attributes.Count, actual.Properties[i].Attributes.Count);
-                        for (int j = 0; j < actual.Properties[i].Attributes.Count; j++)
+                        Assert.AreEqual(expectedProperty.Name, actualProperty.Name);
+                        Assert.AreEqual(expectedProperty.Type, actualProperty.Type);
+
+                        Assert.AreEqual(expectedProperty.Attributes.Count, actualProperty.Attributes.Count);
+                        for (var attributeIndex = 0; attributeIndex < actualProperty.Attributes.Count; attributeIndex++)
                         {
-                            Assert.AreEqual(expected.Properties[i].Attributes[j].Key, actual.Properties[i].Attributes[j].Key);
-                            Assert.AreEqual(expected.Properties[i].Attributes[j].Value, actual.Properties[i].Attributes[j].Value);
+                            var expectedAttribute = expectedProperty.Attributes[attributeIndex];
+                            var actualAttribute = actualProperty.Attributes[attributeIndex];
+
+                            Assert.AreEqual(expectedAttribute.Key,   actualAttribute.Key);
+                            Assert.AreEqual(expectedAttribute.Value, actualAttribute.Value);
                         }
                     }
 
                     Assert.AreEqual(expected.Strings.Count, actual.Strings.Count);
-                    for (int j = 0; j < actual.Strings.Count; j++)
+                    for (var stringIndex = 0; stringIndex < actual.Strings.Count; stringIndex++)
                     {
-                        Assert.AreEqual(actual.Strings[j].Key,   actual.Strings[j].Key);
-                        Assert.AreEqual(actual.Strings[j].Value, actual.Strings[j].Value);
+                        Assert.AreEqual(expected.Strings[stringIndex].Key,   actual.Strings[stringIndex].Key);
+                        Assert.AreEqual(expected.Strings[stringIndex].Value, actual.Strings[stringIndex].Value);
                     }
                 }
             }
