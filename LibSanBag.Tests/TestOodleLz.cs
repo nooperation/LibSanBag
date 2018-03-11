@@ -59,7 +59,7 @@ namespace LibSanBag.Tests
         {
             var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "OodleLz", "UnknownCompressionHeader.bin");
 
-            Assert.Throws<Exception>(() =>
+            Assert.Throws<NotImplementedException>(() =>
             {
                 OodleLz.DecompressResource(path);
             });

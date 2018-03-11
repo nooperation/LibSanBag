@@ -158,9 +158,12 @@ namespace LibSanBag.FileResources
         {
             switch (version)
             {
+                case "bae7f85fc2f176e7":
+                    return new ScriptMetadataResource_bae7f85fc2f176e7();
                 case "67df52a55a73f7d3":
+                    return new ScriptMetadataResource_67df52a55a73f7d3();
                 default:
-                    return new ScriptMetadataResourceV3();
+                    throw new NotImplementedException();
             }
         }
 
@@ -168,14 +171,80 @@ namespace LibSanBag.FileResources
         {
             switch (version)
             {
+                case "bae7f85fc2f176e7":
+                    return typeof(ScriptMetadataResource_bae7f85fc2f176e7);
                 case "67df52a55a73f7d3":
+                    return typeof(ScriptMetadataResource_67df52a55a73f7d3);
                 default:
-                    return typeof(ScriptMetadataResourceV3);
+                    throw new NotImplementedException();
             }
         }
     }
 
-    public class ScriptMetadataResourceV3 : ScriptMetadataResource
+    public class ScriptMetadataResource_bae7f85fc2f176e7 : ScriptMetadataResource_67df52a55a73f7d3
+    {
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                Warnings = ReadString(decompressedStream);
+
+                var unknownA = decompressedStream.ReadInt32(); // 0
+                var unknownB = decompressedStream.ReadInt32(); // 0
+
+                var unknownC = decompressedStream.ReadInt32();
+                var unknownD = 0;
+                if (unknownC > 0)
+                {
+                    unknownD = decompressedStream.ReadInt32();
+                    if (unknownD > 0)
+                    {
+                        var unknownE = decompressedStream.ReadInt32();
+                        AssemblyName = ReadString(decompressedStream);
+                    }
+                }
+
+                var propertiesAreAvailable = decompressedStream.ReadInt32();
+                if (propertiesAreAvailable > 0)
+                {
+                    var propertyCount = decompressedStream.ReadInt32();
+                    Properties = new List<PropertyEntry>(propertyCount);
+
+                    if (propertyCount > 0)
+                    {
+                        var unknownF = decompressedStream.ReadInt32();
+                        for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
+                        {
+                            var property = ReadProperty(decompressedStream, propertyIndex == 0);
+                            Properties.Add(property);
+                        }
+                    }
+                }
+
+                if (unknownD > 0)
+                {
+                    var assemblyNameAgain = ReadString(decompressedStream);
+                }
+
+                var stringsAreAvailable = decompressedStream.ReadInt32() != 0;
+                if (stringsAreAvailable)
+                {
+                    var stringCount = decompressedStream.ReadInt32();
+                    Strings = new List<KeyValuePair<string, string>>(stringCount);
+
+                    for (var stringIndex = 0; stringIndex < stringCount; ++stringIndex)
+                    {
+                        var key = ReadString(decompressedStream);
+                        var value = ReadString(decompressedStream);
+
+                        Strings.Add(new KeyValuePair<string, string>(key, value));
+                    }
+                }
+            }
+        }
+    }
+
+    public class ScriptMetadataResource_67df52a55a73f7d3 : ScriptMetadataResource
     {
         public override bool IsCompressed => true;
 

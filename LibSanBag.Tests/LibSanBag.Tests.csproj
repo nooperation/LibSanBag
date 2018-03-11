@@ -258,6 +258,13 @@
     <Content Include="Samples\Resources\ScriptMetadata\Props3\59b4ebe403ba6b5d5d543e84689a93e6.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Samples\Resources\ScriptMetadata\Basic\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants" />
+    <None Include="Samples\Resources\ScriptMetadata\Basic\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json" />
+    <None Include="Samples\Resources\ScriptMetadata\Basic\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants" />
+    <None Include="Samples\Resources\ScriptMetadata\Basic\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
+    <None Include="Samples\Resources\ScriptMetadata\Props1\74f8584898c9b77f733aa4fc6dc08084.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
+    <None Include="Samples\Resources\ScriptMetadata\Props2\f87f738be287553118d6b47cd05481e9.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
+    <None Include="Samples\Resources\ScriptMetadata\Props3\6d84e43b9a1cb28700fc6e48963f9f18.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
