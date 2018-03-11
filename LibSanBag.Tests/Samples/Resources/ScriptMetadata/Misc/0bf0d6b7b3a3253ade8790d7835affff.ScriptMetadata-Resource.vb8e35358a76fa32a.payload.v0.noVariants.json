@@ -1,0 +1,46 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
+  "AssemblyName": null,
+  "Warnings": "",
+  "Properties": [
+    {
+      "Name": "DynamicObjectExample::Speed",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Chaos",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Range",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::LogCommand",
+      "Type": "System.String",
+      "Attributes": []
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "1.0.0.5"
+    },
+    {
+      "Key": "Created",
+      "Value": "2017-03-09T18:07:56Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "f202645.195"
+    }
+  ]
+}

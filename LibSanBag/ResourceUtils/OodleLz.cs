@@ -127,16 +127,16 @@ namespace LibSanBag.ResourceUtils
                 {
                     decompressedSize = br.ReadUInt32();
                 }
-                else if (firstByte == 0x01 || firstByte == 0x02 || firstByte == 0x03)
+                else if (firstByte > 0xF2)
+                {
+                    throw new NotImplementedException();
+                }
+                else
                 {
                     br.BaseStream.Seek(3, SeekOrigin.Current);
 
                     var remainingBytes = br.BaseStream.Length - br.BaseStream.Position;
                     return br.ReadBytes((int)remainingBytes);
-                }
-                else
-                {
-                    throw new Exception($"Unknown header. Expected 0x01, 0xF1 or 0xF2, but found 0x{firstByte:X2}");
                 }
 
                 var expectedOodleMagicByte = br.ReadByte();

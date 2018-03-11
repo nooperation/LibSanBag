@@ -1,0 +1,36 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
+  "AssemblyName": null,
+  "Warnings": "",
+  "Properties": [
+    {
+      "Name": "VisitorTrackerExample::OwnerName",
+      "Type": "System.String",
+      "Attributes": []
+    },
+    {
+      "Name": "VisitorTrackerExample::VisitorListCommand",
+      "Type": "System.String",
+      "Attributes": []
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "1.0.0.6"
+    },
+    {
+      "Key": "Created",
+      "Value": "2017-07-07T01:41:14Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "67d6708.222"
+    }
+  ]
+}

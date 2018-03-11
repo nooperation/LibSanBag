@@ -1,0 +1,41 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
+  "AssemblyName": null,
+  "Warnings": "",
+  "Properties": [
+    {
+      "Name": "ObjectScriptExample::RigidBody",
+      "Type": "LindenLab.ServerScript.Scene.RigidBodyComponent",
+      "Attributes": []
+    },
+    {
+      "Name": "ObjectScriptExample::TrackAgentHits",
+      "Type": "System.Boolean",
+      "Attributes": []
+    },
+    {
+      "Name": "ObjectScriptExample::TrackObjectHits",
+      "Type": "System.Boolean",
+      "Attributes": []
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "1.0.0.5"
+    },
+    {
+      "Key": "Created",
+      "Value": "2017-03-10T01:04:43Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "f202645.195"
+    }
+  ]
+}
