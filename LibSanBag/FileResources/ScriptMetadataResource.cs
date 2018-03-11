@@ -108,7 +108,7 @@ namespace LibSanBag.FileResources
             return new KeyValuePair<string, string>(attributeKey, attributeValue.ToString());
         }
 
-        public virtual PropertyEntry ReadProperty(BinaryReader decompressedStream, bool isFirstProperty)
+        public virtual PropertyEntry ReadProperty(BinaryReader decompressedStream, bool isFirstProperty, ref bool hasEncounteredFirstAttribute)
         {
             var name = ReadString(decompressedStream);
             var type = ReadString(decompressedStream);
@@ -126,9 +126,10 @@ namespace LibSanBag.FileResources
                 var numAttributes = decompressedStream.ReadInt32();
                 if (numAttributes > 0)
                 {
-                    if (isFirstProperty)
+                    if (hasEncounteredFirstAttribute == false)
                     {
                         var unknown_five = decompressedStream.ReadInt32();
+                        hasEncounteredFirstAttribute = true;
                     }
 
                     for (var attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++)
@@ -228,6 +229,7 @@ namespace LibSanBag.FileResources
                 var propertiesAreAvailable = decompressedStream.ReadInt32();
                 if (propertiesAreAvailable > 0)
                 {
+                    var hasEncounteredFirstAttribute = false;
                     var propertyCount = decompressedStream.ReadInt32();
                     Properties = new List<PropertyEntry>(propertyCount);
 
@@ -236,7 +238,7 @@ namespace LibSanBag.FileResources
                         var unknownF = decompressedStream.ReadInt32();
                         for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
                         {
-                            var property = ReadProperty(decompressedStream, propertyIndex == 0);
+                            var property = ReadProperty(decompressedStream, propertyIndex == 0, ref hasEncounteredFirstAttribute);
                             Properties.Add(property);
                         }
                     }
@@ -281,6 +283,7 @@ namespace LibSanBag.FileResources
                 var propertiesAreAvailable = decompressedStream.ReadInt32() != 0;
                 if (propertiesAreAvailable)
                 {
+                    var hasEncounteredFirstAttribute = false;
                     var propertyCount = decompressedStream.ReadInt32();
                     Properties = new List<PropertyEntry>(propertyCount);
 
@@ -289,7 +292,7 @@ namespace LibSanBag.FileResources
                         var unknownE = decompressedStream.ReadInt32();
                         for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
                         {
-                            var property = ReadProperty(decompressedStream, propertyIndex == 0);
+                            var property = ReadProperty(decompressedStream, propertyIndex == 0, ref hasEncounteredFirstAttribute);
                             Properties.Add(property);
                         }
                     }
@@ -330,6 +333,7 @@ namespace LibSanBag.FileResources
                 var propertiesAreAvailable = decompressedStream.ReadInt32() != 0;
                 if (propertiesAreAvailable)
                 {
+                    var hasEncounteredFirstAttribute = false;
                     var propertyCount = decompressedStream.ReadInt32();
                     Properties = new List<PropertyEntry>(propertyCount);
 
@@ -338,7 +342,7 @@ namespace LibSanBag.FileResources
                         var unknownE = decompressedStream.ReadInt32();
                         for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
                         {
-                            var property = ReadProperty(decompressedStream, propertyIndex == 0);
+                            var property = ReadProperty(decompressedStream, propertyIndex == 0, ref hasEncounteredFirstAttribute);
                             Properties.Add(property);
                         }
                     }
@@ -379,6 +383,7 @@ namespace LibSanBag.FileResources
                 var propertiesAreAvailable = decompressedStream.ReadInt32() != 0;
                 if (propertiesAreAvailable)
                 {
+                    var hasEncounteredFirstAttribute = false;
                     var propertyCount = decompressedStream.ReadInt32();
                     Properties = new List<PropertyEntry>(propertyCount);
 
@@ -387,7 +392,7 @@ namespace LibSanBag.FileResources
                         var unknownE = decompressedStream.ReadInt32();
                         for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
                         {
-                            var property = ReadProperty(decompressedStream, propertyIndex == 0);
+                            var property = ReadProperty(decompressedStream, propertyIndex == 0, ref hasEncounteredFirstAttribute);
                             Properties.Add(property);
                         }
                     }
@@ -415,7 +420,7 @@ namespace LibSanBag.FileResources
     {
         public override bool IsCompressed => true;
 
-        public override PropertyEntry ReadProperty(BinaryReader decompressedStream, bool isFirstProperty)
+        public PropertyEntry ReadProperty(BinaryReader decompressedStream)
         {
             var name = ReadString(decompressedStream);
             var type = ReadString(decompressedStream);
@@ -442,7 +447,7 @@ namespace LibSanBag.FileResources
                 {
                     for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
                     {
-                        var property = ReadProperty(decompressedStream, propertyIndex == 0);
+                        var property = ReadProperty(decompressedStream);
                         Properties.Add(property);
                     }
                 }
