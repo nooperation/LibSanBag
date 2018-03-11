@@ -41,6 +41,7 @@ namespace LibSanBag.FileResources
             public List<KeyValuePair<string, string>> Attributes { get; set; }
         }
 
+        public string ScriptSourceTextName { get; set; }
         public string AssemblyName { get; set; }
         public string Warnings { get; set; }
         public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
@@ -162,6 +163,15 @@ namespace LibSanBag.FileResources
                     return new ScriptMetadataResource_bae7f85fc2f176e7();
                 case "67df52a55a73f7d3":
                     return new ScriptMetadataResource_67df52a55a73f7d3();
+                case "02575c46762a7c3c":
+                case "d97016058b281211":
+                case "0b604dc8c94bc188":
+                case "b8e35358a76fa32a":
+                    return new ScriptMetadataResource_02575c46762a7c3c();
+                case "d75de17df1892f86":
+                    return new ScriptMetadataResource_d75de17df1892f86();
+                case "0a316ea155e30eda":
+                    return new ScriptMetadataResource_0a316ea155e30eda();
                 default:
                     throw new NotImplementedException();
             }
@@ -175,14 +185,25 @@ namespace LibSanBag.FileResources
                     return typeof(ScriptMetadataResource_bae7f85fc2f176e7);
                 case "67df52a55a73f7d3":
                     return typeof(ScriptMetadataResource_67df52a55a73f7d3);
+                case "d97016058b281211":
+                case "0b604dc8c94bc188":
+                case "b8e35358a76fa32a":
+                case "02575c46762a7c3c":
+                    return typeof(ScriptMetadataResource_02575c46762a7c3c);
+                case "d75de17df1892f86":
+                    return typeof(ScriptMetadataResource_d75de17df1892f86);
+                case "0a316ea155e30eda":
+                    return typeof(ScriptMetadataResource_0a316ea155e30eda);
                 default:
                     throw new NotImplementedException();
             }
         }
     }
 
-    public class ScriptMetadataResource_bae7f85fc2f176e7 : ScriptMetadataResource_67df52a55a73f7d3
+    public class ScriptMetadataResource_bae7f85fc2f176e7 : ScriptMetadataResource
     {
+        public override bool IsCompressed => true;
+
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
@@ -286,6 +307,143 @@ namespace LibSanBag.FileResources
                         var value = ReadString(decompressedStream);
 
                         Strings.Add(new KeyValuePair<string, string>(key, value));
+                    }
+                }
+            }
+        }
+    }
+
+    public class ScriptMetadataResource_02575c46762a7c3c : ScriptMetadataResource
+    {
+        public override bool IsCompressed => true;
+
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                ScriptSourceTextName = ReadString(decompressedStream);
+                Warnings = ReadString(decompressedStream);
+
+                var unknownA = decompressedStream.ReadInt32(); // 0
+                var unknownB = decompressedStream.ReadInt32(); // 0
+
+                var propertiesAreAvailable = decompressedStream.ReadInt32() != 0;
+                if (propertiesAreAvailable)
+                {
+                    var propertyCount = decompressedStream.ReadInt32();
+                    Properties = new List<PropertyEntry>(propertyCount);
+
+                    if (propertyCount > 0)
+                    {
+                        var unknownE = decompressedStream.ReadInt32();
+                        for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
+                        {
+                            var property = ReadProperty(decompressedStream, propertyIndex == 0);
+                            Properties.Add(property);
+                        }
+                    }
+                }
+
+                var stringsAreAvailable = decompressedStream.ReadInt32() != 0;
+                if (stringsAreAvailable)
+                {
+                    var stringCount = decompressedStream.ReadInt32();
+                    Strings = new List<KeyValuePair<string, string>>(stringCount);
+
+                    for (var stringIndex = 0; stringIndex < stringCount; ++stringIndex)
+                    {
+                        var key = ReadString(decompressedStream);
+                        var value = ReadString(decompressedStream);
+
+                        Strings.Add(new KeyValuePair<string, string>(key, value));
+                    }
+                }
+            }
+        }
+    }
+
+    public class ScriptMetadataResource_d75de17df1892f86 : ScriptMetadataResource
+    {
+        public override bool IsCompressed => true;
+
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                Warnings = ReadString(decompressedStream);
+
+                var unknownA = decompressedStream.ReadInt32(); // 0
+                var unknownB = decompressedStream.ReadInt32(); // 0
+                var unknownC = decompressedStream.ReadInt32(); // 0
+
+                var propertiesAreAvailable = decompressedStream.ReadInt32() != 0;
+                if (propertiesAreAvailable)
+                {
+                    var propertyCount = decompressedStream.ReadInt32();
+                    Properties = new List<PropertyEntry>(propertyCount);
+
+                    if (propertyCount > 0)
+                    {
+                        var unknownE = decompressedStream.ReadInt32();
+                        for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
+                        {
+                            var property = ReadProperty(decompressedStream, propertyIndex == 0);
+                            Properties.Add(property);
+                        }
+                    }
+                }
+
+                var stringsAreAvailable = decompressedStream.ReadInt32() != 0;
+                if (stringsAreAvailable)
+                {
+                    var stringCount = decompressedStream.ReadInt32();
+                    Strings = new List<KeyValuePair<string, string>>(stringCount);
+
+                    for (var stringIndex = 0; stringIndex < stringCount; ++stringIndex)
+                    {
+                        var key = ReadString(decompressedStream);
+                        var value = ReadString(decompressedStream);
+
+                        Strings.Add(new KeyValuePair<string, string>(key, value));
+                    }
+                }
+            }
+        }
+    }
+
+    public class ScriptMetadataResource_0a316ea155e30eda : ScriptMetadataResource
+    {
+        public override bool IsCompressed => true;
+
+        public override PropertyEntry ReadProperty(BinaryReader decompressedStream, bool isFirstProperty)
+        {
+            var name = ReadString(decompressedStream);
+            var type = ReadString(decompressedStream);
+
+            return new PropertyEntry()
+            {
+                Attributes = new List<KeyValuePair<string, string>>(),
+                Name = name,
+                Type = type
+            };
+        }
+
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                Warnings = "";
+                Strings = new List<KeyValuePair<string, string>>();
+
+                var propertyCount = decompressedStream.ReadInt32();
+                Properties = new List<PropertyEntry>(propertyCount);
+
+                if (propertyCount > 0)
+                {
+                    for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
+                    {
+                        var property = ReadProperty(decompressedStream, propertyIndex == 0);
+                        Properties.Add(property);
                     }
                 }
             }
