@@ -1,0 +1,36 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": null,
+  "AssemblyName": null,
+  "Warnings": "/tmp/sansar-script-538699274/source0.cs(121,32): warning CS0219: The variable `result' is assigned but its value is never used\n",
+  "Properties": [
+    {
+      "Name": "VisitorTrackerExample::OwnerName",
+      "Type": "System.String",
+      "Attributes": []
+    },
+    {
+      "Name": "VisitorTrackerExample::VisitorListCommand",
+      "Type": "System.String",
+      "Attributes": []
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2017-07-24T06:28:50Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "353c06f.231"
+    }
+  ]
+}

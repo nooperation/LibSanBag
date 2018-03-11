@@ -1,0 +1,76 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
+  "AssemblyName": null,
+  "Warnings": "",
+  "Properties": [
+    {
+      "Name": "DynamicObjectExample::Speed",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Relative_Position_1",
+      "Type": "Mono.Simd.Vector4f",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Relative_Position_2",
+      "Type": "Mono.Simd.Vector4f",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Relative_Position_3",
+      "Type": "Mono.Simd.Vector4f",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Relative_Position_4",
+      "Type": "Mono.Simd.Vector4f",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Relative_Position_5",
+      "Type": "Mono.Simd.Vector4f",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Relative_Position_6",
+      "Type": "Mono.Simd.Vector4f",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Relative_Position_7",
+      "Type": "Mono.Simd.Vector4f",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::Loop",
+      "Type": "System.Boolean",
+      "Attributes": []
+    },
+    {
+      "Name": "DynamicObjectExample::On_Collide_TP_Dest",
+      "Type": "Mono.Simd.Vector4f",
+      "Attributes": []
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "1.0.0.5"
+    },
+    {
+      "Key": "Created",
+      "Value": "2017-04-06T06:41:48Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "027ef44.207"
+    }
+  ]
+}

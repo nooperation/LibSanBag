@@ -1,0 +1,54 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": null,
+  "AssemblyName": null,
+  "Warnings": "",
+  "Properties": [
+    {
+      "Name": "IntraRegionTP::DestinationLocationHandle",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "DefaultValue",
+          "Value": "mars-outpost-alpha"
+        },
+        {
+          "Key": "DisplayName",
+          "Value": "Dest. Scene"
+        }
+      ]
+    },
+    {
+      "Name": "IntraRegionTP::DestinationAvatarId",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "DefaultValue",
+          "Value": "sansar-studios"
+        },
+        {
+          "Key": "DisplayName",
+          "Value": "Dest. Scene Owner"
+        }
+      ]
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2018-01-09T00:00:12Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "a78a3c0.270"
+    }
+  ]
+}

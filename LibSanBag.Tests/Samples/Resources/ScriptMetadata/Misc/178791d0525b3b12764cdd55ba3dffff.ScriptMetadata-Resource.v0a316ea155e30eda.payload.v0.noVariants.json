@@ -1,0 +1,19 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": null,
+  "AssemblyName": null,
+  "Warnings": "",
+  "Properties": [
+    {
+      "Name": "XRegionTP::DestinationPersonaHandle",
+      "Type": "System.String",
+      "Attributes": []
+    },
+    {
+      "Name": "XRegionTP::DestinationLocationHandle",
+      "Type": "System.String",
+      "Attributes": []
+    }
+  ],
+  "Strings": []
+}
