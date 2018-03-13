@@ -52,6 +52,7 @@ namespace LibSanBag.FileResources
             var attributeKey = ReadString(decompressedStream);
             var attributeValueCode = decompressedStream.ReadInt32();
 
+            // NOTE: Sansar only seems to store Int64 and Double types for value types
             object attributeValue = null;
             switch (attributeValueCode)
             {
