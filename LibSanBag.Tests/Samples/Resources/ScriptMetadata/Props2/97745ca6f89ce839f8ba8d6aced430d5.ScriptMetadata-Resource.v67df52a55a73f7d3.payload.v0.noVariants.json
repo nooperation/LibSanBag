@@ -1,0 +1,127 @@
+{
+  "IsCompressed": true,
+  "AssemblyName": null,
+  "Warnings": "/tmp/sansar-script-301737339/source0.cs(53,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "Properties": [
+    {
+      "Name": "ExampleScript::ExampleStringPropertyDefaultDisplay",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "DefaultValue",
+          "Value": "Example Default Value"
+        },
+        {
+          "Key": "DisplayName",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleScript::ExampleStringPropertyDisplay",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "DisplayName",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleScript::ExampleStringPropertyDefault",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "DefaultValue",
+          "Value": "Example Default Value"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleScript::ExampleStringProperty",
+      "Type": "System.String",
+      "Attributes": []
+    },
+    {
+      "Name": "ExampleScript::ExampleIntPropertyDefaultDisplay",
+      "Type": "System.Int32",
+      "Attributes": [
+        {
+          "Key": "DefaultValue",
+          "Value": "42"
+        },
+        {
+          "Key": "DisplayName",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleScript::ExampleIntPropertyDefault",
+      "Type": "System.Int32",
+      "Attributes": [
+        {
+          "Key": "DefaultValue",
+          "Value": "42"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleScript::ExampleIntPropertyDisplay",
+      "Type": "System.Int32",
+      "Attributes": [
+        {
+          "Key": "DisplayName",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleScript::ExampleIntProperty",
+      "Type": "System.Int32",
+      "Attributes": []
+    },
+    {
+      "Name": "ExampleScript::ExampleDoublePropertyDefault42Display",
+      "Type": "System.Double",
+      "Attributes": [
+        {
+          "Key": "DefaultValue",
+          "Value": "42"
+        },
+        {
+          "Key": "DisplayName",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleScript::ExampleDoublePropertyDefault42",
+      "Type": "System.Double",
+      "Attributes": [
+        {
+          "Key": "DefaultValue",
+          "Value": "42"
+        }
+      ]
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2018-02-26T00:42:15Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "1c3aad2b-0258-4c90-a604-0da35a9743f9"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "f37fae5.276"
+    }
+  ]
+}

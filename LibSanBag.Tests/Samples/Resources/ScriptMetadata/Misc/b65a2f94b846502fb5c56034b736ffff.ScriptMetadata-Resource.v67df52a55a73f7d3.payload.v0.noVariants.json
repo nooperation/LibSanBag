@@ -1,0 +1,56 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": null,
+  "AssemblyName": null,
+  "Warnings": "",
+  "Properties": [
+    {
+      "Name": "Boost::Forward_Key",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "Description",
+          "Value": "Hotkey to press to boost forward"
+        }
+      ]
+    },
+    {
+      "Name": "Boost::Forward_Key_Fast",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "Description",
+          "Value": "Hotkey to press to boost forward faster"
+        }
+      ]
+    },
+    {
+      "Name": "Boost::Forward_Key_Faster",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "Description",
+          "Value": "Hotkey to press to boost forward even faster"
+        }
+      ]
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "1.0.0.6"
+    },
+    {
+      "Key": "Created",
+      "Value": "2017-07-10T07:34:51Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "67d6708.222"
+    }
+  ]
+}

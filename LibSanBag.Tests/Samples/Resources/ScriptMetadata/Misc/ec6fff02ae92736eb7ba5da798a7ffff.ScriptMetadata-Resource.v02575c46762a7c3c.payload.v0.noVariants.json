@@ -1,0 +1,41 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
+  "AssemblyName": null,
+  "Warnings": "Warning: method LindenLab.Script.Console::WriteLine(System.String) is restricted.\nWarning: method LindenLab.Script.Console::WriteLine(System.String) is restricted.\n",
+  "Properties": [
+    {
+      "Name": "IntraRegionTP::Destination_X",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "IntraRegionTP::Destination_Y",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "IntraRegionTP::Destination_Z",
+      "Type": "System.Single",
+      "Attributes": []
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "1.0.0.5"
+    },
+    {
+      "Key": "Created",
+      "Value": "2017-03-02T23:05:42Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "f202645.195"
+    }
+  ]
+}

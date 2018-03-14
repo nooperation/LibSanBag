@@ -20,8 +20,9 @@ namespace LibSanBag.FileResources
         {
             switch (version)
             {
+                case "9a8d4bbd19b4cd55":
                 default:
-                    return new TextureResourceV1();
+                    return new TextureResource_9a8d4bbd19b4cd55();
             }
         }
 
@@ -43,7 +44,7 @@ namespace LibSanBag.FileResources
         }
     }
 
-    public class TextureResourceV1 : TextureResource
+    public class TextureResource_9a8d4bbd19b4cd55 : TextureResource
     {
         public override bool IsCompressed => true;
 

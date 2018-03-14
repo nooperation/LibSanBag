@@ -58,6 +58,9 @@
     <Reference Include="Moq, Version=4.7.142.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.7.142\lib\net45\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=3.8.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
@@ -70,6 +73,7 @@
     <Compile Include="FileResources\TestManifestResource.cs" />
     <Compile Include="FileResources\TestScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\TestLuaScriptResource.cs" />
+    <Compile Include="FileResources\TestScriptMetadataResource.cs" />
     <Compile Include="FileResources\TestScriptSourceTextResource.cs" />
     <Compile Include="FileResources\TestSoundResource.cs" />
     <Compile Include="Providers\MockEnvironmentProvider.cs" />
@@ -221,19 +225,192 @@
     <Content Include="Samples\Resources\ScriptCompiledBytecode\63d3d75933432b36adca64c6d778a1d7.ScriptCompiledBytecode-Resource.vc84707da067146a9.payload.v0.noVariants">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Samples\Resources\ScriptMetadata\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Samples\Resources\ScriptMetadata\63d3d75933432b36adca64c6d778a1d7.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Samples\Resources\Geometry\a1142263356f82516bd7908acf4527cd.GeometryResource-Canonical.v51b89e39caab7b79.payload.v0.noVariants">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Resources\Geometry\BasicCube.fbx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props1\74f8584898c9b77f733aa4fc6dc08084.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props1\d3cace46412697b29cb673362568ddff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props2\97745ca6f89ce839f8ba8d6aced430d5.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props2\f87f738be287553118d6b47cd05481e9.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props3\59b4ebe403ba6b5d5d543e84689a93e6.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props3\6d84e43b9a1cb28700fc6e48963f9f18.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props1\d3cace46412697b29cb673362568ddff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props2\97745ca6f89ce839f8ba8d6aced430d5.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props3\59b4ebe403ba6b5d5d543e84689a93e6.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Samples\Resources\ScriptMetadata\Basic\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants" />
+    <None Include="Samples\Resources\ScriptMetadata\Basic\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json" />
+    <None Include="Samples\Resources\ScriptMetadata\Basic\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants" />
+    <None Include="Samples\Resources\ScriptMetadata\Basic\4b6e1436d155d91deeab038bb225ab21.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\0122096f8319cf32ef0634ded3caffff.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\0122096f8319cf32ef0634ded3caffff.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.v0a316ea155e30eda.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.v0a316ea155e30eda.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.v0b604dc8c94bc188.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.v0b604dc8c94bc188.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.vd75de17df1892f86.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.vd75de17df1892f86.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.vd97016058b281211.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\096a6b6d4814b1a6d1e54720af31ffff.ScriptMetadata-Resource.vd97016058b281211.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\0bf0d6b7b3a3253ade8790d7835affff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\0bf0d6b7b3a3253ade8790d7835affff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\149a7aac32975204335ff1402744ffff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\149a7aac32975204335ff1402744ffff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.v0a316ea155e30eda.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.v0a316ea155e30eda.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.v0b604dc8c94bc188.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.v0b604dc8c94bc188.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.vd75de17df1892f86.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.vd75de17df1892f86.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.vd97016058b281211.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\178791d0525b3b12764cdd55ba3dffff.ScriptMetadata-Resource.vd97016058b281211.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\31b36cda374024c6a1662ea35aa8ffff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\31b36cda374024c6a1662ea35aa8ffff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\4887bbf6f7fbde4cb4bab6a3cf35ffff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\4887bbf6f7fbde4cb4bab6a3cf35ffff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\5a6f0334b5cdd9093614bec1616cffff.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\5a6f0334b5cdd9093614bec1616cffff.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\806b8936f6e77e055e82a9e1d450ffff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\806b8936f6e77e055e82a9e1d450ffff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\94d81013cd66a6f62f06f354483effff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\94d81013cd66a6f62f06f354483effff.ScriptMetadata-Resource.vb8e35358a76fa32a.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\b65a2f94b846502fb5c56034b736ffff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\b65a2f94b846502fb5c56034b736ffff.ScriptMetadata-Resource.v67df52a55a73f7d3.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\da955d15631594ff304a8275fa5dffff.ScriptMetadata-Resource.vd97016058b281211.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\da955d15631594ff304a8275fa5dffff.ScriptMetadata-Resource.vd97016058b281211.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\ec6fff02ae92736eb7ba5da798a7ffff.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Misc\ec6fff02ae92736eb7ba5da798a7ffff.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Samples\Resources\ScriptMetadata\Props1\74f8584898c9b77f733aa4fc6dc08084.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
+    <None Include="Samples\Resources\ScriptMetadata\Props2\f87f738be287553118d6b47cd05481e9.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
+    <None Include="Samples\Resources\ScriptMetadata\Props3\6d84e43b9a1cb28700fc6e48963f9f18.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
+    <Content Include="Samples\Resources\ScriptMetadata\Props4\32785c16e4323e67b704db7074599759.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props4\32785c16e4323e67b704db7074599759.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

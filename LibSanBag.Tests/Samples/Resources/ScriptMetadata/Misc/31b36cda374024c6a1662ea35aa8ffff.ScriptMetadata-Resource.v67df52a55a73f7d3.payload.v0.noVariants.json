@@ -1,0 +1,41 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": null,
+  "AssemblyName": null,
+  "Warnings": "",
+  "Properties": [
+    {
+      "Name": "IntraRegionTP::Destination_X",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "IntraRegionTP::Destination_Y",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "IntraRegionTP::Destination_Z",
+      "Type": "System.Single",
+      "Attributes": []
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "1.0.0.6"
+    },
+    {
+      "Key": "Created",
+      "Value": "2017-06-05T21:22:43Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "67d6708.222"
+    }
+  ]
+}

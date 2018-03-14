@@ -20,14 +20,15 @@ namespace LibSanBag.FileResources
             {
                 case "c84707da067146a9":
                 case "e6ac3244f1076f7b":
-                    return new ScriptCompiledBytecodeResourceV1();
+                    return new ScriptCompiledBytecodeResource_e6ac3244f1076f7b();
+                case "695aad7e1181dc46":
                 default:
-                    return new ScriptCompiledBytecodeResourceV2();
+                    return new ScriptCompiledBytecodeResource_695aad7e1181dc46();
             }
         }
     }
 
-    public class ScriptCompiledBytecodeResourceV1 : ScriptCompiledBytecodeResource
+    public class ScriptCompiledBytecodeResource_e6ac3244f1076f7b : ScriptCompiledBytecodeResource
     {
         public override bool IsCompressed => true;
 
@@ -45,7 +46,7 @@ namespace LibSanBag.FileResources
         }
     }
 
-    public class ScriptCompiledBytecodeResourceV2 : ScriptCompiledBytecodeResource
+    public class ScriptCompiledBytecodeResource_695aad7e1181dc46 : ScriptCompiledBytecodeResource
     {
         public override bool IsCompressed => true;
 

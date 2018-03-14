@@ -1,0 +1,41 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": null,
+  "AssemblyName": "MemDisp.MemoryDisplayClean",
+  "Warnings": "/tmp/sansar-script-745982185/source0.cs(19,32): warning CS0414: The private field `MemDisp.MemoryDisplayClean.memoryLevel' is assigned but its value is never used\n",
+  "Properties": [
+    {
+      "Name": "DataPoint",
+      "Type": "Sansar.Simulation.ClusterResource",
+      "Attributes": []
+    },
+    {
+      "Name": "TimeInterval",
+      "Type": "System.Single",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "60"
+        }
+      ]
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2018-03-07T15:32:07Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "ffffffff-ffff-ffff-ffff-ffffffffffff"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "021bbe8.286"
+    }
+  ]
+}

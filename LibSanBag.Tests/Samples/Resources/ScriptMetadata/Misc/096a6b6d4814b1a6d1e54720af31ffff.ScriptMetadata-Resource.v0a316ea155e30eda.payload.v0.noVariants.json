@@ -1,0 +1,24 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": null,
+  "AssemblyName": null,
+  "Warnings": "",
+  "Properties": [
+    {
+      "Name": "IntraRegionTP::Destination_X",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "IntraRegionTP::Destination_Y",
+      "Type": "System.Single",
+      "Attributes": []
+    },
+    {
+      "Name": "IntraRegionTP::Destination_Z",
+      "Type": "System.Single",
+      "Attributes": []
+    }
+  ],
+  "Strings": []
+}

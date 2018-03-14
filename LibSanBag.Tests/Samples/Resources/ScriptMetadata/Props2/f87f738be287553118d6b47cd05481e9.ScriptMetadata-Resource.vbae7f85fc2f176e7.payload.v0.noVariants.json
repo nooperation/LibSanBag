@@ -1,0 +1,127 @@
+{
+  "IsCompressed": true,
+  "AssemblyName": "ExampleScript",
+  "Warnings": "/tmp/sansar-script-524318490/source0.cs(50,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "Properties": [
+    {
+      "Name": "ExampleStringPropertyDefaultDisplay",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "Example Default Value"
+        },
+        {
+          "Key": "DisplayName.0",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleStringPropertyDisplay",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "DisplayName.0",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleStringPropertyDefault",
+      "Type": "System.String",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "Example Default Value"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleStringProperty",
+      "Type": "System.String",
+      "Attributes": []
+    },
+    {
+      "Name": "ExampleIntPropertyDefaultDisplay",
+      "Type": "System.Int32",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "42"
+        },
+        {
+          "Key": "DisplayName.0",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleIntPropertyDefault",
+      "Type": "System.Int32",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "42"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleIntPropertyDisplay",
+      "Type": "System.Int32",
+      "Attributes": [
+        {
+          "Key": "DisplayName.0",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleIntProperty",
+      "Type": "System.Int32",
+      "Attributes": []
+    },
+    {
+      "Name": "ExampleDoublePropertyDefault42Display",
+      "Type": "System.Double",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "42"
+        },
+        {
+          "Key": "DisplayName.0",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleDoublePropertyDefault42",
+      "Type": "System.Double",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "42"
+        }
+      ]
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2018-03-08T01:48:46Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "1c3aad2b-0258-4c90-a604-0da35a9743f9"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "021bbe8.286"
+    }
+  ]
+}

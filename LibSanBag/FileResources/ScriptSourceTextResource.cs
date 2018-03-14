@@ -27,14 +27,15 @@ namespace LibSanBag.FileResources
             {
                 case "6301a7d31aa6f628":
                 case "dedd8914f8dfe71e":
-                    return new ScriptSourceTextResourceV1();
+                    return new ScriptSourceTextResource_dedd8914f8dfe71e();
+                case "4cde67396803610f":
                 default:
-                    return new ScriptSourceTextResourceV2();
+                    return new ScriptSourceTextResource_4cde67396803610f();
             }
         }
     }
 
-    public class ScriptSourceTextResourceV2 : ScriptSourceTextResource
+    public class ScriptSourceTextResource_4cde67396803610f : ScriptSourceTextResource
     {
         public override bool IsCompressed => true;
 
@@ -51,7 +52,7 @@ namespace LibSanBag.FileResources
         }
     }
 
-    public class ScriptSourceTextResourceV1 : ScriptSourceTextResource
+    public class ScriptSourceTextResource_dedd8914f8dfe71e : ScriptSourceTextResource
     {
         public override bool IsCompressed => true;
 
