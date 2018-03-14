@@ -162,6 +162,7 @@ namespace LibSanBag.FileResources
             switch (version)
             {
                 case "bae7f85fc2f176e7":
+                default:
                     return new ScriptMetadataResource_bae7f85fc2f176e7();
                 case "67df52a55a73f7d3":
                     return new ScriptMetadataResource_67df52a55a73f7d3();
@@ -169,13 +170,11 @@ namespace LibSanBag.FileResources
                 case "d97016058b281211":
                 case "0b604dc8c94bc188":
                 case "b8e35358a76fa32a":
-                    return new ScriptMetadataResource_02575c46762a7c3c();
+                    return new ScriptMetadataResource_b8e35358a76fa32a();
                 case "d75de17df1892f86":
                     return new ScriptMetadataResource_d75de17df1892f86();
                 case "0a316ea155e30eda":
                     return new ScriptMetadataResource_0a316ea155e30eda();
-                default:
-                    throw new NotImplementedException();
             }
         }
 
@@ -183,21 +182,20 @@ namespace LibSanBag.FileResources
         {
             switch (version)
             {
-                case "bae7f85fc2f176e7":
-                    return typeof(ScriptMetadataResource_bae7f85fc2f176e7);
-                case "67df52a55a73f7d3":
-                    return typeof(ScriptMetadataResource_67df52a55a73f7d3);
-                case "d97016058b281211":
-                case "0b604dc8c94bc188":
-                case "b8e35358a76fa32a":
-                case "02575c46762a7c3c":
-                    return typeof(ScriptMetadataResource_02575c46762a7c3c);
-                case "d75de17df1892f86":
-                    return typeof(ScriptMetadataResource_d75de17df1892f86);
                 case "0a316ea155e30eda":
                     return typeof(ScriptMetadataResource_0a316ea155e30eda);
+                case "d75de17df1892f86":
+                    return typeof(ScriptMetadataResource_d75de17df1892f86);
+                case "b8e35358a76fa32a":
+                case "0b604dc8c94bc188":
+                case "d97016058b281211":
+                case "02575c46762a7c3c":
+                    return typeof(ScriptMetadataResource_b8e35358a76fa32a);
+                case "67df52a55a73f7d3":
+                    return typeof(ScriptMetadataResource_67df52a55a73f7d3);
+                case "bae7f85fc2f176e7":
                 default:
-                    throw new NotImplementedException();
+                    return typeof(ScriptMetadataResource_bae7f85fc2f176e7);
             }
         }
     }
@@ -317,7 +315,7 @@ namespace LibSanBag.FileResources
         }
     }
 
-    public class ScriptMetadataResource_02575c46762a7c3c : ScriptMetadataResource
+    public class ScriptMetadataResource_b8e35358a76fa32a : ScriptMetadataResource
     {
         public override bool IsCompressed => true;
 

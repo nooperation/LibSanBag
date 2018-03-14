@@ -23,13 +23,14 @@ namespace LibSanBag.FileResources
         {
             switch (version)
             {
+                case "581a503da8d3e98a":
                 default:
-                    return new GeometryResourceV1();
+                    return new GeometryResource_581a503da8d3e98a();
             }
         }
     }
 
-    public class GeometryResourceV1 : GeometryResource
+    public class GeometryResource_581a503da8d3e98a : GeometryResource
     {
         public override bool IsCompressed => true;
 

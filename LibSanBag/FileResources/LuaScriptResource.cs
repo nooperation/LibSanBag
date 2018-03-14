@@ -24,13 +24,14 @@ namespace LibSanBag.FileResources
         {
             switch (version)
             {
+                case "2487dccddadf7656":
                 default:
-                    return new LuaScriptResourceV1();
+                    return new LuaScriptResource_2487dccddadf7656();
             }
         }
     }
 
-    public class LuaScriptResourceV1 : LuaScriptResource
+    public class LuaScriptResource_2487dccddadf7656 : LuaScriptResource
     {
         public override bool IsCompressed => true;
 
