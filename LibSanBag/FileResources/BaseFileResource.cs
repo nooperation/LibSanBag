@@ -14,7 +14,6 @@ namespace LibSanBag.FileResources
 
         public void InitFromRecord(Stream sourceStream, FileRecord fileRecord)
         {
-            byte[] decompressedBytes = null;
             using (var compressedStream = new MemoryStream())
             {
                 fileRecord.Save(sourceStream, compressedStream);
@@ -24,8 +23,6 @@ namespace LibSanBag.FileResources
 
         public void InitFromRawCompressed(byte[] compressedBytes)
         {
-            byte[] decompressedBytes = null;
-
             using (var compressedStream = new MemoryStream(compressedBytes))
             {
                 InitFromStream(compressedStream);

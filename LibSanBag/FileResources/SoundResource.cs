@@ -17,13 +17,16 @@ namespace LibSanBag.FileResources
         {
             switch (version)
             {
+                case "8510a121d70371a2":
+                case "ffe353a492e99156":
+                case "5d4dda35b60493d7":
                 default:
-                    return new SoundResourceV1();
+                    return new SoundResource_5d4dda35b60493d7();
             }
         }
     }
 
-    public class SoundResourceV1 : SoundResource
+    public class SoundResource_5d4dda35b60493d7 : SoundResource
     {
         public override bool IsCompressed => true;
 
