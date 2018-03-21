@@ -82,6 +82,7 @@
     <Compile Include="Providers\MockRegistryProvider.cs" />
     <Compile Include="TestDownloadAsset.cs" />
     <Compile Include="TestLibDDS.cs" />
+    <Compile Include="TestLibUserPreferences.cs" />
     <Compile Include="TestLibFSB.cs" />
     <Compile Include="TestOodleLz.cs" />
     <Compile Include="TestProviders.cs" />
