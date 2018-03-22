@@ -69,6 +69,7 @@ namespace LibSanBag
             //},
             [ResourceType.BlueprintResource] = new List<string>
             {
+                "0b7ed4237c2f1fa9",
                 "191cbc1380169f5d",
                 "8f2a631ce6fa164f",
                 "b453a73d198a115a",
@@ -132,6 +133,9 @@ namespace LibSanBag
             },
             [ResourceType.ClusterSource] = new List<string>
             {
+                "29b7ff3fb8904e4a",
+                "19231d75082a8a8a",
+                "dd1e01b37b6fce60",
                 "febaf586da355dbd",
                 "f2f239a307b08dca",
                 "ef8f474eaa16ab5e",
@@ -158,6 +162,9 @@ namespace LibSanBag
             },
             [ResourceType.WorldChunkSource] = new List<string>
             {
+                "5eee5382ee6d4cd9",
+                "6254fe43e4c1a5b1",
+                "d17ed6620dbe5e49",
                 "053a2cfa8a144266",
                 "2577f8eb78eace35",
                 "500de0fde708e6a6",
@@ -394,6 +401,7 @@ namespace LibSanBag
             //},
             [ResourceType.TextureImport] = new List<string>
             {
+                "2b797f9991bcfcbe",
                 "26130b88acf15586",
                 "2c4aa80ce491b33a",
                 "94ec565217ef3ad2",
@@ -419,6 +427,7 @@ namespace LibSanBag
             },
             [ResourceType.TextureResource] = new List<string>
             {
+                "bfc630a1f9234ffd",
                 "9a8d4bbd19b4cd55",
             },
             [ResourceType.VertexDefinitionResourceResource] = new List<string>
