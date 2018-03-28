@@ -52,7 +52,7 @@ namespace LibSanBag.Tests
         [Test]
         public void TestGetImageBytes()
         {
-            var ddsPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Texture", "Texture-Resource.dds");
+            var ddsPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Texture", "4d0ab27f42b14326ed4987ed25566663.Texture-Resource.v9a8d4bbd19b4cd55.payload.v0.noVariants.dds");
             var ddsBytes = File.ReadAllBytes(ddsPath);
 
             var imageBytes = LibDDS.GetImageBytesFromDds(ddsBytes, 0, 0, LibDDS.ConversionOptions.CodecType.CODEC_PNG);
@@ -77,7 +77,7 @@ namespace LibSanBag.Tests
         [Test]
         public void TestGetImageBytes_NoLibDDS()
         {
-            var ddsPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Texture", "Texture-Resource.dds");
+            var ddsPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Texture", "4d0ab27f42b14326ed4987ed25566663.Texture-Resource.v9a8d4bbd19b4cd55.payload.v0.noVariants.dds");
             var ddsBytes = File.ReadAllBytes(ddsPath);
 
             var fileProvider = new MockFileProvider();
