@@ -11,10 +11,17 @@ namespace LibSanBag.FileResources
 {
     public abstract class TextureResource : BaseFileResource
     {
+        public enum TextureType
+        {
+            DDS = 0,
+            PNG = 1,
+            BMP = 2,
+        }
+
         /// <summary>
-        /// Raw DDS texture bytes
+        /// Raw compressed texture bytes
         /// </summary>
-        public byte[] DdsBytes { get; set; }
+        public byte[] CompressedTextureBytes { get; set; }
 
         public static TextureResource Create(string version = "")
         {
@@ -36,19 +43,41 @@ namespace LibSanBag.FileResources
         /// <param name="height">New image height or 0 for original image height</param>
         /// <param name="format">Color format</param>
         /// <returns>Converted image bytes</returns>
-        public byte[] ConvertTo(
-            LibDDS.ConversionOptions.CodecType codec,
-            int width = 0,
-            int height = 0,
-            LibDDS.ConversionOptions.DXGI_FORMAT format = LibDDS.ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R32G32B32A32_FLOAT)
-        {
-            return LibDDS.GetImageBytesFromDds(DdsBytes, width, height, codec, format);
-        }
+        public abstract byte[] ConvertTo(TextureType codec);
     }
 
     public class TextureResource_9a8d4bbd19b4cd55 : TextureResource
     {
         public override bool IsCompressed => true;
+
+        /// <summary>
+        /// Converts this texture to a different resolution, codec, or format
+        /// </summary>
+        /// <param name="codec">Type of image to convert this texture to</param>
+        /// <param name="width">New image width or 0 for original image width</param>
+        /// <param name="height">New image height or 0 for original image height</param>
+        /// <param name="format">Color format</param>
+        /// <returns>Converted image bytes</returns>
+        public override byte[] ConvertTo(TextureType codec)
+        {
+            var ddsCodec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
+
+            switch (codec)
+            {
+                case TextureType.DDS:
+                    return CompressedTextureBytes;
+                case TextureType.PNG:
+                    ddsCodec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
+                    break;
+                case TextureType.BMP:
+                    ddsCodec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(codec), codec, null);
+            }
+
+            return LibDDS.GetImageBytesFromDds(CompressedTextureBytes, 0, 0, ddsCodec);
+        }
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
@@ -58,7 +87,7 @@ namespace LibSanBag.FileResources
                 var textureBytes = br.ReadBytes(numBytes);
                 if (textureBytes[0] == 'D' && textureBytes[1] == 'D' && textureBytes[2] == 'S')
                 {
-                    DdsBytes = textureBytes;
+                    CompressedTextureBytes = textureBytes;
                 }
                 else
                 {
@@ -80,13 +109,40 @@ namespace LibSanBag.FileResources
                 var textureBytes = br.ReadBytes(numBytes);
                 if (textureBytes[0] == 'H' && textureBytes[1] == 'x')
                 {
-                    DdsBytes = textureBytes;
+                    CompressedTextureBytes = textureBytes;
                 }
                 else
                 {
                     throw new Exception("Could not find CRN header in decompressed data");
                 }
             }
+        }
+
+        /// <summary>
+        /// Converts this texture to a different resolution, codec, or format
+        /// </summary>
+        /// <param name="codec">Type of image to convert this texture to</param>
+        /// <returns>Converted image bytes</returns>
+        public override byte[] ConvertTo(TextureType codec)
+        {
+            var crnCodec = LibCRN.ImageCodec.BMP;
+            switch (codec)
+            {
+                case TextureType.DDS:
+                    crnCodec = LibCRN.ImageCodec.DDS;
+                    break;
+                case TextureType.PNG:
+                    crnCodec = LibCRN.ImageCodec.PNG;
+                    break;
+                case TextureType.BMP:
+                    crnCodec = LibCRN.ImageCodec.BMP;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(codec), codec, null);
+            }
+
+            //var ddsBytes = LibCRN.
+            return LibCRN.GetImageBytesFromCRN(CompressedTextureBytes, crnCodec);
         }
     }
 }

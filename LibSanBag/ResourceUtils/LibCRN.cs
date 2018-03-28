@@ -11,28 +11,38 @@ namespace LibSanBag.ResourceUtils
 {
     public static class LibCRN
     {
-        [StructLayout(LayoutKind.Sequential)]
-        public struct ConversionOptions
+        public enum ImageCodec
         {
-            internal int Width;
-            internal int Height;
+            DDS = 0,
+            CRN,
+            KTX,
+            TGA,
+            PNG,
+            JPG,
+            JPEG,
+            BMP,
+            GIF,
+            TIF,
+            TIFF,
+            PPM,
+            PGM,
+            PSD,
+            JP2
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        struct ImageProperties
+        public struct ConversionOptions
         {
-            uint width;
-            uint height;
-        };
+            public ImageCodec Codec;
+        }
 
         [DllImport("LibCRN.dll")]
-        private static extern bool ConvertCRNInMemory(
+        private static extern bool ConvertCrnInMemory(
             byte[] ddsBytes,
             long ddsBytesSize,
             ConversionOptions options,
             out IntPtr outImageBytes, 
-            out long outImageBytesSize,
-            out ImageProperties outImageProperties
+            out long outImageBytesSize
         );
 
         [DllImport("LibCRN.dll")]
@@ -84,11 +94,12 @@ namespace LibSanBag.ResourceUtils
         }
 
         /// <summary>
-        /// Converts a CRN to a different resolution, codec, or format
+        /// Converts a CRN to a different type in memory
         /// </summary>
         /// <param name="crnBytes">CRN bytes</param>
+        /// <param name="codec">Image Codec</param>
         /// <returns>Converted image bytes</returns>
-        public static byte[] GetImageBytesFromCRN(byte[] crnBytes)
+        public static byte[] GetImageBytesFromCRN(byte[] crnBytes, ImageCodec codec)
         {
             if (IsAvailable == false)
             {
@@ -98,9 +109,9 @@ namespace LibSanBag.ResourceUtils
             IntPtr rawImageData;
             long rawImageDataSize;
             ConversionOptions options = new ConversionOptions();
-            ImageProperties imageProperties;
+            options.Codec = codec;
 
-            var result = ConvertCRNInMemory(crnBytes, crnBytes.Length, options, out rawImageData, out rawImageDataSize, out imageProperties);
+            var result = ConvertCrnInMemory(crnBytes, crnBytes.Length, options, out rawImageData, out rawImageDataSize);
             if (result == false)
             {
                 throw new Exception("Failed to read CRN: " + GetErrorString());
@@ -108,7 +119,6 @@ namespace LibSanBag.ResourceUtils
 
             var imageData = new byte[rawImageDataSize];
             Marshal.Copy(rawImageData, imageData, 0, (int)rawImageDataSize);
-
             FreeMemory(rawImageData);
 
             return imageData;

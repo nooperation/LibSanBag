@@ -70,7 +70,7 @@ namespace LibSanBag.Tests.FileResources
                 {
                     var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
                     resource.InitFromStream(ms);
-                    Assert.AreEqual(resource.DdsBytes, expectedCompressedbytes);
+                    Assert.AreEqual(resource.CompressedTextureBytes, expectedCompressedbytes);
                 }
             }
         }
@@ -94,7 +94,7 @@ namespace LibSanBag.Tests.FileResources
 
                 var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRecord(fileStream, fileRecord);
-                Assert.AreEqual(resource.DdsBytes, expectedCompressedbytes);
+                Assert.AreEqual(resource.CompressedTextureBytes, expectedCompressedbytes);
             }
         }
 
@@ -109,7 +109,7 @@ namespace LibSanBag.Tests.FileResources
 
                 var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRawCompressed(filebytes);
-                Assert.AreEqual(resource.DdsBytes, expectedCompressedbytes);
+                Assert.AreEqual(resource.CompressedTextureBytes, expectedCompressedbytes);
             }
         }
 
@@ -138,7 +138,7 @@ namespace LibSanBag.Tests.FileResources
 
                 var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRawCompressed(filebytes);
-                var imageBytes = resource.ConvertTo(ResourceUtils.LibDDS.ConversionOptions.CodecType.CODEC_PNG);
+                var imageBytes = resource.ConvertTo(TextureResource.TextureType.PNG);
 
                 var header = BitConverter.ToUInt64(imageBytes, 0);
                 Assert.AreEqual(PngHeader, header);
