@@ -21,8 +21,10 @@ namespace LibSanBag.FileResources
             switch (version)
             {
                 case "9a8d4bbd19b4cd55":
-                default:
                     return new TextureResource_9a8d4bbd19b4cd55();
+                case "bfc630a1f9234ffd":
+                default:
+                    return new TextureResource_bfc630a1f9234ffd();
             }
         }
 
@@ -61,6 +63,28 @@ namespace LibSanBag.FileResources
                 else
                 {
                     throw new Exception("Could not find DDS header in decompressed data");
+                }
+            }
+        }
+    }
+
+    public class TextureResource_bfc630a1f9234ffd : TextureResource
+    {
+        public override bool IsCompressed => true;
+
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                var numBytes = br.ReadInt32();
+                var textureBytes = br.ReadBytes(numBytes);
+                if (textureBytes[0] == 'H' && textureBytes[1] == 'x')
+                {
+                    DdsBytes = textureBytes;
+                }
+                else
+                {
+                    throw new Exception("Could not find CRN header in decompressed data");
                 }
             }
         }
