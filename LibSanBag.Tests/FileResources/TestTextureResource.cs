@@ -46,6 +46,11 @@ namespace LibSanBag.Tests.FileResources
                 "7671009fd20711e4e4a0b81d500c2714.Texture-Resource.vbfc630a1f9234ffd.payload.v0.noVariants.crn",
                 "Sample.png"
             ),
+            new TestData(
+                "076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants",
+                "076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants.dds",
+                "076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants.png"
+            ),
         };
 
         [SetUp]
