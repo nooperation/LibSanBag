@@ -16,6 +16,7 @@ namespace LibSanBag.ResourceUtils
         {
             public enum CodecType
             {
+                CODEC_DDS,
                 CODEC_BMP = 1,     // Windows Bitmap (.bmp)
                 CODEC_JPEG,        // Joint Photographic Experts Group (.jpg, .jpeg)
                 CODEC_PNG,         // Portable Network Graphics (.png)
