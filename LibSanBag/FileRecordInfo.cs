@@ -352,7 +352,7 @@ namespace LibSanBag
                 {
                     var itemName = $"{ resourceId }.{ resourceTypeName}.v{version.ToLower()}.{payloadTypeName}.v0.{variantTypeName}";
                     var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
-                    var bytes = await client.GetByteArrayAsync(address);
+                    var bytes = await client.GetByteArrayAsync(address).ConfigureAwait(false);
 
                     return new DownloadResults
                     {
@@ -388,7 +388,7 @@ namespace LibSanBag
             {
                 Name = itemName,
                 Version = version,
-                Bytes = await client.GetByteArrayAsync(address)
+                Bytes = await client.GetByteArrayAsync(address).ConfigureAwait(false)
             };
         }
     }

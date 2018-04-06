@@ -25,29 +25,29 @@ namespace LibSanBag.Providers
 
         public async Task<byte[]> GetByteArrayAsync(string requestUri)
         {
-            var response = await _client.GetAsync(requestUri);
+            var response = await _client.GetAsync(requestUri).ConfigureAwait(false);
 
-            var readBuff = new byte[8193];
+            var readBuff = new byte[8192];
             using (var inBuffStream = new MemoryStream())
             {
-                using (var responseStream = await response.Content.ReadAsStreamAsync())
+                using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                 {
                     var contentLength = response.Content.Headers?.ContentLength ?? 0;
                     while (responseStream.CanRead)
                     {
-                        var bytesRead = await responseStream.ReadAsync(readBuff, 0, readBuff.Length);
+                        var bytesRead = await responseStream.ReadAsync(readBuff, 0, readBuff.Length).ConfigureAwait(false);
                         if (bytesRead == 0)
                         {
                             return inBuffStream.GetBuffer();
                         }
 
-                        await inBuffStream.WriteAsync(readBuff, 0, bytesRead);
+                        await inBuffStream.WriteAsync(readBuff, 0, bytesRead).ConfigureAwait(false);
                         RaiseProgress(inBuffStream.Length, contentLength);
                     }
                 }
             }
 
-            return await _client.GetByteArrayAsync(requestUri);
+            return await _client.GetByteArrayAsync(requestUri).ConfigureAwait(false);
         }
     }
 }
