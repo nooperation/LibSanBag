@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -9,11 +10,44 @@ namespace LibSanBag.Providers
 {
     public class HttpClientProvider : IHttpClientProvider
     {
-        private static readonly HttpClient Client = new HttpClient();
+        public event EventHandler<ProgressEventArgs> OnProgress;
 
-        public Task<byte[]> GetByteArrayAsync(string requestUri)
+        private readonly HttpClient _client = new HttpClient();
+
+        private void RaiseProgress(long downloaded, long total)
         {
-            return Client.GetByteArrayAsync(requestUri);
+            OnProgress?.Invoke(this, new ProgressEventArgs()
+            {
+                Downloaded = downloaded,
+                Total = total
+            });
+        }
+
+        public async Task<byte[]> GetByteArrayAsync(string requestUri)
+        {
+            var response = await _client.GetAsync(requestUri);
+
+            var readBuff = new byte[8193];
+            using (var inBuffStream = new MemoryStream())
+            {
+                using (var responseStream = await response.Content.ReadAsStreamAsync())
+                {
+                    var contentLength = response.Content.Headers?.ContentLength ?? 0;
+                    while (responseStream.CanRead)
+                    {
+                        var bytesRead = await responseStream.ReadAsync(readBuff, 0, readBuff.Length);
+                        if (bytesRead == 0)
+                        {
+                            return inBuffStream.GetBuffer();
+                        }
+
+                        await inBuffStream.WriteAsync(readBuff, 0, bytesRead);
+                        RaiseProgress(inBuffStream.Length, contentLength);
+                    }
+                }
+            }
+
+            return await _client.GetByteArrayAsync(requestUri);
         }
     }
 }
