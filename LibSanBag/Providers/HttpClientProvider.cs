@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -9,11 +10,45 @@ namespace LibSanBag.Providers
 {
     public class HttpClientProvider : IHttpClientProvider
     {
-        private static readonly HttpClient Client = new HttpClient();
+        public event EventHandler<ProgressEventArgs> OnProgress;
 
-        public Task<byte[]> GetByteArrayAsync(string requestUri)
+        private readonly HttpClient _client = new HttpClient();
+
+        private void RaiseProgress(string resource, long downloaded, long total)
         {
-            return Client.GetByteArrayAsync(requestUri);
+            OnProgress?.Invoke(this, new ProgressEventArgs()
+            {
+                Resource = resource,
+                Downloaded = downloaded,
+                Total = total
+            });
+        }
+
+        public async Task<byte[]> GetByteArrayAsync(string requestUri)
+        {
+            var response = await _client.GetAsync(requestUri).ConfigureAwait(false);
+
+            var readBuff = new byte[8192];
+            using (var inBuffStream = new MemoryStream())
+            {
+                using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                {
+                    var contentLength = response.Content.Headers?.ContentLength ?? 0;
+                    while (responseStream.CanRead)
+                    {
+                        var bytesRead = await responseStream.ReadAsync(readBuff, 0, readBuff.Length).ConfigureAwait(false);
+                        if (bytesRead == 0)
+                        {
+                            return inBuffStream.GetBuffer();
+                        }
+
+                        await inBuffStream.WriteAsync(readBuff, 0, bytesRead).ConfigureAwait(false);
+                        RaiseProgress(requestUri, inBuffStream.Length, contentLength);
+                    }
+                }
+            }
+
+            return await _client.GetByteArrayAsync(requestUri).ConfigureAwait(false);
         }
     }
 }
