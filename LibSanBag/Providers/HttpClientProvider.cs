@@ -14,10 +14,11 @@ namespace LibSanBag.Providers
 
         private readonly HttpClient _client = new HttpClient();
 
-        private void RaiseProgress(long downloaded, long total)
+        private void RaiseProgress(string resource, long downloaded, long total)
         {
             OnProgress?.Invoke(this, new ProgressEventArgs()
             {
+                Resource = resource,
                 Downloaded = downloaded,
                 Total = total
             });
@@ -42,7 +43,7 @@ namespace LibSanBag.Providers
                         }
 
                         await inBuffStream.WriteAsync(readBuff, 0, bytesRead).ConfigureAwait(false);
-                        RaiseProgress(inBuffStream.Length, contentLength);
+                        RaiseProgress(requestUri, inBuffStream.Length, contentLength);
                     }
                 }
             }
