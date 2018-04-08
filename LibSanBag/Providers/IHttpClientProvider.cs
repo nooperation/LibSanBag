@@ -15,8 +15,6 @@ namespace LibSanBag.Providers
 
     public interface IHttpClientProvider
     {
-        event EventHandler<ProgressEventArgs> OnProgress;
-
-        Task<byte[]> GetByteArrayAsync(string requestUri);
+        Task<byte[]> GetByteArrayAsync(string requestUri, IProgress<ProgressEventArgs> progress);
     }
 }

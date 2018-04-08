@@ -19,18 +19,7 @@ namespace LibSanBag.Tests.Providers
 
         public Queue<ClientAction> ClientActionQueue { get; } = new Queue<ClientAction>();
 
-        public event EventHandler<ProgressEventArgs> OnProgress;
-
-        private void RaiseProgress(long downloaded, long total)
-        {
-            OnProgress?.Invoke(this, new ProgressEventArgs()
-            {
-                Downloaded = downloaded,
-                Total = total
-            });
-        }
-
-        public Task<byte[]> GetByteArrayAsync(string requestUri)
+        public Task<byte[]> GetByteArrayAsync(string requestUri, IProgress<ProgressEventArgs> progress)
         {
             var currentClientAction = ClientActionQueue.Dequeue();
             if (currentClientAction.ThrownException != null)
@@ -43,8 +32,15 @@ namespace LibSanBag.Tests.Providers
                 Assert.AreEqual(currentClientAction.ExpectedAddress, requestUri);
             }
 
-            var task = new Task<byte[]>(() => {
-                RaiseProgress(currentClientAction.ReturnedValue.Length, currentClientAction.ReturnedValue.Length);
+            var task = new Task<byte[]>(() =>
+            {
+                progress.Report(new ProgressEventArgs()
+                {
+                    Resource = requestUri,
+                    Downloaded = currentClientAction.ReturnedValue.Length,
+                    Total = currentClientAction.ReturnedValue.Length
+                });
+
                 return currentClientAction.ReturnedValue;
             });
             task.Start();
