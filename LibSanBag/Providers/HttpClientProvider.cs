@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,45 +11,26 @@ namespace LibSanBag.Providers
 {
     public class HttpClientProvider : IHttpClientProvider
     {
-        public event EventHandler<ProgressEventArgs> OnProgress;
+        private readonly WebClient _client = new WebClient();
 
-        private readonly HttpClient _client = new HttpClient();
-
-        private void RaiseProgress(string resource, long downloaded, long total)
+        public Task<byte[]> GetByteArrayAsync(string requestUri, IProgress<ProgressEventArgs> progress = null)
         {
-            OnProgress?.Invoke(this, new ProgressEventArgs()
+            if (progress != null)
             {
-                Resource = resource,
-                Downloaded = downloaded,
-                Total = total
-            });
-        }
-
-        public async Task<byte[]> GetByteArrayAsync(string requestUri)
-        {
-            var response = await _client.GetAsync(requestUri).ConfigureAwait(false);
-
-            var readBuff = new byte[8192];
-            using (var inBuffStream = new MemoryStream())
-            {
-                using (var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                _client.DownloadProgressChanged += (source, args) =>
                 {
-                    var contentLength = response.Content.Headers?.ContentLength ?? 0;
-                    while (responseStream.CanRead)
-                    {
-                        var bytesRead = await responseStream.ReadAsync(readBuff, 0, readBuff.Length).ConfigureAwait(false);
-                        if (bytesRead == 0)
+                    progress.Report(
+                        new ProgressEventArgs()
                         {
-                            return inBuffStream.GetBuffer();
+                            Resource = requestUri,
+                            Downloaded = args.BytesReceived,
+                            Total = args.TotalBytesToReceive
                         }
-
-                        await inBuffStream.WriteAsync(readBuff, 0, bytesRead).ConfigureAwait(false);
-                        RaiseProgress(requestUri, inBuffStream.Length, contentLength);
-                    }
-                }
+                    );
+                };
             }
 
-            return await _client.GetByteArrayAsync(requestUri).ConfigureAwait(false);
+            return _client.DownloadDataTaskAsync(requestUri);
         }
     }
 }

@@ -337,7 +337,7 @@ namespace LibSanBag
             return "Unknown";
         }
 
-        public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, PayloadType payloadType, VariantType variantType, IHttpClientProvider client)
+        public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, PayloadType payloadType, VariantType variantType, IHttpClientProvider client, IProgress<ProgressEventArgs> progress = null)
         {
             Exception lastException = null;
 
@@ -346,13 +346,14 @@ namespace LibSanBag
             var payloadTypeName = GetPayloadTypeName(payloadType);
             var variantTypeName = GetVariantTypeName(variantType);
 
+
             foreach (string version in versions)
             {
                 try
                 {
                     var itemName = $"{ resourceId }.{ resourceTypeName}.v{version.ToLower()}.{payloadTypeName}.v0.{variantTypeName}";
                     var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
-                    var bytes = await client.GetByteArrayAsync(address).ConfigureAwait(false);
+                    var bytes = await client.GetByteArrayAsync(address, progress).ConfigureAwait(false);
 
                     return new DownloadResults
                     {
@@ -375,7 +376,7 @@ namespace LibSanBag
             return null;
         }
 
-        public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, PayloadType payloadType, VariantType variantType, string version, IHttpClientProvider client)
+        public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, PayloadType payloadType, VariantType variantType, string version, IHttpClientProvider client, IProgress<ProgressEventArgs> progress = null)
         {
             var resourceTypeName = GetResourceTypeName(resourceType);
             var payloadTypeName = GetPayloadTypeName(payloadType);
@@ -388,7 +389,7 @@ namespace LibSanBag
             {
                 Name = itemName,
                 Version = version,
-                Bytes = await client.GetByteArrayAsync(address).ConfigureAwait(false)
+                Bytes = await client.GetByteArrayAsync(address, progress).ConfigureAwait(false)
             };
         }
     }
