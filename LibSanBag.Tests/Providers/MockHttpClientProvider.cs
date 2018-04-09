@@ -34,7 +34,7 @@ namespace LibSanBag.Tests.Providers
 
             var task = new Task<byte[]>(() =>
             {
-                progress.Report(new ProgressEventArgs()
+                progress?.Report(new ProgressEventArgs()
                 {
                     Resource = requestUri,
                     Downloaded = currentClientAction.ReturnedValue.Length,
