@@ -69,6 +69,10 @@ namespace LibSanBag
             //},
             [ResourceType.BlueprintResource] = new List<string>
             {
+                "bc1a52364a561c9f",
+                "a13c2e920714a31b",
+                "d97b4e562270818e",
+                "449a49320135ff6d",
                 "0b7ed4237c2f1fa9",
                 "191cbc1380169f5d",
                 "8f2a631ce6fa164f",
@@ -133,6 +137,7 @@ namespace LibSanBag
             },
             [ResourceType.ClusterSource] = new List<string>
             {
+                "168c4769cba0a3cb",
                 "29b7ff3fb8904e4a",
                 "19231d75082a8a8a",
                 "dd1e01b37b6fce60",
@@ -162,6 +167,7 @@ namespace LibSanBag
             },
             [ResourceType.WorldChunkSource] = new List<string>
             {
+                "5952514efb1fa957",
                 "5eee5382ee6d4cd9",
                 "6254fe43e4c1a5b1",
                 "d17ed6620dbe5e49",
@@ -197,6 +203,8 @@ namespace LibSanBag
             },
             [ResourceType.WorldSource] = new List<string>
             {
+                "d9afc37cc49538c8",
+                "7e303e0026206ea0",
                 "72cb1e2c2a5ee828",
                 "63b2072c8d1c2718",
                 "a6cced6fccd44c99",
@@ -222,6 +230,7 @@ namespace LibSanBag
             },
             [ResourceType.LicenseResource] = new List<string>
             {
+                "4c1cada52001b596",
                 "2dd5f090ab6b5468",
                 "31ee0708ce0b7879",
                 "7aafdf777b01caf5",
@@ -237,6 +246,9 @@ namespace LibSanBag
             },
             [ResourceType.ClusterDefinition] = new List<string>
             {
+                "6b0cfbe0a95f8ff9",
+                "b4efeb8393c2f36d",
+                "eac6012edc5f6c6e",
                 "9b45d2994b6ff42b",
                 "a28533f3b27cadfe",
                 "85f26c1d956888dc",
@@ -283,6 +295,7 @@ namespace LibSanBag
             },
             [ResourceType.WorldDefinition] = new List<string>
             {
+                "99b93e343c89ec52",
                 "4f80aa7d6a31c661",
                 "ef77d68a4b0cfd4d",
                 "a9a4ef13fc3b00f9",
@@ -523,6 +536,7 @@ namespace LibSanBag
             },
             [ResourceType.ScriptMetadataResource] = new List<string>
             {
+                "40d13e1007d2d696",
                 "bae7f85fc2f176e7",
                 "67df52a55a73f7d3",
                 "02575c46762a7c3c",
