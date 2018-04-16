@@ -354,11 +354,11 @@ namespace LibSanBag
                 progress?.Report(new ProgressEventArgs()
                 {
                     BytesDownloaded = 0,
-                    CurrentResourceIndex = 0,
+                    CurrentResourceIndex = currentResourceIndex,
                     Resource = version,
-                    Status = "Starting download",
+                    Status = ProgressStatus.Idling,
                     TotalBytes = 1,
-                    TotalResources = 1
+                    TotalResources = totalResources
                 });
 
                 var tempCurrentResourceIndex = currentResourceIndex;
@@ -391,6 +391,15 @@ namespace LibSanBag
                 catch (Exception ex)
                 {
                     lastException = ex;
+                    progress?.Report(new ProgressEventArgs()
+                    {
+                        BytesDownloaded = 0,
+                        CurrentResourceIndex = currentResourceIndex,
+                        Resource = version,
+                        Status = ProgressStatus.Error,
+                        TotalBytes = 1,
+                        TotalResources = totalResources
+                    });
                 }
 
                 ++currentResourceIndex;
@@ -418,7 +427,7 @@ namespace LibSanBag
                 BytesDownloaded = 0,
                 CurrentResourceIndex = 0,
                 Resource = address,
-                Status = "Starting download",
+                Status = ProgressStatus.Idling,
                 TotalBytes = 1,
                 TotalResources = 1
             });

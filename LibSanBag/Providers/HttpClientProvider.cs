@@ -22,10 +22,12 @@ namespace LibSanBag.Providers
                     progress.Report(
                         new ProgressEventArgs()
                         {
-                            Status = "Downloading",
+                            Status = ProgressStatus.Downloading,
                             Resource = requestUri,
                             BytesDownloaded = args.BytesReceived,
-                            TotalBytes = args.TotalBytesToReceive
+                            TotalBytes = args.TotalBytesToReceive,
+                            CurrentResourceIndex = 0,
+                            TotalResources = 1
                         }
                     );
                 };
@@ -33,10 +35,12 @@ namespace LibSanBag.Providers
                 progress.Report(
                     new ProgressEventArgs()
                     {
-                        Status = "Connecting",
+                        Status = ProgressStatus.Connecting,
                         Resource = requestUri,
                         BytesDownloaded = 0,
-                        TotalBytes = 1
+                        TotalBytes = 1,
+                        TotalResources = 1,
+                        CurrentResourceIndex = 0
                     }
                 );
             }

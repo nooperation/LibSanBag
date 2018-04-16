@@ -36,10 +36,12 @@ namespace LibSanBag.Tests.Providers
             {
                 progress?.Report(new ProgressEventArgs()
                 {
-                    Status = "Downloading",
+                    Status = ProgressStatus.Connecting,
                     Resource = requestUri,
                     BytesDownloaded = currentClientAction.ReturnedValue.Length,
-                    TotalBytes = currentClientAction.ReturnedValue.Length
+                    TotalBytes = currentClientAction.ReturnedValue.Length,
+                    CurrentResourceIndex = 0,
+                    TotalResources = 1
                 });
 
                 return currentClientAction.ReturnedValue;
