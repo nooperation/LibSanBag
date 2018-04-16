@@ -22,12 +22,23 @@ namespace LibSanBag.Providers
                     progress.Report(
                         new ProgressEventArgs()
                         {
+                            Status = "Downloading",
                             Resource = requestUri,
-                            Downloaded = args.BytesReceived,
-                            Total = args.TotalBytesToReceive
+                            BytesDownloaded = args.BytesReceived,
+                            TotalBytes = args.TotalBytesToReceive
                         }
                     );
                 };
+
+                progress.Report(
+                    new ProgressEventArgs()
+                    {
+                        Status = "Connecting",
+                        Resource = requestUri,
+                        BytesDownloaded = 0,
+                        TotalBytes = 1
+                    }
+                );
             }
 
             return _client.DownloadDataTaskAsync(requestUri);

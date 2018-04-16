@@ -346,14 +346,40 @@ namespace LibSanBag
             var payloadTypeName = GetPayloadTypeName(payloadType);
             var variantTypeName = GetVariantTypeName(variantType);
 
+            var currentResourceIndex = 0;
+            var totalResources = versions.Count;
 
             foreach (string version in versions)
             {
+                progress?.Report(new ProgressEventArgs()
+                {
+                    BytesDownloaded = 0,
+                    CurrentResourceIndex = 0,
+                    Resource = version,
+                    Status = "Starting download",
+                    TotalBytes = 1,
+                    TotalResources = 1
+                });
+
+                var tempCurrentResourceIndex = currentResourceIndex;
+                var progressMiddleman = new Progress<ProgressEventArgs>(args =>
+                {
+                    progress?.Report(new ProgressEventArgs()
+                    {
+                        BytesDownloaded = args.BytesDownloaded,
+                        TotalBytes = args.TotalResources,
+                        Resource = args.Resource,
+                        Status = args.Status,
+                        CurrentResourceIndex = tempCurrentResourceIndex,
+                        TotalResources = totalResources
+                    });
+                });
+
                 try
                 {
                     var itemName = $"{ resourceId }.{ resourceTypeName}.v{version.ToLower()}.{payloadTypeName}.v0.{variantTypeName}";
                     var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
-                    var bytes = await client.GetByteArrayAsync(address, progress).ConfigureAwait(false);
+                    var bytes = await client.GetByteArrayAsync(address, progressMiddleman).ConfigureAwait(false);
 
                     return new DownloadResults
                     {
@@ -366,6 +392,8 @@ namespace LibSanBag
                 {
                     lastException = ex;
                 }
+
+                ++currentResourceIndex;
             }
 
             if (lastException != null)
@@ -385,11 +413,34 @@ namespace LibSanBag
             var itemName = $"{ resourceId }.{ resourceTypeName}.v{version}.{payloadTypeName}.v0.{variantTypeName}";
             var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
 
+            progress?.Report(new ProgressEventArgs()
+            {
+                BytesDownloaded = 0,
+                CurrentResourceIndex = 0,
+                Resource = address,
+                Status = "Starting download",
+                TotalBytes = 1,
+                TotalResources = 1
+            });
+
+            var progressMiddleman = new Progress<ProgressEventArgs>(args =>
+            {
+                progress?.Report(new ProgressEventArgs()
+                {
+                    BytesDownloaded = args.BytesDownloaded,
+                    TotalBytes = args.TotalResources,
+                    Resource = args.Resource,
+                    Status = args.Status,
+                    CurrentResourceIndex = 0,
+                    TotalResources = 1
+                });
+            });
+
             return new DownloadResults
             {
                 Name = itemName,
                 Version = version,
-                Bytes = await client.GetByteArrayAsync(address, progress).ConfigureAwait(false)
+                Bytes = await client.GetByteArrayAsync(address, progressMiddleman).ConfigureAwait(false)
             };
         }
     }
