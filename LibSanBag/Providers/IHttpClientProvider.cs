@@ -6,11 +6,22 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.Providers
 {
+    public enum ProgressStatus
+    {
+        Idling,
+        Connecting,
+        Downloading,
+        Commpleted,
+        Error
+    }
     public struct ProgressEventArgs
     {
         public string Resource { get; set; }
-        public long Downloaded { get; set; }
-        public long Total { get; set; }
+        public ProgressStatus Status { get; set; }
+        public long BytesDownloaded { get; set; }
+        public long TotalBytes { get; set; }
+        public int CurrentResourceIndex { get; set; }
+        public int TotalResources { get; set; }
     }
 
     public interface IHttpClientProvider
