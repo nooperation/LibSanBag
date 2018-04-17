@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -361,16 +362,15 @@ namespace LibSanBag
                     TotalResources = totalResources
                 });
 
-                var tempCurrentResourceIndex = currentResourceIndex;
-                var progressMiddleman = new Progress<ProgressEventArgs>(args =>
-                {
+                var progressMiddleman = new Progress<ProgressEventArgs>(args =>{
                     progress?.Report(new ProgressEventArgs()
                     {
                         BytesDownloaded = args.BytesDownloaded,
-                        TotalBytes = args.TotalResources,
+                        TotalBytes = args.TotalBytes,
                         Resource = args.Resource,
                         Status = args.Status,
-                        CurrentResourceIndex = tempCurrentResourceIndex,
+                        // ReSharper disable once AccessToModifiedClosure
+                        CurrentResourceIndex = currentResourceIndex,
                         TotalResources = totalResources
                     });
                 });
