@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using LibSanBag.Providers;
@@ -12,6 +8,7 @@ namespace LibSanBag
 {
     public class FileRecordInfo
     {
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public enum ResourceType
         {
             BankResource,
@@ -122,6 +119,11 @@ namespace LibSanBag
 
         public bool IsRawImage => ImagePath != null;
 
+        /// <summary>
+        /// Creates a new FileRecordInfo by parsing the name of the specified filename.
+        /// </summary>
+        /// <param name="filename">Name of the file to attempt to create a FileRecordInfo out of</param>
+        /// <returns>FileRecordInfo on success, null on failure</returns>
         public static FileRecordInfo Create(string filename)
         {
             var match = PatternRecord.Match(filename);
@@ -130,13 +132,15 @@ namespace LibSanBag
                 return null;
             }
 
-            var result = new FileRecordInfo();
-            result.Hash = match.Groups["hash"].Value;
-            var image_match = match.Groups["image_name"];
+            var result = new FileRecordInfo {
+                Hash = match.Groups["hash"].Value
+            };
 
-            if (image_match.Success)
+            var imageMatch = match.Groups["image_name"];
+
+            if (imageMatch.Success)
             {
-                result.ImagePath = image_match.Value;
+                result.ImagePath = imageMatch.Value;
             }
             else
             {
@@ -150,9 +154,14 @@ namespace LibSanBag
             return result;
         }
 
-        public static VariantType GetVariantType(string variant_type_string)
+        /// <summary>
+        /// Gets a VariantType by name
+        /// </summary>
+        /// <param name="variantTypeString">Name of the variant type</param>
+        /// <returns>Enumeration value of the requested variant type or Unknown on failure.</returns>
+        public static VariantType GetVariantType(string variantTypeString)
         {
-            switch (variant_type_string)
+            switch (variantTypeString)
             {
                 case "noVariants": return VariantType.NoVariants;
                 case "server": return VariantType.Server;
@@ -162,9 +171,14 @@ namespace LibSanBag
             return VariantType.Unknown;
         }
 
-        public static string GetVariantTypeName(VariantType variant_type)
+        /// <summary>
+        /// Gets the variant type name from a VariantType enumeration.
+        /// </summary>
+        /// <param name="variantType">Variant type to get the string representation of</param>
+        /// <returns>String representation of the specified variant type</returns>
+        public static string GetVariantTypeName(VariantType variantType)
         {
-            switch (variant_type)
+            switch (variantType)
             {
                 case VariantType.NoVariants: return "noVariants";
                 case VariantType.Server: return "server";
@@ -174,9 +188,14 @@ namespace LibSanBag
             return "unknown";
         }
 
-        public static PayloadType GetPayloadType(string payload_type_string)
+        /// <summary>
+        /// Gets a payload type by string
+        /// </summary>
+        /// <param name="payloadTypeString">String representation of a payload type</param>
+        /// <returns>PayloadType on success or Unknown on failure.</returns>
+        public static PayloadType GetPayloadType(string payloadTypeString)
         {
-            switch (payload_type_string)
+            switch (payloadTypeString)
             {
                 case "payload": return PayloadType.Payload;
                 case "manifest": return PayloadType.Manifest;
@@ -188,9 +207,14 @@ namespace LibSanBag
             return PayloadType.Unknown;
         }
 
-        public static string GetPayloadTypeName(PayloadType payload_type)
+        /// <summary>
+        /// Gets a string representation of a payload type
+        /// </summary>
+        /// <param name="payloadType">Payload type to get the string representation of</param>
+        /// <returns>String representation of the specified payload type</returns>
+        public static string GetPayloadTypeName(PayloadType payloadType)
         {
-            switch (payload_type)
+            switch (payloadType)
             {
                 case PayloadType.Payload: return "payload";
                 case PayloadType.Manifest: return "manifest";
@@ -202,9 +226,14 @@ namespace LibSanBag
             return "unknown";
         }
 
-        public static ResourceType GetResourceType(string resource_type_string)
+        /// <summary>
+        /// Gets a resource type by string.
+        /// </summary>
+        /// <param name="resourceTypeString">String representation of a resource type</param>
+        /// <returns>ResourceType for the specified resource type string or unknown on failure</returns>
+        public static ResourceType GetResourceType(string resourceTypeString)
         {
-            switch (resource_type_string)
+            switch (resourceTypeString)
             {
                 case "Bank-Resource": return ResourceType.BankResource;
                 case "Blueprint-Resource": return ResourceType.BlueprintResource;
@@ -270,6 +299,11 @@ namespace LibSanBag
             return ResourceType.Unknown;
         }
 
+        /// <summary>
+        /// Gets a string representation of a resource type
+        /// </summary>
+        /// <param name="resourceType">Resource type to get the string representation of</param>
+        /// <returns>String representation of the specified resource type</returns>
         public static string GetResourceTypeName(ResourceType resourceType)
         {
             switch (resourceType)
@@ -338,6 +372,16 @@ namespace LibSanBag
             return "Unknown";
         }
 
+        /// <summary>
+        /// Asynchronously downloads a resource. Attempts to find the latest resource version.
+        /// </summary>
+        /// <param name="resourceId">Hash of the resource to download</param>
+        /// <param name="resourceType">Resource type</param>
+        /// <param name="payloadType">Payload type</param>
+        /// <param name="variantType">Variant type</param>
+        /// <param name="client">Client used for downloading</param>
+        /// <param name="progress">Optional progress report callback</param>
+        /// <returns>Task for downloading the specified resource</returns>
         public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, PayloadType payloadType, VariantType variantType, IHttpClientProvider client, IProgress<ProgressEventArgs> progress = null)
         {
             Exception lastException = null;
@@ -352,7 +396,7 @@ namespace LibSanBag
 
             foreach (string version in versions)
             {
-                progress?.Report(new ProgressEventArgs()
+                progress?.Report(new ProgressEventArgs
                 {
                     BytesDownloaded = 0,
                     CurrentResourceIndex = currentResourceIndex,
@@ -363,7 +407,7 @@ namespace LibSanBag
                 });
 
                 var progressMiddleman = new Progress<ProgressEventArgs>(args =>{
-                    progress?.Report(new ProgressEventArgs()
+                    progress?.Report(new ProgressEventArgs
                     {
                         BytesDownloaded = args.BytesDownloaded,
                         TotalBytes = args.TotalBytes,
@@ -391,7 +435,7 @@ namespace LibSanBag
                 catch (Exception ex)
                 {
                     lastException = ex;
-                    progress?.Report(new ProgressEventArgs()
+                    progress?.Report(new ProgressEventArgs
                     {
                         BytesDownloaded = 0,
                         CurrentResourceIndex = currentResourceIndex,
@@ -413,6 +457,17 @@ namespace LibSanBag
             return null;
         }
 
+        /// <summary>
+        /// Asynchronously downloads a resource. Resource version must be specified.
+        /// </summary>
+        /// <param name="resourceId">Hash of the resource to download</param>
+        /// <param name="resourceType">Resource type</param>
+        /// <param name="payloadType">Payload type</param>
+        /// <param name="variantType">Variant type</param>
+        /// <param name="version">Version string</param>
+        /// <param name="client">Client used for downloading</param>
+        /// <param name="progress">Optional progress report callback</param>
+        /// <returns>Task for downloading the specified resource</returns>
         public static async Task<DownloadResults> DownloadResourceAsync(string resourceId, ResourceType resourceType, PayloadType payloadType, VariantType variantType, string version, IHttpClientProvider client, IProgress<ProgressEventArgs> progress = null)
         {
             var resourceTypeName = GetResourceTypeName(resourceType);
@@ -422,7 +477,7 @@ namespace LibSanBag
             var itemName = $"{ resourceId }.{ resourceTypeName}.v{version}.{payloadTypeName}.v0.{variantTypeName}";
             var address = $"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{itemName}";
 
-            progress?.Report(new ProgressEventArgs()
+            progress?.Report(new ProgressEventArgs
             {
                 BytesDownloaded = 0,
                 CurrentResourceIndex = 0,
@@ -434,7 +489,7 @@ namespace LibSanBag
 
             var progressMiddleman = new Progress<ProgressEventArgs>(args =>
             {
-                progress?.Report(new ProgressEventArgs()
+                progress?.Report(new ProgressEventArgs
                 {
                     BytesDownloaded = args.BytesDownloaded,
                     TotalBytes = args.TotalResources,
