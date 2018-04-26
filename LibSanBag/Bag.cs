@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Text;
 using LibSanBag.Providers;
@@ -18,7 +17,7 @@ namespace LibSanBag
         /// <param name="outStream">Output stream.</param>
         /// <param name="filesToAdd">Files to add to the bag.</param>
         /// <param name="timeProvider">Time provider.</param>
-        static public void Write(Stream outStream, ICollection<string> filesToAdd, ITimeProvider timeProvider)
+        public static void Write(Stream outStream, ICollection<string> filesToAdd, ITimeProvider timeProvider)
         {
             var bagStream = new BinaryWriter(outStream);
 
@@ -92,7 +91,7 @@ namespace LibSanBag
         /// <param name="inStream">Stream containing Bag file data</param>
         /// <returns>Collection of FileRecords contained in Bag</returns>
         /// <exception cref="Exception">Failed to read Bag</exception>
-        static public ICollection<FileRecord> Read(Stream inStream)
+        public static ICollection<FileRecord> Read(Stream inStream)
         {
             var fileRecords = new List<FileRecord>();
 
