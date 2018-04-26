@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LibSanBag.Providers
+﻿namespace LibSanBag.Providers
 {
     /// <summary>
     /// Time provider interface. Used for providing a stable time source during testing.

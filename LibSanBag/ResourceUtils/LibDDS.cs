@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using LibSanBag.Providers;
 
 namespace LibSanBag.ResourceUtils
@@ -12,6 +8,7 @@ namespace LibSanBag.ResourceUtils
     public static class LibDDS
     {
         [StructLayout(LayoutKind.Sequential)]
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public struct ConversionOptions
         {
             public enum CodecType
@@ -181,13 +178,10 @@ namespace LibSanBag.ResourceUtils
         [DllImport("LibDDS.dll")]
         private static extern void FreeMemory(IntPtr data);
 
-
-        private static bool _isDllAvailable;
-
         /// <summary>
         /// Determines if LibDDS is available
         /// </summary>
-        public static bool IsAvailable => _isDllAvailable;
+        public static bool IsAvailable { get; private set; }
 
         /// <summary>
         /// Attempts to locate all of the dependencies required by LibDDS
@@ -196,8 +190,8 @@ namespace LibSanBag.ResourceUtils
         /// <returns>True if LibDDS is available, otherwise false</returns>
         public static bool FindDependencies(IFileProvider fileProvider)
         {
-            _isDllAvailable = fileProvider.FileExists("LibDDS.dll");
-            return _isDllAvailable;
+            IsAvailable = fileProvider.FileExists("LibDDS.dll");
+            return IsAvailable;
         }
 
         static LibDDS()
