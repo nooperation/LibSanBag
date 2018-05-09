@@ -129,6 +129,7 @@ namespace LibSanBag.FileResources
                 {
                     if (hasEncounteredFirstAttribute == false)
                     {
+                        // Is this a version? it seems to increment every few versions (currently 7 with 40d13e1007d2d696 and 6 with bae7f85fc2f176e7)
                         var unknown_five = decompressedStream.ReadInt32();
                         hasEncounteredFirstAttribute = true;
                     }
