@@ -1,0 +1,98 @@
+{
+  "IsCompressed": true,
+  "AssemblyName": "ExampleScript",
+  "Warnings": "/tmp/sansar-script-057276810/source0.cs(35,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "Properties": [
+    {
+      "Name": "ExampleQuatDefaultDisplay",
+      "Type": "Sansar.Quaternion",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "[1.2,3.4,5.6,7.8]"
+        },
+        {
+          "Key": "DisplayName.0",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleQuatDefault",
+      "Type": "Sansar.Quaternion",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "[1.2,3.4,5.6,7.8]"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleQuatDisplay",
+      "Type": "Sansar.Quaternion",
+      "Attributes": [
+        {
+          "Key": "DisplayName.0",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleQuat",
+      "Type": "Sansar.Quaternion",
+      "Attributes": []
+    },
+    {
+      "Name": "ExampleBoolDefaultDisplay",
+      "Type": "System.Boolean",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "True"
+        },
+        {
+          "Key": "DisplayName.0",
+          "Value": "Example Display Name"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleBoolDefault",
+      "Type": "System.Boolean",
+      "Attributes": [
+        {
+          "Key": "DefaultValue.0",
+          "Value": "True"
+        }
+      ]
+    },
+    {
+      "Name": "ExampleBoolDisplay",
+      "Type": "System.Boolean",
+      "Attributes": [
+        {
+          "Key": "DisplayName.0",
+          "Value": "Example Display Name"
+        }
+      ]
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2018-03-08T01:48:51Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "1c3aad2b-0258-4c90-a604-0da35a9743f9"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "021bbe8.286"
+    }
+  ]
+}
