@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibSanBag.Providers;
 
 namespace LibSanBag.Providers
 {
+    /// <inheritdoc />
     /// <summary>
     /// Provides a time source
     /// </summary>
     public class TimeProvider : ITimeProvider
     {
+        /// <inheritdoc />
         /// <summary>
         /// Gets the current time in a Windows file time format
         /// </summary>

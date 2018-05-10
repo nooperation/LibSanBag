@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using static LibSanBag.FileRecordInfo;
 
 namespace LibSanBag
@@ -69,6 +65,9 @@ namespace LibSanBag
             //},
             [ResourceType.BlueprintResource] = new List<string>
             {
+                "12164a21293f6118",
+                "1bc6a27479fda21c",
+                "1ae51572324ccb88",
                 "bc1a52364a561c9f",
                 "a13c2e920714a31b",
                 "d97b4e562270818e",
@@ -137,6 +136,10 @@ namespace LibSanBag
             },
             [ResourceType.ClusterSource] = new List<string>
             {
+                "c9d86a83c4bf41e6",
+                "3f88f1006275c2ca",
+                "8ef54b8021ed675e",
+                "9caa4d9e6ea4aa5d",
                 "168c4769cba0a3cb",
                 "29b7ff3fb8904e4a",
                 "19231d75082a8a8a",
@@ -158,6 +161,7 @@ namespace LibSanBag
             },
             [ResourceType.ModelMorphResource] = new List<string>
             {
+                "bfe14c8c616febac",
                 "a165915d1e69ac08",
                 "fa4aa7bc04c023ea",
             },
@@ -167,6 +171,10 @@ namespace LibSanBag
             },
             [ResourceType.WorldChunkSource] = new List<string>
             {
+                "e8a4fca3b77e7225",
+                "f4827f5ae71f9f95",
+                "3b4710003726180c",
+                "ce696c1d91bd0e7b",
                 "5952514efb1fa957",
                 "5eee5382ee6d4cd9",
                 "6254fe43e4c1a5b1",
@@ -203,6 +211,8 @@ namespace LibSanBag
             },
             [ResourceType.WorldSource] = new List<string>
             {
+                "ffb5b0297e7195f3",
+                "6f108ebdca6e654b",
                 "d9afc37cc49538c8",
                 "7e303e0026206ea0",
                 "72cb1e2c2a5ee828",
@@ -230,6 +240,7 @@ namespace LibSanBag
             },
             [ResourceType.LicenseResource] = new List<string>
             {
+                "53a9716e3e1b77ab",
                 "4c1cada52001b596",
                 "2dd5f090ab6b5468",
                 "31ee0708ce0b7879",
@@ -246,6 +257,8 @@ namespace LibSanBag
             },
             [ResourceType.ClusterDefinition] = new List<string>
             {
+                "ddacdf7e557e8d2f",
+                "7310d419e63d6b7a",
                 "6b0cfbe0a95f8ff9",
                 "b4efeb8393c2f36d",
                 "eac6012edc5f6c6e",
@@ -295,6 +308,8 @@ namespace LibSanBag
             },
             [ResourceType.WorldDefinition] = new List<string>
             {
+                "407f2f792a7d205a",
+                "87ca71b6fbc4cb1e",
                 "99b93e343c89ec52",
                 "4f80aa7d6a31c661",
                 "ef77d68a4b0cfd4d",
@@ -422,24 +437,29 @@ namespace LibSanBag
             },
             [ResourceType.BufferResource] = new List<string>
             {
+                "514865a43231e2c1",
                 "d5f5dda636eb2e1a",
             },
             [ResourceType.GeometryResourceResource] = new List<string>
             {
+                "c6f2fe6335eeb183",
                 "581a503da8d3e98a",
             },
             [ResourceType.MaterialResource] = new List<string>
             {
+                "5738d79c8e9c1212",
                 "40651c5b33a962df",
                 "d18b41db83aa2d3d",
                 "0d82cdbf668f2669",
             },
             [ResourceType.MeshResource] = new List<string>
             {
+                "ffe860bea21c8d6e",
                 "1248859d98c4fac2",
             },
             [ResourceType.TextureResource] = new List<string>
             {
+                "30cfeb60ba0b3d8c",
                 "bfc630a1f9234ffd",
                 "9a8d4bbd19b4cd55",
             },
@@ -536,6 +556,8 @@ namespace LibSanBag
             },
             [ResourceType.ScriptMetadataResource] = new List<string>
             {
+                "d37572c792d9190a",
+                "6bec8a6d0387ee27",
                 "40d13e1007d2d696",
                 "bae7f85fc2f176e7",
                 "67df52a55a73f7d3",

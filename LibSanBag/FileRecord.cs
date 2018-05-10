@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace LibSanBag
 {
@@ -14,18 +9,22 @@ namespace LibSanBag
         /// File offset in the Bag
         /// </summary>
         public long Offset { get; set; }
+
         /// <summary>
         /// File length
         /// </summary>
         public uint Length { get; set; }
+
         /// <summary>
         /// File name
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// File timestamp in nanoseconds
         /// </summary>
         public long TimestampNs { get; set; }
+
         /// <summary>
         /// Extended file info. May be Null.
         /// </summary>
@@ -50,9 +49,9 @@ namespace LibSanBag
         /// </summary>
         /// <param name="inStream">Bag stream containing this FileRecord</param>
         /// <param name="outStream">Output stream where file described by this FileRecord will be written to</param>
-        /// <param name="ReportProgress">Callback function to report write process</param>
-        /// <param name="ShouldCancel">Function to check to see if the write process should be aborted</param>
-        public void Save(Stream inStream, Stream outStream, Action<FileRecord, uint> ReportProgress = null, Func<bool> ShouldCancel = null)
+        /// <param name="reportProgress">Callback function to report write process</param>
+        /// <param name="shouldCancel">Function to check to see if the write process should be aborted</param>
+        public void Save(Stream inStream, Stream outStream, Action<FileRecord, uint> reportProgress = null, Func<bool> shouldCancel = null)
         {
             inStream.Seek(Offset, SeekOrigin.Begin);
             var bytesRemaining = Length;
@@ -60,7 +59,7 @@ namespace LibSanBag
 
             while (bytesRemaining > 0)
             {
-                if (ShouldCancel != null && ShouldCancel())
+                if (shouldCancel != null && shouldCancel())
                 {
                     throw new Exception("Failed to save: FileRecord::Save() aborted");
                 }
@@ -75,7 +74,7 @@ namespace LibSanBag
                 outStream.Write(buffer, 0, bytesRead);
 
                 bytesRemaining -= (uint)bytesRead;
-                ReportProgress?.Invoke(this, Length - bytesRemaining);
+                reportProgress?.Invoke(this, Length - bytesRemaining);
             }
         }
 

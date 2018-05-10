@@ -408,9 +408,33 @@
     <Content Include="Samples\Resources\ScriptMetadata\Misc\ec6fff02ae92736eb7ba5da798a7ffff.ScriptMetadata-Resource.v02575c46762a7c3c.payload.v0.noVariants.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Samples\Resources\ScriptMetadata\Props1\74f8584898c9b77f733aa4fc6dc08084.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
-    <None Include="Samples\Resources\ScriptMetadata\Props2\f87f738be287553118d6b47cd05481e9.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
-    <None Include="Samples\Resources\ScriptMetadata\Props3\6d84e43b9a1cb28700fc6e48963f9f18.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json" />
+    <Content Include="Samples\Resources\ScriptMetadata\Props1\74f8584898c9b77f733aa4fc6dc08084.ScriptMetadata-Resource.v40d13e1007d2d696.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props1\74f8584898c9b77f733aa4fc6dc08084.ScriptMetadata-Resource.v40d13e1007d2d696.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props1\74f8584898c9b77f733aa4fc6dc08084.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props2\f87f738be287553118d6b47cd05481e9.ScriptMetadata-Resource.v40d13e1007d2d696.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props2\f87f738be287553118d6b47cd05481e9.ScriptMetadata-Resource.v40d13e1007d2d696.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props2\f87f738be287553118d6b47cd05481e9.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props3\6d84e43b9a1cb28700fc6e48963f9f18.ScriptMetadata-Resource.v40d13e1007d2d696.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props3\6d84e43b9a1cb28700fc6e48963f9f18.ScriptMetadata-Resource.v40d13e1007d2d696.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props3\6d84e43b9a1cb28700fc6e48963f9f18.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Samples\Resources\ScriptMetadata\Props4\32785c16e4323e67b704db7074599759.ScriptMetadata-Resource.vbae7f85fc2f176e7.payload.v0.noVariants">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -424,6 +448,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Resources\Texture\076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props4\32785c16e4323e67b704db7074599759.ScriptMetadata-Resource.v40d13e1007d2d696.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\ScriptMetadata\Props4\32785c16e4323e67b704db7074599759.ScriptMetadata-Resource.v40d13e1007d2d696.payload.v0.noVariants.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

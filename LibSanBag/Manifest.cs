@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag
 {
@@ -12,11 +8,13 @@ namespace LibSanBag
         /// <summary>
         /// File offset to the next bag manifest
         /// </summary>
-        public long NextManifestOffset { get; set; } = 0;
+        public long NextManifestOffset { get; set; }
+
         /// <summary>
         /// Length of the next manifest
         /// </summary>
-        public int NextManifestLength { get; set; } = 0;
+        public int NextManifestLength { get; set; }
+
         /// <summary>
         /// File records this manifest describes
         /// </summary>

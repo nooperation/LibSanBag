@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using LibSanBag.Providers;
 
 namespace LibSanBag.ResourceUtils
 {
     public static class LibCRN
     {
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public enum ImageCodec
         {
             DDS = 0,
@@ -51,13 +48,10 @@ namespace LibSanBag.ResourceUtils
         [DllImport("LibCRN.dll")]
         private static extern void FreeMemory(IntPtr data);
 
-
-        private static bool _isDllAvailable;
-
         /// <summary>
         /// Determines if LibCRN is available
         /// </summary>
-        public static bool IsAvailable => _isDllAvailable;
+        public static bool IsAvailable { get; private set; }
 
         /// <summary>
         /// Attempts to locate all of the dependencies required by LibCRN
@@ -66,8 +60,8 @@ namespace LibSanBag.ResourceUtils
         /// <returns>True if LibCRN is available, otherwise false</returns>
         public static bool FindDependencies(IFileProvider fileProvider)
         {
-            _isDllAvailable = fileProvider.FileExists("LibCRN.dll");
-            return _isDllAvailable;
+            IsAvailable = fileProvider.FileExists("LibCRN.dll");
+            return IsAvailable;
         }
 
         static LibCRN()
