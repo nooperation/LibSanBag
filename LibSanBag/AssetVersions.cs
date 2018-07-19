@@ -65,6 +65,9 @@ namespace LibSanBag
             //},
             [ResourceType.BlueprintResource] = new List<string>
             {
+                "2581ae99ebff8902",
+                "28e96f6e8249ee7d",
+                "18e45b7c60b9bbee",
                 "d606facda4f8749e",
                 "3acd4a6e999e29dd",
                 "128800e581cedca1",
@@ -140,6 +143,8 @@ namespace LibSanBag
             },
             [ResourceType.ClusterSource] = new List<string>
             {
+                "d1a1cee8de08e0fa",
+                "289326d2cf77609a",
                 "10263c332ff2e2f2",
                 "c9d86a83c4bf41e6",
                 "3f88f1006275c2ca",
@@ -176,6 +181,9 @@ namespace LibSanBag
             },
             [ResourceType.WorldChunkSource] = new List<string>
             {
+                "9e58e84dd4be88d9",
+                "bcc0c852390bd7b0",
+                "f7c2e2caa2d5c763",
                 "7332ec1c5dd62348",
                 "e8a4fca3b77e7225",
                 "f4827f5ae71f9f95",
@@ -217,6 +225,8 @@ namespace LibSanBag
             },
             [ResourceType.WorldSource] = new List<string>
             {
+                "15782fd84943d231",
+                "dd0cf5332e23220a",
                 "e121462d6886a7db",
                 "a850aab68b8b74f9",
                 "ffb5b0297e7195f3",
@@ -248,6 +258,7 @@ namespace LibSanBag
             },
             [ResourceType.LicenseResource] = new List<string>
             {
+                "74db981804378630",
                 "5c212de150ac30a2",
                 "8fd1480eebcd22e5",
                 "53a9716e3e1b77ab",
@@ -267,6 +278,8 @@ namespace LibSanBag
             },
             [ResourceType.ClusterDefinition] = new List<string>
             {
+                "be6218956ea67be4",
+                "48f1fc77d7f9b772",
                 "9d34518f9015663c",
                 "229a095cb1f1aa54",
                 "ddacdf7e557e8d2f",
@@ -372,6 +385,7 @@ namespace LibSanBag
             },
             [ResourceType.PickableModelResource] = new List<string>
             {
+                "7f3b784f7a48dcee",
                 "42ae078bdaab63c6",
             },
             [ResourceType.TextureSource] = new List<string>
