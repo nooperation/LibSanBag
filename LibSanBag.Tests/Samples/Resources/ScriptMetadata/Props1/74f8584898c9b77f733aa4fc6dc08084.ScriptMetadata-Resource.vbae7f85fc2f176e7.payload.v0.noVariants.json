@@ -1,5 +1,6 @@
 {
   "IsCompressed": true,
+  "ScriptSourceTextName": null,
   "AssemblyName": "ExampleScript",
   "Warnings": "/tmp/sansar-script-537226007/source0.cs(42,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
   "Properties": [
