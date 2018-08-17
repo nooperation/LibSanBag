@@ -229,10 +229,10 @@ namespace LibSanBag.FileResources
                     {
                         var unknownE = decompressedStream.ReadInt32();
                         AssemblyName = ReadString(decompressedStream);
+                        var unknown_usually_2 = decompressedStream.ReadInt32();
                     }
                 }
 
-                var unknown_usually_2 = decompressedStream.ReadInt32();
                 var propertiesAreAvailable = decompressedStream.ReadInt32();
                 if (propertiesAreAvailable > 0)
                 {
