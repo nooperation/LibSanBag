@@ -92,7 +92,7 @@ namespace LibSanBag.FileResources
                     UnknownListA.Add(Tuple.Create(
                         br.ReadInt64(),
                         br.ReadInt64(),
-                        br.ReadInt64()
+                        br.ReadInt64() // Number of entries in this resource's manifest
                     ));
                 }
 
