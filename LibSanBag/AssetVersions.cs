@@ -228,6 +228,8 @@ namespace LibSanBag
             },
             [ResourceType.WorldSource] = new List<string>
             {
+                "e5e66a9d2cb43828",
+                "4ffb3af363549e5d",
                 "e6bf164a88bd8088",
                 "37c965f2abd4b733",
                 "15782fd84943d231",
@@ -263,6 +265,8 @@ namespace LibSanBag
             },
             [ResourceType.LicenseResource] = new List<string>
             {
+                "f0f15f13743001ba",
+                "906395158b066e63",
                 "0125fe83c7208371",
                 "74db981804378630",
                 "5c212de150ac30a2",
@@ -340,6 +344,7 @@ namespace LibSanBag
             },
             [ResourceType.WorldDefinition] = new List<string>
             {
+                "4a287644ad0427d5",
                 "4e7c00d4680eb742",
                 "c1dd195104863941",
                 "08a5dcb2f05faf7d",
@@ -399,6 +404,7 @@ namespace LibSanBag
             },
             [ResourceType.TextureSource] = new List<string>
             {
+                "ef0903f03a55a571",
                 "403f4d383dcbd77c",
                 "0d049586f771978e",
                 "896b078db905e876",
@@ -466,6 +472,7 @@ namespace LibSanBag
             //},
             [ResourceType.TextureImport] = new List<string>
             {
+                "650d72a4df333875",
                 "2b797f9991bcfcbe",
                 "26130b88acf15586",
                 "2c4aa80ce491b33a",
@@ -494,8 +501,13 @@ namespace LibSanBag
                 "ffe860bea21c8d6e",
                 "1248859d98c4fac2",
             },
+            //[ResourceType.] = new List<string>
+            //{
+            //    "40af4f815c945afe",
+            //},
             [ResourceType.TextureResource] = new List<string>
             {
+                "f1b6b03a0c99d181",
                 "30cfeb60ba0b3d8c",
                 "bfc630a1f9234ffd",
                 "9a8d4bbd19b4cd55",
