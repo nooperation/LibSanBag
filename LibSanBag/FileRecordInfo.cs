@@ -102,9 +102,9 @@ namespace LibSanBag
             @"(?<hash>[a-f0-9]{32})\." +
                 @"((?<image_name>.*\.png)|" +
                 @"(?<resource_type>[^\.]+)" +
-                    @"\.v(?<version_hash>[a-f0-9]{16})" +
+                    @"\.v((?<version_hash>[a-f0-9]{16})|(?<version_number>[0-9]+))" +
                     @"\.(?<payload_type>[^\.]+)" +
-                    @"\.v(?<version_number>[0-9]+)" +
+                    @"\.v(?<unknown_version_number>[0-9]+)" +
                     @"\.(?<variants_type>[a-zA-Z0-9]+)" +
                 @")",
             RegexOptions.ExplicitCapture);
@@ -113,8 +113,9 @@ namespace LibSanBag
         public string ImagePath { get; set; }
         public ResourceType Resource { get; set; }
         public string VersionHash { get; set; }
-        public PayloadType Payload { get; set; }
         public int VersionNumber { get; set; }
+        public PayloadType Payload { get; set; }
+        public int UnknownVersionNumber { get; set; }
         public VariantType Variant { get; set; }
 
         public bool IsRawImage => ImagePath != null;
@@ -145,9 +146,17 @@ namespace LibSanBag
             else
             {
                 result.Resource = GetResourceType(match.Groups["resource_type"].Value);
-                result.VersionHash = match.Groups["version_hash"].Value;
+
+                if(match.Groups["version_hash"].Success) {
+                    result.VersionHash = match.Groups["version_hash"].Value;
+                    result.VersionNumber = 0;
+                }
+                else {
+                    result.VersionHash = null;
+                    result.VersionNumber = int.Parse(match.Groups["version_number"].Value);
+                }
                 result.Payload = GetPayloadType(match.Groups["payload_type"].Value);
-                result.VersionNumber = int.Parse(match.Groups["version_number"].Value);
+                result.UnknownVersionNumber = int.Parse(match.Groups["unknown_version_number"].Value);
                 result.Variant = GetVariantType(match.Groups["variants_type"].Value);
             }
 

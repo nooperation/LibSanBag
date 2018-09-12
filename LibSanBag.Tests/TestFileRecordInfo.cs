@@ -116,16 +116,16 @@ namespace LibSanBag.Tests
         }
 
         [Test]
-        public void TestResourceFilename()
+        public void TestResourceFilename_Versionhash()
         {
             var hash = "0f74af948a58a66a96f4fc282a01ebf1";
             var resourceType = "Texture-Resource";
             var versionHash = "9a8d4bbd19b4cd55";
             var payloadType = "payload";
-            var versionNumber = 0;
+            var unknownVersionNumber = 0;
             var variants = "noVariants";
 
-            var info = FileRecordInfo.Create($"{hash}.{resourceType}.v{versionHash}.{payloadType}.v{versionNumber}.{variants}");
+            var info = FileRecordInfo.Create($"{hash}.{resourceType}.v{versionHash}.{payloadType}.v{unknownVersionNumber}.{variants}");
             Assert.NotNull(info);
             Assert.AreEqual(info.Hash, hash);
             Assert.AreEqual(info.ImagePath, null);
@@ -134,7 +134,31 @@ namespace LibSanBag.Tests
             Assert.AreEqual(info.Variant, VariantType.NoVariants);
             Assert.AreEqual(info.Payload, PayloadType.Payload);
             Assert.AreEqual(info.VersionHash, versionHash);
-            Assert.AreEqual(info.VersionNumber, versionNumber);
+            Assert.AreEqual(info.VersionNumber, 0);
+            Assert.AreEqual(info.UnknownVersionNumber, unknownVersionNumber);
+        }
+
+        [Test]
+        public void TestResourceFilename_VersionNumber()
+        {
+            var hash = "0f74af948a58a66a96f4fc282a01ebf1";
+            var resourceType = "Texture-Resource";
+            var versionNumber = "1";
+            var payloadType = "payload";
+            var unknownVersionNumber = 0;
+            var variants = "noVariants";
+
+            var info = FileRecordInfo.Create($"{hash}.{resourceType}.v{versionNumber}.{payloadType}.v{unknownVersionNumber}.{variants}");
+            Assert.NotNull(info);
+            Assert.AreEqual(info.Hash, hash);
+            Assert.AreEqual(info.ImagePath, null);
+            Assert.AreEqual(info.IsRawImage, false);
+            Assert.AreEqual(info.Resource, ResourceType.TextureResource);
+            Assert.AreEqual(info.Variant, VariantType.NoVariants);
+            Assert.AreEqual(info.Payload, PayloadType.Payload);
+            Assert.AreEqual(info.VersionHash, null);
+            Assert.AreEqual(info.VersionNumber, 1);
+            Assert.AreEqual(info.UnknownVersionNumber, unknownVersionNumber);
         }
 
         [Test]
