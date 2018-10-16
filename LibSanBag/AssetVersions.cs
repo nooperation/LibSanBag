@@ -65,6 +65,7 @@ namespace LibSanBag
             //},
             [ResourceType.BlueprintResource] = new List<string>
             {
+                "b387f4dfcc5aa328",
                 "901e4a991526fb7e",
                 "2581ae99ebff8902",
                 "28e96f6e8249ee7d",
@@ -228,6 +229,7 @@ namespace LibSanBag
             },
             [ResourceType.WorldSource] = new List<string>
             {
+                "63ab58e3beb75387",
                 "e5e66a9d2cb43828",
                 "4ffb3af363549e5d",
                 "e6bf164a88bd8088",
@@ -288,6 +290,7 @@ namespace LibSanBag
             },
             [ResourceType.ClusterDefinition] = new List<string>
             {
+                "22c97293d4d12cad",
                 "851b7a146166a100",
                 "be6218956ea67be4",
                 "48f1fc77d7f9b772",
