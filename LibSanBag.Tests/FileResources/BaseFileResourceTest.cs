@@ -14,11 +14,6 @@ namespace LibSanBag.Tests.FileResources
         [SetUp]
         public virtual void Setup()
         {
-            if (LibDDS.IsAvailable == false)
-            {
-                Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
-                LibDDS.FindDependencies(new FileProvider());
-            }
             if (OodleLz.IsAvailable == false)
             {
                 Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
