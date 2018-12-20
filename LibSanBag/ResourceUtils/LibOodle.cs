@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading.Tasks;
 using LibSanBag.Providers;
 
 namespace LibSanBag.ResourceUtils
 {
-    public static class OodleLz
+    static class LibOodle
     {
         [DllImport("oo2core_1_win64.dll")]
         private static extern ulong OodleLZ_GetCompressedBufferSizeNeeded(ulong size);
@@ -19,6 +22,11 @@ namespace LibSanBag.ResourceUtils
 
         private static bool _isDllAvailable;
         public static bool IsAvailable => _isDllAvailable;
+
+        static LibOodle()
+        {
+            FindDependencies(new FileProvider());
+        }
 
         /// <summary>
         /// Attempts to locate all of the dependencies required by OodleLz
@@ -34,11 +42,6 @@ namespace LibSanBag.ResourceUtils
             }
 
             return false;
-        }
-
-        static OodleLz()
-        {
-            FindDependencies(new FileProvider());
         }
 
         /// <summary>
@@ -78,70 +81,6 @@ namespace LibSanBag.ResourceUtils
             var fixedArray = new byte[decompressedSize - 4];
             Buffer.BlockCopy(decompressedBuffer, 4, fixedArray, 0, fixedArray.Length);
             return fixedArray;
-        }
-
-        /// <summary>
-        /// Decompresses a sansar resource/asset
-        /// </summary>
-        /// <param name="resourceStream">Stream containing sansar resource</param>
-        /// <returns>Raw decompressed resource data on success</returns>
-        /// <exception cref="Exception">Failed to decompress</exception>
-        public static byte[] DecompressResource(Stream resourceStream)
-        {
-            resourceStream.Seek(0, SeekOrigin.Begin);
-
-            using (var br = new BinaryReader(resourceStream, Encoding.ASCII, true))
-            {
-                var firstByte = br.ReadByte();
-                var decompressedSize = (ulong)0;
-
-                if (firstByte == 0xF1)
-                {
-                    decompressedSize = br.ReadUInt16();
-                }
-                else if (firstByte == 0xF2)
-                {
-                    decompressedSize = br.ReadUInt32();
-                }
-                else if (firstByte > 0xF2)
-                {
-                    throw new NotImplementedException();
-                }
-                else
-                {
-                    br.BaseStream.Seek(3, SeekOrigin.Current);
-
-                    var remainingBytes = br.BaseStream.Length - br.BaseStream.Position;
-                    return br.ReadBytes((int)remainingBytes);
-                }
-
-                var expectedOodleMagicByte = br.ReadByte();
-                br.BaseStream.Position--;
-
-                if (expectedOodleMagicByte != 0x8C)
-                {
-                    throw new Exception($"Failed to find oodle magic. Expected 0x8C, but found 0x{expectedOodleMagicByte:X2}");
-                }
-
-                var compressedDataArray = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position - 10));
-                var decompressed = Decompress(compressedDataArray, decompressedSize);
-                return decompressed;
-            }
-        }
-
-        /// <summary>
-        /// Decompresses a sansar resource/asset
-        /// </summary>
-        /// <param name="resourcePath">Path to a sansar resource</param>
-        /// <returns>Raw decompressed resource data on success</returns>
-        /// <exception cref="Exception">Failed to decompress</exception>
-        public static byte[] DecompressResource(string resourcePath)
-        {
-            using (var textureResourceStream = File.OpenRead(resourcePath))
-            {
-                var decompressed = DecompressResource(textureResourceStream);
-                return decompressed;
-            }
         }
     }
 }

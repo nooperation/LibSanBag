@@ -93,8 +93,10 @@
     <Compile Include="ResourceUtils\LibCRN.cs" />
     <Compile Include="ResourceUtils\LibDDS.cs" />
     <Compile Include="ResourceUtils\LibFSB.cs" />
+    <Compile Include="ResourceUtils\LibKraken.cs" />
+    <Compile Include="ResourceUtils\LibOodle.cs" />
     <Compile Include="ResourceUtils\LibUserPreferences.cs" />
-    <Compile Include="ResourceUtils\OodleLz.cs" />
+    <Compile Include="ResourceUtils\Unpacker.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
     <Compile Include="Providers\TimeProvider.cs" />
   </ItemGroup>

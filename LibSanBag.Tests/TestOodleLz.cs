@@ -36,10 +36,10 @@ namespace LibSanBag.Tests
         [SetUp]
         public void Setup()
         {
-            if (OodleLz.IsAvailable == false)
+            if (Unpacker.IsAvailable == false)
             {
                 Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
-                OodleLz.FindDependencies(new FileProvider());
+                Unpacker.FindDependencies(new FileProvider());
             }
         }
 
@@ -48,7 +48,7 @@ namespace LibSanBag.Tests
         {
             foreach (var sample in CompressedDataSamples)
             {
-                var decompressedBytes = OodleLz.DecompressResource(sample.Item1);
+                var decompressedBytes = Unpacker.DecompressResource(sample.Item1);
                 var expectedBytes = File.ReadAllBytes(sample.Item2);
                 Assert.AreEqual(decompressedBytes, expectedBytes);
             }
@@ -60,7 +60,7 @@ namespace LibSanBag.Tests
 
             Assert.Throws<Exception>(() =>
             {
-                OodleLz.DecompressResource(path);
+                Unpacker.DecompressResource(path);
             });
         }
 
@@ -71,7 +71,7 @@ namespace LibSanBag.Tests
 
             Assert.Throws<NotImplementedException>(() =>
             {
-                OodleLz.DecompressResource(path);
+                Unpacker.DecompressResource(path);
             });
         }
 
@@ -80,13 +80,14 @@ namespace LibSanBag.Tests
         {
             var fileProvider = new MockFileProvider();
             fileProvider.FileExistsResultQueue.Enqueue(false);
+            fileProvider.FileExistsResultQueue.Enqueue(false);
 
-            OodleLz.FindDependencies(fileProvider);
+            Unpacker.FindDependencies(fileProvider);
 
             var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "OodleLz", "Compressed_F2_Resource.bin");
             Assert.Throws<Exception>(() =>
             {
-                OodleLz.DecompressResource(path);
+                Unpacker.DecompressResource(path);
             });
         }
     }

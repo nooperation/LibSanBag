@@ -14,10 +14,10 @@ namespace LibSanBag.Tests.FileResources
         [SetUp]
         public virtual void Setup()
         {
-            if (OodleLz.IsAvailable == false)
+            if (Unpacker.IsAvailable == false)
             {
                 Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
-                OodleLz.FindDependencies(new FileProvider());
+                Unpacker.FindDependencies(new FileProvider());
             }
         }
     }
