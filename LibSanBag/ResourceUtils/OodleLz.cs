@@ -21,37 +21,16 @@ namespace LibSanBag.ResourceUtils
         public static bool IsAvailable => _isDllAvailable;
 
         /// <summary>
-        /// Sets up the current environment in attempt to find sansar's oodle dll
+        /// Attempts to locate all of the dependencies required by OodleLz
         /// </summary>
-        /// <returns>True if oodle was found, otherwise false</returns>
-        public static bool SetupEnvironment(IFileProvider fileProvider, IEnvironmentProvider environmentProvider, IRegistryProvider registryProvider)
+        /// <returns>True if dependencies were found, otherwise false</returns>
+        public static bool FindDependencies(IFileProvider fileProvider)
         {
             _isDllAvailable = false;
-
-            try
+            if (fileProvider.FileExists("oo2core_1_win64.dll"))
             {
-                if (fileProvider.FileExists("oo2core_1_win64.dll"))
-                {
-                    _isDllAvailable = true;
-                    return true;
-                }
-
-                var sansarDirectory = ResourceUtils.Utils.GetSansarDirectory(registryProvider);
-                if (sansarDirectory != null)
-                {
-                    sansarDirectory = Path.GetFullPath(sansarDirectory + "\\Client");
-
-                    if (fileProvider.FileExists(sansarDirectory + "\\oo2core_1_win64.dll"))
-                    {
-                        var currentPath = environmentProvider.GetEnvironmentVariable("PATH", EnvironmentVariableTarget.Process);
-                        environmentProvider.SetEnvironmentVariable("PATH", currentPath + ";" + sansarDirectory, EnvironmentVariableTarget.Process);
-                        _isDllAvailable = true;
-                        return true;
-                    }
-                }
-            }
-            catch (Exception)
-            {
+                _isDllAvailable = true;
+                return true;
             }
 
             return false;
@@ -59,7 +38,7 @@ namespace LibSanBag.ResourceUtils
 
         static OodleLz()
         {
-             SetupEnvironment(new FileProvider(), new EnvironmentProvider(), new RegistryProvider());
+            FindDependencies(new FileProvider());
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ using System.IO;
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    internal class TestLuaScriptResource
+    internal class TestLuaScriptResource : BaseFileResourceTest
     {
         // TODO: Create some actual lua samples to mimic the compressed havok lua scripts
         private struct TestData
@@ -33,8 +33,10 @@ namespace LibSanBag.Tests.FileResources
         };
 
         [SetUp]
-        public void Setup()
+        public override void Setup()
         {
+            base.Setup();
+
             ExpectedSource = File.ReadAllText(ExpectedFilePath);
         }
 

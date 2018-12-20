@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    internal class TestScriptSourceTextResource
+    internal class TestScriptSourceTextResource : BaseFileResourceTest
     {
         private struct TestData
         {
@@ -37,8 +37,10 @@ namespace LibSanBag.Tests.FileResources
         };
 
         [SetUp]
-        public void Setup()
+        public override void Setup()
         {
+            base.Setup();
+
             ExpectedSource = File.ReadAllText(ExpectedFilePath);
         }
 

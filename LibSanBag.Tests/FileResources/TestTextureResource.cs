@@ -12,7 +12,7 @@ using LibSanBag.ResourceUtils;
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    internal class TestTextureResource
+    internal class TestTextureResource : BaseFileResourceTest
     {
         private struct TestData
         {
@@ -54,8 +54,10 @@ namespace LibSanBag.Tests.FileResources
         };
 
         [SetUp]
-        public void Setup()
+        public override void Setup()
         {
+            base.Setup();
+
             if (LibDDS.IsAvailable == false)
             {
                 Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;

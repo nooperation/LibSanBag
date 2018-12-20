@@ -69,6 +69,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileResources\BaseFileResourceTest.cs" />
     <Compile Include="FileResources\TestGeometryResource.cs" />
     <Compile Include="FileResources\TestGeometryResourceCanonical.cs" />
     <Compile Include="FileResources\TestManifestResource.cs" />
@@ -561,7 +562,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
