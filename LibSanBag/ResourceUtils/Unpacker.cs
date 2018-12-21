@@ -26,6 +26,8 @@ namespace LibSanBag.ResourceUtils
 
             _isDllAvailable |= LibOodle.FindDependencies(fileProvider);
 
+            Console.WriteLine("FindDependencies - Available = " + _isDllAvailable);
+
             return _isDllAvailable;
         }
 
@@ -38,6 +40,8 @@ namespace LibSanBag.ResourceUtils
         /// <exception cref="Exception">Failed to decompress</exception>
         public static byte[] DecompressResource(Stream resourceStream)
         {
+            Console.WriteLine("DecompressResource: Available = " + IsAvailable);
+
             if(!IsAvailable)
             {
                 throw new Exception("No decompression libraries found.");

@@ -36,10 +36,16 @@ namespace LibSanBag.Tests
         [SetUp]
         public void Setup()
         {
+            Console.WriteLine("TestOoodleLz: Setup()");
+
             if (Unpacker.IsAvailable == false)
             {
+                Console.WriteLine("TestOoodleLz: Setting directory to " + TestContext.CurrentContext.TestDirectory);
+
                 Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
                 Unpacker.FindDependencies(new FileProvider());
+
+                Console.WriteLine("TestOoodleLz: Available = " + Unpacker.IsAvailable);
             }
         }
 
