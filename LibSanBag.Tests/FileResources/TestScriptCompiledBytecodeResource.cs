@@ -6,7 +6,7 @@ using System.IO;
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    internal class TestScriptCompiledBytecodeResource
+    internal class TestScriptCompiledBytecodeResource : BaseFileResourceTest
     {
         private struct TestData
         {
@@ -39,11 +39,6 @@ namespace LibSanBag.Tests.FileResources
                 string.Empty
             ),
         };
-
-        [SetUp]
-        public void Setup()
-        {
-        }
 
         [Test]
         public void TestConstructCompressedStream()

@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    internal class TestManifestResource
+    internal class TestManifestResource : BaseFileResourceTest
     {
         private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Manifest");
 

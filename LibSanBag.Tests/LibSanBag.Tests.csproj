@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SanTools.LibKraken.1.0.0\build\SanTools.LibKraken.props" Condition="Exists('..\packages\SanTools.LibKraken.1.0.0\build\SanTools.LibKraken.props')" />
   <Import Project="..\packages\SanTools.LibCRN.1.0.5\build\SanTools.LibCRN.props" Condition="Exists('..\packages\SanTools.LibCRN.1.0.5\build\SanTools.LibCRN.props')" />
   <Import Project="..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -69,6 +70,7 @@
     <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileResources\BaseFileResourceTest.cs" />
     <Compile Include="FileResources\TestGeometryResource.cs" />
     <Compile Include="FileResources\TestGeometryResourceCanonical.cs" />
     <Compile Include="FileResources\TestManifestResource.cs" />
@@ -561,7 +563,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
@@ -573,6 +574,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props'))" />
     <Error Condition="!Exists('..\packages\SanTools.LibCRN.1.0.5\build\SanTools.LibCRN.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibCRN.1.0.5\build\SanTools.LibCRN.props'))" />
+    <Error Condition="!Exists('..\packages\SanTools.LibKraken.1.0.0\build\SanTools.LibKraken.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibKraken.1.0.0\build\SanTools.LibKraken.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

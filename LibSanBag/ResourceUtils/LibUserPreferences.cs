@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.ResourceUtils
 {
-    public class LibUserPreferences
+    public static class LibUserPreferences
     {
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         public enum APIResult

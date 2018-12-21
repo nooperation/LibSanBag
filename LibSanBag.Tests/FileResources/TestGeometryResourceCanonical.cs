@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    internal class TestGeometryResourceCanonical
+    internal class TestGeometryResourceCanonical : BaseFileResourceTest
     {
         private struct TestData
         {
@@ -27,11 +27,6 @@ namespace LibSanBag.Tests.FileResources
         {
             new TestData("a1142263356f82516bd7908acf4527cd.GeometryResource-Canonical.v51b89e39caab7b79.payload.v0.noVariants", "BasicCube.fbx"),
         };
-
-        [SetUp]
-        public void Setup()
-        {
-        }
 
         [Test]
         public void TestConstructCompressedStream()
