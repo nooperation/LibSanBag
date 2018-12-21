@@ -23,6 +23,8 @@ namespace LibSanBag.Tests
             if (LibDDS.IsAvailable == false)
             {
                 Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
+                Console.WriteLine("TestLibDds: Setting current directory to " +  Environment.CurrentDirectory);
+
                 LibDDS.FindDependencies(new FileProvider());
             }
         }

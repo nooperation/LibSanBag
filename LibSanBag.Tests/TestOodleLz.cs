@@ -47,9 +47,9 @@ namespace LibSanBag.Tests
 
             if (Unpacker.IsAvailable == false)
             {
-                Console.WriteLine("TestOoodleLz: Setting directory to " + TestContext.CurrentContext.TestDirectory);
-
                 Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
+                Console.WriteLine("TestOoodleLz: Setting current directory to " +  Environment.CurrentDirectory);
+
                 Unpacker.FindDependencies(new FileProvider());
 
                 Console.WriteLine("TestOoodleLz: Available = " + Unpacker.IsAvailable);
@@ -92,7 +92,6 @@ namespace LibSanBag.Tests
         public void TestExtractWhileUnavailable()
         {
             var fileProvider = new MockFileProvider();
-            fileProvider.FileExistsResultQueue.Enqueue(false);
             fileProvider.FileExistsResultQueue.Enqueue(false);
 
             Unpacker.FindDependencies(fileProvider);

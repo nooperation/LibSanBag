@@ -40,7 +40,7 @@ namespace LibSanBag.ResourceUtils
         /// <exception cref="Exception">Failed to decompress</exception>
         public static byte[] DecompressResource(Stream resourceStream)
         {
-            Console.WriteLine("DecompressResource: Available = " + IsAvailable);
+            Console.WriteLine("DecompressResource: Available = " + IsAvailable + " CWD = " + Environment.CurrentDirectory);
 
             if(!IsAvailable)
             {

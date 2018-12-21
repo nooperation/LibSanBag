@@ -17,6 +17,7 @@ namespace LibSanBag.Tests.FileResources
             if (Unpacker.IsAvailable == false)
             {
                 Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
+                Console.WriteLine("BaseFileResourceTest: Setting current directory to " +  Environment.CurrentDirectory);
                 Unpacker.FindDependencies(new FileProvider());
             }
         }
