@@ -11,7 +11,7 @@ namespace LibSanBag.ResourceUtils
     static class LibKraken
     {
         [DllImport("LibKraken.dll")]
-        private static extern ulong Kraken_Decompress(byte[] compressed, ulong compressedSize, byte[] decompressed, ulong decompressedSize);
+        private static extern ulong Kraken_DecompressInMemory(byte[] compressed, ulong compressedSize, byte[] decompressed, ref ulong decompressedSize);
 
         private static bool _isDllAvailable;
         public static bool IsAvailable => _isDllAvailable;
@@ -53,11 +53,11 @@ namespace LibSanBag.ResourceUtils
 
             var decompressedBuffer = new byte[decompressedSize];
 
-            var result = Kraken_Decompress(
+            var result = Kraken_DecompressInMemory(
                 compressedData,
                 (ulong)compressedData.Length,
                 decompressedBuffer,
-                decompressedSize);
+                ref decompressedSize);
 
             // Remove the 4 byte compression header
             var fixedArray = new byte[decompressedSize - 4];
