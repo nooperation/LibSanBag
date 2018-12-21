@@ -25,7 +25,6 @@ namespace LibSanBag.ResourceUtils
             _isDllAvailable = false;
 
             _isDllAvailable |= LibOodle.FindDependencies(fileProvider);
-            _isDllAvailable |= LibKraken.FindDependencies(fileProvider);
 
             return _isDllAvailable;
         }
@@ -81,16 +80,7 @@ namespace LibSanBag.ResourceUtils
 
                 var compressedDataArray = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position - 10));
 
-                byte[] decompressed;
-                if(LibOodle.IsAvailable)
-                {
-                    decompressed = LibOodle.Decompress(compressedDataArray, decompressedSize);
-                }
-                else
-                {
-                    decompressed = LibKraken.Decompress(compressedDataArray, decompressedSize);
-                }
-
+                var decompressed = LibOodle.Decompress(compressedDataArray, decompressedSize);
                 return decompressed;
             }
         }
