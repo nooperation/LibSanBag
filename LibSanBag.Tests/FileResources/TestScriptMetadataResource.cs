@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    class TestScriptMetadataResource
+    class TestScriptMetadataResource : BaseFileResourceTest
     {
         private struct TestData
         {
@@ -31,8 +31,10 @@ namespace LibSanBag.Tests.FileResources
         private static readonly List<TestData> Tests = new List<TestData>();
 
         [SetUp]
-        public void Setup()
+        public override void Setup()
         {
+            base.Setup();
+
             var jsonFilePaths = Directory.GetFiles(RootPath, "*.json", SearchOption.AllDirectories);
             foreach (var jsonFilePath in jsonFilePaths)
             {

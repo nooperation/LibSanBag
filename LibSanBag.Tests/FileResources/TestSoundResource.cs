@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace LibSanBag.Tests.FileResources
 {
     [TestFixture]
-    internal class TestSoundResource
+    internal class TestSoundResource : BaseFileResourceTest
     {
         private struct TestData
         {
@@ -32,8 +32,10 @@ namespace LibSanBag.Tests.FileResources
         };
 
         [SetUp]
-        public void Setup()
+        public override void Setup()
         {
+            base.Setup();
+
             ExpectedSoundBytes = File.ReadAllBytes(ExpectedFilePath);
         }
 

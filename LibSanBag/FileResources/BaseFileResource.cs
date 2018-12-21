@@ -38,7 +38,7 @@ namespace LibSanBag.FileResources
             {
                 try
                 {
-                    decompressedBytes = OodleLz.DecompressResource(compressedStream);
+                    decompressedBytes = Unpacker.DecompressResource(compressedStream);
                     InitFromRawDecompressed(decompressedBytes);
                     return;
                 }
