@@ -26,7 +26,7 @@ namespace LibSanBag.ResourceUtils
 
             _isDllAvailable |= LibOodle.FindDependencies(fileProvider);
 
-            Console.WriteLine("FindDependencies - Available = " + _isDllAvailable);
+            Console.WriteLine("FindDependencies - Available = " + _isDllAvailable + " CWD = " + Environment.CurrentDirectory);
 
             return _isDllAvailable;
         }

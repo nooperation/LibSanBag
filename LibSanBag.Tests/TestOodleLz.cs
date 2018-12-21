@@ -37,6 +37,13 @@ namespace LibSanBag.Tests
         public void Setup()
         {
             Console.WriteLine("TestOoodleLz: Setup()");
+            Console.WriteLine("Current directory: " + Environment.CurrentDirectory);
+            Console.WriteLine("------Start----------");
+            foreach (var file in Directory.GetFiles(Environment.CurrentDirectory))
+            {
+                Console.WriteLine("  -> " + file);
+            }
+            Console.WriteLine("------End----------");
 
             if (Unpacker.IsAvailable == false)
             {
