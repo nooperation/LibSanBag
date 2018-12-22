@@ -22,6 +22,12 @@ namespace LibSanBag
         /// <returns>Associated recource type on success otherwise ResourceType.Unknown</returns>
         public static ResourceType GetResourceTypeFromVersion(string version)
         {
+            if(version.Length < 16)
+            {
+                // We can only get the resource type from a version hash
+                return ResourceType.Unknown;
+            }
+
             foreach (var versions in AllResourceVersions)
             {
                 if (versions.Value.Contains(version))
@@ -37,19 +43,23 @@ namespace LibSanBag
         {
             [ResourceType.AnimationCanonical] = new List<string>
             {
+                "1",
                 "88d8f0abbe2893af",
             },
             [ResourceType.AnimationImport] = new List<string>
             {
+                "1",
                 "f5c4b15e812473c2",
                 "44add6049744d441",
             },
             [ResourceType.GeometryResourceCanonical] = new List<string>
             {
+                "1",
                 "51b89e39caab7b79",
             },
             [ResourceType.GeometryResourceImport] = new List<string>
             {
+                "1",
                 "892ecb16a90b66f1",
                 "5635058fd7bd8c45",
                 "608bcc6a85edcb9b",
@@ -57,6 +67,7 @@ namespace LibSanBag
             },
             [ResourceType.hknpShapeImport] = new List<string>
             {
+                "1",
                 "08fe8aea3c42c6a4",
             },
             //[ResourceType.] = new List<string>
@@ -65,6 +76,7 @@ namespace LibSanBag
             //},
             [ResourceType.BlueprintResource] = new List<string>
             {
+                "1",
                 "b387f4dfcc5aa328",
                 "901e4a991526fb7e",
                 "2581ae99ebff8902",
@@ -141,10 +153,12 @@ namespace LibSanBag
             },
             [ResourceType.ClothingSource] = new List<string>
             {
+                "1",
                 "d57956a9e8755ea1",
             },
             [ResourceType.ClusterSource] = new List<string>
             {
+                "1",
                 "17b8a96b0bb0df5c",
                 "d1a1cee8de08e0fa",
                 "289326d2cf77609a",
@@ -174,16 +188,19 @@ namespace LibSanBag
             },
             [ResourceType.ModelMorphResource] = new List<string>
             {
+                "1",
                 "bfe14c8c616febac",
                 "a165915d1e69ac08",
                 "fa4aa7bc04c023ea",
             },
             [ResourceType.TestResource] = new List<string>
             {
+                "1",
                 "30f1f410150fe2ea",
             },
             [ResourceType.WorldChunkSource] = new List<string>
             {
+                "1",
                 "9df8e1317d4f9720",
                 "9e58e84dd4be88d9",
                 "bcc0c852390bd7b0",
@@ -229,6 +246,7 @@ namespace LibSanBag
             },
             [ResourceType.WorldSource] = new List<string>
             {
+                "1",
                 "63ab58e3beb75387",
                 "e5e66a9d2cb43828",
                 "4ffb3af363549e5d",
@@ -267,6 +285,7 @@ namespace LibSanBag
             },
             [ResourceType.LicenseResource] = new List<string>
             {
+                "1",
                 "f0f15f13743001ba",
                 "906395158b066e63",
                 "0125fe83c7208371",
@@ -290,6 +309,7 @@ namespace LibSanBag
             },
             [ResourceType.ClusterDefinition] = new List<string>
             {
+                "1",
                 "22c97293d4d12cad",
                 "851b7a146166a100",
                 "be6218956ea67be4",
@@ -328,6 +348,7 @@ namespace LibSanBag
             },
             [ResourceType.WorldChunkDefinition] = new List<string>
             {
+                "1",
                 "9eb043caffc8a44a",
                 "13453a1be74e6b37",
                 "30b3b045630e5456",
@@ -347,6 +368,7 @@ namespace LibSanBag
             },
             [ResourceType.WorldDefinition] = new List<string>
             {
+                "1",
                 "4a287644ad0427d5",
                 "4e7c00d4680eb742",
                 "c1dd195104863941",
@@ -371,10 +393,12 @@ namespace LibSanBag
             },
             [ResourceType.AudioGraphResource] = new List<string>
             {
+                "1",
                 "3a334edb7033226c",
             },
             [ResourceType.AudioMaterialResource] = new List<string>
             {
+                "1",
                 "7f1f7b85c74d9298",
                 "c4a5aa2c387b35f7",
                 "667eb286039a558a",
@@ -383,30 +407,36 @@ namespace LibSanBag
             },
             [ResourceType.BankResource] = new List<string>
             {
+                "1",
                 "5bfed512939ba7ff",
             },
             [ResourceType.EnvironmentResource] = new List<string>
             {
+                "1",
                 "c84526638c38a906",
                 "67bca340237ebe96",
             },
             [ResourceType.SoundResource] = new List<string>
             {
+                "1",
                 "8510a121d70371a2",
                 "ffe353a492e99156",
                 "5d4dda35b60493d7",
             },
             [ResourceType.PickResource] = new List<string>
             {
+                "1",
                 "4a2f6332eed3dfb0",
             },
             [ResourceType.PickableModelResource] = new List<string>
             {
+                "1",
                 "7f3b784f7a48dcee",
                 "42ae078bdaab63c6",
             },
             [ResourceType.TextureSource] = new List<string>
             {
+                "1",
                 "ef0903f03a55a571",
                 "403f4d383dcbd77c",
                 "0d049586f771978e",
@@ -415,18 +445,22 @@ namespace LibSanBag
             },
             [ResourceType.BehaviorProjectData] = new List<string>
             {
+                "1",
                 "a72e0b0662cb4408",
             },
             [ResourceType.LuaScriptResource] = new List<string>
             {
+                "1",
                 "2487dccddadf7656",
             },
             [ResourceType.SpeechGraphicsAnimationResource] = new List<string>
             {
+                "1",
                 "86e523fb88ae256e",
             },
             [ResourceType.SpeechGraphicsEngineResource] = new List<string>
             {
+                "1",
                 "0346f2ce5a5f36e1",
             },
             //[ResourceType.] = new List<string>
@@ -439,15 +473,18 @@ namespace LibSanBag
             //},
             [ResourceType.ClothingImport] = new List<string>
             {
+                "1",
                 "823084584bf5029c",
             },
             [ResourceType.FileResource] = new List<string>
             {
+                "1",
                 "78e422aaa1e1ba00",
                 "7c29dacd363b945a",
             },
             [ResourceType.HeightmapImport] = new List<string>
             {
+                "1",
                 "f196c4728c3bda4c",
             },
             //[ResourceType.] = new List<string>
@@ -456,11 +493,13 @@ namespace LibSanBag
             //},
             [ResourceType.ScriptImport] = new List<string>
             {
+                "1",
                 "ac9fbfc60e051e0d",
                 "cb63525ec60d2ea0",
             },
             [ResourceType.SoundImport] = new List<string>
             {
+                "1",
                 "6b714f812579233c",
                 "187d9530f9fc2ded",
                 "8e2a33dd70f661f5",
@@ -475,6 +514,7 @@ namespace LibSanBag
             //},
             [ResourceType.TextureImport] = new List<string>
             {
+                "1",
                 "650d72a4df333875",
                 "2b797f9991bcfcbe",
                 "26130b88acf15586",
@@ -484,16 +524,19 @@ namespace LibSanBag
             },
             [ResourceType.BufferResource] = new List<string>
             {
+                "1",
                 "514865a43231e2c1",
                 "d5f5dda636eb2e1a",
             },
             [ResourceType.GeometryResourceResource] = new List<string>
             {
+                "1",
                 "c6f2fe6335eeb183",
                 "581a503da8d3e98a",
             },
             [ResourceType.MaterialResource] = new List<string>
             {
+                "1",
                 "5738d79c8e9c1212",
                 "40651c5b33a962df",
                 "d18b41db83aa2d3d",
@@ -501,6 +544,7 @@ namespace LibSanBag
             },
             [ResourceType.MeshResource] = new List<string>
             {
+                "1",
                 "ffe860bea21c8d6e",
                 "1248859d98c4fac2",
             },
@@ -510,6 +554,7 @@ namespace LibSanBag
             //},
             [ResourceType.TextureResource] = new List<string>
             {
+                "1",
                 "f1b6b03a0c99d181",
                 "30cfeb60ba0b3d8c",
                 "bfc630a1f9234ffd",
@@ -517,6 +562,7 @@ namespace LibSanBag
             },
             [ResourceType.VertexDefinitionResourceResource] = new List<string>
             {
+                "1",
                 "6d98a5d596161190",
             },
             //[ResourceType.] = new List<string>
@@ -558,10 +604,12 @@ namespace LibSanBag
             //},
             [ResourceType.TerrainRuntimeDecalTextureData] = new List<string>
             {
+                "1",
                 "9882829ebec65bf7",
             },
             [ResourceType.TerrainRuntimeTextureData] = new List<string>
             {
+                "1",
                 "4a5a9ccbb88bc6a8",
                 "0d35975a737b7740",
                 "79b34fa59b2c7282",
@@ -570,6 +618,7 @@ namespace LibSanBag
             },
             [ResourceType.TerrainRuntimeData] = new List<string>
             {
+                "1",
                 "b725168f4d55f177",
                 "c753e74eb6a75d30",
                 "1c6a583e69bbbb63",
@@ -581,6 +630,7 @@ namespace LibSanBag
             },
             [ResourceType.TerrainSourceData] = new List<string>
             {
+                "1",
                 "642effccc24622a4",
                 "eba4ff98ea0b09f2",
                 "2cdabee8bc4dfd3a",
@@ -602,12 +652,14 @@ namespace LibSanBag
             },
             [ResourceType.ScriptCompiledBytecodeResource] = new List<string>
             {
+                "1",
                 "695aad7e1181dc46",
                 "c84707da067146a9",
                 "e6ac3244f1076f7b",
             },
             [ResourceType.ScriptMetadataResource] = new List<string>
             {
+                "1",
                 "6f2e88a41a7f1dce",
                 "123cecc882e4a53f",
                 "d37572c792d9190a",
@@ -624,58 +676,71 @@ namespace LibSanBag
             },
             [ResourceType.ScriptResource] = new List<string>
             {
+                "1",
                 "8b273ad6e91874c1",
                 "152137d932762673",
                 "a5e5740caf72f738",
             },
             [ResourceType.ScriptSourceTextResource] = new List<string>
             {
+                "1",
                 "4cde67396803610f",
                 "6301a7d31aa6f628",
                 "dedd8914f8dfe71e",
             },
             [ResourceType.hkaAnimationBindingResource] = new List<string>
             {
+                "1",
                 "fced9919cb285f6f",
             },
             [ResourceType.hkaSkeletonResource] = new List<string>
             {
+                "1",
                 "b728547fdb2c4522",
             },
             [ResourceType.hkaSkeletonMapperResource] = new List<string>
             {
+                "1",
                 "92c58b13b94629aa",
             },
             [ResourceType.hkbBehaviorGraphResource] = new List<string>
             {
+                "1",
                 "8a45b4789b7b4bda",
             },
             [ResourceType.hkbCharacterDataResource] = new List<string>
             {
+                "1",
                 "e0027325ae4e853f",
             },
             [ResourceType.hkbProjectDataResource] = new List<string>
             {
+                "1",
                 "1fd92e78456f6eb8",
             },
             [ResourceType.hknpMaterialResource] = new List<string>
             {
+                "1",
                 "161f13afec1887ad",
             },
             [ResourceType.hknpPhysicsSystemDataResource] = new List<string>
             {
+                "1",
                 "e06efc4882af72e6",
             },
             [ResourceType.hknpRagdollDataResource] = new List<string>
             {
+                "1",
                 "fd48f1a0e5ba9ae7",
             },
             [ResourceType.hknpShapeResource] = new List<string>
             {
+                "1",
                 "a11e4b205f3213d8",
             },
             [ResourceType.hkpConstraintDataResource] = new List<string>
             {
+                "1",
                 "07d6e3a87b889802",
             },
             [ResourceType.Unknown] = new List<string>(),
