@@ -80,7 +80,6 @@ namespace LibSanBag.Tests
         {
             var fileProvider = new MockFileProvider();
             fileProvider.FileExistsResultQueue.Enqueue(false);
-            fileProvider.FileExistsResultQueue.Enqueue(false);
 
             Unpacker.FindDependencies(fileProvider);
 

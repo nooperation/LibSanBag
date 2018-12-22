@@ -28,7 +28,7 @@ before_build:
 
     echo "Extracting dependencies..."
 
-    Expand-Archive -v -f sanbag_depends.zip -DestinationPath "$env:APPVEYOR_BUILD_FOLDER"
+    Expand-Archive -v -f sanbag_depends.zip -DestinationPath "$env:APPVEYOR_BUILD_FOLDER\LibSanBag.Tests\bin\$env:PLATFORM\$env:CONFIGURATION\"
 build:
   publish_nuget: true
   publish_nuget_symbols: true

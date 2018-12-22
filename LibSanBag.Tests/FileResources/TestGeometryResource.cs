@@ -25,6 +25,7 @@ namespace LibSanBag.Tests.FileResources
         private IEnumerable<TestData> Tests { get; } = new[]
         {
             new TestData("587fcb85b61131545bab31b864ecf6b1.GeometryResource-Resource.v581a503da8d3e98a.payload.v0.noVariants"),
+            new TestData("7152f95c68c633a455d02551dc0594a5.GeometryResource-Resource.v1.payload.v0.noVariants"),
         };
 
         [Test]
