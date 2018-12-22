@@ -61,8 +61,6 @@ namespace LibSanBag.Tests.FileResources
             if (LibDDS.IsAvailable == false)
             {
                 Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
-                Console.WriteLine("TRestTextureResource: Setting current directory to " +  Environment.CurrentDirectory);
-
                 LibDDS.FindDependencies(new FileProvider());
             }
         }

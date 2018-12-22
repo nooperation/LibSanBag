@@ -37,13 +37,8 @@ namespace LibSanBag.ResourceUtils
             _isDllAvailable = false;
             if (fileProvider.FileExists("oo2core_7_win64.dll"))
             {
-                Console.WriteLine("FindDependencies: Found oo2core_7_win64.dll. Decompression is available.");
                 _isDllAvailable = true;
                 return true;
-            }
-            else
-            {
-                Console.WriteLine("FindDependencies: Failed to find oodle dll");
             }
 
             return false;
