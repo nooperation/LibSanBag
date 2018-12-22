@@ -46,6 +46,7 @@ namespace LibSanBag.Tests.FileResources
                 "7671009fd20711e4e4a0b81d500c2714.Texture-Resource.vbfc630a1f9234ffd.payload.v0.noVariants.crn",
                 "Sample.png"
             ),
+            /*
             new TestData(
                 "88a56a0a29d778510778a259d9ba2c20.Texture-Resource.v2.payload.v0.noVariants",
                 "88a56a0a29d778510778a259d9ba2c20.Texture-Resource.v2.payload.v0.noVariants.crn",
@@ -55,7 +56,7 @@ namespace LibSanBag.Tests.FileResources
                 "7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants",
                 "7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants.crn",
                 "7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants.png"
-            ),
+            ),*/
             new TestData(
                 "076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants",
                 "076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants.dds",
