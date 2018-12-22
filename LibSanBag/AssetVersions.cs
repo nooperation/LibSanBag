@@ -22,8 +22,9 @@ namespace LibSanBag
         /// <returns>Associated recource type on success otherwise ResourceType.Unknown</returns>
         public static ResourceType GetResourceTypeFromVersion(string version)
         {
-            if(version.Length <= 2)
+            if(version.Length < 16)
             {
+                // We can only get the resource type from a version hash
                 return ResourceType.Unknown;
             }
 
