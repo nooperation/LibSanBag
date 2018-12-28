@@ -66,7 +66,7 @@ namespace LibSanBag.ResourceUtils
                 {
                     br.BaseStream.Seek(3, SeekOrigin.Current);
 
-                    var remainingBytes = br.BaseStream.Length - br.BaseStream.Position;
+                    var remainingBytes = br.BaseStream.Length - br.BaseStream.Position - 10;
                     return br.ReadBytes((int)remainingBytes);
                 }
 
