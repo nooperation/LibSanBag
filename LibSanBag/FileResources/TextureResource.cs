@@ -218,7 +218,7 @@ namespace LibSanBag.FileResources
                 }
 
                 var numBytesRemaining = br.BaseStream.Length - br.BaseStream.Position;
-                if(numBytesRemaining >= 4) 
+                if(numBytesRemaining >= 4)
                 {
                     UnknownA = br.ReadInt32();
                     var numAdditionalMips = br.ReadInt32();
@@ -234,7 +234,6 @@ namespace LibSanBag.FileResources
                             var hashUpper = br.ReadUInt64();
 
                             var hashFinal = $"{hashLower:x16}{hashUpper:x16}";
-                            Console.WriteLine($"http://sansar-asset-production.s3-us-west-2.amazonaws.com/{hashFinal}.TextureMip-Resource.v1.payload.v0.noVariants");
                             StreamedMips.Add(hashFinal);
                         }
                     }
