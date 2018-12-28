@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using LibSanBag.Providers;
@@ -35,11 +36,14 @@ namespace LibSanBag.ResourceUtils
 
         [DllImport("LibCRN.dll")]
         private static extern bool ConvertCrnInMemory(
-            byte[] ddsBytes,
-            long ddsBytesSize,
+            byte[] inBuff,
+            long inBuffSize,
             ConversionOptions options,
-            out IntPtr outImageBytes, 
-            out long outImageBytesSize
+            int levelSegmentCount,
+            byte[] levelSegmentBytes,
+            int levelSegmentBytesSize,
+            out IntPtr outBuff,
+            out long outBuffSize
         );
 
         [DllImport("LibCRN.dll")]
@@ -93,7 +97,7 @@ namespace LibSanBag.ResourceUtils
         /// <param name="crnBytes">CRN bytes</param>
         /// <param name="codec">Image Codec</param>
         /// <returns>Converted image bytes</returns>
-        public static byte[] GetImageBytesFromCRN(byte[] crnBytes, ImageCodec codec)
+        public static byte[] GetImageBytesFromCRN(byte[] crnBytes, ImageCodec codec, int levelSegmentCount, byte[] levelSegmentBytes)
         {
             if (IsAvailable == false)
             {
@@ -105,7 +109,17 @@ namespace LibSanBag.ResourceUtils
             ConversionOptions options = new ConversionOptions();
             options.Codec = codec;
 
-            var result = ConvertCrnInMemory(crnBytes, crnBytes.Length, options, out rawImageData, out rawImageDataSize);
+            var result = ConvertCrnInMemory(
+                crnBytes,
+                crnBytes.Length,
+                options,
+                levelSegmentCount,
+                levelSegmentBytes,
+                levelSegmentBytes?.Length ?? 0,
+                out rawImageData,
+                out rawImageDataSize
+            );
+
             if (result == false)
             {
                 throw new Exception("Failed to read CRN: " + GetErrorString());
