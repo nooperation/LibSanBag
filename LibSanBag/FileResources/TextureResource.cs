@@ -16,7 +16,8 @@ namespace LibSanBag.FileResources
             DDS = 0,
             CRN = 1,
             PNG = 2,
-            BMP = 3
+            BMP = 3,
+            JPG = 4
         }
 
         public TextureType SourceType { get; set; }
@@ -83,6 +84,8 @@ namespace LibSanBag.FileResources
                     return LibCRN.ImageCodec.PNG;
                 case TextureType.BMP:
                     return LibCRN.ImageCodec.BMP;
+                case TextureType.JPG:
+                    return LibCRN.ImageCodec.JPG;
                 default:
                     throw new NotImplementedException("Cannot convert CRN to " + codec.ToString());
             }
@@ -174,7 +177,7 @@ namespace LibSanBag.FileResources
                 }
 
                 var crnCodec = GetCrnTextureType(codec);
-                return LibCRN.GetImageBytesFromCRN(CompressedTextureBytes, crnCodec);
+                return LibCRN.GetImageBytesFromCRN(CompressedTextureBytes, crnCodec, 0, null);
             }
             else
             {
@@ -256,7 +259,7 @@ namespace LibSanBag.FileResources
                 }
 
                 var crnCodec = GetCrnTextureType(codec);
-                return LibCRN.GetImageBytesFromCRN(CompressedTextureBytes, crnCodec);
+                return LibCRN.GetImageBytesFromCRN(CompressedTextureBytes, crnCodec, StreamedMips.Count, null);
             }
             else
             {
