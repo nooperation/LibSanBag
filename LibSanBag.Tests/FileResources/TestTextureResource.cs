@@ -20,12 +20,14 @@ namespace LibSanBag.Tests.FileResources
             public string ExpectedCompressedPath { get; set; }
             public string ExpectedDecompressedPath { get; set; }
             public FileRecordInfo RecordInfo { get; set; }
+            public List<string> SegmentedLevels { get; set; }
 
-            public TestData(string compressedFilePath, string expectedCompressedPath, string expectedDecompressedPath)
+            public TestData(string compressedFilePath, string expectedCompressedPath, string expectedDecompressedPath, List<string> segmentedLevels)
             {
                 CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
                 ExpectedCompressedPath = Path.Combine(RootPath, expectedCompressedPath);
                 ExpectedDecompressedPath = Path.Combine(RootPath, expectedDecompressedPath);
+                SegmentedLevels = segmentedLevels;
 
                 RecordInfo = FileRecordInfo.Create(compressedFilePath);
             }
@@ -39,27 +41,43 @@ namespace LibSanBag.Tests.FileResources
             new TestData(
                 "4d0ab27f42b14326ed4987ed25566663.Texture-Resource.v9a8d4bbd19b4cd55.payload.v0.noVariants",
                 "4d0ab27f42b14326ed4987ed25566663.Texture-Resource.v9a8d4bbd19b4cd55.payload.v0.noVariants.dds",
-                "Sample.png"
+                "Sample.png",
+                new List<string>(){ }
             ),
             new TestData(
                 "7671009fd20711e4e4a0b81d500c2714.Texture-Resource.vbfc630a1f9234ffd.payload.v0.noVariants",
                 "7671009fd20711e4e4a0b81d500c2714.Texture-Resource.vbfc630a1f9234ffd.payload.v0.noVariants.crn",
-                "Sample.png"
-            ),
-            new TestData(
-                "88a56a0a29d778510778a259d9ba2c20.Texture-Resource.v2.payload.v0.noVariants",
-                "88a56a0a29d778510778a259d9ba2c20.Texture-Resource.v2.payload.v0.noVariants.crn",
-                "Sample.png"
-            ),
-            new TestData(
-                "7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants",
-                "7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants.crn",
-                "7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants.png"
+                "Sample.png",
+                new List<string>(){ }
             ),
             new TestData(
                 "076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants",
                 "076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants.dds",
-                "076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants.png"
+                "076c8c42c7b5b9dceda66f233ac2630b.Texture-Resourcee.vbfc630a1f9234ffd.payload.v0.noVariants.png",
+                new List<string>(){ }
+            ),
+            new TestData(
+                "88a56a0a29d778510778a259d9ba2c20.Texture-Resource.v2.payload.v0.noVariants",
+                "88a56a0a29d778510778a259d9ba2c20.Texture-Resource.v2.payload.v0.noVariants.crn",
+                "Sample.png",
+                new List<string>(){ }
+            ),
+            new TestData(
+                "7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants",
+                "7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants.crn",
+                "7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants.png",
+                new List<string>(){
+                    "8ddc0a206075b8e7aecd85139ffc87a3"
+                }
+            ),
+            new TestData(
+                "b9ca06787a64475cc14dac63c49d4984.Texture-Resource.v2.payload.v0.noVariants",
+                "b9ca06787a64475cc14dac63c49d4984.Texture-Resource.v2.payload.v0.noVariants.crn",
+                "b9ca06787a64475cc14dac63c49d4984.Texture-Resource.v2.payload.v0.noVariants.png",
+                new List<string>() {
+                    "991060e46852e19729c1207d5d250273",
+                    "dc3589b2f2bdefacb893346095f5dc46",
+                }
             ),
         };
 
@@ -87,7 +105,13 @@ namespace LibSanBag.Tests.FileResources
                 {
                     var resource = TextureResource.Create(testData.RecordInfo.VersionHash);
                     resource.InitFromStream(ms);
-                    Assert.AreEqual(resource.CompressedTextureBytes, expectedCompressedbytes);
+                    Assert.AreEqual(expectedCompressedbytes, resource.CompressedTextureBytes);
+                    Assert.AreEqual(testData.SegmentedLevels.Count, resource.StreamedMips.Count);
+
+                    for (int i = 0; i < testData.SegmentedLevels.Count; i++)
+                    {
+                        Assert.AreEqual(testData.SegmentedLevels[i], resource.StreamedMips[i]);
+                    }
                 }
             }
         }
