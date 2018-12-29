@@ -163,6 +163,7 @@ namespace LibSanBag.FileResources
             switch (version)
             {
                 default:
+                case "1":
                 case "6f2e88a41a7f1dce":
                     return new ScriptMetadataResource_6f2e88a41a7f1dce();
                 case "123cecc882e4a53f":
@@ -189,20 +190,27 @@ namespace LibSanBag.FileResources
         {
             switch (version)
             {
-                case "0a316ea155e30eda":
-                    return typeof(ScriptMetadataResource_0a316ea155e30eda);
-                case "d75de17df1892f86":
-                    return typeof(ScriptMetadataResource_d75de17df1892f86);
-                case "b8e35358a76fa32a":
-                case "0b604dc8c94bc188":
-                case "d97016058b281211":
-                case "02575c46762a7c3c":
-                    return typeof(ScriptMetadataResource_b8e35358a76fa32a);
+                default:
+                case "1":
+                case "6f2e88a41a7f1dce":
+                    return typeof(ScriptMetadataResource_6f2e88a41a7f1dce);
+                case "123cecc882e4a53f":
+                case "d37572c792d9190a":
+                case "6bec8a6d0387ee27":
+                case "40d13e1007d2d696":
+                case "bae7f85fc2f176e7":
+                    return typeof(ScriptMetadataResource_bae7f85fc2f176e7);
                 case "67df52a55a73f7d3":
                     return typeof(ScriptMetadataResource_67df52a55a73f7d3);
-                case "bae7f85fc2f176e7":
-                default:
-                    return typeof(ScriptMetadataResource_bae7f85fc2f176e7);
+                case "02575c46762a7c3c":
+                case "d97016058b281211":
+                case "0b604dc8c94bc188":
+                case "b8e35358a76fa32a":
+                    return typeof(ScriptMetadataResource_b8e35358a76fa32a);
+                case "d75de17df1892f86":
+                    return typeof(ScriptMetadataResource_d75de17df1892f86);
+                case "0a316ea155e30eda":
+                    return typeof(ScriptMetadataResource_0a316ea155e30eda);
             }
         }
     }
