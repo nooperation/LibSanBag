@@ -221,6 +221,8 @@ namespace LibSanBag.FileResources
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
+            var unknownE = 0;
+
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 Warnings = ReadString(decompressedStream);
@@ -235,9 +237,15 @@ namespace LibSanBag.FileResources
                     unknownD = decompressedStream.ReadInt32();
                     if (unknownD > 0)
                     {
-                        var unknownE = decompressedStream.ReadInt32();
+                        unknownE = decompressedStream.ReadInt32();
                         AssemblyName = ReadString(decompressedStream);
-                        var unknown_usually_2 = decompressedStream.ReadInt32();
+
+                        if(unknownE > 1)
+                        {
+                            var unknown_usually_2 = decompressedStream.ReadInt32();
+                        }
+
+                        Console.WriteLine($"A: {unknownA} B: {unknownB} C: {unknownC} D: {unknownD} E: {unknownE}");
                     }
                 }
 
@@ -262,6 +270,11 @@ namespace LibSanBag.FileResources
                 if (unknownD > 0)
                 {
                     var assemblyNameAgain = ReadString(decompressedStream);
+                    if(unknownE == 3)
+                    {
+                        var assemblyNameAgain2 = ReadString(decompressedStream);
+                        var assemblyNameAgain3 = ReadString(decompressedStream);
+                    }
                 }
 
                 var stringsAreAvailable = decompressedStream.ReadInt32() != 0;

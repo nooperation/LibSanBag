@@ -102,7 +102,7 @@ namespace LibSanBag
             @"(?<hash>[a-f0-9]{32})\." +
                 @"((?<image_name>.*\.png)|" +
                 @"(?<resource_type>[^\.]+)" +
-                    @"\.v(?<version_hash>[a-f0-9])" +
+                    @"\.v(?<version_hash>[a-f0-9]+)" +
                     @"\.(?<payload_type>[^\.]+)" +
                     @"\.v(?<unknown_version_number>[0-9]+)" +
                     @"\.(?<variants_type>[a-zA-Z0-9]+)" +
