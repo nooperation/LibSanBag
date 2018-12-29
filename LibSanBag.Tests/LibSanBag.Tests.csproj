@@ -124,6 +124,9 @@
     <Content Include="Samples\Resources\Texture\7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Samples\Resources\Texture\b9ca06787a64475cc14dac63c49d4984.Texture-Resource.v2.payload.v0.noVariants.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Samples\Resources\Texture\Sample.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -577,6 +580,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Resources\Texture\7b1a5fa14c90a8e5fbd7918fa77e0c51.Texture-Resource.v2.payload.v0.noVariants.crn">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\Texture\b9ca06787a64475cc14dac63c49d4984.Texture-Resource.v2.payload.v0.noVariants">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\Resources\Texture\b9ca06787a64475cc14dac63c49d4984.Texture-Resource.v2.payload.v0.noVariants.crn">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Samples\Resources\ScriptMetadata\AssemblyTooltip\da4cc72ad09976d4e9ac7fe6669079f0.ScriptMetadata-Resource.v1.payload.v0.noVariants">
