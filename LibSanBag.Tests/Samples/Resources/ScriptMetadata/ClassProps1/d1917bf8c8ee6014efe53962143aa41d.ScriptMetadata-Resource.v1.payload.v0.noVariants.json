@@ -1,0 +1,53 @@
+{
+  "IsCompressed": true,
+  "AssemblyTooltip": "",
+  "Warnings": "",
+  "DefaultScript": "ClasProps1",
+  "UnknownA": 0,
+  "UnknownB": 0,
+  "UnknownC": 1,
+  "ScriptCount": 1,
+  "UnknownE": 3,
+  "HasAssemblyTooltip": true,
+  "AttributesVersion": 9,
+  "Scripts": [
+    {
+      "ClassName": "ClasProps1",
+      "DisplayName": "This is the display name",
+      "Tooltip": "ClasProps1",
+      "UnknownF": 2,
+      "UnknownG": 1,
+      "UnknownH": 1,
+      "Properties": [
+        {
+          "Name": "ExampleStringWithTooltip",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Helpful text"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2018-12-29T05:45:00Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "1c3aad2b-0258-4c90-a604-0da35a9743f9"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "ace5db1.157004"
+    }
+  ]
+}
