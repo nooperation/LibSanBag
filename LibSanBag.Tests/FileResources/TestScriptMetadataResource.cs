@@ -68,7 +68,7 @@ namespace LibSanBag.Tests.FileResources
                     actual.InitFromStream(ms);
 
                     Assert.AreEqual(expected.AssemblyTooltip, actual.AssemblyTooltip);
-                    Assert.AreEqual(expected.DisplayName, actual.DisplayName);
+                    Assert.AreEqual(expected.DefaultScript, actual.DefaultScript);
                     Assert.AreEqual(expected.HasAssemblyTooltip, actual.HasAssemblyTooltip);
                     Assert.AreEqual(expected.UnknownA, actual.UnknownA);
                     Assert.AreEqual(expected.UnknownB, actual.UnknownB);
@@ -79,12 +79,12 @@ namespace LibSanBag.Tests.FileResources
                     Assert.AreEqual(expected.ScriptCount, actual.ScriptCount);
                     for (int i = 0; i < actual.ScriptCount; i++)
                     {
-                        Assert.AreEqual(expected.Scripts[i].AssemblyName, actual.Scripts[i].AssemblyName);
+                        Assert.AreEqual(expected.Scripts[i].ClassName, actual.Scripts[i].ClassName);
                         Assert.AreEqual(expected.Scripts[i].UnknownF, actual.Scripts[i].UnknownF);
                         Assert.AreEqual(expected.Scripts[i].UnknownG, actual.Scripts[i].UnknownG);
                         Assert.AreEqual(expected.Scripts[i].UnknownH, actual.Scripts[i].UnknownH);
-                        Assert.AreEqual(expected.Scripts[i].UnknownName1, actual.Scripts[i].UnknownName1);
-                        Assert.AreEqual(expected.Scripts[i].UnknownName2, actual.Scripts[i].UnknownName2);
+                        Assert.AreEqual(expected.Scripts[i].DisplayName, actual.Scripts[i].DisplayName);
+                        Assert.AreEqual(expected.Scripts[i].Tooltip, actual.Scripts[i].Tooltip);
 
                         Assert.AreEqual(expected.Scripts[i].Properties.Count, actual.Scripts[i].Properties.Count);
                         for (var propertyIndex = 0; propertyIndex < actual.Scripts[i].Properties.Count; propertyIndex++)

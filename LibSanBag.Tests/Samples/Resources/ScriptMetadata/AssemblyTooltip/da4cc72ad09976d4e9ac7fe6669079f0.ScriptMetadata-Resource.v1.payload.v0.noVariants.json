@@ -2,7 +2,7 @@
   "IsCompressed": true,
   "AssemblyTooltip": "Assembly tooltip goes here",
   "Warnings": "",
-  "DisplayName": "AssemblyTooltip",
+  "DefaultScript": "AssemblyTooltip",
   "UnknownA": 0,
   "UnknownB": 0,
   "UnknownC": 1,
@@ -11,9 +11,9 @@
   "HasAssemblyTooltip": true,
   "Scripts": [
     {
-      "AssemblyName": "AssemblyTooltip",
-      "UnknownName1": "AssemblyTooltip",
-      "UnknownName2": "AssemblyTooltip",
+      "ClassName": "AssemblyTooltip",
+      "DisplayName": "AssemblyTooltip",
+      "Tooltip": "AssemblyTooltip",
       "UnknownF": 2,
       "UnknownG": 1,
       "UnknownH": 0,

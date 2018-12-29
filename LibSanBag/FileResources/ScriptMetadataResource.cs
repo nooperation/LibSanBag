@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace LibSanBag.FileResources
 {
     public abstract class ScriptMetadataResource : BaseFileResource
     {
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
         public struct TypeCode
         {
             public const int System_Boolean = 0x4101;
@@ -43,9 +45,9 @@ namespace LibSanBag.FileResources
 
         public class ScriptMetadata
         {
-            public string AssemblyName { get; set; }
-            public string UnknownName1 { get; set; }
-            public string UnknownName2 { get; set; }
+            public string ClassName { get; set; }
+            public string DisplayName { get; set; }
+            public string Tooltip { get; set; }
             public int UnknownF { get; set; }
             public int UnknownG { get; set; }
             public int UnknownH { get; set; }
@@ -55,7 +57,7 @@ namespace LibSanBag.FileResources
 
         public string AssemblyTooltip { get; set; }
         public string Warnings { get; set; }
-        public string DisplayName { get; set; }
+        public string DefaultScript { get; set; }
         public int UnknownA { get; set; }
         public int UnknownB { get; set; }
         public int UnknownC { get; set; }
@@ -70,7 +72,7 @@ namespace LibSanBag.FileResources
         {
             ScriptMetadata script = new ScriptMetadata();
 
-            script.AssemblyName = ReadString(decompressedStream);
+            script.ClassName = ReadString(decompressedStream);
             if(unknownE > 1)
             {
                 script.UnknownF = decompressedStream.ReadInt32();
@@ -101,8 +103,8 @@ namespace LibSanBag.FileResources
 
             if(unknownE == 3)
             {
-                script.UnknownName1 = ReadString(decompressedStream); // Script Display name?
-                script.UnknownName2 = ReadString(decompressedStream); // Script Assembly name?
+                script.DisplayName = ReadString(decompressedStream); // Script Display name?
+                script.Tooltip = ReadString(decompressedStream); // Script Assembly name?
             }
 
             return script;
@@ -264,8 +266,7 @@ namespace LibSanBag.FileResources
                         Scripts.Add(script);
                     }
 
-                    // Maybe default script? i don't know
-                    DisplayName = ReadString(decompressedStream);
+                    DefaultScript = ReadString(decompressedStream);
                 }
 
                 var stringsAreAvailable = decompressedStream.ReadInt32() != 0;

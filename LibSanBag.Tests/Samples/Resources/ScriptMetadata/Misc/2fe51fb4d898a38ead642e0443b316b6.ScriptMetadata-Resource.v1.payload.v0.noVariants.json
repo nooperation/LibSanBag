@@ -2,7 +2,7 @@
   "IsCompressed": true,
   "AssemblyTooltip": "A collection of scripts that work together through named events to do common simple scripting tasks.\nEvents that start with -> respond to event names by doing something.\nEvents that end with -> will send an event after something is done.",
   "Warnings": "",
-  "DisplayName": "Simple.Interaction",
+  "DefaultScript": "Simple.Interaction",
   "UnknownA": 0,
   "UnknownB": 0,
   "UnknownC": 1,
@@ -11,9 +11,9 @@
   "HasAssemblyTooltip": true,
   "Scripts": [
     {
-      "AssemblyName": "Simple.Animation",
-      "UnknownName1": "Animation",
-      "UnknownName2": "Controls object animations in response to simple script events.",
+      "ClassName": "Simple.Animation",
+      "DisplayName": "Animation",
+      "Tooltip": "Controls object animations in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 1,
       "UnknownH": 1,
@@ -203,9 +203,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Broadcaster",
-      "UnknownName1": "Broadcaster",
-      "UnknownName2": "Controls voice broadcasting in response to simple script events.",
+      "ClassName": "Simple.Broadcaster",
+      "DisplayName": "Broadcaster",
+      "Tooltip": "Controls voice broadcasting in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -357,9 +357,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Chat",
-      "UnknownName1": "Chat",
-      "UnknownName2": "Sends chat messages in response to simple script events.",
+      "ClassName": "Simple.Chat",
+      "DisplayName": "Chat",
+      "Tooltip": "Sends chat messages in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -565,9 +565,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.ChatCommand",
-      "UnknownName1": "Chat Command",
-      "UnknownName2": "Sends simple script events in response to chat commands.",
+      "ClassName": "Simple.ChatCommand",
+      "DisplayName": "Chat Command",
+      "Tooltip": "Sends simple script events in response to chat commands.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -773,9 +773,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Collisions",
-      "UnknownName1": "Collisions",
-      "UnknownName2": "Sends simple script events when collisions occur.",
+      "ClassName": "Simple.Collisions",
+      "DisplayName": "Collisions",
+      "Tooltip": "Sends simple script events when collisions occur.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -999,9 +999,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Debugger",
-      "UnknownName1": "Debugger",
-      "UnknownName2": "Add this anywhere to see all simple script activity in the debug console. (CTRL+D)",
+      "ClassName": "Simple.Debugger",
+      "DisplayName": "Debugger",
+      "Tooltip": "Add this anywhere to see all simple script activity in the debug console. (CTRL+D)",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -1045,9 +1045,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Dispenser",
-      "UnknownName1": "Dispenser",
-      "UnknownName2": "Creates objects in response to simple script events. Can be configured to shoot projectiles.",
+      "ClassName": "Simple.Dispenser",
+      "DisplayName": "Dispenser",
+      "Tooltip": "Creates objects in response to simple script events. Can be configured to shoot projectiles.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -1367,9 +1367,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Gun",
-      "UnknownName1": "Game.Gun",
-      "UnknownName2": "Put this script on an object that is to be picked up and used like a gun or pointer, to send events to other scripts when specific game-like actions happen. The object should have grab points defined with Stays in Hand set to true. For a target game use the Game.Target script on the objects to be hit.",
+      "ClassName": "Simple.Gun",
+      "DisplayName": "Game.Gun",
+      "Tooltip": "Put this script on an object that is to be picked up and used like a gun or pointer, to send events to other scripts when specific game-like actions happen. The object should have grab points defined with Stays in Hand set to true. For a target game use the Game.Target script on the objects to be hit.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -1655,9 +1655,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Target",
-      "UnknownName1": "Game.Target",
-      "UnknownName2": "Use with the Selector or Game.Gun scripts to create targets that will respond to being shot or selected.",
+      "ClassName": "Simple.Target",
+      "DisplayName": "Game.Target",
+      "Tooltip": "Use with the Selector or Game.Gun scripts to create targets that will respond to being shot or selected.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -1715,9 +1715,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.GrabRelease",
-      "UnknownName1": "Grab/Release",
-      "UnknownName2": "Sends simple script events when the owning object is grabbed/released.",
+      "ClassName": "Simple.GrabRelease",
+      "DisplayName": "Grab/Release",
+      "Tooltip": "Sends simple script events when the owning object is grabbed/released.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -1905,9 +1905,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Hotkey",
-      "UnknownName1": "Hotkey",
-      "UnknownName2": "Sends simple script events on keyboard and controller button presses.",
+      "ClassName": "Simple.Hotkey",
+      "DisplayName": "Hotkey",
+      "Tooltip": "Sends simple script events on keyboard and controller button presses.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -2113,9 +2113,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Interaction",
-      "UnknownName1": "Interaction",
-      "UnknownName2": "Sends simple script events in response to interactions.",
+      "ClassName": "Simple.Interaction",
+      "DisplayName": "Interaction",
+      "Tooltip": "Sends simple script events in response to interactions.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -2329,9 +2329,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Light",
-      "UnknownName1": "Light",
-      "UnknownName2": "Control attached scriptable lights in response to simple script events.",
+      "ClassName": "Simple.Light",
+      "DisplayName": "Light",
+      "Tooltip": "Control attached scriptable lights in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -2693,9 +2693,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.LightOnOff",
-      "UnknownName1": "LightOnOff",
-      "UnknownName2": "Turn attached scriptable lights on and off in response to simple script events.",
+      "ClassName": "Simple.LightOnOff",
+      "DisplayName": "LightOnOff",
+      "Tooltip": "Turn attached scriptable lights on and off in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -2959,9 +2959,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Media",
-      "UnknownName1": "Media",
-      "UnknownName2": "Updates media surfaces in response to simple script events.",
+      "ClassName": "Simple.Media",
+      "DisplayName": "Media",
+      "Tooltip": "Updates media surfaces in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -3175,9 +3175,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Mover",
-      "UnknownName1": "Mover",
-      "UnknownName2": "Moves the object in response to simple script events.",
+      "ClassName": "Simple.Mover",
+      "DisplayName": "Mover",
+      "Tooltip": "Moves the object in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -3387,9 +3387,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.PositionReset",
-      "UnknownName1": "Position Reset",
-      "UnknownName2": "Resets the owning object to it's initial position.",
+      "ClassName": "Simple.PositionReset",
+      "DisplayName": "Position Reset",
+      "Tooltip": "Resets the owning object to it's initial position.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -3487,9 +3487,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Prompt",
-      "UnknownName1": "Prompt",
-      "UnknownName2": "Displays a popup dialog in response to simple script events.",
+      "ClassName": "Simple.Prompt",
+      "DisplayName": "Prompt",
+      "Tooltip": "Displays a popup dialog in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -3677,9 +3677,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Selector",
-      "UnknownName1": "Selector",
-      "UnknownName2": "Put this script on an object to create a selector that will send events after being picked up when the 'Select Command' is used to select users, objects, or targets.",
+      "ClassName": "Simple.Selector",
+      "DisplayName": "Selector",
+      "Tooltip": "Put this script on an object to create a selector that will send events after being picked up when the 'Select Command' is used to select users, objects, or targets.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -3899,9 +3899,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Sound",
-      "UnknownName1": "Sound",
-      "UnknownName2": "Plays a sound in response to simple script events.",
+      "ClassName": "Simple.Sound",
+      "DisplayName": "Sound",
+      "Tooltip": "Plays a sound in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -4273,9 +4273,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Teleport",
-      "UnknownName1": "Teleport",
-      "UnknownName2": "Teleports a player in response to simple script events.",
+      "ClassName": "Simple.Teleport",
+      "DisplayName": "Teleport",
+      "Tooltip": "Teleports a player in response to simple script events.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -4463,9 +4463,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Timer",
-      "UnknownName1": "Timer",
-      "UnknownName2": "Sends simple script events on a timer.",
+      "ClassName": "Simple.Timer",
+      "DisplayName": "Timer",
+      "Tooltip": "Sends simple script events on a timer.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -4635,9 +4635,9 @@
       ]
     },
     {
-      "AssemblyName": "Simple.Visitors",
-      "UnknownName1": "Visitors",
-      "UnknownName2": "Sends simple script events when players enter or leave the scene.",
+      "ClassName": "Simple.Visitors",
+      "DisplayName": "Visitors",
+      "Tooltip": "Sends simple script events when players enter or leave the scene.",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,

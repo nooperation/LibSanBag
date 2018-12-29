@@ -2,7 +2,7 @@
   "IsCompressed": true,
   "AssemblyTooltip": "",
   "Warnings": "",
-  "DisplayName": "Multi3_A",
+  "DefaultScript": "Multi3_A",
   "UnknownA": 0,
   "UnknownB": 0,
   "UnknownC": 1,
@@ -11,9 +11,9 @@
   "HasAssemblyTooltip": true,
   "Scripts": [
     {
-      "AssemblyName": "Multi3_A",
-      "UnknownName1": "Multi3_A",
-      "UnknownName2": "Multi3_A",
+      "ClassName": "Multi3_A",
+      "DisplayName": "Multi3_A",
+      "Tooltip": "Multi3_A",
       "UnknownF": 2,
       "UnknownG": 1,
       "UnknownH": 1,
@@ -46,9 +46,9 @@
       ]
     },
     {
-      "AssemblyName": "Multi3_B",
-      "UnknownName1": "Multi3_B",
-      "UnknownName2": "Multi3_B",
+      "ClassName": "Multi3_B",
+      "DisplayName": "Multi3_B",
+      "Tooltip": "Multi3_B",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
@@ -76,18 +76,18 @@
       ]
     },
     {
-      "AssemblyName": "Multi3_C",
-      "UnknownName1": "Multi3_C",
-      "UnknownName2": "Multi3_C",
+      "ClassName": "Multi3_C",
+      "DisplayName": "Multi3_C",
+      "Tooltip": "Multi3_C",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
       "Properties": []
     },
     {
-      "AssemblyName": "Multi3_D",
-      "UnknownName1": "Multi3_D",
-      "UnknownName2": "Multi3_D",
+      "ClassName": "Multi3_D",
+      "DisplayName": "Multi3_D",
+      "Tooltip": "Multi3_D",
       "UnknownF": 2,
       "UnknownG": 0,
       "UnknownH": 0,
