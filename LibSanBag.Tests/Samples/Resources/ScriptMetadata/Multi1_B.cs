@@ -7,8 +7,7 @@ using Sansar;
 // This is an example script used for research.
 public class Multi1_B : SceneObjectScript
 {
-    [Tooltip("SECOND Helpful text")]
-    public readonly string SecondExampleStringWithTooltip;
+    public readonly string Multi1_StringB;
 
     public override void Init()
     {
