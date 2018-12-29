@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibSanBag.FileResources
+namespace LibSanBag.FileResources.Legacy
 {
-    public abstract class ScriptMetadataResource : BaseFileResource
+    public abstract class ScriptMetadataResourceLegacy : BaseFileResource
     {
         public struct TypeCode
         {
@@ -41,72 +41,11 @@ namespace LibSanBag.FileResources
             public List<KeyValuePair<string, string>> Attributes { get; set; }
         }
 
-        public class ScriptMetadata
-        {
-            public string AssemblyName { get; set; }
-            public string UnknownName1 { get; set; }
-            public string UnknownName2 { get; set; }
-            public int UnknownF { get; set; }
-            public int UnknownG { get; set; }
-            public int UnknownH { get; set; }
-
-            public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
-        }
-
-        public string AssemblyTooltip { get; set; }
+        public string ScriptSourceTextName { get; set; }
+        public string AssemblyName { get; set; }
         public string Warnings { get; set; }
-        public string DisplayName { get; set; }
-        public int UnknownA { get; set; }
-        public int UnknownB { get; set; }
-        public int UnknownC { get; set; }
-        public int ScriptCount { get; set; }
-        public int UnknownE { get; set; }
-        public bool HasAssemblyTooltip { get; set; }
-
-        public List<ScriptMetadata> Scripts { get; set; } = new List<ScriptMetadata>();
+        public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
         public List<KeyValuePair<string, string>> Strings { get; set; } = new List<KeyValuePair<string, string>>();
-
-        public virtual ScriptMetadata ReadScript(BinaryReader decompressedStream, bool isFirstScript, int unknownE, ref bool hasEncounteredFirstProperty, ref bool hasEncounteredFirstAttribute)
-        {
-            ScriptMetadata script = new ScriptMetadata();
-
-            script.AssemblyName = ReadString(decompressedStream);
-            if(unknownE > 1)
-            {
-                script.UnknownF = decompressedStream.ReadInt32();
-            }
-
-            if(isFirstScript)
-            {
-                script.UnknownG = decompressedStream.ReadInt32();
-            }
-
-            var propertyCount = decompressedStream.ReadInt32();
-            script.Properties = new List<PropertyEntry>(propertyCount);
-
-            if (propertyCount > 0)
-            {
-                if(hasEncounteredFirstProperty == false)
-                {
-                    script.UnknownH = decompressedStream.ReadInt32();
-                }
-
-                for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
-                {
-                    var property = ReadProperty(decompressedStream, hasEncounteredFirstProperty == false, ref hasEncounteredFirstAttribute);
-                    script.Properties.Add(property);
-                    hasEncounteredFirstProperty = true;
-                }
-            }
-
-            if(unknownE == 3)
-            {
-                script.UnknownName1 = ReadString(decompressedStream); // Script Display name?
-                script.UnknownName2 = ReadString(decompressedStream); // Script Assembly name?
-            }
-
-            return script;
-        }
 
         public virtual KeyValuePair<string, string> ReadAttribute(BinaryReader decompressedStream)
         {
@@ -219,76 +158,69 @@ namespace LibSanBag.FileResources
             return text;
         }
 
-        public static ScriptMetadataResource Create(string version = "")
+        public static bool IsLegacyVersion(string version)
         {
-            return new ScriptMetadataResource_v1();
-        }
-
-        public static Type GetTypeFor(string version = "")
-        {
-            return typeof(ScriptMetadataResource_v1);
-        }
-    }
-
-    public class ScriptMetadataResource_v1 : ScriptMetadataResource
-    {
-        public override bool IsCompressed => true;
-
-        public override void InitFromRawDecompressed(byte[] decompressedBytes)
-        {
-            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
+            if(version.Length == 16)
             {
-                Warnings = ReadString(decompressedStream);
+                return true;
+            }
 
-                UnknownA = decompressedStream.ReadInt32(); // 0
-                UnknownB = decompressedStream.ReadInt32(); // 0
+            return false;
+        }
 
-                UnknownC = decompressedStream.ReadInt32();
-                if (UnknownC > 0)
-                {
-                    ScriptCount = decompressedStream.ReadInt32();
+        public static ScriptMetadataResourceLegacy Create(string version)
+        {
+            switch (version)
+            {
+                case "6f2e88a41a7f1dce":
+                    return new ScriptMetadataResource_6f2e88a41a7f1dce();
+                case "123cecc882e4a53f":
+                case "d37572c792d9190a":
+                case "6bec8a6d0387ee27":
+                case "40d13e1007d2d696":
+                case "bae7f85fc2f176e7":
+                    return new ScriptMetadataResource_bae7f85fc2f176e7();
+                case "67df52a55a73f7d3":
+                    return new ScriptMetadataResource_67df52a55a73f7d3();
+                case "02575c46762a7c3c":
+                case "d97016058b281211":
+                case "0b604dc8c94bc188":
+                case "b8e35358a76fa32a":
+                    return new ScriptMetadataResource_b8e35358a76fa32a();
+                case "d75de17df1892f86":
+                    return new ScriptMetadataResource_d75de17df1892f86();
+                case "0a316ea155e30eda":
+                    return new ScriptMetadataResource_0a316ea155e30eda();
+                default:
+                    throw new Exception("Invalid legacy version: " + version);
+            }
+        }
 
-                    if (ScriptCount > 0)
-                    {
-                        UnknownE = decompressedStream.ReadInt32();
-                    }
-                }
-                
-                if (ScriptCount > 0)
-                {
-                    var hasEncounteredFirstAttribute = false;
-                    var hasEncounteredFirstProperty = false;
-                    for (int i = 0; i < ScriptCount; i++)
-                    {
-                        var script = ReadScript(decompressedStream, i == 0, UnknownE, ref hasEncounteredFirstProperty, ref hasEncounteredFirstAttribute);
-                        Scripts.Add(script);
-                    }
-
-                    // Maybe default script? i don't know
-                    DisplayName = ReadString(decompressedStream);
-                }
-
-                var stringsAreAvailable = decompressedStream.ReadInt32() != 0;
-                if (stringsAreAvailable)
-                {
-                    var stringCount = decompressedStream.ReadInt32();
-                    Strings = new List<KeyValuePair<string, string>>(stringCount);
-
-                    for (var stringIndex = 0; stringIndex < stringCount; ++stringIndex)
-                    {
-                        var key = ReadString(decompressedStream);
-                        var value = ReadString(decompressedStream);
-
-                        Strings.Add(new KeyValuePair<string, string>(key, value));
-                    }
-                }
-
-                // I'm sure there's a flag or something for this...
-                if(decompressedStream.BaseStream.Length - decompressedStream.BaseStream.Position >= 4)
-                {
-                    HasAssemblyTooltip = true;
-                    AssemblyTooltip = ReadString(decompressedStream);
-                }
+        public static Type GetTypeFor(string version)
+        {
+            switch (version)
+            {
+                case "6f2e88a41a7f1dce":
+                    return typeof(ScriptMetadataResource_6f2e88a41a7f1dce);
+                case "123cecc882e4a53f":
+                case "d37572c792d9190a":
+                case "6bec8a6d0387ee27":
+                case "40d13e1007d2d696":
+                case "bae7f85fc2f176e7":
+                    return typeof(ScriptMetadataResource_bae7f85fc2f176e7);
+                case "67df52a55a73f7d3":
+                    return typeof(ScriptMetadataResource_67df52a55a73f7d3);
+                case "02575c46762a7c3c":
+                case "d97016058b281211":
+                case "0b604dc8c94bc188":
+                case "b8e35358a76fa32a":
+                    return typeof(ScriptMetadataResource_b8e35358a76fa32a);
+                case "d75de17df1892f86":
+                    return typeof(ScriptMetadataResource_d75de17df1892f86);
+                case "0a316ea155e30eda":
+                    return typeof(ScriptMetadataResource_0a316ea155e30eda);
+                default:
+                    throw new Exception("Invalid legacy version: " + version);
             }
         }
     }

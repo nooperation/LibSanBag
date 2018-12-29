@@ -1,15 +1,103 @@
 {
   "IsCompressed": true,
-  "ScriptSourceTextName": null,
-  "AssemblyName": "Multi3_D",
   "AssemblyTooltip": "",
   "Warnings": "",
   "DisplayName": "Multi3_A",
-  "Properties": [
+  "UnknownA": 0,
+  "UnknownB": 0,
+  "UnknownC": 1,
+  "ScriptCount": 4,
+  "UnknownE": 3,
+  "HasAssemblyTooltip": true,
+  "Scripts": [
     {
-      "Name": "Multi3_StringA_D",
-      "Type": "System.String",
-      "Attributes": []
+      "AssemblyName": "Multi3_A",
+      "UnknownName1": "Multi3_A",
+      "UnknownName2": "Multi3_A",
+      "UnknownF": 2,
+      "UnknownG": 1,
+      "UnknownH": 1,
+      "Properties": [
+        {
+          "Name": "Multi3_StringA_A",
+          "Type": "System.String",
+          "Attributes": []
+        },
+        {
+          "Name": "Multi3_StringB_A",
+          "Type": "System.String",
+          "Attributes": []
+        },
+        {
+          "Name": "Multi3_StringC_A",
+          "Type": "System.String",
+          "Attributes": []
+        },
+        {
+          "Name": "Multi3_StringD_A",
+          "Type": "System.String",
+          "Attributes": []
+        },
+        {
+          "Name": "Multi3_StringE_A",
+          "Type": "System.String",
+          "Attributes": []
+        }
+      ]
+    },
+    {
+      "AssemblyName": "Multi3_B",
+      "UnknownName1": "Multi3_B",
+      "UnknownName2": "Multi3_B",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "Multi3_StringA_B",
+          "Type": "System.String",
+          "Attributes": []
+        },
+        {
+          "Name": "Multi3_StringB_B",
+          "Type": "System.String",
+          "Attributes": []
+        },
+        {
+          "Name": "Multi3_StringC_B",
+          "Type": "System.String",
+          "Attributes": []
+        },
+        {
+          "Name": "Multi3_StringD_B",
+          "Type": "System.String",
+          "Attributes": []
+        }
+      ]
+    },
+    {
+      "AssemblyName": "Multi3_C",
+      "UnknownName1": "Multi3_C",
+      "UnknownName2": "Multi3_C",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": []
+    },
+    {
+      "AssemblyName": "Multi3_D",
+      "UnknownName1": "Multi3_D",
+      "UnknownName2": "Multi3_D",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "Multi3_StringA_D",
+          "Type": "System.String",
+          "Attributes": []
+        }
+      ]
     }
   ],
   "Strings": [
@@ -29,15 +117,5 @@
       "Key": "ServiceVersion",
       "Value": "ace5db1.157004"
     }
-  ],
-  "UnknownA": 0,
-  "UnknownB": 0,
-  "UnknownC": 1,
-  "ScriptCount": 4,
-  "UnknownE": 3,
-  "UnknownF": 2,
-  "UnknownG": 0,
-  "UnknownName1": "Multi3_D",
-  "UnknownName2": "Multi3_D",
-  "HasAssemblytooltip": true
+  ]
 }
