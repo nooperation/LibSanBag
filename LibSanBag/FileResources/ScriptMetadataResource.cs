@@ -244,8 +244,6 @@ namespace LibSanBag.FileResources
                         {
                             var unknown_usually_2 = decompressedStream.ReadInt32();
                         }
-
-                        Console.WriteLine($"A: {unknownA} B: {unknownB} C: {unknownC} D: {unknownD} E: {unknownE}");
                     }
                 }
 
