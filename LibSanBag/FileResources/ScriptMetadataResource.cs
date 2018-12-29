@@ -43,9 +43,23 @@ namespace LibSanBag.FileResources
 
         public string ScriptSourceTextName { get; set; }
         public string AssemblyName { get; set; }
+        public string AssemblyTooltip { get; set; }
         public string Warnings { get; set; }
+        public string DisplayName { get; set; }
         public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
         public List<KeyValuePair<string, string>> Strings { get; set; } = new List<KeyValuePair<string, string>>();
+
+        
+        public int UnknownA { get; set; }
+        public int UnknownB { get; set; }
+        public int UnknownC { get; set; }
+        public int ScriptCount { get; set; }
+        public int UnknownE { get; set; }
+        public int UnknownF { get; set; }
+        public int UnknownG { get; set; }
+        public string UnknownName1 { get; set; }
+        public string UnknownName2 { get; set; }
+        public bool HasAssemblytooltip { get; set; }
 
         public virtual KeyValuePair<string, string> ReadAttribute(BinaryReader decompressedStream)
         {
@@ -221,28 +235,29 @@ namespace LibSanBag.FileResources
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
-            var unknownE = 0;
+            UnknownE = 0;
 
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 Warnings = ReadString(decompressedStream);
 
-                var unknownA = decompressedStream.ReadInt32(); // 0
-                var unknownB = decompressedStream.ReadInt32(); // 0
+                UnknownA = decompressedStream.ReadInt32(); // 0
+                UnknownB = decompressedStream.ReadInt32(); // 0
 
-                var unknownC = decompressedStream.ReadInt32();
-                var unknownD = 0;
-                if (unknownC > 0)
+                UnknownC = decompressedStream.ReadInt32();
+                if (UnknownC > 0)
                 {
-                    unknownD = decompressedStream.ReadInt32();
-                    if (unknownD > 0)
+                    ScriptCount = decompressedStream.ReadInt32();
+
+                    if (ScriptCount > 0)
                     {
-                        unknownE = decompressedStream.ReadInt32();
+                        UnknownE = decompressedStream.ReadInt32();
+
                         AssemblyName = ReadString(decompressedStream);
 
-                        if(unknownE > 1)
+                        if(UnknownE > 1)
                         {
-                            var unknown_usually_2 = decompressedStream.ReadInt32();
+                            UnknownF = decompressedStream.ReadInt32();
                         }
                     }
                 }
@@ -256,7 +271,7 @@ namespace LibSanBag.FileResources
 
                     if (propertyCount > 0)
                     {
-                        var unknownF = decompressedStream.ReadInt32();
+                        UnknownG = decompressedStream.ReadInt32();
                         for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
                         {
                             var property = ReadProperty(decompressedStream, propertyIndex == 0, ref hasEncounteredFirstAttribute);
@@ -265,13 +280,13 @@ namespace LibSanBag.FileResources
                     }
                 }
 
-                if (unknownD > 0)
+                if (ScriptCount > 0)
                 {
-                    var assemblyNameAgain = ReadString(decompressedStream);
-                    if(unknownE == 3)
+                    DisplayName = ReadString(decompressedStream);
+                    if(UnknownE == 3)
                     {
-                        var assemblyNameAgain2 = ReadString(decompressedStream);
-                        var assemblyNameAgain3 = ReadString(decompressedStream);
+                        UnknownName1 = ReadString(decompressedStream);
+                        UnknownName2 = ReadString(decompressedStream);
                     }
                 }
 
@@ -288,6 +303,13 @@ namespace LibSanBag.FileResources
 
                         Strings.Add(new KeyValuePair<string, string>(key, value));
                     }
+                }
+
+                // I'm sure there's a flag or something for this...
+                if(decompressedStream.BaseStream.Length - decompressedStream.BaseStream.Position >= 4)
+                {
+                    HasAssemblytooltip = true;
+                    AssemblyTooltip = ReadString(decompressedStream);
                 }
             }
         }
