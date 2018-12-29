@@ -260,9 +260,8 @@ namespace LibSanBag.FileResources
                 {
                     var property = ReadProperty(decompressedStream, hasEncounteredFirstProperty == false, ref hasEncounteredFirstAttribute);
                     Properties.Add(property);
+                    hasEncounteredFirstProperty = true;
                 }
-
-                hasEncounteredFirstProperty = true;
             }
 
             if(UnknownE == 3)
