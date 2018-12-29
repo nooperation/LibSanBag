@@ -1,0 +1,4775 @@
+{
+  "IsCompressed": true,
+  "AssemblyTooltip": "A collection of scripts that work together through named events to do common simple scripting tasks.\nEvents that start with -> respond to event names by doing something.\nEvents that end with -> will send an event after something is done.",
+  "Warnings": "",
+  "DefaultScript": "Simple.Interaction",
+  "UnknownA": 0,
+  "UnknownB": 0,
+  "UnknownC": 1,
+  "ScriptCount": 23,
+  "UnknownE": 3,
+  "HasAssemblyTooltip": true,
+  "AttributesVersion": 9,
+  "Scripts": [
+    {
+      "ClassName": "Simple.Animation",
+      "DisplayName": "Animation",
+      "Tooltip": "Controls object animations in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 1,
+      "UnknownH": 1,
+      "Properties": [
+        {
+          "Name": "PlayEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Start playing on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Play"
+            }
+          ]
+        },
+        {
+          "Name": "PauseEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Pause playing on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Pause"
+            }
+          ]
+        },
+        {
+          "Name": "PlayRangeAEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Start playing Range A on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "play_a"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Play Range A"
+            }
+          ]
+        },
+        {
+          "Name": "RangeAStart",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The starting frame for Range A"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "A Start Frame"
+            }
+          ]
+        },
+        {
+          "Name": "RangeAEnd",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The ending frame for Range A"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "A End Frame"
+            }
+          ]
+        },
+        {
+          "Name": "PlayRangeBEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Start playing on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "play_b"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Play Range B"
+            }
+          ]
+        },
+        {
+          "Name": "RangeBStart",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The starting frame for Range B"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "B Start Frame"
+            }
+          ]
+        },
+        {
+          "Name": "RangeBEnd",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The ending frame for Range B"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "B End Frame"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "animation_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "animation_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Broadcaster",
+      "DisplayName": "Broadcaster",
+      "Tooltip": "Controls voice broadcasting in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "ToggleEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Start broadcasting the agent. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "toggle_broadcasting"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Toggle Agent Broadcasting"
+            }
+          ]
+        },
+        {
+          "Name": "StartEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Start broadcasting the agent. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Start Broadcasting Agent"
+            }
+          ]
+        },
+        {
+          "Name": "StopEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Stop broadcasting the agent. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Stop Broadcasting Agent"
+            }
+          ]
+        },
+        {
+          "Name": "StopAllEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Stop all voice broadcasting in the experience. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "stop_all_broadcasting"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Stop All Broadcasting"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "broadcast_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "broadcast_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Chat",
+      "DisplayName": "Chat",
+      "Tooltip": "Sends chat messages in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "MessageA",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to listen for"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Message A"
+            }
+          ]
+        },
+        {
+          "Name": "MessageAText",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The message to send"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "It is on, {NAME}!"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Message A Chat"
+            }
+          ]
+        },
+        {
+          "Name": "MessageB",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to listen for"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Message B"
+            }
+          ]
+        },
+        {
+          "Name": "MessageBText",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The message to send"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "It is off!"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Message B Chat"
+            }
+          ]
+        },
+        {
+          "Name": "MessageC",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to listen for"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Message C"
+            }
+          ]
+        },
+        {
+          "Name": "MessageCText",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The message to send"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Message C Chat"
+            }
+          ]
+        },
+        {
+          "Name": "DirectMessage",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Send messages privately"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "False"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Private Message"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "chat_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "chat_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to interactions when the scene is loaded\nIf StartEnabled is false then the script will not respond to interactions until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.ChatCommand",
+      "DisplayName": "Chat Command",
+      "Tooltip": "Sends simple script events in response to chat commands.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "CommandAText",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The command"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "/on | Turn it on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Command A"
+            }
+          ]
+        },
+        {
+          "Name": "CommandAMessage",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send for the command"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Command A ->"
+            }
+          ]
+        },
+        {
+          "Name": "CommandBText",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The command"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "/off | Turn it off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Command B"
+            }
+          ]
+        },
+        {
+          "Name": "CommandBMessage",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send for the command"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Command B ->"
+            }
+          ]
+        },
+        {
+          "Name": "CommandCText",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The command"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Command C"
+            }
+          ]
+        },
+        {
+          "Name": "CommandCMessage",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send for the command"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Command C ->"
+            }
+          ]
+        },
+        {
+          "Name": "CreatorOnly",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Commands restricted to the experience creator only"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Creator Only"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "command_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "command_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to interactions when the scene is loaded\nIf StartEnabled is false then the script will not respond to interactions until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Collisions",
+      "DisplayName": "Collisions",
+      "Tooltip": "Sends simple script events when collisions occur.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "OnAgentEnter",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when an agent bumps the object. Can be a comma separated list of event names.\nFor Trigger Volumes will send when the agent enters the volume."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Agent Collide ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnAgentExit",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "For Trigger Volumes the events to send when an agent exits the volume. Can be a comma separated list of event names.\nOnly sent if the script is on a Trigger Volume."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Agent Exit ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnAgentPunchEnter",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when an agent punches the object. Can be a comma separated list of event names.\nFor Trigger Volumes will send when the agent's punch enters the volume."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "punch_on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Agent Punch Collide ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnAgentPunchExit",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "For Trigger Volumes the events to send when an agent's punch exits the volume. Can be a comma separated list of event names.\nOnly sent if the script is on a Trigger Volume."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "punch_off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Agent Punch Exit ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnFirstAgentTriggerEnter",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Will send when the first agent enters a trigger volume.\nCan be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "trigger_on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On First Agent Trigger ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnLastAgentTriggerExit",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Will send when the last agent exits a trigger volume.\nCan be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "trigger_off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Last Agent Trigger Exit ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnObjectEnter",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when an object bumps the object. Can be a comma separated list of event names.\nFor Trigger Volumes will send when the object enters the volume."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Object Collide ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnObjectExit",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "For Trigger Volumes the events to send when an object exits the volume. Can be a comma separated list of event names.\nOnly sent if the script is on a Trigger Volume"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Object Exit ->"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "collisions_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "collisions_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Debugger",
+      "DisplayName": "Debugger",
+      "Tooltip": "Add this anywhere to see all simple script activity in the debug console. (CTRL+D)",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "DebugSimple",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true SimpleScripts all simple scripts in the scene will log the events they receive and send."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Debug Mode"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Dispenser",
+      "DisplayName": "Dispenser",
+      "Tooltip": "Creates objects in response to simple script events. Can be configured to shoot projectiles.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "DispenseEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Dispense the object. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Dispense Object"
+            }
+          ]
+        },
+        {
+          "Name": "DestroyOldestEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Destroy oldest previously dispensed object. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Destroy Oldest"
+            }
+          ]
+        },
+        {
+          "Name": "DestroyYoungestEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Destroy oldest previously dispensed object. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Destroy Youngest"
+            }
+          ]
+        },
+        {
+          "Name": "DestroyAllEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Destroy all previously dispensed objects. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Destroy All"
+            }
+          ]
+        },
+        {
+          "Name": "TheObject",
+          "Type": "Sansar.Simulation.ClusterResource",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The cluster resource to dispense"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Object"
+            }
+          ]
+        },
+        {
+          "Name": "PositionOffset",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Offset from base position, in object's local space"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Position Offset"
+            }
+          ]
+        },
+        {
+          "Name": "RotationOffset",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Offset from base orientation, in object's local space. Units are in degrees around the objects local x, y and z axis."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Rotation Offset"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "<0,0,0>"
+            }
+          ]
+        },
+        {
+          "Name": "InitialLinearVelocity",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Initial velocity, in object's local space."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Velocity"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "<0,0,0>"
+            }
+          ]
+        },
+        {
+          "Name": "InitialAngularVelocity",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Initial angular velocity, in object's local space."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Angular Velocity"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "<0,0,0>"
+            }
+          ]
+        },
+        {
+          "Name": "InheritMotion",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Inherit parent motion"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Inherit Motion"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "PositionVariance",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Offset variance, in object's local space"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Position Variance"
+            }
+          ]
+        },
+        {
+          "Name": "RotationVariance",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Offset from base orientation, in object's local space. Units are in degrees around the objects local x, y and z axis."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Rotation Variance"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "<0,0,0>"
+            }
+          ]
+        },
+        {
+          "Name": "LinearVelocityVariance",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Variance on initial velocity, in object's local space."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Velocity Variance"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "<0,0,0>"
+            }
+          ]
+        },
+        {
+          "Name": "AngularVelocityVariance",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Variance on initial angular velocity, in object's local space."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Angular Vel Variance"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "<0,0,0>"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "dispenser_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "dispenser_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Gun",
+      "DisplayName": "Game.Gun",
+      "Tooltip": "Put this script on an object that is to be picked up and used like a gun or pointer, to send events to other scripts when specific game-like actions happen. The object should have grab points defined with Stays in Hand set to true. For a target game use the Game.Target script on the objects to be hit.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "ShotFiredEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent whenever the trigger is pulled and there is ammo."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Shot Fired ->"
+            }
+          ]
+        },
+        {
+          "Name": "PlayerHitEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when a shot hits another avatar."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Player Hit ->"
+            }
+          ]
+        },
+        {
+          "Name": "ShotHitEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when a shot hits anything recognizable target, either a player or an object with the Game.Target script on it."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Shot Hit ->"
+            }
+          ]
+        },
+        {
+          "Name": "ShotMissEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when a shot does not hit either a player or an object with the Game.Target script on it."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Shot Miss ->"
+            }
+          ]
+        },
+        {
+          "Name": "OutOfAmmoEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when the trigger is pulled but there is no ammo."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Out Of Ammo ->"
+            }
+          ]
+        },
+        {
+          "Name": "ReloadedEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when the gun is reloaded."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Reloaded ->"
+            }
+          ]
+        },
+        {
+          "Name": "ShootCommand",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "DefaultValue.0",
+              "Value": "Trigger"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "The input method to fire. Default: 'Trigger' corresponds to left mouse button and VR triggers."
+            }
+          ]
+        },
+        {
+          "Name": "ReloadCommand",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "DefaultValue.0",
+              "Value": "SecondaryAction"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "The input method to reload, if reload is enabled. Default: 'SecondaryAction' corresponds to R on keyboard, X and A on Oculus Touch and bottom-of-touchpad click on Vive Wands."
+            }
+          ]
+        },
+        {
+          "Name": "ReloadTime",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Reload Time"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "The amount of time in seconds that it takes to reload before firing can happen again."
+            }
+          ]
+        },
+        {
+          "Name": "KeepScore",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Keep Score"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true a score and hit accuracy will be said on chat when the object is dropped."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "PointsPerPlayer",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Key": "DefaultValue.0",
+              "Value": "100"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Player Points"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "Points earned any time a player is hit. Points per target are set individually in the Target script."
+            }
+          ]
+        },
+        {
+          "Name": "ClipSize",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Clip Size"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "Number of shots fired before a reload is required. Set to 0 for unlimited."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "6"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            }
+          ]
+        },
+        {
+          "Name": "VREnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "VR Enabled"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the gun will work in VR."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "MouseLookEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mouse Look Enabled"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the gun will only work in desktop mouse look mode. Press Escape to enter or exit mouse look mode."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "FreeClickEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Free Click Enabled"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the gun will work with normal mouse clicks, outside of mouse look mode.\nNote that this mode can make aiming games trivial."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "FreeCamEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Free Cam Enabled"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the gun will work while the user is in 'Free Cam' mode."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Target",
+      "DisplayName": "Game.Target",
+      "Tooltip": "Use with the Selector or Game.Gun scripts to create targets that will respond to being shot or selected.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "ShotHitEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Target Hit ->"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "This event will act as though the shooter did the action. For example, a Teleport script listening for this event would teleport the user that selected or shot this target."
+            }
+          ]
+        },
+        {
+          "Name": "PointValue",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Key": "DefaultValue.0",
+              "Value": "10"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "Number of points earned for hitting this target."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Point Value"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.GrabRelease",
+      "DisplayName": "Grab/Release",
+      "Tooltip": "Sends simple script events when the owning object is grabbed/released.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "GrabbedMessage",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when this object is grabbed by an avatar"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "grabbed"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Grabbed ->"
+            }
+          ]
+        },
+        {
+          "Name": "ReleasedMessage",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when this object is released by an avatar"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "released"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Released ->"
+            }
+          ]
+        },
+        {
+          "Name": "SendRightHand",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Whether to send messages when grabbed/released using the right wand or mouse button"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Send Right Hand"
+            }
+          ]
+        },
+        {
+          "Name": "SendLeftHand",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Whether to send messages when grabbed/released using the left wand"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Send Left Hand"
+            }
+          ]
+        },
+        {
+          "Name": "EnableGrabEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Set the object to be grabbable on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "grabbable_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable Grab"
+            }
+          ]
+        },
+        {
+          "Name": "DisableGrabEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Set the object to be NOT grabbable on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "grabbable_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable Grab"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "grab_release_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "grab_release_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to interactions when the scene is loaded\nIf StartEnabled is false then the script will not respond to interactions until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Hotkey",
+      "DisplayName": "Hotkey",
+      "Tooltip": "Sends simple script events on keyboard and controller button presses.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "Command1",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The commands to listen for to send \"On Command 1 ->\" events. See CommandData documentation for the list of available commands.\nA comma separated list of commands can be used to designate a key combo: all keys listed must be pressed at the same time to trigger the events."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "PrimaryAction"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Command 1"
+            }
+          ]
+        },
+        {
+          "Name": "Command1Event",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when the key or key combo from Command 1 is pressed."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Command 1 ->"
+            }
+          ]
+        },
+        {
+          "Name": "Command2",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The commands to listen for to send \"On Command 2 ->\" events.  See CommandData documentation for the list of available commands.\nA comma separated list of commands can be used to designate a key combo: all keys listed must be pressed at the same time to trigger the events."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "SecondaryAction"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Command 2"
+            }
+          ]
+        },
+        {
+          "Name": "Command2Event",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when the key or key combo from Command 2 is pressed."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Command 2 ->"
+            }
+          ]
+        },
+        {
+          "Name": "Command3",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The commands to listen for to send \"On Command 3 ->\" events.  See CommandData documentation for the list of available commands.\nA comma separated list of commands can be used to designate a key combo: all keys listed must be pressed at the same time to trigger the events."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "Confirm"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Command 3"
+            }
+          ]
+        },
+        {
+          "Name": "Command3Event",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when the key or key combo from Command 3 is pressed."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Command 3 ->"
+            }
+          ]
+        },
+        {
+          "Name": "OwnerOnly",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If Owner Restricted is set to true, then the commands in this script only respond to key-presses by the scene owner."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "False"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Owner Restricted"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to commands for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "hotkey_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to commands for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "hotkey_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to commands when the scene is loaded\nIf StartEnabled is false then the script will not respond to commands until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Interaction",
+      "DisplayName": "Interaction",
+      "Tooltip": "Sends simple script events in response to interactions.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "MyInteraction",
+          "Type": "Sansar.Simulation.Interaction",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The interaction for this object, with a default prompt of \"Click Me!\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "Click Me!"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Interaction prompt"
+            }
+          ]
+        },
+        {
+          "Name": "OnClick1",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send on the first click of this object. Can be a comma separated list of event names.\nThe events sent will cycle through only the On Click events with values set."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On 1st Click ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnClick2",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send on the second click of this object. Can be a comma separated list of event names.\nThe events sent will cycle through only the On Click events with values set."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On 2nd Click ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnClick3",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send on the third click of this object. Can be a comma separated list of event names.\nThe events sent will cycle through only the On Click events with values set."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On 3rd Click ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnClick4",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send on the fourth click of this object. Can be a comma separated list of event names.\nThe events sent will cycle through only the On Click events with values set."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On 4th Click ->"
+            }
+          ]
+        },
+        {
+          "Name": "MaxEventsPerSecond",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Maximum number of events per second that will trigger events. Set to 0 for no limit."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "10"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Max Events Per Second"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            }
+          ]
+        },
+        {
+          "Name": "ResetEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Reset this script so the next click will be 1st click."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "interaction_reset"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Reset Count"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "interaction_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "interaction_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to interactions when the scene is loaded\nIf StartEnabled is false then the script will not respond to interactions until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Light",
+      "DisplayName": "Light",
+      "Tooltip": "Control attached scriptable lights in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "ModeAEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Set the light to Mode A on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Mode A"
+            }
+          ]
+        },
+        {
+          "Name": "ModeAColor",
+          "Type": "Sansar.Color",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The color of the light for Mode A"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mode A Color"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "(1,1,1,1)"
+            }
+          ]
+        },
+        {
+          "Name": "ModeAIntensity",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The intensity of the light for Mode A"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "60"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mode A Intensity"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            }
+          ]
+        },
+        {
+          "Name": "ModeAFadeTime",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The fade time of the light for Mode A"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mode A Fade Time"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Name": "ModeBEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Set the light to Mode B on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Mode B"
+            }
+          ]
+        },
+        {
+          "Name": "ModeBColor",
+          "Type": "Sansar.Color",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The color of the light for Mode B"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mode B Color"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "(0,0,0,0)"
+            }
+          ]
+        },
+        {
+          "Name": "ModeBIntensity",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The intensity of the light for Mode B"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mode B Intensity"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            }
+          ]
+        },
+        {
+          "Name": "ModeBFadeTime",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The fade time of the light for Mode B"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mode B Fade Time"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Name": "ModeCEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Set the light to Mode C on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Mode C"
+            }
+          ]
+        },
+        {
+          "Name": "ModeCColor",
+          "Type": "Sansar.Color",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The color of the light for Mode C"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mode C Color"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "(0,0,0,0)"
+            }
+          ]
+        },
+        {
+          "Name": "ModeCIntensity",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The intensity of the light for Mode C"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mode C Intensity"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            }
+          ]
+        },
+        {
+          "Name": "ModeCFadeTime",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The fade time of the light for Mode C"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mode C Fade Time"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Name": "InitialModeEventName",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Set the initial mode for this light from its signal name or by mode name: A or B or C"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "B"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Initial Mode Override"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "light_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "light_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.LightOnOff",
+      "DisplayName": "LightOnOff",
+      "Tooltip": "Turn attached scriptable lights on and off in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "TurnOnEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event name to turn on the light. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Turn On"
+            }
+          ]
+        },
+        {
+          "Name": "TurnOnFadeTime",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The fade time to turn on the light."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0.1"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Turn On Fade Time"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Name": "TurnOffEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event name to turn off the light. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Turn Off"
+            }
+          ]
+        },
+        {
+          "Name": "TurnOffFadeTime",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The fade time to turn off the light."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0.1"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Turn Off Fade Time"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Name": "TurnRandomEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Set the light to a random color on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Turn On Random"
+            }
+          ]
+        },
+        {
+          "Name": "MinRandomIntensity",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The minimum intensity of the random light color."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "40"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Random Min Intensity"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            }
+          ]
+        },
+        {
+          "Name": "MaxRandomIntensity",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The maximum intensity of the random light color."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "60"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Random Max Intensity"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            }
+          ]
+        },
+        {
+          "Name": "TurnRandomFadeTime",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The fade time of the light for random light color."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0.1"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Random Fade Time"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "light_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "light_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Media",
+      "DisplayName": "Media",
+      "Tooltip": "Updates media surfaces in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "StartMessageA",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Events to trigger media A"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Start Media A"
+            }
+          ]
+        },
+        {
+          "Name": "MediaAUrl",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Media URL A"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "https://www.youtube.com/embed/Cor2ruiy_n8?autoplay=1&loop=1&playlist=Cor2ruiy_n8&allowfullscreen=1&controls=0&vq=hd2160"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Media A"
+            }
+          ]
+        },
+        {
+          "Name": "StartMessageB",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Events to trigger media B"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Start Media B"
+            }
+          ]
+        },
+        {
+          "Name": "MediaBUrl",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Media URL B"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Media B"
+            }
+          ]
+        },
+        {
+          "Name": "MediaWidth",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Key": "DefaultValue.0",
+              "Value": "1920"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "256"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "2048"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Media Source Width"
+            }
+          ]
+        },
+        {
+          "Name": "MediaHeight",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Key": "DefaultValue.0",
+              "Value": "1080"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "256"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "2048"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Media Source Height"
+            }
+          ]
+        },
+        {
+          "Name": "PrivateMedia",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Private media for one agent only"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "False"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Private Media"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "media_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "media_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to interactions when the scene is loaded\nIf StartEnabled is false then the script will not respond to interactions until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Mover",
+      "DisplayName": "Mover",
+      "Tooltip": "Moves the object in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "MoveEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Start moving on these events. Can be a comma separated list of event names.\nWill be ignored if the move motion is already in progress."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "move"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Move Event"
+            }
+          ]
+        },
+        {
+          "Name": "ResetEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Start return to base position on these events. Can be a comma separated list of event names.\nWill be ignored if the reset motion is already in progress."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "reset"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Reset Event"
+            }
+          ]
+        },
+        {
+          "Name": "PositionOffset",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Offset from base position, in objects local space"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Position Offset"
+            }
+          ]
+        },
+        {
+          "Name": "RotationOffset",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Offset from base orientation, in objects local space. Units are in degrees around the objects local x, y and z axis."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Rotation Offset"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "<0,0,60>"
+            }
+          ]
+        },
+        {
+          "Name": "RotationPivot",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The pivot point of the rotation, in objects local space."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Rotation Pivot"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "<0,0,0>"
+            }
+          ]
+        },
+        {
+          "Name": "MoveDuration",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The time taken to move from the base position to the offset position. The same time is used for the return motion."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "2"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Over time"
+            }
+          ]
+        },
+        {
+          "Name": "MoveBegan",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when the move motion begins. Use to trigger SFX etc."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Move Began Event ->"
+            }
+          ]
+        },
+        {
+          "Name": "ReturnBegan",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when the move motion begins. Use to trigger SFX etc."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Return Began Event ->"
+            }
+          ]
+        },
+        {
+          "Name": "EaseInOut",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If > 0, motion will be smoothed so that it starts and ends slowly. The total duration will still be the same."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Ease In/Out"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "1"
+            }
+          ]
+        },
+        {
+          "Name": "StartMoved",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "if true, start in the moved position."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "False"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Moved"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.PositionReset",
+      "DisplayName": "Position Reset",
+      "Tooltip": "Resets the owning object to it's initial position.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "ResetEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Reset position on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "reset"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Reset Event"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "reset_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "reset_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Prompt",
+      "DisplayName": "Prompt",
+      "Tooltip": "Displays a popup dialog in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "ShowPromptEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Show the prompt on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Show Prompt"
+            }
+          ]
+        },
+        {
+          "Name": "MessagePrompt",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The message to show as the body of the prompt dialog."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "Turn it on?"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Prompt Message"
+            }
+          ]
+        },
+        {
+          "Name": "RightButtonText",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The text to show in the right side button. Set to an empty string to hide this button."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "Yes please!"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Right Button"
+            }
+          ]
+        },
+        {
+          "Name": "RightButtonClickMessage",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when the right side button is chosen"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Right Button Click ->"
+            }
+          ]
+        },
+        {
+          "Name": "LeftButtonText",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The text to show in the left side button. Set to an empty string to hide this button."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "No thanks"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Left Button"
+            }
+          ]
+        },
+        {
+          "Name": "LeftButtonClickMessage",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to when the left side button is chosen"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Left Button Click ->"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "prompt_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "prompt_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to interactions when the scene is loaded\nIf StartEnabled is false then the script will not respond to interactions until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Selector",
+      "DisplayName": "Selector",
+      "Tooltip": "Put this script on an object to create a selector that will send events after being picked up when the 'Select Command' is used to select users, objects, or targets.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "SelectCommand",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "DefaultValue.0",
+              "Value": "Trigger"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "The input method to select something. Default: 'Trigger' corresponds to left mouse button and VR triggers."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Select Command"
+            }
+          ]
+        },
+        {
+          "Name": "PlayerSelectedEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when another avatar is selected. These events are sent as if the avatar selected performed the action! A Teleport script listening for this event would teleport the person selected."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Player Selected ->"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            }
+          ]
+        },
+        {
+          "Name": "TargetSelectedEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when an object with the Simple Script Library script 'Game.Target' is selected. These events are sent as if the object selected performed the action. A Teleport script listening for this event will do nothing."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Target Selected ->"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            }
+          ]
+        },
+        {
+          "Name": "SameGroupRequired",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true then the 'Target Selected ->' event and the Target's 'Target Hit ->' event will only be sent if the target is in the same group as the selector. If the Target is in a different group then 'Object Selected ->' events are sent."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group Targets Only"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "ObjectSelectedEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when an object without the Target script is selected. These events are sent as if the object selected performed the action! A Teleport script listening for this event would do nothing."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Object Selected ->"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            }
+          ]
+        },
+        {
+          "Name": "NothingSelectedEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Event sent when a shot hits nothing - no players or objects of any kind."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Nothing Selected ->"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            }
+          ]
+        },
+        {
+          "Name": "EveryCommandEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "This event happens every time the 'Select Command' is used, whether anything is hit or not. These events are sent as the user of the selector object performing the action. A Teleport script listening for this event would teleport the user holding the selector object."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Every Select Command ->"
+            }
+          ]
+        },
+        {
+          "Name": "VREnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "VR Enabled"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the selector object will work in VR."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "MouseLookEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Mouse Look Enabled"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the selector will only work in desktop mouse look mode. Press Escape to enter or exit mouse look mode."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "FreeClickEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Free Click Enabled"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the selector will work with normal mouse clicks, outside of mouse look mode.\nNote that this mode can make some aiming games trivial."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "FreeCamEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "DisplayName.0",
+              "Value": "Free Cam Enabled"
+            },
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the selector will work while the user is in 'Free Cam' mode."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Sound",
+      "DisplayName": "Sound",
+      "Tooltip": "Plays a sound in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "SoundResource",
+          "Type": "Sansar.Simulation.SoundResource",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The sound resource to play"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Sound"
+            }
+          ]
+        },
+        {
+          "Name": "Spatialized",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If false the sound will play at the same loudness for everyone.\nIf true and the object has an AudioComponent then the sound will come from the audio component, and follow the object if it moves.\nIf true and the object does not have an AudioComponent then the sound will play from the position of the object at the time the event is received and will not move."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Spatialized"
+            }
+          ]
+        },
+        {
+          "Name": "PitchVariance",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If not zero the pitch will be shifted on each play by a random amount between -PitchVariance and +PitchVariance, in semitones."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "24"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Pitch Variance"
+            }
+          ]
+        },
+        {
+          "Name": "LoudnessVariance",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If not zero the loudness will be shifted on each play by a random amount between -LoudnessVariance and +LoudnessVariance."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Loudness Variance"
+            }
+          ]
+        },
+        {
+          "Name": "PlayEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Play the sound. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Play Sound"
+            }
+          ]
+        },
+        {
+          "Name": "Loudness",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The minimum loudness the sound will be played at. If less than Maximum Loudness the sound will play each time at a randomly chosen loudness between the two."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "80"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Loudness"
+            }
+          ]
+        },
+        {
+          "Name": "PitchOffset",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Playback pitch will be shifted by this number of semitones."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "-24"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "24"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Pitch Offset"
+            }
+          ]
+        },
+        {
+          "Name": "AdjustEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Alternate way to playback the sound. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Adjust Playback"
+            }
+          ]
+        },
+        {
+          "Name": "AdjustedLoudness",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Alternate playback loudness."
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "100"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "80"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Adjusted Loudness"
+            }
+          ]
+        },
+        {
+          "Name": "AdjustedPitchOffset",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Alternate playback pitch will be shifted by this number of semitones."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "-24"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "24"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Adjusted Pitch Offset"
+            }
+          ]
+        },
+        {
+          "Name": "AdjustFadeTime",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Fade time for adjustments."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Interpolation Time"
+            },
+            {
+              "Key": "Range.0",
+              "Value": "0"
+            },
+            {
+              "Key": "Range.1",
+              "Value": "5"
+            }
+          ]
+        },
+        {
+          "Name": "StopEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Stop the currently playing sound. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Stop Sound"
+            }
+          ]
+        },
+        {
+          "Name": "Looping",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Make this sound loop."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Looping"
+            }
+          ]
+        },
+        {
+          "Name": "LoopingAutoplay",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Auto-play this looping sound when the script is enabled."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Looping Auto-play"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "sound_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "sound_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Teleport",
+      "DisplayName": "Teleport",
+      "Tooltip": "Teleports a player in response to simple script events.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "LocalEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Teleport the person who interacted to somewhere within the scene. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Local Teleport"
+            }
+          ]
+        },
+        {
+          "Name": "Destination",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The teleport destination within the scene."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Destination"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "<0,0,0>"
+            }
+          ]
+        },
+        {
+          "Name": "RelativeDestination",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the destination position is relative to the object this script is on\nIf false the destination is in scene coordinates regardless of this script's object's position."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Relative Position"
+            }
+          ]
+        },
+        {
+          "Name": "RemoteEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Teleport the person that interacted to a remote scene. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Remote Teleport"
+            }
+          ]
+        },
+        {
+          "Name": "DestOwner",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The destination scene owner (from the scene url)."
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Dest. Owner"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            }
+          ]
+        },
+        {
+          "Name": "DestScene",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The destination scene handle (from the scene url)."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Dest. Scene"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "tp_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "tp_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Timer",
+      "DisplayName": "Timer",
+      "Tooltip": "Sends simple script events on a timer.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "InitialDelay",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The delay until the timer event, in Seconds "
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "0"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Initial Delay"
+            }
+          ]
+        },
+        {
+          "Name": "Interval",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The interval of events, in Seconds between events "
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "1"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Interval"
+            }
+          ]
+        },
+        {
+          "Name": "Repeats",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If true the timer will repeat every Interval seconds. If false the timer will fire only once, after Delay seconds."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Repeats"
+            }
+          ]
+        },
+        {
+          "Name": "OnTimer",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send at the timer interval, alternating with \"On Timer 2nd ->\" if both are specified. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Timer 1st ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnTimerAlt",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send at the timer interval, alternating with \"On Timer 1st ->\" if both are specified. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Timer 2nd ->"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Start this timer on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "timer_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Stop this timer on these events. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "timer_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "False"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "StartEnabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ClassName": "Simple.Visitors",
+      "DisplayName": "Visitors",
+      "Tooltip": "Sends simple script events when players enter or leave the scene.",
+      "UnknownF": 2,
+      "UnknownG": 0,
+      "UnknownH": 0,
+      "Properties": [
+        {
+          "Name": "OnAgentEnter",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when a user visits the scene. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "on"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Visitor Join ->"
+            }
+          ]
+        },
+        {
+          "Name": "OnAgentExit",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "The events to send when a user leaves the scene. Can be a comma separated list of event names."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "off"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "On Visitor Exit ->"
+            }
+          ]
+        },
+        {
+          "Name": "EnableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Enable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "visitors_enable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Enable"
+            }
+          ]
+        },
+        {
+          "Name": "DisableEvent",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Disable responding to events for this script"
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "visitors_disable"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "-> Disable"
+            }
+          ]
+        },
+        {
+          "Name": "StartEnabled",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "If StartEnabled is true then the script will respond to events when the scene is loaded\nIf StartEnabled is false then the script will not respond to events until an (-> Enable) event is received."
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": "True"
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Start Enabled"
+            }
+          ]
+        },
+        {
+          "Name": "Group",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Key": "Tooltip.0",
+              "Value": "Update the region tag above by incrementing the version when updating anything in the region.\nIf a Group is set, will only respond and send to other SimpleScripts with the same Group tag set.\nDoes NOT accept CSV lists of groups.\nTo send or receive events to/from a specific group from outside that group prepend the group name with a > to the event name, e.g. \"my_group>on\""
+            },
+            {
+              "Key": "DefaultValue.0",
+              "Value": ""
+            },
+            {
+              "Key": "DisplayName.0",
+              "Value": "Group"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2018-12-29T05:18:08Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "1c3aad2b-0258-4c90-a604-0da35a9743f9"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "ace5db1.157004"
+    }
+  ]
+}
