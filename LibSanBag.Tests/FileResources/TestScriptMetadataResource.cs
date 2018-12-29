@@ -61,26 +61,43 @@ namespace LibSanBag.Tests.FileResources
                     var actual = ScriptMetadataResource.Create(testData.RecordInfo.VersionHash);
                     actual.InitFromStream(ms);
 
-                    Assert.AreEqual(expected.AssemblyName, actual.AssemblyName);
+                    Assert.AreEqual(expected.AssemblyTooltip, actual.AssemblyTooltip);
+                    Assert.AreEqual(expected.DisplayName, actual.DisplayName);
+                    Assert.AreEqual(expected.HasAssemblytooltip, actual.HasAssemblytooltip);
+                    Assert.AreEqual(expected.UnknownA, actual.UnknownA);
+                    Assert.AreEqual(expected.UnknownB, actual.UnknownB);
+                    Assert.AreEqual(expected.UnknownC, actual.UnknownC);
+                    Assert.AreEqual(expected.UnknownE, actual.UnknownE);
                     Assert.AreEqual(expected.Warnings, actual.Warnings);
 
-                    Assert.AreEqual(expected.Properties.Count, actual.Properties.Count);
-                    for (var propertyIndex = 0; propertyIndex < actual.Properties.Count; propertyIndex++)
+                    Assert.AreEqual(expected.ScriptCount, actual.ScriptCount);
+                    for (int i = 0; i < actual.ScriptCount; i++)
                     {
-                        var expectedProperty = expected.Properties[propertyIndex];
-                        var actualProperty = actual.Properties[propertyIndex];
+                        Assert.AreEqual(expected.Scripts[i].AssemblyName, actual.Scripts[i].AssemblyName);
+                        Assert.AreEqual(expected.Scripts[i].UnknownF, actual.Scripts[i].UnknownF);
+                        Assert.AreEqual(expected.Scripts[i].UnknownG, actual.Scripts[i].UnknownG);
+                        Assert.AreEqual(expected.Scripts[i].UnknownH, actual.Scripts[i].UnknownH);
+                        Assert.AreEqual(expected.Scripts[i].UnknownName1, actual.Scripts[i].UnknownName1);
+                        Assert.AreEqual(expected.Scripts[i].UnknownName2, actual.Scripts[i].UnknownName2);
 
-                        Assert.AreEqual(expectedProperty.Name, actualProperty.Name);
-                        Assert.AreEqual(expectedProperty.Type, actualProperty.Type);
-
-                        Assert.AreEqual(expectedProperty.Attributes.Count, actualProperty.Attributes.Count);
-                        for (var attributeIndex = 0; attributeIndex < actualProperty.Attributes.Count; attributeIndex++)
+                        Assert.AreEqual(expected.Scripts[i].Properties.Count, actual.Scripts[i].Properties.Count);
+                        for (var propertyIndex = 0; propertyIndex < actual.Scripts[i].Properties.Count; propertyIndex++)
                         {
-                            var expectedAttribute = expectedProperty.Attributes[attributeIndex];
-                            var actualAttribute = actualProperty.Attributes[attributeIndex];
+                            var expectedProperty = expected.Scripts[i].Properties[propertyIndex];
+                            var actualProperty = actual.Scripts[i].Properties[propertyIndex];
 
-                            Assert.AreEqual(expectedAttribute.Key,   actualAttribute.Key);
-                            Assert.AreEqual(expectedAttribute.Value, actualAttribute.Value);
+                            Assert.AreEqual(expectedProperty.Name, actualProperty.Name);
+                            Assert.AreEqual(expectedProperty.Type, actualProperty.Type);
+
+                            Assert.AreEqual(expectedProperty.Attributes.Count, actualProperty.Attributes.Count);
+                            for (var attributeIndex = 0; attributeIndex < actualProperty.Attributes.Count; attributeIndex++)
+                            {
+                                var expectedAttribute = expectedProperty.Attributes[attributeIndex];
+                                var actualAttribute = actualProperty.Attributes[attributeIndex];
+
+                                Assert.AreEqual(expectedAttribute.Key,   actualAttribute.Key);
+                                Assert.AreEqual(expectedAttribute.Value, actualAttribute.Value);
+                            }
                         }
                     }
 

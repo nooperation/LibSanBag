@@ -41,25 +41,31 @@ namespace LibSanBag.FileResources
             public List<KeyValuePair<string, string>> Attributes { get; set; }
         }
 
+        public class ScriptMetadata
+        {
+            public string AssemblyName { get; set; }
+            public string UnknownName1 { get; set; }
+            public string UnknownName2 { get; set; }
+            public int UnknownF { get; set; }
+            public int UnknownG { get; set; }
+            public int UnknownH { get; set; }
+
+            public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
+        }
+
         public string ScriptSourceTextName { get; set; }
-        public string AssemblyName { get; set; }
         public string AssemblyTooltip { get; set; }
         public string Warnings { get; set; }
         public string DisplayName { get; set; }
-        public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
-        public List<KeyValuePair<string, string>> Strings { get; set; } = new List<KeyValuePair<string, string>>();
-
-        
         public int UnknownA { get; set; }
         public int UnknownB { get; set; }
         public int UnknownC { get; set; }
         public int ScriptCount { get; set; }
         public int UnknownE { get; set; }
-        public int UnknownF { get; set; }
-        public int UnknownG { get; set; }
-        public string UnknownName1 { get; set; }
-        public string UnknownName2 { get; set; }
         public bool HasAssemblytooltip { get; set; }
+
+        public List<ScriptMetadata> Scripts { get; set; } = new List<ScriptMetadata>();
+        public List<KeyValuePair<string, string>> Strings { get; set; } = new List<KeyValuePair<string, string>>();
 
         public virtual KeyValuePair<string, string> ReadAttribute(BinaryReader decompressedStream)
         {
@@ -180,7 +186,7 @@ namespace LibSanBag.FileResources
                 case "1":
                 case "6f2e88a41a7f1dce":
                     return new ScriptMetadataResource_6f2e88a41a7f1dce();
-                case "123cecc882e4a53f":
+               /* case "123cecc882e4a53f":
                 case "d37572c792d9190a":
                 case "6bec8a6d0387ee27":
                 case "40d13e1007d2d696":
@@ -196,7 +202,7 @@ namespace LibSanBag.FileResources
                 case "d75de17df1892f86":
                     return new ScriptMetadataResource_d75de17df1892f86();
                 case "0a316ea155e30eda":
-                    return new ScriptMetadataResource_0a316ea155e30eda();
+                    return new ScriptMetadataResource_0a316ea155e30eda();*/
             }
         }
 
@@ -208,7 +214,7 @@ namespace LibSanBag.FileResources
                 case "1":
                 case "6f2e88a41a7f1dce":
                     return typeof(ScriptMetadataResource_6f2e88a41a7f1dce);
-                case "123cecc882e4a53f":
+                /*case "123cecc882e4a53f":
                 case "d37572c792d9190a":
                 case "6bec8a6d0387ee27":
                 case "40d13e1007d2d696":
@@ -224,51 +230,57 @@ namespace LibSanBag.FileResources
                 case "d75de17df1892f86":
                     return typeof(ScriptMetadataResource_d75de17df1892f86);
                 case "0a316ea155e30eda":
-                    return typeof(ScriptMetadataResource_0a316ea155e30eda);
+                    return typeof(ScriptMetadataResource_0a316ea155e30eda);*/
             }
         }
     }
+
+   
 
     public class ScriptMetadataResource_6f2e88a41a7f1dce : ScriptMetadataResource
     {
         public override bool IsCompressed => true;
 
-        public virtual void ReadScript(BinaryReader decompressedStream, bool isFirstScript, ref bool hasEncounteredFirstProperty, ref bool hasEncounteredFirstAttribute)
+        public virtual ScriptMetadata ReadScript(BinaryReader decompressedStream, bool isFirstScript, int unknownE, ref bool hasEncounteredFirstProperty, ref bool hasEncounteredFirstAttribute)
         {
-            AssemblyName = ReadString(decompressedStream);
-            if(UnknownE > 1)
+            ScriptMetadata script = new ScriptMetadata();
+
+            script.AssemblyName = ReadString(decompressedStream);
+            if(unknownE > 1)
             {
-                UnknownF = decompressedStream.ReadInt32();
+                script.UnknownF = decompressedStream.ReadInt32();
             }
 
             if(isFirstScript)
             {
-                var Unknown0G = decompressedStream.ReadInt32();
+                script.UnknownG = decompressedStream.ReadInt32();
             }
 
             var propertyCount = decompressedStream.ReadInt32();
-            Properties = new List<PropertyEntry>(propertyCount);
+            script.Properties = new List<PropertyEntry>(propertyCount);
 
             if (propertyCount > 0)
             {
                 if(hasEncounteredFirstProperty == false)
                 {
-                    var unknown0H = decompressedStream.ReadInt32();
+                    script.UnknownH = decompressedStream.ReadInt32();
                 }
 
                 for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
                 {
                     var property = ReadProperty(decompressedStream, hasEncounteredFirstProperty == false, ref hasEncounteredFirstAttribute);
-                    Properties.Add(property);
+                    script.Properties.Add(property);
                     hasEncounteredFirstProperty = true;
                 }
             }
 
-            if(UnknownE == 3)
+            if(unknownE == 3)
             {
-                UnknownName1 = ReadString(decompressedStream); // Script Display name?
-                UnknownName2 = ReadString(decompressedStream); // Script Assembly name?
+                script.UnknownName1 = ReadString(decompressedStream); // Script Display name?
+                script.UnknownName2 = ReadString(decompressedStream); // Script Assembly name?
             }
+
+            return script;
         }
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
@@ -290,16 +302,17 @@ namespace LibSanBag.FileResources
                         UnknownE = decompressedStream.ReadInt32();
                     }
                 }
-
-                var hasEncounteredFirstAttribute = false;
-                var hasEncounteredFirstProperty = false;
-                for (int i = 0; i < ScriptCount; i++)
-                {
-                    ReadScript(decompressedStream, i == 0, ref hasEncounteredFirstProperty, ref hasEncounteredFirstAttribute);
-                }
-
+                
                 if (ScriptCount > 0)
                 {
+                    var hasEncounteredFirstAttribute = false;
+                    var hasEncounteredFirstProperty = false;
+                    for (int i = 0; i < ScriptCount; i++)
+                    {
+                        var script = ReadScript(decompressedStream, i == 0, UnknownE, ref hasEncounteredFirstProperty, ref hasEncounteredFirstAttribute);
+                        Scripts.Add(script);
+                    }
+
                     // Maybe default script? i don't know
                     DisplayName = ReadString(decompressedStream);
                 }
@@ -328,6 +341,7 @@ namespace LibSanBag.FileResources
             }
         }
     }
+    /*
 
     public class ScriptMetadataResource_bae7f85fc2f176e7 : ScriptMetadataResource
     {
@@ -582,4 +596,5 @@ namespace LibSanBag.FileResources
             }
         }
     }
+    */
 }
