@@ -9,6 +9,7 @@
   "ScriptCount": 1,
   "UnknownE": 2,
   "HasAssemblyTooltip": false,
+  "AttributesVersion": 8,
   "Scripts": [
     {
       "ClassName": "ExampleScript",

@@ -64,11 +64,12 @@ namespace LibSanBag.FileResources
         public int ScriptCount { get; set; }
         public int UnknownE { get; set; }
         public bool HasAssemblyTooltip { get; set; }
+        public int AttributesVersion { get; set; }
 
         public List<ScriptMetadata> Scripts { get; set; } = new List<ScriptMetadata>();
         public List<KeyValuePair<string, string>> Strings { get; set; } = new List<KeyValuePair<string, string>>();
 
-        public virtual ScriptMetadata ReadScript(BinaryReader decompressedStream, bool isFirstScript, int unknownE, ref bool hasEncounteredFirstProperty, ref bool hasEncounteredFirstAttribute)
+        public virtual ScriptMetadata ReadScript(BinaryReader decompressedStream, bool isFirstScript, int unknownE, ref bool hasEncounteredFirstProperty, ref bool hasEncounteredFirstAttribute, ref int attributesVersion)
         {
             ScriptMetadata script = new ScriptMetadata();
 
@@ -80,6 +81,7 @@ namespace LibSanBag.FileResources
 
             if(isFirstScript)
             {
+                // Scripts version?
                 script.UnknownG = decompressedStream.ReadInt32();
             }
 
@@ -90,12 +92,13 @@ namespace LibSanBag.FileResources
             {
                 if(hasEncounteredFirstProperty == false)
                 {
+                    // Properties version?
                     script.UnknownH = decompressedStream.ReadInt32();
                 }
 
                 for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
                 {
-                    var property = ReadProperty(decompressedStream, hasEncounteredFirstProperty == false, ref hasEncounteredFirstAttribute);
+                    var property = ReadProperty(decompressedStream, hasEncounteredFirstProperty == false, ref hasEncounteredFirstAttribute, ref attributesVersion);
                     script.Properties.Add(property);
                     hasEncounteredFirstProperty = true;
                 }
@@ -172,7 +175,7 @@ namespace LibSanBag.FileResources
             return new KeyValuePair<string, string>(attributeKey, attributeValue.ToString());
         }
 
-        public virtual PropertyEntry ReadProperty(BinaryReader decompressedStream, bool isFirstProperty, ref bool hasEncounteredFirstAttribute)
+        public virtual PropertyEntry ReadProperty(BinaryReader decompressedStream, bool isFirstProperty, ref bool hasEncounteredFirstAttribute, ref int attributesVersion)
         {
             var name = ReadString(decompressedStream);
             var type = ReadString(decompressedStream);
@@ -184,7 +187,7 @@ namespace LibSanBag.FileResources
             {
                 attributesAreAvailable = decompressedStream.ReadInt32() != 0;
             }
-
+            
             if (attributesAreAvailable)
             {
                 var numAttributes = decompressedStream.ReadInt32();
@@ -193,7 +196,7 @@ namespace LibSanBag.FileResources
                     if (hasEncounteredFirstAttribute == false)
                     {
                         // Is this a version? it seems to increment every few versions (currently 7 with 40d13e1007d2d696 and 6 with bae7f85fc2f176e7)
-                        var unknown_five = decompressedStream.ReadInt32();
+                        attributesVersion = decompressedStream.ReadInt32();
                         hasEncounteredFirstAttribute = true;
                     }
 
@@ -260,12 +263,15 @@ namespace LibSanBag.FileResources
                 {
                     var hasEncounteredFirstAttribute = false;
                     var hasEncounteredFirstProperty = false;
+                    var attributesVersion = 0;
+
                     for (int i = 0; i < ScriptCount; i++)
                     {
-                        var script = ReadScript(decompressedStream, i == 0, UnknownE, ref hasEncounteredFirstProperty, ref hasEncounteredFirstAttribute);
+                        var script = ReadScript(decompressedStream, i == 0, UnknownE, ref hasEncounteredFirstProperty, ref hasEncounteredFirstAttribute, ref attributesVersion);
                         Scripts.Add(script);
                     }
 
+                    AttributesVersion = attributesVersion;
                     DefaultScript = ReadString(decompressedStream);
                 }
 

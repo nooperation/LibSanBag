@@ -9,6 +9,7 @@
   "ScriptCount": 1,
   "UnknownE": 3,
   "HasAssemblyTooltip": true,
+  "AttributesVersion": 0,
   "Scripts": [
     {
       "ClassName": "AssemblyTooltip",

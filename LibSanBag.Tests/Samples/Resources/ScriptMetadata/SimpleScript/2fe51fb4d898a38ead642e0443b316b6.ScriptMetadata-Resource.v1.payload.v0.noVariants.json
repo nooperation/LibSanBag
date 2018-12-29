@@ -9,6 +9,7 @@
   "ScriptCount": 23,
   "UnknownE": 3,
   "HasAssemblyTooltip": true,
+  "AttributesVersion": 9,
   "Scripts": [
     {
       "ClassName": "Simple.Animation",

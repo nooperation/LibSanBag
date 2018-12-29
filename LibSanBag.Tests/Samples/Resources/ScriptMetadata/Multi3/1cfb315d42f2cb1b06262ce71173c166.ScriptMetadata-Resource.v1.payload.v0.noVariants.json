@@ -9,6 +9,7 @@
   "ScriptCount": 4,
   "UnknownE": 3,
   "HasAssemblyTooltip": true,
+  "AttributesVersion": 0,
   "Scripts": [
     {
       "ClassName": "Multi3_A",
