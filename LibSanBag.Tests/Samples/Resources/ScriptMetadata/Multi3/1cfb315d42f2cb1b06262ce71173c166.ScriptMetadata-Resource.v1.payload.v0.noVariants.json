@@ -1,0 +1,43 @@
+{
+  "IsCompressed": true,
+  "ScriptSourceTextName": null,
+  "AssemblyName": "Multi3_D",
+  "AssemblyTooltip": "",
+  "Warnings": "",
+  "DisplayName": "Multi3_A",
+  "Properties": [
+    {
+      "Name": "Multi3_StringA_D",
+      "Type": "System.String",
+      "Attributes": []
+    }
+  ],
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2018-12-29T09:50:38Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "1c3aad2b-0258-4c90-a604-0da35a9743f9"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "ace5db1.157004"
+    }
+  ],
+  "UnknownA": 0,
+  "UnknownB": 0,
+  "UnknownC": 1,
+  "ScriptCount": 4,
+  "UnknownE": 3,
+  "UnknownF": 2,
+  "UnknownG": 0,
+  "UnknownName1": "Multi3_D",
+  "UnknownName2": "Multi3_D",
+  "HasAssemblytooltip": true
+}

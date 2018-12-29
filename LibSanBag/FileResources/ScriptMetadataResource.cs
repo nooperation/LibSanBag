@@ -233,7 +233,7 @@ namespace LibSanBag.FileResources
     {
         public override bool IsCompressed => true;
 
-        public virtual void ReadScript(BinaryReader decompressedStream, bool isFirstScript, ref bool arePropertiesAvailable, ref bool hasEncounteredFirstAttribute)
+        public virtual void ReadScript(BinaryReader decompressedStream, bool isFirstScript, ref bool hasEncounteredFirstProperty, ref bool hasEncounteredFirstAttribute)
         {
             AssemblyName = ReadString(decompressedStream);
             if(UnknownE > 1)
@@ -244,22 +244,25 @@ namespace LibSanBag.FileResources
             if(isFirstScript)
             {
                 var Unknown0G = decompressedStream.ReadInt32();
-                arePropertiesAvailable = (decompressedStream.ReadInt32() == 1);
             }
 
-            if (arePropertiesAvailable)
-            {
-                var propertyCount = decompressedStream.ReadInt32();
-                Properties = new List<PropertyEntry>(propertyCount);
+            var propertyCount = decompressedStream.ReadInt32();
+            Properties = new List<PropertyEntry>(propertyCount);
 
-                if (propertyCount > 0)
+            if (propertyCount > 0)
+            {
+                if(hasEncounteredFirstProperty == false)
                 {
-                    for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
-                    {
-                        var property = ReadProperty(decompressedStream, propertyIndex == 0, ref hasEncounteredFirstAttribute);
-                        Properties.Add(property);
-                    }
+                    var unknown0H = decompressedStream.ReadInt32();
                 }
+
+                for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
+                {
+                    var property = ReadProperty(decompressedStream, hasEncounteredFirstProperty == false, ref hasEncounteredFirstAttribute);
+                    Properties.Add(property);
+                }
+
+                hasEncounteredFirstProperty = true;
             }
 
             if(UnknownE == 3)
@@ -290,10 +293,10 @@ namespace LibSanBag.FileResources
                 }
 
                 var hasEncounteredFirstAttribute = false;
-                var arePropertiesAvailable = false;
+                var hasEncounteredFirstProperty = false;
                 for (int i = 0; i < ScriptCount; i++)
                 {
-                    ReadScript(decompressedStream, i == 0, ref arePropertiesAvailable, ref hasEncounteredFirstAttribute);
+                    ReadScript(decompressedStream, i == 0, ref hasEncounteredFirstProperty, ref hasEncounteredFirstAttribute);
                 }
 
                 if (ScriptCount > 0)
