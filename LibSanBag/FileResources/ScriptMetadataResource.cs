@@ -53,6 +53,11 @@ namespace LibSanBag.FileResources
             public int UnknownH { get; set; }
 
             public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
+
+            public override string ToString()
+            {
+                return DisplayName;
+            }
         }
 
         public string AssemblyTooltip { get; set; }
