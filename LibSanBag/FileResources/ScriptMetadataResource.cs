@@ -56,7 +56,7 @@ namespace LibSanBag.FileResources
 
             public override string ToString()
             {
-                return DisplayName;
+                return ClassName;
             }
         }
 
