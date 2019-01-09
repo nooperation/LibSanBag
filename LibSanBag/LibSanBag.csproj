@@ -100,7 +100,9 @@
     <Compile Include="ResourceUtils\LibCRN.cs" />
     <Compile Include="ResourceUtils\LibDDS.cs" />
     <Compile Include="ResourceUtils\LibFSB.cs" />
-    <Compile Include="ResourceUtils\LibOodle.cs" />
+    <Compile Include="ResourceUtils\LibOodle6.cs" />
+    <Compile Include="ResourceUtils\LibOodle7.cs" />
+    <Compile Include="ResourceUtils\LibOodleBase.cs" />
     <Compile Include="ResourceUtils\LibUserPreferences.cs" />
     <Compile Include="ResourceUtils\Unpacker.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
