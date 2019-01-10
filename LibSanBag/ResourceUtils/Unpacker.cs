@@ -8,12 +8,12 @@ namespace LibSanBag.ResourceUtils
 {
     public static class Unpacker
     {
-        private static bool _isDllAvailable;
-        public static bool IsAvailable => _isDllAvailable;
+        public static bool IsAvailable { get; private set; }
+        private static LibOodleBase _libOodle = null;
 
         static Unpacker()
         {
-            FindDependencies(new FileProvider());
+            IsAvailable = FindDependencies(new FileProvider());
         }
 
         /// <summary>
@@ -22,11 +22,15 @@ namespace LibSanBag.ResourceUtils
         /// <returns>True if dependencies were found, otherwise false</returns>
         public static bool FindDependencies(IFileProvider fileProvider)
         {
-            _isDllAvailable = false;
+            _libOodle = LibOodleBase.CreateLibOodle(fileProvider);
+            if(_libOodle == null)
+            {
+                IsAvailable = false;
+                return false;
+            }
 
-            _isDllAvailable |= LibOodle.FindDependencies(fileProvider);
-
-            return _isDllAvailable;
+            IsAvailable = true;
+            return IsAvailable;
         }
 
         /// <summary>
@@ -48,7 +52,7 @@ namespace LibSanBag.ResourceUtils
             using (var br = new BinaryReader(resourceStream, Encoding.ASCII, true))
             {
                 var firstByte = br.ReadByte();
-                var decompressedSize = (ulong)0;
+                ulong decompressedSize;
 
                 if (firstByte == 0xF1)
                 {
@@ -80,7 +84,7 @@ namespace LibSanBag.ResourceUtils
 
                 var compressedDataArray = br.ReadBytes((int)(br.BaseStream.Length - br.BaseStream.Position - 10));
 
-                var decompressed = LibOodle.Decompress(compressedDataArray, decompressedSize);
+                var decompressed = _libOodle.Decompress(compressedDataArray, decompressedSize);
                 return decompressed;
             }
         }
