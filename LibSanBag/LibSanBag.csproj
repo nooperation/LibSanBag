@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\SanTools.LibCRN.1.0.8\build\SanTools.LibCRN.props" Condition="Exists('..\packages\SanTools.LibCRN.1.0.8\build\SanTools.LibCRN.props')" />
   <Import Project="..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props" Condition="Exists('..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props')" />
-  <Import Project="..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" />
+  <Import Project="..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" />
+  <Import Project="..\packages\SanTools.LibCRN.1.0.8\build\SanTools.LibCRN.props" Condition="Exists('..\packages\SanTools.LibCRN.1.0.8\build\SanTools.LibCRN.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,7 +11,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>LibSanBag</RootNamespace>
     <AssemblyName>LibSanBag</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -134,8 +134,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props'))" />
-    <Error Condition="!Exists('..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props'))" />
     <Error Condition="!Exists('..\packages\SanTools.LibCRN.1.0.8\build\SanTools.LibCRN.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibCRN.1.0.8\build\SanTools.LibCRN.props'))" />
+    <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props'))" />
+    <Error Condition="!Exists('..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props'))" />
   </Target>
 </Project>
