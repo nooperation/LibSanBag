@@ -1,10 +1,17 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/q1s9b8y5n1i2lpy6?svg=true)](https://ci.appveyor.com/project/nooperation/sanbag)
-# SanBag
+# LibSanBag
 Project Sansar Bag Utilities
 
 ## Requirements
 This software does not include all required dependencies. The following list are additional dependencies that need to be acquired and added to the LibSanBag directory:
 * `oo2core_7_win64.dll` Can be found in the [warframe](https://www.warframe.com/download) installation directory *\Warframe\Tools\Oodle\x64\final\oo2core_7_win64.dll*
+
+## Referenced libraries
+* [SanTools.LibCRN](https://github.com/nooperation/LibCRN)
+* [SanTools.LibDDS](https://github.com/nooperation/LibDDS)
+* [SanTools.LibFSB](https://github.com/nooperation/LibFSB)
+  * [Fmod](https://www.fmod.com/download)
+* [SanTools.LibUserPreferences](https://github.com/nooperation/UserPreferencesExplorer)
 
 # Bag File Format
 ![image](https://raw.githubusercontent.com/nooperation/LibSanBag/master/Docs/BagFormat.png)
