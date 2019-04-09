@@ -65,17 +65,6 @@ namespace LibSanBag.Tests
         }
 
         [Test]
-        public void TestUnknownCompressionHeader()
-        {
-            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "OodleLz", "UnknownCompressionHeader.bin");
-
-            Assert.Throws<NotImplementedException>(() =>
-            {
-                Unpacker.DecompressResource(path);
-            });
-        }
-
-        [Test]
         public void TestExtractWhileUnavailable()
         {
             var fileProvider = new MockFileProvider();
