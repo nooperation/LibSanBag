@@ -52,26 +52,48 @@ namespace LibSanBag.ResourceUtils
             using (var br = new BinaryReader(resourceStream, Encoding.ASCII, true))
             {
                 var firstByte = br.ReadByte();
-                ulong decompressedSize;
+                ulong decompressedSize = 0;
 
-                if (firstByte == 0xF1)
-                {
-                    decompressedSize = br.ReadUInt16();
-                }
-                else if (firstByte == 0xF2)
-                {
-                    decompressedSize = br.ReadUInt32();
-                }
-                else if (firstByte > 0xF2)
-                {
-                    throw new NotImplementedException();
-                }
-                else
+                if((sbyte)firstByte >= 0)
                 {
                     br.BaseStream.Seek(3, SeekOrigin.Current);
 
                     var remainingBytes = br.BaseStream.Length - br.BaseStream.Position - 10;
                     return br.ReadBytes((int)remainingBytes);
+                }
+
+                var lengthType = (firstByte & 0xF3) - 0xF0;
+                if(lengthType == 0)
+                {
+                    decompressedSize = br.ReadByte();
+                }
+                else if(lengthType == 1)
+                {
+                    decompressedSize = br.ReadUInt16();
+                }
+                else if(lengthType == 2)
+                {
+                    decompressedSize = br.ReadUInt32();
+                }
+                else if(lengthType == 3)
+                {
+                    decompressedSize = br.ReadUInt64();
+                }
+
+                var somethingElse = firstByte & 0x0C;
+                if(somethingElse >= 4)
+                {
+                    if(decompressedSize >= 0x40000)
+                    {
+                        var unknownA = br.ReadInt32();  // 1
+                        var unknownB = br.ReadInt32();  // 8
+                        var unknownC = br.ReadByte();   // 0
+                        var unknownD = br.ReadUInt64(); // Decompressed size
+                        var unknownE = br.ReadUInt64(); // Compressed size
+                        var unknownF = br.ReadUInt32(); // 0x40000 ?
+                        var unknownG = br.ReadUInt32(); // Number of following chunks?
+                        br.ReadBytes(4 * (int)unknownG);
+                    }
                 }
 
                 var expectedOodleMagicByte = br.ReadByte();
