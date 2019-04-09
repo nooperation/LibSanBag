@@ -5,7 +5,7 @@ namespace LibSanBag.ResourceUtils
 {
     public abstract class LibOodleBase
     {
-        public abstract ulong Compress(int codec, byte[] buffer, ulong bufferLength, IntPtr output, int level, IntPtr a, IntPtr b, IntPtr c) ;
+        public abstract ulong Compress(int codec, byte[] buffer, ulong bufferLength, byte[] output, int level, IntPtr a, IntPtr b, IntPtr c, IntPtr d, IntPtr e) ;
         public abstract ulong Decompress(byte[] compressed, ulong compressedSize, byte[] decompressed, ulong decompressedSize, int a, int b, int c, IntPtr d, IntPtr e, IntPtr f, IntPtr g, IntPtr h, IntPtr i, int j);
 
         public static LibOodleBase CreateLibOodle(IFileProvider fileProvider)
@@ -34,7 +34,7 @@ namespace LibSanBag.ResourceUtils
             var decompressedBuffer = new byte[decompressedSize];
 
             // TODO: This first call to compress was needed long ago for some reason, decompress would fail otherwise with oodle2
-            var x = Compress(0, null, 0, IntPtr.Zero, 0, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            var x = Compress(0, null, 0, null, 0, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
             var result = Decompress(
                 compressedData,
                 (ulong)compressedData.Length,
