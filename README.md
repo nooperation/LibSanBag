@@ -29,10 +29,13 @@ The majority of bag files follow a fairly straight forward binary format.
 ![image](https://raw.githubusercontent.com/nooperation/LibSanBag/master/Docs/Compression.png)
 
 Most assets will be compressed using commercial [Oodle compression](http://www.radgametools.com/oodlecompressors.htm).
-* The first byte of an asset determines the compression type
-  * 0x0N - File is not compressed. The next three bytes can be discarded
-  * 0xF1 - File is compressed. The next two bytes contains the length of the compressed data
-  * 0xF2 - File is compressed. The next four bytes contains the length of the compressed data
+* The first byte (N) of an asset determines the compression type. If the signed value of N >= 0 then the file is not compressed and the next three bytes can be discarded.
+  * Compressed length type = (N & 0xF3) - 0xF0:
+    * 0 - The next byte contains the length of the compressed data
+    * 1 - The next two bytes contains the length of the compressed data
+    * 2 - The next four bytes contains the length of the compressed data
+    * 3 - The next eight bytes contains the length of the compressed data
+  * If (N & 0x0C) >= 4 and decompressed size >= 0x40000 then there is an additional P bytes following the compressed data length, where P = (33 + Q) bytes, where Q is 4 * (value of bytes 30-33 of P).
 * The Oodle compression header starts with the byte 0x8C
 * Compressed data is followed by a 10 byte footer `01 45EF23CD01AB6789 01` (Endian or some other binary check for `01 0123456789ABCDEF 01` ?)
 
