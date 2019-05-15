@@ -247,7 +247,7 @@ namespace LibSanBag.ResourceUtils
             UInt64 width = 0,
             UInt64 height = 0,
             ConversionOptions.CodecType codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG,
-            ConversionOptions.DXGI_FORMAT format = ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R32G32B32A32_FLOAT)
+            ConversionOptions.DXGI_FORMAT format = ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R8G8B8A8_UNORM)
         {
             if (IsAvailable == false)
             {
