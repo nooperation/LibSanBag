@@ -55,7 +55,7 @@ namespace LibSanBag.FileResources
         /// <param name="width">Width to resize image to. May not be available. Width of 0 preserves the original width.</param>
         /// <param name="height">Height to resize image to. May not be available. Height of 0 preserves the original height.</param>
         /// <returns>Converted image bytes</returns>
-        public abstract byte[] ConvertTo(TextureType codec, int width = 0, int height = 0);
+        public abstract byte[] ConvertTo(TextureType codec, UInt64 width = 0, UInt64 height = 0);
 
         public LibDDS.ConversionOptions.CodecType GetDdsTextureType(TextureType codec)
         {
@@ -103,7 +103,7 @@ namespace LibSanBag.FileResources
         /// <param name="width">Width to resize image to. May not be available. Width of 0 preserves the original width.</param>
         /// <param name="height">Height to resize image to. May not be available. Height of 0 preserves the original height.</param>
         /// <returns>Converted image bytes</returns>
-        public override byte[] ConvertTo(TextureType codec, int width = 0, int height = 0)
+        public override byte[] ConvertTo(TextureType codec, UInt64 width = 0, UInt64 height = 0)
         {
             if (codec == TextureType.DDS)
             {
@@ -167,7 +167,7 @@ namespace LibSanBag.FileResources
         /// <param name="width">Width to resize image to. May not be available. Width of 0 preserves the original width.</param>
         /// <param name="height">Height to resize image to. May not be available. Height of 0 preserves the original height.</param>
         /// <returns>Converted image bytes</returns>
-        public override byte[] ConvertTo(TextureType codec, int width = 0, int height = 0)
+        public override byte[] ConvertTo(TextureType codec, UInt64 width = 0, UInt64 height = 0)
         {
             if (SourceType == TextureType.CRN)
             {
@@ -248,7 +248,7 @@ namespace LibSanBag.FileResources
         /// <param name="width">Width to resize image to. May not be available. Width of 0 preserves the original width.</param>
         /// <param name="height">Height to resize image to. May not be available. Height of 0 preserves the original height.</param>
         /// <returns>Converted image bytes</returns>
-        public override byte[] ConvertTo(TextureType codec, int width = 0, int height = 0)
+        public override byte[] ConvertTo(TextureType codec, UInt64 width = 0, UInt64 height = 0)
         {
             if (SourceType == TextureType.CRN)
             {

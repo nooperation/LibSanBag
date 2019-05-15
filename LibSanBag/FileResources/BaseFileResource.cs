@@ -42,7 +42,7 @@ namespace LibSanBag.FileResources
                     InitFromRawDecompressed(decompressedBytes);
                     return;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }
