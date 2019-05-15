@@ -16,6 +16,5 @@
   </metadata>
   <files>
     <file src="build\**" target="build" />
-    <file src="content\x64\LibDDS.dll" target="content\x64\LibDDS.dll" />
   </files>
 </package>
