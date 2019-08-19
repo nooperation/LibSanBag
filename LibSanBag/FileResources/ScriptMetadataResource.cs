@@ -36,22 +36,44 @@ namespace LibSanBag.FileResources
             public const int Sansar_Quaternion = 0x1003;
         }
 
+        public static Dictionary<int, string> TypeCodeToNameMap = new Dictionary<int, string>()
+        {
+            {TypeCode.System_Boolean, "System.Boolean"},
+            {TypeCode.System_SByte, "System.SByte"},
+            {TypeCode.System_Byte, "System.Byte"},
+            {TypeCode.System_Int16, "System.Int16"},
+            {TypeCode.System_UInt16, "System.UInt16"},
+            {TypeCode.System_Int32, "System.Int32"},
+            {TypeCode.System_UInt32, "System.UInt32"},
+            {TypeCode.System_Int64, "System.Int64"},
+            {TypeCode.System_UInt64, "System.UInt64"},
+            {TypeCode.System_Single, "System.Single"},
+            {TypeCode.System_Double, "System.Double"},
+            {TypeCode.System_String, "System.String"},
+            {TypeCode.System_Object, "System.Object"},
+            {TypeCode.Sansar_Simulation_RigidBodyComponent, "Sansar.Simulation.RigidBodyComponent"},
+            {TypeCode.Sansar_Simulation_AnimationComponent, "Sansar.Simulation.AnimationComponent"},
+            {TypeCode.Sansar_Simulation_AudioComponent, "Sansar.Simulation.AudioComponent"},
+            {TypeCode.Sansar_Simulation_ClusterResource, "Sansar.Simulation.ClusterResource"},
+            {TypeCode.Sansar_Simulation_SoundResource, "Sansar.Simulation.SoundResource"},
+            {TypeCode.Mono_Simd_Vector4f, "Mono.Simd.Vector4f"},
+            {TypeCode.Sansar_Vector, "Sansar.Vector"},
+            {TypeCode.Sansar_Quaternion, "Sansar.Quaternion"},
+        };
+
         public struct PropertyEntry
         {
             public string Name { get; set; }
             public string Type { get; set; }
-            public PropertyAttributes Attributes { get; set; }
-            public int TypeCode { get; internal set; }
-        }
-
-        public struct PropertyAttributes
-        {
+            //public int TypeCode { get; internal set; }
             public List<PropertyAttribute> Attributes { get; set; }
         }
 
         public struct PropertyAttribute
         {
-            public string Key { get; set; }
+            public string Name { get; set; }
+            public string Type { get; set; }
+            //public int TypeCode { get; internal set; }
             public object Value { get; set; }
         }
 
@@ -245,28 +267,27 @@ namespace LibSanBag.FileResources
             var prop = new PropertyEntry();
             prop.Name = ReadString(decompressedStream);
             prop.Type = ReadString(decompressedStream);
-            prop.TypeCode = decompressedStream.ReadInt32();
+            var typeCode = decompressedStream.ReadInt32();
             prop.Attributes = ReadScriptMetadata_Property_Attributes(decompressedStream);
 
             return prop;
         }
 
         private int? AttributeVersion = null;
-        private PropertyAttributes ReadScriptMetadata_Property_Attributes(BinaryReader decompressedStream)
+        private List<PropertyAttribute> ReadScriptMetadata_Property_Attributes(BinaryReader decompressedStream)
         {
             if (AttributeVersion == null)
             {
                 AttributeVersion = decompressedStream.ReadInt32();
             }
 
-            var attributes = new PropertyAttributes();
             var numAttributes = decompressedStream.ReadInt32();
 
-            attributes.Attributes = new List<PropertyAttribute>();
+            var attributes = new List<PropertyAttribute>();
             for (var attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++)
             {
                 var attr = ReadScriptMetadata_Attribute_Payload(decompressedStream);
-                attributes.Attributes.Add(attr);
+                attributes.Add(attr);
             }
 
             return attributes;
@@ -281,7 +302,7 @@ namespace LibSanBag.FileResources
             }
 
             var attribute = new PropertyAttribute();
-            attribute.Key = ReadString(decompressedStream);
+            attribute.Name = ReadString(decompressedStream);
             attribute.Value = "";
 
             if (AttributePayloadVersion < 6)
@@ -289,16 +310,24 @@ namespace LibSanBag.FileResources
                 // Do some nasty crap here. NO-OP stuff?
             }
 
-            var attributeValueCode = decompressedStream.ReadInt32();
-
-            bool isMethodA;
-            if ((attributeValueCode & 0xF0000000) > 0)
+            var typeCode = decompressedStream.ReadInt32();
+            if(TypeCodeToNameMap.ContainsKey(typeCode))
             {
-                isMethodA = (attributeValueCode == 0x20000000);
+                attribute.Type = TypeCodeToNameMap[typeCode];
             }
             else
             {
-                isMethodA = ((attributeValueCode >> 28) & 1) > 0;
+                attribute.Type = "!UNKNOWN!";
+            }
+
+            bool isMethodA;
+            if ((typeCode & 0xF0000000) > 0)
+            {
+                isMethodA = (typeCode == 0x20000000);
+            }
+            else
+            {
+                isMethodA = ((typeCode >> 28) & 1) > 0;
             }
 
             if(isMethodA)
@@ -311,13 +340,13 @@ namespace LibSanBag.FileResources
             }
 
             bool isMethodB = false;
-            if ((attributeValueCode & 0xF0000000) > 0)
+            if ((typeCode & 0xF0000000) > 0)
             {
-                isMethodB = (attributeValueCode == 0x10000000);
+                isMethodB = (typeCode == 0x10000000);
             }
             else
             {
-                isMethodB = ((attributeValueCode >> 28) & 1) > 0;
+                isMethodB = ((typeCode >> 28) & 1) > 0;
             }
 
             if(isMethodB)
@@ -329,9 +358,8 @@ namespace LibSanBag.FileResources
                 return attribute;
             }
 
-
             // TODO: Method C - This is the standard case. Stream just points to a value we need to read.
-            attribute.Value = ReadScriptMetadata_Attribute_Payload_MethodC(decompressedStream, attributeValueCode, AttributePayloadVersion >= 11);
+            attribute.Value = ReadScriptMetadata_Attribute_Payload_MethodC(decompressedStream, typeCode, AttributePayloadVersion >= 11);
             return attribute;
         }
 
@@ -350,6 +378,8 @@ namespace LibSanBag.FileResources
                 ReadScriptMetadata_Attribute_Payload(decompressedStream);
             }
         }
+
+
 
         private object ReadScriptMetadata_Attribute_Payload_MethodC(BinaryReader decompressedStream, int attributeValueCode, bool isNewVersion)
         {
