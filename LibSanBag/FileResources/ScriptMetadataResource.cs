@@ -65,7 +65,6 @@ namespace LibSanBag.FileResources
         {
             public string Name { get; set; }
             public string Type { get; set; }
-            //public int TypeCode { get; internal set; }
             public List<PropertyAttribute> Attributes { get; set; }
         }
 
@@ -73,7 +72,6 @@ namespace LibSanBag.FileResources
         {
             public string Name { get; set; }
             public string Type { get; set; }
-            //public int TypeCode { get; internal set; }
             public object Value { get; set; }
         }
 
@@ -97,9 +95,8 @@ namespace LibSanBag.FileResources
         public string BuildWarnings { get; set; }
         public string DefaultScript { get; set; }
         public string OtherWarnings { get; set; }
-        public int UnknownB { get; set; }
+        public int UsesRestrictedAPI { get; set; }
         public int ScriptCount { get; set; }
-        public bool HasAssemblyTooltip { get; set; }
         public int AttributesVersion { get; set; }
 
         public List<ScriptMetadata> Scripts { get; set; } = new List<ScriptMetadata>();
@@ -145,8 +142,8 @@ namespace LibSanBag.FileResources
                 }
 
                 BuildWarnings = ReadString(decompressedStream);
-                OtherWarnings = ReadString(decompressedStream); // Error strings? unknown strings
-                UnknownB = decompressedStream.ReadInt32(); // 0, property type code or something. i don't know
+                OtherWarnings = ReadString(decompressedStream);
+                UsesRestrictedAPI = decompressedStream.ReadInt32(); // 0, property type code or something. i don't know
 
                 if(ResourceVersion >= 4)
                 {
@@ -183,7 +180,6 @@ namespace LibSanBag.FileResources
 
                 if(ResourceVersion >= 5) 
                 {
-                    HasAssemblyTooltip = true;
                     AssemblyTooltip = ReadString(decompressedStream);
                 }
             }
@@ -332,6 +328,8 @@ namespace LibSanBag.FileResources
 
             if(isMethodA)
             {
+                throw new NotImplementedException("MethodA is not tested");
+
                 // TODO: Method A
                 ReadScriptMetadata_Attribute_Payload_MethodA(decompressedStream);
 
@@ -351,6 +349,8 @@ namespace LibSanBag.FileResources
 
             if(isMethodB)
             {
+                throw new NotImplementedException("MethodB is not tested");
+
                 // TODO: Method B
                 ReadScriptMetadata_Property_Attributes(decompressedStream);
 
@@ -365,6 +365,7 @@ namespace LibSanBag.FileResources
 
         private void ReadScriptMetadata_Attribute_Payload_MethodA(BinaryReader decompressedStream)
         {
+            throw new NotImplementedException("MethodA is not tested");
             if (AttributePayloadVersion == null)
             {
                 AttributePayloadVersion = decompressedStream.ReadInt32();
@@ -378,8 +379,6 @@ namespace LibSanBag.FileResources
                 ReadScriptMetadata_Attribute_Payload(decompressedStream);
             }
         }
-
-
 
         private object ReadScriptMetadata_Attribute_Payload_MethodC(BinaryReader decompressedStream, int attributeValueCode, bool isNewVersion)
         {
