@@ -11,6 +11,8 @@ namespace LibSanBag.FileResources.Legacy
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
+                ResourceVersion = decompressedStream.ReadInt32();
+
                 ScriptSourceTextName = ReadString(decompressedStream);
                 Warnings = ReadString(decompressedStream);
 

@@ -118,6 +118,8 @@ namespace LibSanBag.FileResources
         {
             using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
+                ResourceVersion = br.ReadInt32();
+
                 var numBytes = br.ReadInt32();
                 var textureBytes = br.ReadBytes(numBytes);
                 if (textureBytes[0] == 'D' && textureBytes[1] == 'D' && textureBytes[2] == 'S')
@@ -141,6 +143,8 @@ namespace LibSanBag.FileResources
         {
             using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
+                ResourceVersion = br.ReadInt32();
+
                 var numBytes = br.ReadInt32();
                 var textureBytes = br.ReadBytes(numBytes);
                 if (textureBytes[0] == 'H' && textureBytes[1] == 'x')
@@ -200,6 +204,8 @@ namespace LibSanBag.FileResources
         {
             using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
+                ResourceVersion = br.ReadInt32();
+
                 var numBytes = br.ReadInt32();
                 var textureBytes = br.ReadBytes(numBytes);
                 if (textureBytes[0] == 'H' && textureBytes[1] == 'x')

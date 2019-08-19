@@ -70,19 +70,17 @@ namespace LibSanBag.Tests.FileResources
                     Assert.AreEqual(expected.AssemblyTooltip, actual.AssemblyTooltip);
                     Assert.AreEqual(expected.DefaultScript, actual.DefaultScript);
                     Assert.AreEqual(expected.HasAssemblyTooltip, actual.HasAssemblyTooltip);
-                    Assert.AreEqual(expected.UnknownA, actual.UnknownA);
+                    Assert.AreEqual(expected.UnknonwStrings, actual.UnknonwStrings);
                     Assert.AreEqual(expected.UnknownB, actual.UnknownB);
-                    Assert.AreEqual(expected.UnknownC, actual.UnknownC);
-                    Assert.AreEqual(expected.UnknownE, actual.UnknownE);
                     Assert.AreEqual(expected.Warnings, actual.Warnings);
 
                     Assert.AreEqual(expected.ScriptCount, actual.ScriptCount);
                     for (int i = 0; i < actual.ScriptCount; i++)
                     {
+                        Assert.AreEqual(expected.Scripts[i].Version, actual.Scripts[i].Version);
                         Assert.AreEqual(expected.Scripts[i].ClassName, actual.Scripts[i].ClassName);
-                        Assert.AreEqual(expected.Scripts[i].UnknownF, actual.Scripts[i].UnknownF);
-                        Assert.AreEqual(expected.Scripts[i].UnknownG, actual.Scripts[i].UnknownG);
-                        Assert.AreEqual(expected.Scripts[i].UnknownH, actual.Scripts[i].UnknownH);
+                        Assert.AreEqual(expected.Scripts[i].UnknownA, actual.Scripts[i].UnknownA);
+                        Assert.AreEqual(expected.Scripts[i].PayloadVersion, actual.Scripts[i].PayloadVersion);
                         Assert.AreEqual(expected.Scripts[i].DisplayName, actual.Scripts[i].DisplayName);
                         Assert.AreEqual(expected.Scripts[i].Tooltip, actual.Scripts[i].Tooltip);
 
@@ -92,15 +90,19 @@ namespace LibSanBag.Tests.FileResources
                             var expectedProperty = expected.Scripts[i].Properties[propertyIndex];
                             var actualProperty = actual.Scripts[i].Properties[propertyIndex];
 
+                            Assert.AreEqual(expectedProperty.Version, actualProperty.Version);
                             Assert.AreEqual(expectedProperty.Name, actualProperty.Name);
                             Assert.AreEqual(expectedProperty.Type, actualProperty.Type);
 
-                            Assert.AreEqual(expectedProperty.Attributes.Count, actualProperty.Attributes.Count);
-                            for (var attributeIndex = 0; attributeIndex < actualProperty.Attributes.Count; attributeIndex++)
-                            {
-                                var expectedAttribute = expectedProperty.Attributes[attributeIndex];
-                                var actualAttribute = actualProperty.Attributes[attributeIndex];
+                            Assert.AreEqual(expectedProperty.Attributes.Version, actualProperty.Attributes.Version);
+                            Assert.AreEqual(expectedProperty.Attributes.Attributes.Count, actualProperty.Attributes.Attributes.Count);
 
+                            for (var attributeIndex = 0; attributeIndex < actualProperty.Attributes.Attributes.Count; attributeIndex++)
+                            {
+                                var expectedAttribute = expectedProperty.Attributes.Attributes[attributeIndex];
+                                var actualAttribute = actualProperty.Attributes.Attributes[attributeIndex];
+
+                                Assert.AreEqual(expectedAttribute.Version,   actualAttribute.Version);
                                 Assert.AreEqual(expectedAttribute.Key,   actualAttribute.Key);
                                 Assert.AreEqual(expectedAttribute.Value, actualAttribute.Value);
                             }
@@ -124,19 +126,20 @@ namespace LibSanBag.Tests.FileResources
             {
                 if(ScriptMetadataResourceLegacy.IsLegacyVersion(testData.RecordInfo.VersionHash) == false)
                 {
-                    continue;
+                //    continue;
                 }
 
-                var expectedJson = File.ReadAllText(testData.JsonFilePath);
-                var expected = (ScriptMetadataResourceLegacy)JsonConvert.DeserializeObject(expectedJson, ScriptMetadataResourceLegacy.GetTypeFor(testData.RecordInfo.VersionHash));
+               // var expectedJson = File.ReadAllText(testData.JsonFilePath);
+               //var expected = (ScriptMetadataResourceLegacy)JsonConvert.DeserializeObject(expectedJson, ScriptMetadataResourceLegacy.GetTypeFor(testData.RecordInfo.VersionHash));
 
                 var compressedFileBytes = File.ReadAllBytes(testData.CompressedFilePath);
 
                 using (var ms = new MemoryStream(compressedFileBytes))
                 {
-                    var actual = ScriptMetadataResourceLegacy.Create(testData.RecordInfo.VersionHash);
+                    var actual = ScriptMetadataResource.Create();
                     actual.InitFromStream(ms);
 
+                    /*
                     Assert.AreEqual(expected.AssemblyName, actual.AssemblyName);
                     Assert.AreEqual(expected.Warnings, actual.Warnings);
 
@@ -166,6 +169,7 @@ namespace LibSanBag.Tests.FileResources
                         Assert.AreEqual(expected.Strings[stringIndex].Key,   actual.Strings[stringIndex].Key);
                         Assert.AreEqual(expected.Strings[stringIndex].Value, actual.Strings[stringIndex].Value);
                     }
+                    */
                 }
             }
         }

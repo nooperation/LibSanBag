@@ -36,22 +36,20 @@ namespace LibSanBag.FileResources
         {
             using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                ScriptSourceTextPath = string.Empty;
+                ResourceVersion = br.ReadInt32();
 
-                var assemblyLength = br.ReadInt32();
-
-                // It appears that some v1 headers have the old script source text path prefix?
-                // If we don't have the 'MZ' executable ID then just assume it's the old script
-                // source text path. The real assembly length will come after this if it exists
-                if(decompressedBytes[4] != 'M' && decompressedBytes[5] != 'Z')
+                if(ResourceVersion < 2)
                 {
-                    var stringLength = assemblyLength;
-                    var stringChars = br.ReadChars(stringLength);
-                    ScriptSourceTextPath = new string(stringChars);
-
-                    assemblyLength = br.ReadInt32();
+                    var scriptSourceTextPathLength = br.ReadInt32();
+                    var scriptSourceTextPathChars = br.ReadChars(scriptSourceTextPathLength);
+                    ScriptSourceTextPath = new string(scriptSourceTextPathChars);
+                }
+                else
+                {
+                    ScriptSourceTextPath = string.Empty;
                 }
 
+                var assemblyLength = br.ReadInt32();
                 AssemblyBytes = br.ReadBytes(assemblyLength);
             }
         }

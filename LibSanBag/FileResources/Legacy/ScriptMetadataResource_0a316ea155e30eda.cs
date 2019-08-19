@@ -24,6 +24,8 @@ namespace LibSanBag.FileResources.Legacy
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
+                ResourceVersion = decompressedStream.ReadInt32();
+
                 Warnings = "";
                 Strings = new List<KeyValuePair<string, string>>();
 

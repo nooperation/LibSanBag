@@ -40,17 +40,32 @@ namespace LibSanBag.FileResources
         {
             public string Name { get; set; }
             public string Type { get; set; }
-            public List<KeyValuePair<string, string>> Attributes { get; set; }
+            public PropertyAttributes Attributes { get; set; }
+            public int Version { get; internal set; }
+            public int TypeCode { get; internal set; }
+        }
+
+        public struct PropertyAttributes
+        {
+            public int Version { get; set; }
+            public List<PropertyAttribute> Attributes { get; set; }
+        }
+
+        public struct PropertyAttribute
+        {
+            public string Key { get; set; }
+            public object Value { get; set; }
+            public int Version { get; internal set; }
         }
 
         public class ScriptMetadata
         {
+            public int Version { get; set; }
             public string ClassName { get; set; }
             public string DisplayName { get; set; }
             public string Tooltip { get; set; }
-            public int UnknownF { get; set; }
-            public int UnknownG { get; set; }
-            public int UnknownH { get; set; }
+            public int UnknownA { get; set; }
+            public int PayloadVersion { get; set; }
 
             public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
 
@@ -61,70 +76,261 @@ namespace LibSanBag.FileResources
         }
 
         public string AssemblyTooltip { get; set; }
+        public string ScriptSourceTextName { get; set; }
         public string Warnings { get; set; }
         public string DefaultScript { get; set; }
-        public int UnknownA { get; set; }
+        public string UnknonwStrings { get; set; }
         public int UnknownB { get; set; }
-        public int UnknownC { get; set; }
         public int ScriptCount { get; set; }
-        public int UnknownE { get; set; }
         public bool HasAssemblyTooltip { get; set; }
         public int AttributesVersion { get; set; }
 
         public List<ScriptMetadata> Scripts { get; set; } = new List<ScriptMetadata>();
         public List<KeyValuePair<string, string>> Strings { get; set; } = new List<KeyValuePair<string, string>>();
 
-        public virtual ScriptMetadata ReadScript(BinaryReader decompressedStream, bool isFirstScript, int unknownE, ref bool hasEncounteredFirstProperty, ref bool hasEncounteredFirstAttribute, ref int attributesVersion)
+        public virtual string ReadString(BinaryReader decompressedStream)
         {
-            ScriptMetadata script = new ScriptMetadata();
+            var textLength = decompressedStream.ReadInt32();
+            var text = new string(decompressedStream.ReadChars(textLength));
 
+            return text;
+        }
+
+        public static ScriptMetadataResource Create(string version = "")
+        {
+            return new ScriptMetadataResource_v1();
+        }
+
+        public static Type GetTypeFor(string version = "")
+        {
+            return typeof(ScriptMetadataResource_v1);
+        }
+    }
+
+    public class ScriptMetadataResource_v1 : ScriptMetadataResource
+    {
+        public override bool IsCompressed => true;
+
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                ResourceVersion = decompressedStream.ReadInt32();
+                if(ResourceVersion < 2)
+                {
+                    // TODO: Some really old stuff here
+                    return;
+                }
+
+                if(ResourceVersion < 3)
+                {
+                    ScriptSourceTextName = ReadString(decompressedStream);
+                }
+
+                Warnings = ReadString(decompressedStream);
+                UnknonwStrings = ReadString(decompressedStream); // Error strings? unknown strings
+                UnknownB = decompressedStream.ReadInt32(); // 0, property type code or something. i don't know
+
+                if(ResourceVersion >= 4)
+                {
+                    Scripts = ParseScripts_V4(decompressedStream);
+                    DefaultScript = ReadString(decompressedStream);
+                }
+                else
+                {
+                    // TODO: See if we covered this in the legacy parsers
+                    ScriptMetadata script = new ScriptMetadata();
+                    script.ClassName = "";
+                    script.DisplayName = "";
+                    script.Properties = new List<PropertyEntry>();
+                    script.Version = 0;
+
+                    ParseScriptPayload_V4(decompressedStream, script);
+
+                    Scripts = new List<ScriptMetadata>() { script };
+                }
+
+                var stringsAreAvailable = decompressedStream.ReadInt32() != 0;
+                if (stringsAreAvailable)
+                {
+                    var stringCount = decompressedStream.ReadInt32();
+                    Strings = new List<KeyValuePair<string, string>>(stringCount);
+
+                    for (var stringIndex = 0; stringIndex < stringCount; ++stringIndex)
+                    {
+                        var key = ReadString(decompressedStream);
+                        var value = ReadString(decompressedStream);
+
+                        Strings.Add(new KeyValuePair<string, string>(key, value));
+                    }
+                }
+
+                if(ResourceVersion >= 5) 
+                {
+                    HasAssemblyTooltip = true;
+                    AssemblyTooltip = ReadString(decompressedStream);
+                }
+            }
+        }
+
+        private List<ScriptMetadata> ParseScripts_V4(BinaryReader decompressedStream)
+        {
+            var Version = decompressedStream.ReadInt32();
+            var scriptCount = decompressedStream.ReadInt32();
+
+            List<ScriptMetadata> scripts = new List<ScriptMetadata>();
+            for (int scriptIndex = 0; scriptIndex < scriptCount; scriptIndex++)
+            {
+                var script = ParseScript_V4(decompressedStream);
+                scripts.Add(script);
+            }
+
+            return scripts;
+        }
+
+        private ScriptMetadata ParseScript_V4(BinaryReader decompressedStream)
+        {
+            var script = new ScriptMetadata();
+            script.PayloadVersion = 0;
+            script.Properties = new List<PropertyEntry>();
+
+            script.Version = decompressedStream.ReadInt32();
             script.ClassName = ReadString(decompressedStream);
-            if(unknownE > 1)
+
+            if (script.Version >= 2)
             {
-                script.UnknownF = decompressedStream.ReadInt32();
+                // Unknown - does not seem to affect resource parsing (output only)
+                script.UnknownA = decompressedStream.ReadInt32();
             }
 
-            if(isFirstScript)
+            ParseScriptPayload_V4(decompressedStream, script);
+
+            if(script.Version >= 3)
             {
-                // Scripts version?
-                script.UnknownG = decompressedStream.ReadInt32();
-            }
-
-            var propertyCount = decompressedStream.ReadInt32();
-            script.Properties = new List<PropertyEntry>(propertyCount);
-
-            if (propertyCount > 0)
-            {
-                if(hasEncounteredFirstProperty == false)
-                {
-                    // Properties version?
-                    script.UnknownH = decompressedStream.ReadInt32();
-                }
-
-                for (var propertyIndex = 0; propertyIndex < propertyCount; ++propertyIndex)
-                {
-                    var property = ReadProperty(decompressedStream, hasEncounteredFirstProperty == false, ref hasEncounteredFirstAttribute, ref attributesVersion);
-                    script.Properties.Add(property);
-                    hasEncounteredFirstProperty = true;
-                }
-            }
-
-            if(unknownE == 3)
-            {
-                script.DisplayName = ReadString(decompressedStream); // Script Display name?
-                script.Tooltip = ReadString(decompressedStream); // Script Assembly name?
+                script.DisplayName = ReadString(decompressedStream);
+                script.Tooltip = ReadString(decompressedStream);
             }
 
             return script;
         }
 
-        public virtual KeyValuePair<string, string> ReadAttribute(BinaryReader decompressedStream)
+        private void ParseScriptPayload_V4(BinaryReader decompressedStream, ScriptMetadata script)
         {
-            var attributeKey = ReadString(decompressedStream);
+            script.PayloadVersion = decompressedStream.ReadInt32();
+            var propertyCount = decompressedStream.ReadInt32();
+
+            script.Properties = new List<PropertyEntry>();
+            for (int propertyIndex = 0; propertyIndex < propertyCount; propertyIndex++)
+            {
+                var prop = ParseScriptProperty_V4(decompressedStream);
+                script.Properties.Add(prop);
+            }
+        }
+
+        private PropertyEntry ParseScriptProperty_V4(BinaryReader decompressedStream)
+        {
+            var prop = new PropertyEntry();
+            prop.Version = decompressedStream.ReadInt32();
+            prop.Name = ReadString(decompressedStream);
+            prop.Type = ReadString(decompressedStream);
+            prop.TypeCode = decompressedStream.ReadInt32();
+            prop.Attributes = ReadScriptMetadata_Property_Attributes(decompressedStream);
+
+            return prop;
+        }
+
+        private PropertyAttributes ReadScriptMetadata_Property_Attributes(BinaryReader decompressedStream)
+        {
+            var attributes = new PropertyAttributes();
+
+            attributes.Version = decompressedStream.ReadInt32();
+            var numAttributes = decompressedStream.ReadInt32();
+
+            attributes.Attributes = new List<PropertyAttribute>();
+            for (var attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++)
+            {
+                var attr = ReadScriptMetadata_Attribute_Payload(decompressedStream);
+                attributes.Attributes.Add(attr);
+            }
+
+            return attributes;
+        }
+
+        private PropertyAttribute ReadScriptMetadata_Attribute_Payload(BinaryReader decompressedStream)
+        {
+            var attribute = new PropertyAttribute();
+            attribute.Version = decompressedStream.ReadInt32();
+            attribute.Key = ReadString(decompressedStream);
+            attribute.Value = "";
+
+            if (attribute.Version < 6)
+            {
+                // Do some nasty crap here. NO-OP stuff?
+            }
+
             var attributeValueCode = decompressedStream.ReadInt32();
 
-            // NOTE: Sansar only seems to store Int64 and Double types for value types
-            object attributeValue = null;
+            bool isMethodA;
+            if ((attributeValueCode & 0xF0000000) > 0)
+            {
+                isMethodA = (attributeValueCode == 0x20000000);
+            }
+            else
+            {
+                isMethodA = ((attributeValueCode >> 28) & 1) > 0;
+            }
+
+            if(isMethodA)
+            {
+                // TODO: Method A
+                ReadScriptMetadata_Attribute_Payload_MethodA(decompressedStream);
+
+                attribute.Value = "TODO: MethodA";
+                return attribute;
+            }
+
+            bool isMethodB = false;
+            if ((attributeValueCode & 0xF0000000) > 0)
+            {
+                isMethodB = (attributeValueCode == 0x10000000);
+            }
+            else
+            {
+                isMethodB = ((attributeValueCode >> 28) & 1) > 0;
+            }
+
+            if(isMethodB)
+            {
+                // TODO: Method B
+                ReadScriptMetadata_Property_Attributes(decompressedStream);
+
+                attribute.Value = "TODO: MethodB";
+                return attribute;
+            }
+            else
+            {
+                // TODO: Method C
+                attribute.Value = ReadScriptMetadata_Attribute_Payload_MethodC(decompressedStream, attributeValueCode, attribute.Version >= 11);
+                return attribute;
+            }
+        }
+
+        private void ReadScriptMetadata_Attribute_Payload_MethodA(BinaryReader decompressedStream)
+        {
+            var version = decompressedStream.ReadInt32();
+            var numAttributes = decompressedStream.ReadInt32();
+
+            for (int i = 0; i < numAttributes; i++)
+            {
+                var unknown = ReadString(decompressedStream);
+                ReadScriptMetadata_Attribute_Payload(decompressedStream);
+            }
+        }
+
+        private object ReadScriptMetadata_Attribute_Payload_MethodC(BinaryReader decompressedStream, int attributeValueCode, bool isNewVersion)
+        {
+            object attributeValue = new object();
+
             switch (attributeValueCode)
             {
                 case TypeCode.System_Boolean: // 4101
@@ -177,131 +383,7 @@ namespace LibSanBag.FileResources
                     break;
             }
 
-            return new KeyValuePair<string, string>(attributeKey, attributeValue.ToString());
-        }
-
-        public virtual PropertyEntry ReadProperty(BinaryReader decompressedStream, bool isFirstProperty, ref bool hasEncounteredFirstAttribute, ref int attributesVersion)
-        {
-            var name = ReadString(decompressedStream);
-            var type = ReadString(decompressedStream);
-            var typeCode = decompressedStream.ReadInt32();
-
-            var attributes = new List<KeyValuePair<string, string>>();
-            var attributesAreAvailable = true;
-            if (isFirstProperty)
-            {
-                attributesAreAvailable = decompressedStream.ReadInt32() != 0;
-            }
-            
-            if (attributesAreAvailable)
-            {
-                var numAttributes = decompressedStream.ReadInt32();
-                if (numAttributes > 0)
-                {
-                    if (hasEncounteredFirstAttribute == false)
-                    {
-                        // Is this a version? it seems to increment every few versions (currently 7 with 40d13e1007d2d696 and 6 with bae7f85fc2f176e7)
-                        attributesVersion = decompressedStream.ReadInt32();
-                        hasEncounteredFirstAttribute = true;
-                    }
-
-                    for (var attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++)
-                    {
-                        var attribute = ReadAttribute(decompressedStream);
-                        attributes.Add(attribute);
-                    }
-                }
-            }
-
-            return new PropertyEntry()
-            {
-                Name = name,
-                Type = type,
-                Attributes = attributes
-            };
-        }
-
-        public virtual string ReadString(BinaryReader decompressedStream)
-        {
-            var textLength = decompressedStream.ReadInt32();
-            var text = new string(decompressedStream.ReadChars(textLength));
-
-            return text;
-        }
-
-        public static ScriptMetadataResource Create(string version = "")
-        {
-            return new ScriptMetadataResource_v1();
-        }
-
-        public static Type GetTypeFor(string version = "")
-        {
-            return typeof(ScriptMetadataResource_v1);
-        }
-    }
-
-    public class ScriptMetadataResource_v1 : ScriptMetadataResource
-    {
-        public override bool IsCompressed => true;
-
-        public override void InitFromRawDecompressed(byte[] decompressedBytes)
-        {
-            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
-            {
-                Warnings = ReadString(decompressedStream);
-
-                UnknownA = decompressedStream.ReadInt32(); // 0
-                UnknownB = decompressedStream.ReadInt32(); // 0
-
-                UnknownC = decompressedStream.ReadInt32();
-                if (UnknownC > 0)
-                {
-                    ScriptCount = decompressedStream.ReadInt32();
-
-                    if (ScriptCount > 0)
-                    {
-                        UnknownE = decompressedStream.ReadInt32();
-                    }
-                }
-                
-                if (ScriptCount > 0)
-                {
-                    var hasEncounteredFirstAttribute = false;
-                    var hasEncounteredFirstProperty = false;
-                    var attributesVersion = 0;
-
-                    for (int i = 0; i < ScriptCount; i++)
-                    {
-                        var script = ReadScript(decompressedStream, i == 0, UnknownE, ref hasEncounteredFirstProperty, ref hasEncounteredFirstAttribute, ref attributesVersion);
-                        Scripts.Add(script);
-                    }
-
-                    AttributesVersion = attributesVersion;
-                    DefaultScript = ReadString(decompressedStream);
-                }
-
-                var stringsAreAvailable = decompressedStream.ReadInt32() != 0;
-                if (stringsAreAvailable)
-                {
-                    var stringCount = decompressedStream.ReadInt32();
-                    Strings = new List<KeyValuePair<string, string>>(stringCount);
-
-                    for (var stringIndex = 0; stringIndex < stringCount; ++stringIndex)
-                    {
-                        var key = ReadString(decompressedStream);
-                        var value = ReadString(decompressedStream);
-
-                        Strings.Add(new KeyValuePair<string, string>(key, value));
-                    }
-                }
-
-                // I'm sure there's a flag or something for this...
-                if(decompressedStream.BaseStream.Length - decompressedStream.BaseStream.Position >= 4)
-                {
-                    HasAssemblyTooltip = true;
-                    AssemblyTooltip = ReadString(decompressedStream);
-                }
-            }
+            return attributeValue;
         }
     }
 }

@@ -11,6 +11,7 @@ namespace LibSanBag.FileResources
     public abstract class BaseFileResource
     {
         public abstract bool IsCompressed { get; }
+        public int ResourceVersion { get; set; }
 
         public void InitFromRecord(Stream sourceStream, FileRecord fileRecord)
         {
