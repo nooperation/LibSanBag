@@ -41,13 +41,11 @@ namespace LibSanBag.FileResources
             public string Name { get; set; }
             public string Type { get; set; }
             public PropertyAttributes Attributes { get; set; }
-            public int Version { get; internal set; }
             public int TypeCode { get; internal set; }
         }
 
         public struct PropertyAttributes
         {
-            public int Version { get; set; }
             public List<PropertyAttribute> Attributes { get; set; }
         }
 
@@ -55,17 +53,14 @@ namespace LibSanBag.FileResources
         {
             public string Key { get; set; }
             public object Value { get; set; }
-            public int Version { get; internal set; }
         }
 
         public class ScriptMetadata
         {
-            public int Version { get; set; }
             public string ClassName { get; set; }
             public string DisplayName { get; set; }
             public string Tooltip { get; set; }
             public int UnknownA { get; set; }
-            public int PayloadVersion { get; set; }
 
             public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
 
@@ -77,9 +72,9 @@ namespace LibSanBag.FileResources
 
         public string AssemblyTooltip { get; set; }
         public string ScriptSourceTextName { get; set; }
-        public string Warnings { get; set; }
+        public string BuildWarnings { get; set; }
         public string DefaultScript { get; set; }
-        public string UnknonwStrings { get; set; }
+        public string OtherWarnings { get; set; }
         public int UnknownB { get; set; }
         public int ScriptCount { get; set; }
         public bool HasAssemblyTooltip { get; set; }
@@ -127,8 +122,8 @@ namespace LibSanBag.FileResources
                     ScriptSourceTextName = ReadString(decompressedStream);
                 }
 
-                Warnings = ReadString(decompressedStream);
-                UnknonwStrings = ReadString(decompressedStream); // Error strings? unknown strings
+                BuildWarnings = ReadString(decompressedStream);
+                OtherWarnings = ReadString(decompressedStream); // Error strings? unknown strings
                 UnknownB = decompressedStream.ReadInt32(); // 0, property type code or something. i don't know
 
                 if(ResourceVersion >= 4)
@@ -143,7 +138,6 @@ namespace LibSanBag.FileResources
                     script.ClassName = "";
                     script.DisplayName = "";
                     script.Properties = new List<PropertyEntry>();
-                    script.Version = 0;
 
                     ParseScriptPayload_V4(decompressedStream, script);
 
@@ -173,9 +167,14 @@ namespace LibSanBag.FileResources
             }
         }
 
+        private int? ScriptsVersion = null;
         private List<ScriptMetadata> ParseScripts_V4(BinaryReader decompressedStream)
         {
-            var Version = decompressedStream.ReadInt32();
+            if(ScriptsVersion == null)
+            {
+                ScriptsVersion = decompressedStream.ReadInt32();
+            }
+
             var scriptCount = decompressedStream.ReadInt32();
 
             List<ScriptMetadata> scripts = new List<ScriptMetadata>();
@@ -188,16 +187,19 @@ namespace LibSanBag.FileResources
             return scripts;
         }
 
+        private int? ScriptVersion = null;
         private ScriptMetadata ParseScript_V4(BinaryReader decompressedStream)
         {
-            var script = new ScriptMetadata();
-            script.PayloadVersion = 0;
-            script.Properties = new List<PropertyEntry>();
+            if(ScriptVersion == null)
+            {
+                ScriptVersion = decompressedStream.ReadInt32();
+            }
 
-            script.Version = decompressedStream.ReadInt32();
+            var script = new ScriptMetadata();
+            script.Properties = new List<PropertyEntry>();
             script.ClassName = ReadString(decompressedStream);
 
-            if (script.Version >= 2)
+            if (ScriptVersion >= 2)
             {
                 // Unknown - does not seem to affect resource parsing (output only)
                 script.UnknownA = decompressedStream.ReadInt32();
@@ -205,7 +207,7 @@ namespace LibSanBag.FileResources
 
             ParseScriptPayload_V4(decompressedStream, script);
 
-            if(script.Version >= 3)
+            if(ScriptVersion >= 3)
             {
                 script.DisplayName = ReadString(decompressedStream);
                 script.Tooltip = ReadString(decompressedStream);
@@ -214,9 +216,14 @@ namespace LibSanBag.FileResources
             return script;
         }
 
+        private int? ScriptPayloadVersion = null;
         private void ParseScriptPayload_V4(BinaryReader decompressedStream, ScriptMetadata script)
         {
-            script.PayloadVersion = decompressedStream.ReadInt32();
+            if (ScriptPayloadVersion == null)
+            {
+                ScriptPayloadVersion = decompressedStream.ReadInt32();
+            }
+
             var propertyCount = decompressedStream.ReadInt32();
 
             script.Properties = new List<PropertyEntry>();
@@ -227,10 +234,15 @@ namespace LibSanBag.FileResources
             }
         }
 
+        private int? PropertyVersion = null;
         private PropertyEntry ParseScriptProperty_V4(BinaryReader decompressedStream)
         {
+            if (PropertyVersion == null)
+            {
+                PropertyVersion = decompressedStream.ReadInt32();
+            }
+
             var prop = new PropertyEntry();
-            prop.Version = decompressedStream.ReadInt32();
             prop.Name = ReadString(decompressedStream);
             prop.Type = ReadString(decompressedStream);
             prop.TypeCode = decompressedStream.ReadInt32();
@@ -239,11 +251,15 @@ namespace LibSanBag.FileResources
             return prop;
         }
 
+        private int? AttributeVersion = null;
         private PropertyAttributes ReadScriptMetadata_Property_Attributes(BinaryReader decompressedStream)
         {
-            var attributes = new PropertyAttributes();
+            if (AttributeVersion == null)
+            {
+                AttributeVersion = decompressedStream.ReadInt32();
+            }
 
-            attributes.Version = decompressedStream.ReadInt32();
+            var attributes = new PropertyAttributes();
             var numAttributes = decompressedStream.ReadInt32();
 
             attributes.Attributes = new List<PropertyAttribute>();
@@ -256,14 +272,19 @@ namespace LibSanBag.FileResources
             return attributes;
         }
 
+        private int? AttributePayloadVersion = null;
         private PropertyAttribute ReadScriptMetadata_Attribute_Payload(BinaryReader decompressedStream)
         {
+            if (AttributePayloadVersion == null)
+            {
+                AttributePayloadVersion = decompressedStream.ReadInt32();
+            }
+
             var attribute = new PropertyAttribute();
-            attribute.Version = decompressedStream.ReadInt32();
             attribute.Key = ReadString(decompressedStream);
             attribute.Value = "";
 
-            if (attribute.Version < 6)
+            if (AttributePayloadVersion < 6)
             {
                 // Do some nasty crap here. NO-OP stuff?
             }
@@ -307,17 +328,20 @@ namespace LibSanBag.FileResources
                 attribute.Value = "TODO: MethodB";
                 return attribute;
             }
-            else
-            {
-                // TODO: Method C
-                attribute.Value = ReadScriptMetadata_Attribute_Payload_MethodC(decompressedStream, attributeValueCode, attribute.Version >= 11);
-                return attribute;
-            }
+
+
+            // TODO: Method C - This is the standard case. Stream just points to a value we need to read.
+            attribute.Value = ReadScriptMetadata_Attribute_Payload_MethodC(decompressedStream, attributeValueCode, AttributePayloadVersion >= 11);
+            return attribute;
         }
 
         private void ReadScriptMetadata_Attribute_Payload_MethodA(BinaryReader decompressedStream)
         {
-            var version = decompressedStream.ReadInt32();
+            if (AttributePayloadVersion == null)
+            {
+                AttributePayloadVersion = decompressedStream.ReadInt32();
+            }
+
             var numAttributes = decompressedStream.ReadInt32();
 
             for (int i = 0; i < numAttributes; i++)
