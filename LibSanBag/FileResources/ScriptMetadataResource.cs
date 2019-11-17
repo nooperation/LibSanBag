@@ -143,7 +143,7 @@ namespace LibSanBag.FileResources
 
                 BuildWarnings = ReadString(decompressedStream);
                 OtherWarnings = ReadString(decompressedStream);
-                UsesRestrictedAPI = decompressedStream.ReadInt32(); // 0, property type code or something. i don't know
+                UsesRestrictedAPI = decompressedStream.ReadInt32();
 
                 if(ResourceVersion >= 4)
                 {
@@ -156,9 +156,7 @@ namespace LibSanBag.FileResources
                     ScriptMetadata script = new ScriptMetadata();
                     script.ClassName = "";
                     script.DisplayName = "";
-                    script.Properties = new List<PropertyEntry>();
-
-                    ParseScriptPayload_V4(decompressedStream, script);
+                    script.Properties = ParseScriptPayload_V4(decompressedStream);
 
                     Scripts = new List<ScriptMetadata>() { script };
                 }
@@ -223,7 +221,7 @@ namespace LibSanBag.FileResources
                 script.UnknownA = decompressedStream.ReadInt32();
             }
 
-            ParseScriptPayload_V4(decompressedStream, script);
+            script.Properties = ParseScriptPayload_V4(decompressedStream);
 
             if(ScriptVersion >= 3)
             {
@@ -235,7 +233,7 @@ namespace LibSanBag.FileResources
         }
 
         private int? ScriptPayloadVersion = null;
-        private void ParseScriptPayload_V4(BinaryReader decompressedStream, ScriptMetadata script)
+        private List<PropertyEntry> ParseScriptPayload_V4(BinaryReader decompressedStream)
         {
             if (ScriptPayloadVersion == null)
             {
@@ -244,12 +242,14 @@ namespace LibSanBag.FileResources
 
             var propertyCount = decompressedStream.ReadInt32();
 
-            script.Properties = new List<PropertyEntry>();
+            var properties = new List<PropertyEntry>();
             for (int propertyIndex = 0; propertyIndex < propertyCount; propertyIndex++)
             {
                 var prop = ParseScriptProperty_V4(decompressedStream);
-                script.Properties.Add(prop);
+                properties.Add(prop);
             }
+
+            return properties;
         }
 
         private int? PropertyVersion = null;
