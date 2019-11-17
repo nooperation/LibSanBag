@@ -1,28 +1,47 @@
 {
   "IsCompressed": true,
+  "AssemblyTooltip": null,
   "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
-  "AssemblyName": null,
-  "Warnings": "",
-  "Properties": [
+  "BuildWarnings": null,
+  "DefaultScript": null,
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": null,
+  "ScriptVersion": null,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": null,
+  "Scripts": [
     {
-      "Name": "DynamicObjectExample::Speed",
-      "Type": "System.Single",
-      "Attributes": []
-    },
-    {
-      "Name": "DynamicObjectExample::Chaos",
-      "Type": "System.Single",
-      "Attributes": []
-    },
-    {
-      "Name": "DynamicObjectExample::Range",
-      "Type": "System.Single",
-      "Attributes": []
-    },
-    {
-      "Name": "DynamicObjectExample::LogCommand",
-      "Type": "System.String",
-      "Attributes": []
+      "ClassName": "",
+      "DisplayName": "",
+      "Tooltip": null,
+      "UnknownA": 0,
+      "Properties": [
+        {
+          "Name": "DynamicObjectExample::Speed",
+          "Type": "System.Single",
+          "Attributes": []
+        },
+        {
+          "Name": "DynamicObjectExample::Chaos",
+          "Type": "System.Single",
+          "Attributes": []
+        },
+        {
+          "Name": "DynamicObjectExample::Range",
+          "Type": "System.Single",
+          "Attributes": []
+        },
+        {
+          "Name": "DynamicObjectExample::LogCommand",
+          "Type": "System.String",
+          "Attributes": []
+        }
+      ]
     }
   ],
   "Strings": [
@@ -42,5 +61,6 @@
       "Key": "ServiceVersion",
       "Value": "f202645.195"
     }
-  ]
+  ],
+  "ResourceVersion": 2
 }

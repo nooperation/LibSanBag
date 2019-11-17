@@ -47,6 +47,8 @@ namespace LibSanBag.FileResources
 
             using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
+                ResourceVersion = br.ReadInt32();
+
                 var unknown2 = br.ReadUInt32();
                 var numUnknownVals1 = br.ReadUInt32();
                 var numUnknownVals1Flag = br.ReadUInt32();

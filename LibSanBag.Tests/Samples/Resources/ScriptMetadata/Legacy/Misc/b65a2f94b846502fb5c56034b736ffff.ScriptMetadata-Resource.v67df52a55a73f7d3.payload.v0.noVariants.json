@@ -1,36 +1,58 @@
 {
   "IsCompressed": true,
+  "AssemblyTooltip": null,
   "ScriptSourceTextName": null,
-  "AssemblyName": null,
-  "Warnings": "",
-  "Properties": [
+  "BuildWarnings": null,
+  "DefaultScript": null,
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": null,
+  "ScriptVersion": null,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 5,
+  "Scripts": [
     {
-      "Name": "Boost::Forward_Key",
-      "Type": "System.String",
-      "Attributes": [
+      "ClassName": "",
+      "DisplayName": "",
+      "Tooltip": null,
+      "UnknownA": 0,
+      "Properties": [
         {
-          "Key": "Description",
-          "Value": "Hotkey to press to boost forward"
-        }
-      ]
-    },
-    {
-      "Name": "Boost::Forward_Key_Fast",
-      "Type": "System.String",
-      "Attributes": [
+          "Name": "Boost::Forward_Key",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Name": "Description",
+              "Type": "System.String",
+              "Value": "Hotkey to press to boost forward"
+            }
+          ]
+        },
         {
-          "Key": "Description",
-          "Value": "Hotkey to press to boost forward faster"
-        }
-      ]
-    },
-    {
-      "Name": "Boost::Forward_Key_Faster",
-      "Type": "System.String",
-      "Attributes": [
+          "Name": "Boost::Forward_Key_Fast",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Name": "Description",
+              "Type": "System.String",
+              "Value": "Hotkey to press to boost forward faster"
+            }
+          ]
+        },
         {
-          "Key": "Description",
-          "Value": "Hotkey to press to boost forward even faster"
+          "Name": "Boost::Forward_Key_Faster",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Name": "Description",
+              "Type": "System.String",
+              "Value": "Hotkey to press to boost forward even faster"
+            }
+          ]
         }
       ]
     }
@@ -52,5 +74,6 @@
       "Key": "ServiceVersion",
       "Value": "67d6708.222"
     }
-  ]
+  ],
+  "ResourceVersion": 3
 }

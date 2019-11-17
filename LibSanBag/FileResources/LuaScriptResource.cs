@@ -39,6 +39,8 @@ namespace LibSanBag.FileResources
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
+                ResourceVersion = decompressedStream.ReadInt32();
+
                 var nameLength = decompressedStream.ReadInt32();
                 var nameChars = decompressedStream.ReadChars(nameLength);
                 Filename = new string(nameChars);

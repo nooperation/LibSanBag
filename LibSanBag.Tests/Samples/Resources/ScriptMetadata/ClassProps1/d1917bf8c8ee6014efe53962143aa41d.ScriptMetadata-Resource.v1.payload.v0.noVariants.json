@@ -1,30 +1,33 @@
 {
   "IsCompressed": true,
-  "AssemblyTooltip": "",
-  "Warnings": "",
+  "AssemblyTooltip": null,
+  "ScriptSourceTextName": null,
+  "BuildWarnings": null,
   "DefaultScript": "ClasProps1",
-  "UnknownA": 0,
-  "UnknownB": 0,
-  "UnknownC": 1,
-  "ScriptCount": 1,
-  "UnknownE": 3,
-  "HasAssemblyTooltip": true,
-  "AttributesVersion": 9,
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 3,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 9,
   "Scripts": [
     {
       "ClassName": "ClasProps1",
       "DisplayName": "This is the display name",
       "Tooltip": "ClasProps1",
-      "UnknownF": 2,
-      "UnknownG": 1,
-      "UnknownH": 1,
+      "UnknownA": 2,
       "Properties": [
         {
           "Name": "ExampleStringWithTooltip",
           "Type": "System.String",
           "Attributes": [
             {
-              "Key": "Tooltip.0",
+              "Name": "Tooltip.0",
+              "Type": "System.String",
               "Value": "Helpful text"
             }
           ]
@@ -49,5 +52,6 @@
       "Key": "ServiceVersion",
       "Value": "ace5db1.157004"
     }
-  ]
+  ],
+  "ResourceVersion": 5
 }
