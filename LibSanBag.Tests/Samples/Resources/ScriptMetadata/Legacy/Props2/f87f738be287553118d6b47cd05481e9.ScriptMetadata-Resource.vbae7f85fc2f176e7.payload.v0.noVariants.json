@@ -1,108 +1,138 @@
 {
   "IsCompressed": true,
+  "AssemblyTooltip": null,
   "ScriptSourceTextName": null,
-  "AssemblyName": "ExampleScript",
-  "Warnings": "/tmp/sansar-script-524318490/source0.cs(50,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
-  "Properties": [
+  "BuildWarnings": "/tmp/sansar-script-524318490/source0.cs(50,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "DefaultScript": "ExampleScript",
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 1,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 6,
+  "Scripts": [
     {
-      "Name": "ExampleStringPropertyDefaultDisplay",
-      "Type": "System.String",
-      "Attributes": [
+      "ClassName": "ExampleScript",
+      "DisplayName": null,
+      "Tooltip": null,
+      "UnknownA": 0,
+      "Properties": [
         {
-          "Key": "DefaultValue.0",
-          "Value": "Example Default Value"
+          "Name": "ExampleStringPropertyDefaultDisplay",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
+              "Value": "Example Default Value"
+            },
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
         },
         {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleStringPropertyDisplay",
-      "Type": "System.String",
-      "Attributes": [
-        {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleStringPropertyDefault",
-      "Type": "System.String",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "Example Default Value"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleStringProperty",
-      "Type": "System.String",
-      "Attributes": []
-    },
-    {
-      "Name": "ExampleIntPropertyDefaultDisplay",
-      "Type": "System.Int32",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "42"
+          "Name": "ExampleStringPropertyDisplay",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
         },
         {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleIntPropertyDefault",
-      "Type": "System.Int32",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "42"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleIntPropertyDisplay",
-      "Type": "System.Int32",
-      "Attributes": [
-        {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleIntProperty",
-      "Type": "System.Int32",
-      "Attributes": []
-    },
-    {
-      "Name": "ExampleDoublePropertyDefault42Display",
-      "Type": "System.Double",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "42"
+          "Name": "ExampleStringPropertyDefault",
+          "Type": "System.String",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
+              "Value": "Example Default Value"
+            }
+          ]
         },
         {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleDoublePropertyDefault42",
-      "Type": "System.Double",
-      "Attributes": [
+          "Name": "ExampleStringProperty",
+          "Type": "System.String",
+          "Attributes": []
+        },
         {
-          "Key": "DefaultValue.0",
-          "Value": "42"
+          "Name": "ExampleIntPropertyDefaultDisplay",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 42
+            },
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
+        },
+        {
+          "Name": "ExampleIntPropertyDefault",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 42
+            }
+          ]
+        },
+        {
+          "Name": "ExampleIntPropertyDisplay",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
+        },
+        {
+          "Name": "ExampleIntProperty",
+          "Type": "System.Int32",
+          "Attributes": []
+        },
+        {
+          "Name": "ExampleDoublePropertyDefault42Display",
+          "Type": "System.Double",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 42
+            },
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
+        },
+        {
+          "Name": "ExampleDoublePropertyDefault42",
+          "Type": "System.Double",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 42
+            }
+          ]
         }
       ]
     }
@@ -124,5 +154,6 @@
       "Key": "ServiceVersion",
       "Value": "021bbe8.286"
     }
-  ]
+  ],
+  "ResourceVersion": 4
 }

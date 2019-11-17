@@ -1,186 +1,235 @@
 {
   "IsCompressed": true,
+  "AssemblyTooltip": null,
   "ScriptSourceTextName": null,
-  "AssemblyName": "ExampleScript",
-  "Warnings": "/tmp/sansar-script-274825429/source0.cs(53,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
-  "Properties": [
+  "BuildWarnings": "/tmp/sansar-script-274825429/source0.cs(53,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "DefaultScript": "ExampleScript",
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 2,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 8,
+  "Scripts": [
     {
-      "Name": "Prop1",
-      "Type": "System.SByte",
-      "Attributes": [
+      "ClassName": "ExampleScript",
+      "DisplayName": null,
+      "Tooltip": null,
+      "UnknownA": 2,
+      "Properties": [
         {
-          "Key": "DefaultValue.0",
-          "Value": "1"
+          "Name": "Prop1",
+          "Type": "System.SByte",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": -50
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 50
+            }
+          ]
         },
         {
-          "Key": "Range.0",
-          "Value": "-50"
+          "Name": "Prop2",
+          "Type": "System.Byte",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": 0
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 100
+            }
+          ]
         },
         {
-          "Key": "Range.1",
-          "Value": "50"
-        }
-      ]
-    },
-    {
-      "Name": "Prop2",
-      "Type": "System.Byte",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "1"
+          "Name": "Prop3",
+          "Type": "System.Int16",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": -50
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 50
+            }
+          ]
         },
         {
-          "Key": "Range.0",
-          "Value": "0"
+          "Name": "Prop4",
+          "Type": "System.UInt16",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": 0
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 100
+            }
+          ]
         },
         {
-          "Key": "Range.1",
-          "Value": "100"
-        }
-      ]
-    },
-    {
-      "Name": "Prop3",
-      "Type": "System.Int16",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "1"
+          "Name": "Prop5",
+          "Type": "System.Int32",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": -50
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 50
+            }
+          ]
         },
         {
-          "Key": "Range.0",
-          "Value": "-50"
+          "Name": "Prop6",
+          "Type": "System.UInt32",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": 0
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 100
+            }
+          ]
         },
         {
-          "Key": "Range.1",
-          "Value": "50"
-        }
-      ]
-    },
-    {
-      "Name": "Prop4",
-      "Type": "System.UInt16",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "1"
+          "Name": "Prop7",
+          "Type": "System.Int64",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": -50
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 50
+            }
+          ]
         },
         {
-          "Key": "Range.0",
-          "Value": "0"
+          "Name": "Prop8",
+          "Type": "System.UInt64",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": 0
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 100
+            }
+          ]
         },
         {
-          "Key": "Range.1",
-          "Value": "100"
-        }
-      ]
-    },
-    {
-      "Name": "Prop5",
-      "Type": "System.Int32",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "1"
+          "Name": "Prop9",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": -50
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 50
+            }
+          ]
         },
         {
-          "Key": "Range.0",
-          "Value": "-50"
-        },
-        {
-          "Key": "Range.1",
-          "Value": "50"
-        }
-      ]
-    },
-    {
-      "Name": "Prop6",
-      "Type": "System.UInt32",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "1"
-        },
-        {
-          "Key": "Range.0",
-          "Value": "0"
-        },
-        {
-          "Key": "Range.1",
-          "Value": "100"
-        }
-      ]
-    },
-    {
-      "Name": "Prop7",
-      "Type": "System.Int64",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "1"
-        },
-        {
-          "Key": "Range.0",
-          "Value": "-50"
-        },
-        {
-          "Key": "Range.1",
-          "Value": "50"
-        }
-      ]
-    },
-    {
-      "Name": "Prop8",
-      "Type": "System.UInt64",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "1"
-        },
-        {
-          "Key": "Range.0",
-          "Value": "0"
-        },
-        {
-          "Key": "Range.1",
-          "Value": "100"
-        }
-      ]
-    },
-    {
-      "Name": "Prop9",
-      "Type": "System.Single",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "1"
-        },
-        {
-          "Key": "Range.0",
-          "Value": "-50"
-        },
-        {
-          "Key": "Range.1",
-          "Value": "50"
-        }
-      ]
-    },
-    {
-      "Name": "Prop10",
-      "Type": "System.Double",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "1"
-        },
-        {
-          "Key": "Range.0",
-          "Value": "-50"
-        },
-        {
-          "Key": "Range.1",
-          "Value": "50"
+          "Name": "Prop10",
+          "Type": "System.Double",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 1
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Int64",
+              "Value": -50
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Int64",
+              "Value": 50
+            }
+          ]
         }
       ]
     }
@@ -202,5 +251,6 @@
       "Key": "ServiceVersion",
       "Value": "021bbe8.286"
     }
-  ]
+  ],
+  "ResourceVersion": 4
 }

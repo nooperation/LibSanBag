@@ -1,108 +1,139 @@
 {
   "IsCompressed": true,
+  "AssemblyTooltip": null,
   "ScriptSourceTextName": null,
-  "AssemblyName": "ExampleScript",
-  "Warnings": "/tmp/sansar-script-537226007/source0.cs(42,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
-  "Properties": [
+  "BuildWarnings": "/tmp/sansar-script-537226007/source0.cs(42,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "DefaultScript": "ExampleScript",
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 2,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 8,
+  "Scripts": [
     {
-      "Name": "ExampleDoubleRangeAll",
-      "Type": "System.Double",
-      "Attributes": [
+      "ClassName": "ExampleScript",
+      "DisplayName": null,
+      "Tooltip": null,
+      "UnknownA": 2,
+      "Properties": [
         {
-          "Key": "DefaultValue.0",
-          "Value": "42.42"
+          "Name": "ExampleDoubleRangeAll",
+          "Type": "System.Double",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Double",
+              "Value": 42.42
+            },
+            {
+              "Name": "Range.0",
+              "Type": "System.Double",
+              "Value": 1.234
+            },
+            {
+              "Name": "Range.1",
+              "Type": "System.Double",
+              "Value": 40.42
+            },
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
         },
         {
-          "Key": "Range.0",
-          "Value": "1.234"
+          "Name": "ExampleDoubleDefault42Display",
+          "Type": "System.Double",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Double",
+              "Value": 42.42
+            },
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
         },
         {
-          "Key": "Range.1",
-          "Value": "40.42"
+          "Name": "ExampleDoubleDefault42",
+          "Type": "System.Double",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Double",
+              "Value": 42.42
+            }
+          ]
         },
         {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleDoubleDefault42Display",
-      "Type": "System.Double",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "42.42"
+          "Name": "ExampleDoubleDisplay",
+          "Type": "System.Double",
+          "Attributes": [
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
         },
         {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleDoubleDefault42",
-      "Type": "System.Double",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "42.42"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleDoubleDisplay",
-      "Type": "System.Double",
-      "Attributes": [
-        {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleDouble",
-      "Type": "System.Double",
-      "Attributes": []
-    },
-    {
-      "Name": "ExampleVectorDefaultDisplay",
-      "Type": "Sansar.Vector",
-      "Attributes": [
-        {
-          "Key": "DefaultValue.0",
-          "Value": "<1.2,3.4,5.6>"
+          "Name": "ExampleDouble",
+          "Type": "System.Double",
+          "Attributes": []
         },
         {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleVectorDefault",
-      "Type": "Sansar.Vector",
-      "Attributes": [
+          "Name": "ExampleVectorDefaultDisplay",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
+              "Value": "<1.2,3.4,5.6>"
+            },
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
+        },
         {
-          "Key": "DefaultValue.0",
-          "Value": "<1.2,3.4,5.6>"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleVectorDisplay",
-      "Type": "Sansar.Vector",
-      "Attributes": [
+          "Name": "ExampleVectorDefault",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
+              "Value": "<1.2,3.4,5.6>"
+            }
+          ]
+        },
         {
-          "Key": "DisplayName.0",
-          "Value": "Example Display Name"
+          "Name": "ExampleVectorDisplay",
+          "Type": "Sansar.Vector",
+          "Attributes": [
+            {
+              "Name": "DisplayName.0",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
+        },
+        {
+          "Name": "ExampleVector",
+          "Type": "Sansar.Vector",
+          "Attributes": []
         }
       ]
-    },
-    {
-      "Name": "ExampleVector",
-      "Type": "Sansar.Vector",
-      "Attributes": []
     }
   ],
   "Strings": [
@@ -122,5 +153,6 @@
       "Key": "ServiceVersion",
       "Value": "021bbe8.286"
     }
-  ]
+  ],
+  "ResourceVersion": 4
 }

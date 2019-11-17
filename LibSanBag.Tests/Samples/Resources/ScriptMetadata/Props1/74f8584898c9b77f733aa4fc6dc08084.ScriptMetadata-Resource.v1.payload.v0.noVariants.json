@@ -1,42 +1,48 @@
 {
   "IsCompressed": true,
   "AssemblyTooltip": null,
-  "Warnings": "/tmp/sansar-script-537226007/source0.cs(42,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "ScriptSourceTextName": null,
+  "BuildWarnings": "/tmp/sansar-script-537226007/source0.cs(42,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
   "DefaultScript": "ExampleScript",
-  "UnknownA": 0,
-  "UnknownB": 0,
-  "UnknownC": 1,
-  "ScriptCount": 1,
-  "UnknownE": 2,
-  "HasAssemblyTooltip": false,
-  "AttributesVersion": 8,
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 2,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 8,
   "Scripts": [
     {
       "ClassName": "ExampleScript",
       "DisplayName": null,
       "Tooltip": null,
-      "UnknownF": 2,
-      "UnknownG": 1,
-      "UnknownH": 1,
+      "UnknownA": 2,
       "Properties": [
         {
           "Name": "ExampleDoubleRangeAll",
           "Type": "System.Double",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
-              "Value": "42.42"
+              "Name": "DefaultValue.0",
+              "Type": "System.Double",
+              "Value": 42.42
             },
             {
-              "Key": "Range.0",
-              "Value": "1.234"
+              "Name": "Range.0",
+              "Type": "System.Double",
+              "Value": 1.234
             },
             {
-              "Key": "Range.1",
-              "Value": "40.42"
+              "Name": "Range.1",
+              "Type": "System.Double",
+              "Value": 40.42
             },
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -46,11 +52,13 @@
           "Type": "System.Double",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
-              "Value": "42.42"
+              "Name": "DefaultValue.0",
+              "Type": "System.Double",
+              "Value": 42.42
             },
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -60,8 +68,9 @@
           "Type": "System.Double",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
-              "Value": "42.42"
+              "Name": "DefaultValue.0",
+              "Type": "System.Double",
+              "Value": 42.42
             }
           ]
         },
@@ -70,7 +79,8 @@
           "Type": "System.Double",
           "Attributes": [
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -85,11 +95,13 @@
           "Type": "Sansar.Vector",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
               "Value": "<1.2,3.4,5.6>"
             },
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -99,7 +111,8 @@
           "Type": "Sansar.Vector",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
               "Value": "<1.2,3.4,5.6>"
             }
           ]
@@ -109,7 +122,8 @@
           "Type": "Sansar.Vector",
           "Attributes": [
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -139,5 +153,6 @@
       "Key": "ServiceVersion",
       "Value": "021bbe8.286"
     }
-  ]
+  ],
+  "ResourceVersion": 4
 }

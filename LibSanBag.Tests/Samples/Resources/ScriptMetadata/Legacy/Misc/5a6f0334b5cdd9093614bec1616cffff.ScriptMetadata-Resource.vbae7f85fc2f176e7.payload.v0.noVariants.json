@@ -1,21 +1,41 @@
 {
   "IsCompressed": true,
+  "AssemblyTooltip": null,
   "ScriptSourceTextName": null,
-  "AssemblyName": "MemDisp.MemoryDisplayClean",
-  "Warnings": "/tmp/sansar-script-745982185/source0.cs(19,32): warning CS0414: The private field `MemDisp.MemoryDisplayClean.memoryLevel' is assigned but its value is never used\n",
-  "Properties": [
+  "BuildWarnings": "/tmp/sansar-script-745982185/source0.cs(19,32): warning CS0414: The private field `MemDisp.MemoryDisplayClean.memoryLevel' is assigned but its value is never used\n",
+  "DefaultScript": "MemDisp.MemoryDisplayClean",
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 1,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 6,
+  "Scripts": [
     {
-      "Name": "DataPoint",
-      "Type": "Sansar.Simulation.ClusterResource",
-      "Attributes": []
-    },
-    {
-      "Name": "TimeInterval",
-      "Type": "System.Single",
-      "Attributes": [
+      "ClassName": "MemDisp.MemoryDisplayClean",
+      "DisplayName": null,
+      "Tooltip": null,
+      "UnknownA": 0,
+      "Properties": [
         {
-          "Key": "DefaultValue.0",
-          "Value": "60"
+          "Name": "DataPoint",
+          "Type": "Sansar.Simulation.ClusterResource",
+          "Attributes": []
+        },
+        {
+          "Name": "TimeInterval",
+          "Type": "System.Single",
+          "Attributes": [
+            {
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 60
+            }
+          ]
         }
       ]
     }
@@ -37,5 +57,6 @@
       "Key": "ServiceVersion",
       "Value": "021bbe8.286"
     }
-  ]
+  ],
+  "ResourceVersion": 4
 }

@@ -1,24 +1,44 @@
 {
   "IsCompressed": true,
-  "ScriptSourceTextName": "",
-  "AssemblyName": null,
-  "Warnings": "",
-  "Properties": [
+  "AssemblyTooltip": null,
+  "ScriptSourceTextName": null,
+  "BuildWarnings": null,
+  "DefaultScript": null,
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": null,
+  "ScriptVersion": null,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": null,
+  "Scripts": [
     {
-      "Name": "IntraRegionTP::Destination_X",
-      "Type": "System.Single",
-      "Attributes": []
-    },
-    {
-      "Name": "IntraRegionTP::Destination_Y",
-      "Type": "System.Single",
-      "Attributes": []
-    },
-    {
-      "Name": "IntraRegionTP::Destination_Z",
-      "Type": "System.Single",
-      "Attributes": []
+      "ClassName": "",
+      "DisplayName": "",
+      "Tooltip": null,
+      "UnknownA": 0,
+      "Properties": [
+        {
+          "Name": "IntraRegionTP::Destination_X",
+          "Type": "System.Single",
+          "Attributes": []
+        },
+        {
+          "Name": "IntraRegionTP::Destination_Y",
+          "Type": "System.Single",
+          "Attributes": []
+        },
+        {
+          "Name": "IntraRegionTP::Destination_Z",
+          "Type": "System.Single",
+          "Attributes": []
+        }
+      ]
     }
   ],
-  "Strings": []
+  "Strings": [],
+  "ResourceVersion": 2
 }

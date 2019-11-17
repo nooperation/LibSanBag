@@ -1,23 +1,25 @@
 {
   "IsCompressed": true,
   "AssemblyTooltip": "Assembly tooltip goes here",
-  "Warnings": "",
+  "ScriptSourceTextName": null,
+  "BuildWarnings": null,
   "DefaultScript": "AssemblyTooltip",
-  "UnknownA": 0,
-  "UnknownB": 0,
-  "UnknownC": 1,
-  "ScriptCount": 1,
-  "UnknownE": 3,
-  "HasAssemblyTooltip": true,
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
   "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 3,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": null,
+  "AttributeVersion": null,
+  "AttributePayloadVersion": null,
   "Scripts": [
     {
       "ClassName": "AssemblyTooltip",
       "DisplayName": "AssemblyTooltip",
       "Tooltip": "AssemblyTooltip",
-      "UnknownF": 2,
-      "UnknownG": 1,
-      "UnknownH": 0,
+      "UnknownA": 2,
       "Properties": []
     }
   ],
@@ -38,5 +40,6 @@
       "Key": "ServiceVersion",
       "Value": "ace5db1.157004"
     }
-  ]
+  ],
+  "ResourceVersion": 5
 }

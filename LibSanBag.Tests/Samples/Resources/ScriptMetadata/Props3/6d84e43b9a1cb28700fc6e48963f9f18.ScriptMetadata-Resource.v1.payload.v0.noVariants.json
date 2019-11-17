@@ -1,34 +1,38 @@
 {
   "IsCompressed": true,
   "AssemblyTooltip": null,
-  "Warnings": "/tmp/sansar-script-057276810/source0.cs(35,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "ScriptSourceTextName": null,
+  "BuildWarnings": "/tmp/sansar-script-057276810/source0.cs(35,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
   "DefaultScript": "ExampleScript",
-  "UnknownA": 0,
-  "UnknownB": 0,
-  "UnknownC": 1,
-  "ScriptCount": 1,
-  "UnknownE": 2,
-  "HasAssemblyTooltip": false,
-  "AttributesVersion": 8,
+  "OtherWarnings": null,
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 2,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 8,
   "Scripts": [
     {
       "ClassName": "ExampleScript",
       "DisplayName": null,
       "Tooltip": null,
-      "UnknownF": 2,
-      "UnknownG": 1,
-      "UnknownH": 1,
+      "UnknownA": 2,
       "Properties": [
         {
           "Name": "ExampleQuatDefaultDisplay",
           "Type": "Sansar.Quaternion",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
               "Value": "[1.2,3.4,5.6,7.8]"
             },
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -38,7 +42,8 @@
           "Type": "Sansar.Quaternion",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
               "Value": "[1.2,3.4,5.6,7.8]"
             }
           ]
@@ -48,7 +53,8 @@
           "Type": "Sansar.Quaternion",
           "Attributes": [
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -63,11 +69,13 @@
           "Type": "System.Boolean",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
-              "Value": "True"
+              "Name": "DefaultValue.0",
+              "Type": "System.Boolean",
+              "Value": true
             },
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -77,8 +85,9 @@
           "Type": "System.Boolean",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
-              "Value": "True"
+              "Name": "DefaultValue.0",
+              "Type": "System.Boolean",
+              "Value": true
             }
           ]
         },
@@ -87,7 +96,8 @@
           "Type": "System.Boolean",
           "Attributes": [
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -112,5 +122,6 @@
       "Key": "ServiceVersion",
       "Value": "021bbe8.286"
     }
-  ]
+  ],
+  "ResourceVersion": 4
 }
