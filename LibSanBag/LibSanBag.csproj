@@ -69,13 +69,6 @@
     <Compile Include="FileResources\BaseFileResource.cs" />
     <Compile Include="FileResources\GeometryResource.cs" />
     <Compile Include="FileResources\GeometryResourceCanonical.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResourceLegacy.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_0a316ea155e30eda.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_67df52a55a73f7d3.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_6f2e88a41a7f1dce.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_b8e35358a76fa32a.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_bae7f85fc2f176e7.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_d75de17df1892f86.cs" />
     <Compile Include="FileResources\ManifestResource.cs" />
     <Compile Include="FileResources\ScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\ScriptMetadataResource.cs" />
@@ -121,6 +114,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <Version>3.3.1</Version>
+    </PackageReference>
     <PackageReference Include="SanTools.LibCRN">
       <Version>1.0.8</Version>
     </PackageReference>

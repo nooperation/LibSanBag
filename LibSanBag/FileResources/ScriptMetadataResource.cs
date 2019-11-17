@@ -99,14 +99,25 @@ namespace LibSanBag.FileResources
         public int ScriptCount { get; set; }
         public int AttributesVersion { get; set; }
 
+        public int? ScriptsVersion { get; set; } = null;
+        public int? ScriptVersion { get; set; } = null;
+        public int? ScriptPayloadVersion { get; set; } = null;
+        public int? PropertyVersion { get; set; } = null;
+        public int? AttributeVersion { get; set; } = null;
+        public int? AttributePayloadVersion { get; set; } = null;
+
         public List<ScriptMetadata> Scripts { get; set; } = new List<ScriptMetadata>();
         public List<KeyValuePair<string, string>> Strings { get; set; } = new List<KeyValuePair<string, string>>();
 
         public virtual string ReadString(BinaryReader decompressedStream)
         {
             var textLength = decompressedStream.ReadInt32();
-            var text = new string(decompressedStream.ReadChars(textLength));
+            if(textLength == 0)
+            {
+                return null;
+            }
 
+            var text = new string(decompressedStream.ReadChars(textLength));
             return text;
         }
 
@@ -183,7 +194,6 @@ namespace LibSanBag.FileResources
             }
         }
 
-        private int? ScriptsVersion = null;
         private List<ScriptMetadata> ParseScripts_V4(BinaryReader decompressedStream)
         {
             if(ScriptsVersion == null)
@@ -203,7 +213,6 @@ namespace LibSanBag.FileResources
             return scripts;
         }
 
-        private int? ScriptVersion = null;
         private ScriptMetadata ParseScript_V4(BinaryReader decompressedStream)
         {
             if(ScriptVersion == null)
@@ -232,7 +241,6 @@ namespace LibSanBag.FileResources
             return script;
         }
 
-        private int? ScriptPayloadVersion = null;
         private List<PropertyEntry> ParseScriptPayload_V4(BinaryReader decompressedStream)
         {
             if (ScriptPayloadVersion == null)
@@ -252,7 +260,6 @@ namespace LibSanBag.FileResources
             return properties;
         }
 
-        private int? PropertyVersion = null;
         private PropertyEntry ParseScriptProperty_V4(BinaryReader decompressedStream)
         {
             if (PropertyVersion == null)
@@ -269,7 +276,6 @@ namespace LibSanBag.FileResources
             return prop;
         }
 
-        private int? AttributeVersion = null;
         private List<PropertyAttribute> ReadScriptMetadata_Property_Attributes(BinaryReader decompressedStream)
         {
             if (AttributeVersion == null)
@@ -289,7 +295,6 @@ namespace LibSanBag.FileResources
             return attributes;
         }
 
-        private int? AttributePayloadVersion = null;
         private PropertyAttribute ReadScriptMetadata_Attribute_Payload(BinaryReader decompressedStream)
         {
             if (AttributePayloadVersion == null)
