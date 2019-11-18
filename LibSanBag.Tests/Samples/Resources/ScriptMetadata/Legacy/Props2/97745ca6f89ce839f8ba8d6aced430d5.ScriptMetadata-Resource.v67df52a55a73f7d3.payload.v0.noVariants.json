@@ -1,10 +1,10 @@
 {
   "IsCompressed": true,
-  "AssemblyTooltip": null,
-  "ScriptSourceTextName": null,
+  "AssemblyTooltip": "",
+  "ScriptSourceTextName": "",
   "BuildWarnings": "/tmp/sansar-script-301737339/source0.cs(53,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
-  "DefaultScript": null,
-  "OtherWarnings": null,
+  "DefaultScript": "",
+  "OtherWarnings": "",
   "UsesRestrictedAPI": 0,
   "ScriptCount": 0,
   "AttributesVersion": 0,
@@ -18,7 +18,7 @@
     {
       "ClassName": "",
       "DisplayName": "",
-      "Tooltip": null,
+      "Tooltip": "",
       "UnknownA": 0,
       "Properties": [
         {
