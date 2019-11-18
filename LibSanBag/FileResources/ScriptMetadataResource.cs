@@ -61,25 +61,25 @@ namespace LibSanBag.FileResources
             {TypeCode.Sansar_Quaternion, "Sansar.Quaternion"},
         };
 
-        public struct PropertyEntry
+        public class PropertyEntry
         {
-            public string Name { get; set; }
-            public string Type { get; set; }
-            public List<PropertyAttribute> Attributes { get; set; }
+            public string Name { get; set; } = string.Empty;
+            public string Type { get; set; } = string.Empty;
+            public List<PropertyAttribute> Attributes { get; set; } = new List<PropertyAttribute>();
         }
 
-        public struct PropertyAttribute
+        public class PropertyAttribute
         {
-            public string Name { get; set; }
-            public string Type { get; set; }
+            public string Name { get; set; } = string.Empty;
+            public string Type { get; set; } = string.Empty;
             public object Value { get; set; }
         }
 
         public class ScriptMetadata
         {
-            public string ClassName { get; set; }
-            public string DisplayName { get; set; }
-            public string Tooltip { get; set; }
+            public string ClassName { get; set; } = string.Empty;
+            public string DisplayName { get; set; } = string.Empty;
+            public string Tooltip { get; set; } = string.Empty;
             public int UnknownA { get; set; }
 
             public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
@@ -90,11 +90,11 @@ namespace LibSanBag.FileResources
             }
         }
 
-        public string AssemblyTooltip { get; set; }
-        public string ScriptSourceTextName { get; set; }
-        public string BuildWarnings { get; set; }
-        public string DefaultScript { get; set; }
-        public string OtherWarnings { get; set; }
+        public string AssemblyTooltip { get; set; } = string.Empty;
+        public string ScriptSourceTextName { get; set; } = string.Empty;
+        public string BuildWarnings { get; set; } = string.Empty;
+        public string DefaultScript { get; set; } = string.Empty;
+        public string OtherWarnings { get; set; } = string.Empty;
         public int UsesRestrictedAPI { get; set; }
         public int ScriptCount { get; set; }
         public int AttributesVersion { get; set; }
@@ -112,11 +112,6 @@ namespace LibSanBag.FileResources
         public virtual string ReadString(BinaryReader decompressedStream)
         {
             var textLength = decompressedStream.ReadInt32();
-            if(textLength == 0)
-            {
-                return null;
-            }
-
             var text = new string(decompressedStream.ReadChars(textLength));
             return text;
         }

@@ -1,10 +1,10 @@
 {
   "IsCompressed": true,
-  "AssemblyTooltip": null,
+  "AssemblyTooltip": "",
   "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
   "BuildWarnings": "Warning: method LindenLab.Script.Console::WriteLine(System.String) is restricted.\nWarning: method LindenLab.Script.Console::WriteLine(System.String) is restricted.\n",
-  "DefaultScript": null,
-  "OtherWarnings": null,
+  "DefaultScript": "",
+  "OtherWarnings": "",
   "UsesRestrictedAPI": 1,
   "ScriptCount": 0,
   "AttributesVersion": 0,
@@ -18,7 +18,7 @@
     {
       "ClassName": "",
       "DisplayName": "",
-      "Tooltip": null,
+      "Tooltip": "",
       "UnknownA": 0,
       "Properties": [
         {

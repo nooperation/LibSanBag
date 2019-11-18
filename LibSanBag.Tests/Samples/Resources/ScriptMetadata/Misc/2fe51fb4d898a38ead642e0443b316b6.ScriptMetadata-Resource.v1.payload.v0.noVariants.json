@@ -1,10 +1,10 @@
 {
   "IsCompressed": true,
   "AssemblyTooltip": "A collection of scripts that work together through named events to do common simple scripting tasks.\nEvents that start with -> respond to event names by doing something.\nEvents that end with -> will send an event after something is done.",
-  "ScriptSourceTextName": null,
-  "BuildWarnings": null,
+  "ScriptSourceTextName": "",
+  "BuildWarnings": "",
   "DefaultScript": "Simple.Interaction",
-  "OtherWarnings": null,
+  "OtherWarnings": "",
   "UsesRestrictedAPI": 0,
   "ScriptCount": 0,
   "AttributesVersion": 0,
@@ -223,7 +223,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -399,7 +399,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -512,7 +512,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -533,7 +533,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -638,7 +638,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -751,7 +751,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -772,7 +772,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -877,7 +877,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -1137,7 +1137,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -1187,7 +1187,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -1258,7 +1258,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -1279,7 +1279,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -1558,7 +1558,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -1888,7 +1888,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -1954,7 +1954,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -2172,7 +2172,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -2411,7 +2411,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -2503,7 +2503,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -2524,7 +2524,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -2660,7 +2660,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -2897,7 +2897,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -3085,7 +3085,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -3218,7 +3218,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -3395,7 +3395,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -3487,7 +3487,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -3644,7 +3644,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -3794,7 +3794,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -3815,7 +3815,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -3888,7 +3888,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -4001,7 +4001,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -4135,7 +4135,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -4219,7 +4219,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -4474,7 +4474,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -4685,7 +4685,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -4910,7 +4910,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -5002,7 +5002,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -5028,7 +5028,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             }
           ]
         },
@@ -5044,7 +5044,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -5128,7 +5128,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -5325,7 +5325,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
@@ -5459,7 +5459,7 @@
             {
               "Name": "DefaultValue.0",
               "Type": "System.String",
-              "Value": null
+              "Value": ""
             },
             {
               "Name": "DisplayName.0",
