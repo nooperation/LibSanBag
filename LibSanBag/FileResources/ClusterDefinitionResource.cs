@@ -798,9 +798,10 @@ namespace LibSanBag.FileResources
 
             var unknownA = reader.ReadUInt32();
 
-            if((unknownA - 2) != 0)
+            var result = unknownA - 2;
+            if(result != 0)
             {
-                if(unknownA == 1)
+                if(result == 1)
                 {
                     ClusterDefinition_read_Terrain_inner_v2(reader);
                 }
