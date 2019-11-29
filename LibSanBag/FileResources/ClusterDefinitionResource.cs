@@ -1035,6 +1035,30 @@ namespace LibSanBag.FileResources
             }
         }
 
+        private void ClusterDefinition_reader0_v2_inner_inner_inner_inner_B_10k(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 2, 0x1411D4980);
+            var str = ClusterDefinition_read_name(reader);
+            reader.ReadByte();
+
+            if(version < 2)
+            {
+                var inner_version = ReadVersion(reader, 3, 0x1411E4F00);
+
+                // "label"
+                ClusterDefinition_reader0_v2B_inner_inner_inner(reader, inner_version, 3);
+
+                if(inner_version < 3)
+                {
+                    reader.ReadByte(); // skip byte?
+                }
+                if(inner_version >= 2)
+                {
+                    ClusterDefinition_reader0_v2B_inner_inner_inner(reader, inner_version, 3);
+                }
+            }
+        }
+
         private void ClusterDefinition_reader0_v2_inner_inner_inner_inner_B(BinaryReader reader, uint typeCode, bool versionAtLeast11)
         {
             // ReadScriptMetadata_Attribute_Payload_MethodC(decompressedStream, typeCode, AttributePayloadVersion >= 11);  ???
@@ -1099,6 +1123,7 @@ namespace LibSanBag.FileResources
                 }
                 if(typeCode == 0x10000)
                 {
+                    ClusterDefinition_reader0_v2_inner_inner_inner_inner_B_10k(reader);
                     return;
                 }
 
