@@ -727,12 +727,228 @@ namespace LibSanBag.FileResources
             }
         }
 
+        private void ClusterDefinition_read_RiggedMesh_inner(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 3);
+
+            if(version >= 3)
+            {
+                ClusterDefinition_read_StaticMesh_inner_v3(reader);
+            }
+            else
+            {
+                ClusterDefinition_read_name(reader);
+                ClusterDefinition_read_StaticMesh_inner_modelDefinition(reader);
+
+                // skip??? todo: remove most likely (see ClusterDefinition_read_StaticMesh_inner as well)
+                reader.ReadByte();
+
+                if(version >= 2)
+                {
+                    reader.ReadUInt32();
+                }
+            }
+        }
+
+        private void ClusterDefinition_read_RiggedMesh(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 1);
+
+            var unknownA = reader.ReadUInt32();
+            if (unknownA != 0)
+            {
+                ClusterDefinition_read_RiggedMesh_inner(reader);
+            }
+        }
+
+        private void ClusterDefinition_read_Audio_inner_preinner(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 1);
+
+            var unknownA = reader.ReadUInt32();
+
+            if((unknownA - 2) != 0)
+            {
+                if(unknownA == 1)
+                {
+                    ClusterDefinition_read_Terrain_inner_v2(reader);
+                }
+            }
+            else
+            {
+                reader.ReadUInt32();
+            }
+        }
+
+        private void ClusterDefinition_read_Audio_inner(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 4);
+
+            if(version < 3)
+            {
+                // bankResource
+                ReadPair(reader);
+            }
+
+            Read_RigidBody_v6_inner_inner(reader);
+            ClusterDefinition_read_Audio_inner_preinner(reader);
+
+
+            if(version >= 2)
+            {
+                var version2_version = ReadVersion(reader, 1);
+                ClusterDefinition_read_name(reader);
+            }
+            if(version >= 4)
+            {
+                reader.ReadUInt32();
+                reader.ReadUInt32();
+            }
+
+        }
+
+        private void ClusterDefinition_read_Audio(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 1);
+
+            var unknownA = reader.ReadUInt32();
+            if (unknownA != 0)
+            {
+                ClusterDefinition_read_Audio_inner(reader);
+            }
+        }
+
+        private void ClusterDefinition_read_Terrain_inner_v2(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 1);
+
+            // m128i
+            reader.ReadUInt64();
+            reader.ReadUInt64();
+
+            // m128i
+            reader.ReadUInt64();
+            reader.ReadUInt64();
+        }
+
+        private void ClusterDefinition_read_Terrain_inner(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 3);
+            ClusterDefinition_read_name(reader);
+
+            var versionB = ReadVersion(reader, 1);
+
+            if(version >= 2)
+            {
+                ClusterDefinition_read_Terrain_inner_v2(reader);
+            }
+
+            if(version >= 3)
+            {
+                reader.ReadUInt64();
+            }
+        }
+        private void ClusterDefinition_read_Terrain(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 1);
+
+            var unknownA = reader.ReadUInt32();
+            if (unknownA != 0)
+            {
+                ClusterDefinition_read_Terrain_inner(reader);
+            }
+        }
+
+
+        private void ClusterDefinition_read_IKBody(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 1);
+
+            var unknownA = reader.ReadUInt32();
+            if (unknownA != 0)
+            {
+                var version_inner = ReadVersion(reader, 1);
+            }
+        }
+
+        private void ClusterDefinition_read_Movement(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 1);
+
+            var unknownA = reader.ReadUInt32();
+            if (unknownA != 0)
+            {
+                var version_inner = ReadVersion(reader, 1);
+                ClusterDefinition_read_name(reader);
+            }
+        }
+
+        private void ClusterDefinition_read_spawnPoint_inner(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 2);
+
+            reader.ReadByte();
+
+            if(version >= 2)
+            {
+                var version_inner = ReadVersion(reader, 1);
+                ClusterDefinition_read_name(reader);
+            }
+        }
+
+        private void ClusterDefinition_read_spawnPoint(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 1);
+
+            var unknownA = reader.ReadUInt32();
+            if (unknownA != 0)
+            {
+                ClusterDefinition_read_spawnPoint_inner(reader);
+            }
+        }
+
+
+        private void ClusterDefinition_reader(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 5);
+
+            ClusterDefinition_reader5(reader);
+            ClusterDefinition_read_RigidBody(reader);
+            ClusterDefinition_read_Animation(reader);
+            ClusterDefinition_read_Pose(reader);
+            ClusterDefinition_read_Char(reader);
+            ClusterDefinition_read_Camera(reader);
+            ClusterDefinition_read_Light(reader);
+            ClusterDefinition_read_StaticMesh(reader);
+            ClusterDefinition_read_RiggedMesh(reader);
+            ClusterDefinition_read_Audio(reader);
+            if (version >= 2)
+            {
+                ClusterDefinition_read_Terrain(reader);
+            }
+            if (version >= 3)
+            {
+                ClusterDefinition_read_IKBody(reader);
+            }
+            if (version >= 4)
+            {
+                ClusterDefinition_read_Movement(reader);
+            }
+            if (version >= 5)
+            {
+                ClusterDefinition_read_spawnPoint(reader);
+            }
+            ClusterDefinition_read_name(reader);
+        }
+
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 ResourceVersion = decompressedStream.ReadInt32();
 
+                ClusterDefinition_reader(decompressedStream);
+                /*
                 var unknownVersionA = decompressedStream.ReadUInt32(); // 1
                 var unknownCountB = decompressedStream.ReadUInt32(); // 1
                 var unknownC = decompressedStream.ReadUInt32(); // 4 (seems to change)
@@ -804,9 +1020,10 @@ namespace LibSanBag.FileResources
 
                 var unknownCA = decompressedStream.ReadUInt32(); // 0
                 var unknownCB = decompressedStream.ReadUInt32(); // 0
-
+                */
                 Filename = "test";
                 Source = "butts";
+                
             }
         }
     }
