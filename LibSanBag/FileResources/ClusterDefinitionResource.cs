@@ -1441,15 +1441,18 @@ namespace LibSanBag.FileResources
             }
         }
 
-        private void ClusterDefinition_reader6(BinaryReader reader)
+        private uint ClusterDefinition_reader6(BinaryReader reader)
         {
             var version = ReadVersion(reader, 1, 0x1416F3200);
 
             var unknownCounter = reader.ReadUInt32();
             for (int i = 0; i < unknownCounter; i++)
             {
-                reader.ReadUInt32();
+                var x = reader.ReadUInt32();
+                Console.WriteLine(x);
             }
+
+            return unknownCounter; // this isn't legit but lets hope it works...
         }
 
         private void ClusterDefinition_reader0_inner(BinaryReader reader)
@@ -1543,9 +1546,10 @@ namespace LibSanBag.FileResources
             // "eventRouter"
             ClusterDefinition_reader0_eventRouter(reader);
 
-            ClusterDefinition_reader6(reader);
+            var reader6_result = ClusterDefinition_reader6(reader);
 
-            var unknownX = 0; // TODO: this is always 0...? double check this later
+            // why is this 6 for the d5f248... resource
+            var unknownX = reader6_result;
             for (int i = 0; i < unknownX; i++)
             {
                 ClusterDefinition_reader0_inner(reader);
