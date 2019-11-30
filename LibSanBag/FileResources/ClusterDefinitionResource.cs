@@ -1065,63 +1065,71 @@ namespace LibSanBag.FileResources
         private void ClusterDefinition_reader0_v2_inner_inner_inner_inner_B(BinaryReader reader, uint typeCode, bool versionAtLeast11)
         {
             // ReadScriptMetadata_Attribute_Payload_MethodC(decompressedStream, typeCode, AttributePayloadVersion >= 11);  ???
+            if(ScriptMetadataResource.TypeCodeToNameMap.ContainsKey((int)typeCode))
+            {
+                Console.WriteLine("Type: " + ScriptMetadataResource.TypeCodeToNameMap[(int)typeCode]);
+            }
+            else
+            {
+                Console.WriteLine("Type: " + "Unknown");
+            }
 
             if(typeCode <= 0x1004)
             {
                 if(typeCode >= 0x1001)
                 {
                     // m128i
-                    reader.ReadUInt64();
-                    reader.ReadUInt64();
+                    var item1 = reader.ReadUInt64();
+                    var item2 = reader.ReadUInt64();
                     return;
                 }
 
                 if(typeCode <= 0x204)
                 {
                     // GOTO LABEL_50
-                    reader.ReadUInt64();
+                    var value = reader.ReadUInt64();
                     return;
                 }
 
-                if(typeCode != 520)
+                if(typeCode != 0x208)
                 {
-                    if(typeCode == 1024)
+                    if(typeCode == 0x400)
                     {
                         var str = ReadString(reader);
                         return;
                     }
-                    if(typeCode != 2048)
+                    if(typeCode != 0x800)
                     {
-                        if(typeCode - 2049 <= 5)
+                        if(typeCode - 0x801 <= 5)
                         {
                             if(versionAtLeast11)
                             {
-                                reader.ReadUInt32();
-                                reader.ReadUInt32();
+                                var item1 = reader.ReadUInt32();
+                                var item2 = reader.ReadUInt32();
                                 return;
                             }
 
-                            reader.ReadUInt64();
+                            var item3 = reader.ReadUInt64();
                             return;
                         }
                         // throw error
                         throw new Exception("This shouldn't happen...");
                     }
 
-                    reader.ReadUInt64(); //skip 8 bytes?
+                    var item4 = reader.ReadUInt64(); //skip 8 bytes?
                     return;
                 }
 
                 // LABEL_50:
-                reader.ReadUInt64();
+                var item5 = reader.ReadUInt64();
                 return;
             }
             if(typeCode > 0x8104)
             {
-                if(typeCode == 33032)
+                if(typeCode == 0x8108)
                 {
                     // GOTO: LABEL_50
-                    reader.ReadUInt64();
+                    var val = reader.ReadUInt64();
                     return;
                 }
                 if(typeCode == 0x10000)
@@ -1131,30 +1139,30 @@ namespace LibSanBag.FileResources
                 }
 
                 ReadVersion(reader, 2, 0x141160230);
-                reader.ReadUInt64();
-                reader.ReadUInt64();
+                var val1 = reader.ReadUInt64();
+                var val2 = reader.ReadUInt64();
             }
             else
             {
-                if(typeCode == 33028)
+                if(typeCode == 0x8104)
                 {
-                    if(typeCode - 33025 > 1)
+                    if(typeCode - 0x8101 > 1)
                     {
                         throw new Exception("Not suppose to happen..");
                     }
 
                     // GOTO LABEL_50:
-                    reader.ReadUInt64();
+                    var val = reader.ReadUInt64();
                     return;
                 }
                 if(typeCode > 0x4101)
                 {
-                    reader.ReadUInt64();
+                    var val = reader.ReadUInt64();
                     return;
                 }
-                if(typeCode == 16641)
+                if(typeCode == 0x4101)
                 {
-                    reader.ReadUInt64();
+                    var val = reader.ReadUInt64();
                     return;
                 }
                 if(typeCode < 0x2000)
@@ -1163,7 +1171,7 @@ namespace LibSanBag.FileResources
                 }
                 if(typeCode <= 0x2001)
                 {
-                    reader.ReadUInt64(); // Skip 8 bytes
+                    var val = reader.ReadUInt64(); // Skip 8 bytes
                     return;
                 }
                 if(typeCode > 0x2003)
@@ -1173,8 +1181,8 @@ namespace LibSanBag.FileResources
 
                 ReadVersion(reader, 2, 0x141196890);
 
-                reader.ReadUInt64();
-                reader.ReadUInt64();
+                var val1 = reader.ReadUInt64();
+                var val2 = reader.ReadUInt64();
             }
         }
 
@@ -1243,9 +1251,11 @@ namespace LibSanBag.FileResources
                 var unknowA = reader.ReadUInt32();
             }
 
+            Console.WriteLine("scriptMetadataResourceUUID = ");
             var scriptMetadataResourceUUID = ReadUUID(reader);
             if (version < 2)
             {
+                Console.WriteLine("scriptCompiledBytecodeResourceUUID = ");
                 var scriptCompiledBytecodeResourceUUID = ReadUUID(reader);
             }
 
