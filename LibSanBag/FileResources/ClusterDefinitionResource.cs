@@ -38,15 +38,30 @@ namespace LibSanBag.FileResources
         }
 
 
-        private Tuple<ulong, ulong> ReadPair(BinaryReader reader)
+        private string ReadUUID(BinaryReader reader)
         {
             var version = ReadVersion(reader, 2, 0x141196890);
 
             var item1 = reader.ReadUInt64();
             var item2 = reader.ReadUInt64();
 
-            Console.WriteLine($"ReadPair: {item1:X8}|{item2:X8}");
-            return new Tuple<ulong, ulong>(item1, item2);
+            var left = BitConverter.GetBytes(item1);
+            var right = BitConverter.GetBytes(item2);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = left.Length-1; i >= 0; i--)
+            {
+                sb.AppendFormat("{0:x2}", left[i]);
+            }
+            for (int i = right.Length-1; i >= 0; i--)
+            {
+                sb.AppendFormat("{0:x2}", right[i]);
+            }
+
+            var uuid = sb.ToString();
+            Console.WriteLine($"ReadUUID: {uuid}");
+
+            return uuid;
         }
 
 
@@ -90,25 +105,19 @@ namespace LibSanBag.FileResources
             var lowerB = reader.ReadUInt32();
         }
 
-        private bool rigidBodyInitialized = false;
         private void Read_RigidBody_Init(BinaryReader reader)
         {
-            var pair = ReadPair(reader);
-            if (pair.Item1 > 0 || pair.Item2 > 0)
-            {
-
-                rigidBodyInitialized = true;
-            }
+            var pair = ReadUUID(reader);
         }
 
         private void Read_RigidBody_post_common(BinaryReader reader)
         {
-            var unused = ReadPair(reader);
+            var unused = ReadUUID(reader);
         }
 
         private void Read_RigidBody_common_value(BinaryReader reader)
         {
-            var unused = ReadPair(reader);
+            var unused = ReadUUID(reader);
         }
 
         private void Read_RigidBody_common(BinaryReader reader)
@@ -162,7 +171,7 @@ namespace LibSanBag.FileResources
             var UnknownCount = reader.ReadUInt32();
             for (int i = 0; i < UnknownCount; i++)
             {
-                var unknown = ReadPair(reader);
+                var unknown = ReadUUID(reader);
             }
         }
 
@@ -295,10 +304,7 @@ namespace LibSanBag.FileResources
             var unknownA = reader.ReadUInt32();
             if (unknownA != 0)
             {
-                //if (!rigidBodyInitialized)
-                {
-                    Read_RigidBody(reader);
-                }
+                Read_RigidBody(reader);
             }
         }
 
@@ -306,7 +312,7 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 3, 0x14170F870);
 
-            ReadPair(reader);
+            ReadUUID(reader);
             ClusterDefinition_read_name(reader);
 
             reader.ReadUInt32();
@@ -336,7 +342,7 @@ namespace LibSanBag.FileResources
 
             ClusterDefinition_read_name(reader);
             ClusterDefinition_read_name(reader);
-            ReadPair(reader);
+            ReadUUID(reader);
 
             if(version >= 2)
             {
@@ -362,7 +368,7 @@ namespace LibSanBag.FileResources
             for (int i = 0; i < UnknownCount; i++)
             {
                 var innerVersion = ReadVersion(reader, 1, 0x14170FC00);
-                ReadPair(reader); // skeleton mapper??
+                ReadUUID(reader); // skeleton mapper??
             }
         }
 
@@ -394,14 +400,13 @@ namespace LibSanBag.FileResources
             }
         }
 
-        bool animationInitialized = false;
         private void Read_Animation(BinaryReader reader)
         {
             var version = ReadVersion(reader, 12, 0x1417056D0);
-            var pairCommon = ReadPair(reader);
+            var pairCommon = ReadUUID(reader);
             Read_RigidBody_post_common(reader);
-            var pairB = ReadPair(reader);
-            var pairC = ReadPair(reader);
+            var pairB = ReadUUID(reader);
+            var pairC = ReadUUID(reader);
 
             var unknownA = reader.ReadUInt32();
             var unknownB = reader.ReadByte();
@@ -493,10 +498,10 @@ namespace LibSanBag.FileResources
             var version = ReadVersion(reader, 3, 0x1417056F0);
 
             // speechAlgorithm
-            ReadPair(reader);
+            ReadUUID(reader);
 
             // speechCharacter
-            ReadPair(reader);
+            ReadUUID(reader);
 
             if(version >= 2)
             {
@@ -632,7 +637,7 @@ namespace LibSanBag.FileResources
             var version = ReadVersion(reader, 4, 0x14120E190);
 
             // "material"
-            ReadPair(reader);
+            ReadUUID(reader);
 
             if(version >= 4)
             {
@@ -684,7 +689,8 @@ namespace LibSanBag.FileResources
                 var version_inner = ReadVersion(reader, 2, 0x1411FD8F0);
 
                 // "geometry"
-                ReadPair(reader);
+                Console.WriteLine("Geometry...");
+                ReadUUID(reader);
 
                 ClusterDefinition_read_StaticMesh_inner_modelDefinition_inner(reader);
 
@@ -819,7 +825,7 @@ namespace LibSanBag.FileResources
             if(version < 3)
             {
                 // bankResource
-                ReadPair(reader);
+                ReadUUID(reader);
             }
 
             Read_RigidBody_v6_inner_inner(reader);
@@ -1241,12 +1247,12 @@ namespace LibSanBag.FileResources
             }
 
             // ScriptMetadataResource
-            ReadPair(reader);
+            ReadUUID(reader);
 
             if (version < 2)
             {
                 // ScriptCompiledBytecodeResource
-                ReadPair(reader);
+                ReadUUID(reader);
             }
 
             var unknownCounter = reader.ReadUInt32();
@@ -1499,7 +1505,7 @@ namespace LibSanBag.FileResources
                 else
                 {
                     // "constraintData"
-                    ReadPair(reader);
+                    ReadUUID(reader);
                 }
             }
         }
