@@ -64,7 +64,6 @@ namespace LibSanBag.FileResources
             return uuid;
         }
 
-
         private Dictionary<ulong, uint> versionMap = new Dictionary<ulong, uint>();
         private uint ReadVersion(BinaryReader reader, uint defaultVersion, ulong? versionType)
         {
@@ -107,17 +106,17 @@ namespace LibSanBag.FileResources
 
         private void Read_RigidBody_Init(BinaryReader reader)
         {
-            var pair = ReadUUID(reader);
+            var bodyResourceHandleUUID = ReadUUID(reader);
         }
 
         private void Read_RigidBody_post_common(BinaryReader reader)
         {
-            var unused = ReadUUID(reader);
+            var varProxyShapeUUID = ReadUUID(reader);
         }
 
         private void Read_RigidBody_common_value(BinaryReader reader)
         {
-            var unused = ReadUUID(reader);
+            var valueUUID = ReadUUID(reader);
         }
 
         private void Read_RigidBody_common(BinaryReader reader)
@@ -145,7 +144,7 @@ namespace LibSanBag.FileResources
             if(version >= 3)
             {
                 var version_v3 = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
             if(version >= 4)
             {
@@ -171,7 +170,7 @@ namespace LibSanBag.FileResources
             var UnknownCount = reader.ReadUInt32();
             for (int i = 0; i < UnknownCount; i++)
             {
-                var unknown = ReadUUID(reader);
+                var valueUUID = ReadUUID(reader);
             }
         }
 
@@ -209,7 +208,7 @@ namespace LibSanBag.FileResources
             if(version >= 2)
             {
                 var inner_version = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
         }
 
@@ -233,8 +232,9 @@ namespace LibSanBag.FileResources
             {
                 var version_inner_a = ReadVersion(reader, 1, 0x14170FBE0);
                 ClusterDefinition_reader5(reader);
+
                 var version_inner_b = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
         }
 
@@ -280,7 +280,7 @@ namespace LibSanBag.FileResources
             if(version >= 9)
             {
                 var version9_version = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
             if(version >= 10)
             {
@@ -312,8 +312,8 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 3, 0x14170F870);
 
-            ReadUUID(reader);
-            ClusterDefinition_read_name(reader);
+            var animationBindingUUID = ReadUUID(reader);
+            var animationName = ClusterDefinition_read_name(reader);
 
             reader.ReadUInt32();
             reader.ReadUInt32();
@@ -340,13 +340,13 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 2, 0x14170FBF0);
 
-            ClusterDefinition_read_name(reader);
-            ClusterDefinition_read_name(reader);
-            ReadUUID(reader);
+            var animationOverrideName = ClusterDefinition_read_name(reader);
+            var animationName = ClusterDefinition_read_name(reader);
+            var animationBindingUUID = ReadUUID(reader);
 
             if(version >= 2)
             {
-                ClusterDefinition_read_name(reader);
+                var animationSkeletonName = ClusterDefinition_read_name(reader);
             }
         }
         private void Read_Animation_v8(BinaryReader reader)
@@ -368,7 +368,7 @@ namespace LibSanBag.FileResources
             for (int i = 0; i < UnknownCount; i++)
             {
                 var innerVersion = ReadVersion(reader, 1, 0x14170FC00);
-                ReadUUID(reader); // skeleton mapper??
+                var skeletonMapperUUID = ReadUUID(reader);
             }
         }
 
@@ -403,10 +403,10 @@ namespace LibSanBag.FileResources
         private void Read_Animation(BinaryReader reader)
         {
             var version = ReadVersion(reader, 12, 0x1417056D0);
-            var pairCommon = ReadUUID(reader);
+            var projectDataUUID = ReadUUID(reader);
             Read_RigidBody_post_common(reader);
-            var pairB = ReadUUID(reader);
-            var pairC = ReadUUID(reader);
+            var skeletonUUID = ReadUUID(reader);
+            var animationBindingUUID = ReadUUID(reader);
 
             var unknownA = reader.ReadUInt32();
             var unknownB = reader.ReadByte();
@@ -440,7 +440,7 @@ namespace LibSanBag.FileResources
             if(version >= 6)
             {
                 var version6_version = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
             if(version >= 7)
             {
@@ -497,11 +497,8 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 3, 0x1417056F0);
 
-            // speechAlgorithm
-            ReadUUID(reader);
-
-            // speechCharacter
-            ReadUUID(reader);
+            var speachAlgorithmUUID = ReadUUID(reader);
+            var speechCharacterUUID = ReadUUID(reader);
 
             if(version >= 2)
             {
@@ -511,7 +508,7 @@ namespace LibSanBag.FileResources
             if(version >= 3)
             {
                 var version3_version = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
         }
 
@@ -538,7 +535,7 @@ namespace LibSanBag.FileResources
             if(version >= 2)
             {
                 var version2_version = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
 
             if(version >= 3)
@@ -566,7 +563,7 @@ namespace LibSanBag.FileResources
 
             var unknownA = reader.ReadUInt32();
 
-            ClusterDefinition_read_name(reader);
+            var name = ClusterDefinition_read_name(reader);
 
             // m128i
             var unknownB_hi = reader.ReadUInt64();
@@ -592,7 +589,7 @@ namespace LibSanBag.FileResources
             if(version >= 4)
             {
                 var version4_version = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name2 = ClusterDefinition_read_name(reader);
             }
 
             if(version >= 5)
@@ -636,8 +633,7 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 4, 0x14120E190);
 
-            // "material"
-            ReadUUID(reader);
+            var materialUUID = ReadUUID(reader);
 
             if(version >= 4)
             {
@@ -687,10 +683,7 @@ namespace LibSanBag.FileResources
             if (unknownA != 0)
             {
                 var version_inner = ReadVersion(reader, 2, 0x1411FD8F0);
-
-                // "geometry"
-                Console.WriteLine("Geometry...");
-                ReadUUID(reader);
+                var geometryUUID = ReadUUID(reader);
 
                 ClusterDefinition_read_StaticMesh_inner_modelDefinition_inner(reader);
 
@@ -705,7 +698,9 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 5, 0x141706B40);
 
-            ClusterDefinition_read_name(reader);
+            var name = ClusterDefinition_read_name(reader);
+
+            // modelDefinition
             ClusterDefinition_read_StaticMesh_inner_modelDefinition(reader);
 
             reader.ReadUInt32();
@@ -739,7 +734,7 @@ namespace LibSanBag.FileResources
             }
             else
             {
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
 
                 // modelDefinition
                 ClusterDefinition_read_StaticMesh_inner_modelDefinition(reader);
@@ -774,7 +769,9 @@ namespace LibSanBag.FileResources
             }
             else
             {
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
+
+                // modelDefinition
                 ClusterDefinition_read_StaticMesh_inner_modelDefinition(reader);
 
                 // skip??? todo: remove most likely (see ClusterDefinition_read_StaticMesh_inner as well)
@@ -824,8 +821,7 @@ namespace LibSanBag.FileResources
 
             if(version < 3)
             {
-                // bankResource
-                ReadUUID(reader);
+                var bankResourceUUID = ReadUUID(reader);
             }
 
             Read_RigidBody_v6_inner_inner(reader);
@@ -835,7 +831,7 @@ namespace LibSanBag.FileResources
             if(version >= 2)
             {
                 var version2_version = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
             if(version >= 4)
             {
@@ -872,7 +868,7 @@ namespace LibSanBag.FileResources
         private void ClusterDefinition_read_Terrain_inner(BinaryReader reader)
         {
             var version = ReadVersion(reader, 3, 0x141706740);
-            ClusterDefinition_read_name(reader);
+            var name = ClusterDefinition_read_name(reader);
 
             var versionB = ReadVersion(reader, 1, 0x14170D340);
 
@@ -917,7 +913,7 @@ namespace LibSanBag.FileResources
             if (unknownA != 0)
             {
                 var version_inner = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
         }
 
@@ -930,7 +926,7 @@ namespace LibSanBag.FileResources
             if(version >= 2)
             {
                 var version_inner = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name = ClusterDefinition_read_name(reader);
             }
         }
 
@@ -951,32 +947,35 @@ namespace LibSanBag.FileResources
             var version = ReadVersion(reader, 5, 0x1416F8590);
 
             ClusterDefinition_reader5(reader);
-            ClusterDefinition_read_RigidBody(reader);
-            ClusterDefinition_read_Animation(reader);
-            ClusterDefinition_read_Pose(reader);
-            ClusterDefinition_read_Char(reader);
-            ClusterDefinition_read_Camera(reader);
-            ClusterDefinition_read_Light(reader);
-            ClusterDefinition_read_StaticMesh(reader);
-            ClusterDefinition_read_RiggedMesh(reader);
-            ClusterDefinition_read_Audio(reader);
+
+            
+            ClusterDefinition_read_RigidBody(reader);   // rigidBodyDef
+            ClusterDefinition_read_Animation(reader);   // animationComponentDef
+            ClusterDefinition_read_Pose(reader);        // poseComponentDef
+            ClusterDefinition_read_Char(reader);        // charComponentDef
+            ClusterDefinition_read_Camera(reader);      // cameraComponentDef
+            ClusterDefinition_read_Light(reader);       // lightComponentDef
+            ClusterDefinition_read_StaticMesh(reader);  // staticMeshComponentDef
+            ClusterDefinition_read_RiggedMesh(reader);  // riggedMeshComponentDef
+            ClusterDefinition_read_Audio(reader);       // audioComponentDef
             if (version >= 2)
             {
-                ClusterDefinition_read_Terrain(reader);
+                ClusterDefinition_read_Terrain(reader); // terrainComponentDef
             }
             if (version >= 3)
             {
-                ClusterDefinition_read_IKBody(reader);
+                ClusterDefinition_read_IKBody(reader);  // ikBodyComponentDef
             }
             if (version >= 4)
             {
-                ClusterDefinition_read_Movement(reader);
+                ClusterDefinition_read_Movement(reader);// movementComponentDef
             }
             if (version >= 5)
             {
-                ClusterDefinition_read_spawnPoint(reader);
+                ClusterDefinition_read_spawnPoint(reader); // spawnPointComponentDef
             }
-            var str = ClusterDefinition_read_name(reader);
+
+            var name = ClusterDefinition_read_name(reader);
             var valid = reader.ReadByte();
         }
 
@@ -1044,15 +1043,13 @@ namespace LibSanBag.FileResources
         private void ClusterDefinition_reader0_v2_inner_inner_inner_inner_B_10k(BinaryReader reader)
         {
             var version = ReadVersion(reader, 2, 0x1411D4980);
-            var str = ClusterDefinition_read_name(reader);
+            var prompt = ClusterDefinition_read_name(reader);
             reader.ReadByte();
 
             if(version < 2)
             {
                 var inner_version = ReadVersion(reader, 3, 0x1411E4F00);
-
-                // "label"
-                ClusterDefinition_reader0_v2B_inner_inner_inner(reader, inner_version, 3);
+                var label = ClusterDefinition_reader0_v2B_inner_inner_inner(reader, inner_version, 3);
 
                 if(inner_version < 3)
                 {
@@ -1060,7 +1057,7 @@ namespace LibSanBag.FileResources
                 }
                 if(inner_version >= 2)
                 {
-                    ClusterDefinition_reader0_v2B_inner_inner_inner(reader, inner_version, 3);
+                    var unknownStr = ClusterDefinition_reader0_v2B_inner_inner_inner(reader, inner_version, 3);
                 }
             }
         }
@@ -1185,7 +1182,7 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 11, 0x1411C1D70);
 
-            ClusterDefinition_read_name(reader);
+            var name = ClusterDefinition_read_name(reader);
 
             if(version < 6)
             {
@@ -1235,7 +1232,7 @@ namespace LibSanBag.FileResources
         private void ClusterDefinition_reader0_v2_inner_inner(BinaryReader reader)
         {
             var version = ReadVersion(reader, 4, 0x1416EE010);
-            ClusterDefinition_read_name(reader);
+            var name = ClusterDefinition_read_name(reader);
 
             if (version < 3)
             {
@@ -1246,13 +1243,10 @@ namespace LibSanBag.FileResources
                 var unknowA = reader.ReadUInt32();
             }
 
-            // ScriptMetadataResource
-            ReadUUID(reader);
-
+            var scriptMetadataResourceUUID = ReadUUID(reader);
             if (version < 2)
             {
-                // ScriptCompiledBytecodeResource
-                ReadUUID(reader);
+                var scriptCompiledBytecodeResourceUUID = ReadUUID(reader);
             }
 
             var unknownCounter = reader.ReadUInt32();
@@ -1264,7 +1258,7 @@ namespace LibSanBag.FileResources
             if(version >= 4)
             {
                 var version4_version = ReadVersion(reader, 1, 0x1416F4E40);
-                ClusterDefinition_read_name(reader);
+                var name2 = ClusterDefinition_read_name(reader);
             }
 
         }
@@ -1322,7 +1316,7 @@ namespace LibSanBag.FileResources
         private void eventRouter_256(BinaryReader reader)
         {
             var version = ReadVersion(reader, 1, 0x14170F000);
-            ClusterDefinition_read_name(reader);
+            var url = ClusterDefinition_read_name(reader);
             reader.ReadUInt32();
         }
 
@@ -1500,24 +1494,23 @@ namespace LibSanBag.FileResources
             {
                 if(unknwonD == 1)
                 {
-                    ClusterDefinition_read_name(reader);
+                    var attachmentBoneName = ClusterDefinition_read_name(reader);
                 }
                 else
                 {
-                    // "constraintData"
-                    ReadUUID(reader);
+                    var constraintDataUUID = ReadUUID(reader);
                 }
             }
         }
 
-        private void ClusterDefinition_reader0_v2B_inner_inner_inner(BinaryReader reader, uint version, int max_version)
+        private string ClusterDefinition_reader0_v2B_inner_inner_inner(BinaryReader reader, uint version, int max_version)
         {
             if(version >= max_version)
             {
-                return;
+                return "";
             }
 
-            var str = ReadString(reader);
+            return ReadString(reader);
         }
 
         private void ClusterDefinition_reader0_v2B_inner_inner(BinaryReader reader)
@@ -1542,7 +1535,7 @@ namespace LibSanBag.FileResources
         private void ClusterDefinition_reader0_v2B_inner(BinaryReader reader)
         {
             var version = ReadVersion(reader, 2, 0x1416F8830);
-            ClusterDefinition_read_name(reader);
+            var prompt = ClusterDefinition_read_name(reader);
             if(version < 2)
             {
                 ClusterDefinition_reader0_v2B_inner_inner(reader);
