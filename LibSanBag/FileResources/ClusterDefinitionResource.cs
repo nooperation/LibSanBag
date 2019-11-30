@@ -45,6 +45,7 @@ namespace LibSanBag.FileResources
             var item1 = reader.ReadUInt64();
             var item2 = reader.ReadUInt64();
 
+            Console.WriteLine($"ReadPair: {item1:X8}|{item2:X8}");
             return new Tuple<ulong, ulong>(item1, item2);
         }
 
@@ -210,7 +211,6 @@ namespace LibSanBag.FileResources
             var UnknownCount = reader.ReadUInt32();
             for (int i = 0; i < UnknownCount; i++)
             {
-                var unknownInner = reader.ReadUInt32();
                 Read_RigidBody_v7_inner(reader);
             }
         }
