@@ -98,7 +98,7 @@ namespace LibSanBag.FileResources
             }
 
             var uuid = sb.ToString();
-            Console.WriteLine($"ReadUUID_B: {uuid}");
+           // Console.WriteLine($"ReadUUID_B: {uuid}");
 
             return uuid;
         }
@@ -1191,7 +1191,6 @@ namespace LibSanBag.FileResources
             var version = ReadVersion(reader, 11, 0x1411C1D70);
 
             var name = ReadString(reader);
-            Console.WriteLine($"{name}: ");
 
             if (version < 6)
             {
@@ -1199,43 +1198,18 @@ namespace LibSanBag.FileResources
             }
 
             var scriptTypeCode = reader.ReadUInt32();
-            Console.WriteLine("UnknownA = " + scriptTypeCode);
-            var v17 = scriptTypeCode & 0xF0000000;
-            var v18 = false;
 
-            if (v17 != 0)
-            {
-                v18 = (v17 == 0x20000000);
-            }
-            else
-            {
-                v18 = ((scriptTypeCode >> 29) & 1) > 0;
-            }
-
-            if (v18)
+            if ((scriptTypeCode & (1 << 29)) != 0)
             {
                 Read_ScriptComponent_inner_0(reader);
             }
+            else if ((scriptTypeCode & (1 << 28)) != 0)
+            {
+                Read_ScriptComponent_inner_A(reader);
+            }
             else
             {
-                var v22 = false;
-                if (v17 != 0)
-                {
-                    v22 = v17 == 0x10000000;
-                }
-                else
-                {
-                    v22 = ((scriptTypeCode >> 28) & 1) > 0;
-                }
-
-                if (v22)
-                {
-                    Read_ScriptComponent_inner_A(reader);
-                }
-                else
-                {
-                    Read_ScriptComponent_value(reader, scriptTypeCode, version >= 11);
-                }
+                Read_ScriptComponent_value(reader, scriptTypeCode, version >= 11);
             }
         }
 
