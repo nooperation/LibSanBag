@@ -976,23 +976,23 @@ namespace LibSanBag.FileResources
             //Console.WriteLine($"D: <{string.Join(",", second)}>");
         }
 
-        private void Read_ScriptComponent_inner_0(BinaryReader reader)
+        private void Read_ScriptComponent_values_a(BinaryReader reader)
         {
             var version = ReadVersion(reader, 1, 0x1411CF7F0);
 
-            var unknownCounter = reader.ReadUInt32();
-            for (int i = 0; i < unknownCounter; i++)
+            var propertyCount = reader.ReadUInt32();
+            for (int i = 0; i < propertyCount; i++)
             {
                 Read_ScriptComponent_property(reader);
             }
         }
 
-        private void Read_ScriptComponent_inner_A(BinaryReader reader)
+        private void Read_ScriptComponent_values_b(BinaryReader reader)
         {
             var version = ReadVersion(reader, 1, 0x1411CF800);
 
-            var unknownCounter = reader.ReadUInt32();
-            for (int i = 0; i < unknownCounter; i++)
+            var propertyCount = reader.ReadUInt32();
+            for (int i = 0; i < propertyCount; i++)
             {
                 Read_ScriptComponent_property(reader);
             }
@@ -1189,7 +1189,6 @@ namespace LibSanBag.FileResources
         private void Read_ScriptComponent_property(BinaryReader reader)
         {
             var version = ReadVersion(reader, 11, 0x1411C1D70);
-
             var name = ReadString(reader);
 
             if (version < 6)
@@ -1198,14 +1197,13 @@ namespace LibSanBag.FileResources
             }
 
             var scriptTypeCode = reader.ReadUInt32();
-
             if ((scriptTypeCode & (1 << 29)) != 0)
             {
-                Read_ScriptComponent_inner_0(reader);
+                Read_ScriptComponent_values_a(reader);
             }
             else if ((scriptTypeCode & (1 << 28)) != 0)
             {
-                Read_ScriptComponent_inner_A(reader);
+                Read_ScriptComponent_values_b(reader);
             }
             else
             {
@@ -1352,20 +1350,15 @@ namespace LibSanBag.FileResources
 
         private void Read_EventRouter_inner_inner(BinaryReader reader, uint unknownA)
         {
-            if (unknownA > 16)
+            Console.WriteLine("UnknownA = " + unknownA);
+
+            if (unknownA == 64)
             {
-                if (unknownA == 64)
-                {
-                    eventRouter_64(reader);
-                }
-                else if (unknownA == 256)
-                {
-                    eventRouter_256(reader);
-                }
-                else
-                {
-                    eventRouter_gt16(reader);
-                }
+                eventRouter_64(reader);
+            }
+            else if (unknownA == 256)
+            {
+                eventRouter_256(reader);
             }
             else if (unknownA == 16)
             {
@@ -1374,35 +1367,27 @@ namespace LibSanBag.FileResources
                 // "m_uuid"
                 eventRouter_16(reader);
             }
-            else
+            else if (unknownA == 1)
             {
-                var unknownB = unknownA - 1;
-                if (unknownB != 0)
-                {
-                    var unknownC = unknownB - 1;
-                    if (unknownC != 0)
-                    {
-                        if (unknownC == 2)
-                        {
-                            eventRouter_c2(reader);
-                        }
-                        else
-                        {
-                            eventRouter_cn2(reader);
-                        }
-                    }
-                    else
-                    {
-                        eventRouter_cz(reader);
-                    }
-                }
-                else
-                {
-                    eventRouter_bz(reader);
-                }
+                eventRouter_bz(reader);
+            }
+            else if (unknownA == 2)
+            {
+                eventRouter_cz(reader);
+            }
+            else if (unknownA == 4)
+            {
+                eventRouter_c2(reader);
+            }
+            else if (unknownA > 16)
+            {
+                eventRouter_gt16(reader);
+            }
+            else if(unknownA < 16)
+            {
+                eventRouter_cn2(reader);
             }
         }
-
 
         private void Read_EventRouter_inner(BinaryReader reader)
         {
