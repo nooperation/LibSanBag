@@ -202,20 +202,22 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 4, 0x14170FBC0);
 
-            var unknownA = reader.ReadUInt32();
+            var type = reader.ReadUInt32();
 
+            // var localOffset = 
             ClusterDefinition_reader5(reader);
+
             if (version >= 2)
             {
-                var unknown = reader.ReadByte();
+                var isSticky = reader.ReadByte();
             }
             if (version >= 3)
             {
-                var name = ReadStringVersioned(reader);
+                var baseDefinition = ReadStringVersioned(reader);
             }
             if (version >= 4)
             {
-                var unknown = reader.ReadByte();
+                var aimAtCursor = reader.ReadByte();
             }
         }
 
@@ -245,10 +247,11 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 1, 0x14120B5B0);
 
-            var unknownA = reader.ReadByte();
-            var unknownB = reader.ReadInt32();
-            var unknownC = reader.ReadInt32();
+            var enabled = reader.ReadByte();
+            var loudnessOffset = reader.ReadInt32();
+            var pitchRange = reader.ReadInt32();
 
+            // sounds...
             Read_RigidBody_v6_inner_inner(reader);
         }
 
@@ -259,7 +262,7 @@ namespace LibSanBag.FileResources
             var UnknownCount = reader.ReadUInt32();
             for (int i = 0; i < UnknownCount; i++)
             {
-                var unknownInner = reader.ReadUInt32();
+                var data = reader.ReadUInt32();
                 Read_RigidBody_v6_inner(reader);
             }
         }
@@ -268,12 +271,14 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 2, 0x14170FBD0);
 
-            var unknown = reader.ReadUInt32();
+            var type = reader.ReadUInt32();
+            
+            // var localOffset = 
             ClusterDefinition_reader5(reader);
 
             if (version >= 2)
             {
-                var name = ReadStringVersioned(reader);
+                var baseDefinition = ReadStringVersioned(reader);
             }
         }
 
@@ -291,9 +296,11 @@ namespace LibSanBag.FileResources
         private void Read_RigidBody_v10_inner(BinaryReader reader)
         {
             var version_inner_a = ReadVersion(reader, 1, 0x14170FBE0);
+
+            // localOffset = 
             ClusterDefinition_reader5(reader);
 
-            var name = ReadStringVersioned(reader);
+            var baseDefinition = ReadStringVersioned(reader);
         }
 
         private void Read_RigidBody_v10(BinaryReader reader)
@@ -315,8 +322,8 @@ namespace LibSanBag.FileResources
             Read_RigidBody_Init(reader);
 
             // bodyCinfo ?
-            var length = reader.ReadUInt32();
-            var something = reader.ReadBytes((int)length);
+            var bodyCinfoLength = reader.ReadUInt32();
+            var bodyCinfo = reader.ReadBytes((int)bodyCinfoLength);
 
             // materials?
             Read_RigidBody_common(reader);
@@ -794,11 +801,11 @@ namespace LibSanBag.FileResources
 
             var type = reader.ReadUInt32();
 
-            if(version == 2)
+            if(type == 2)
             {
                 var sphereRadius = reader.ReadUInt32();
             }
-            else if (version == 3)
+            else if (type == 3)
             {
                 //var aabaa = 
                 Read_AABB(reader);
@@ -999,7 +1006,7 @@ namespace LibSanBag.FileResources
                 reader.ReadSingle(),
                 0,
             };
-            Console.WriteLine($"C0: <{string.Join(",", second)}>");
+            //Console.WriteLine($"C0: <{string.Join(",", second)}>");
 
             // m128 in memory, read as 96 bits (matrix row 1 ?)
             //var c = reader.ReadUInt64();
@@ -1012,7 +1019,7 @@ namespace LibSanBag.FileResources
                 reader.ReadSingle(),
                 0,
             };
-            Console.WriteLine($"C1: <{string.Join(",", second)}>");
+            //Console.WriteLine($"C1: <{string.Join(",", second)}>");
 
             // m128 in memory, read as 96 bits (matrix row 2 ?)
            // var e = reader.ReadUInt64();
@@ -1025,7 +1032,7 @@ namespace LibSanBag.FileResources
                 reader.ReadSingle(),
                 0,
             };
-            Console.WriteLine($"C2: <{string.Join(",", second)}>");
+            //Console.WriteLine($"C2: <{string.Join(",", second)}>");
         }
 
         private void ClusterDefinition_reader1(BinaryReader reader)
