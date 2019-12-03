@@ -1883,7 +1883,9 @@ namespace LibSanBag.FileResources
                 result.ScriptDefs = Read_List(reader, Read_ScriptComponent, 1, 0x1416E9710);
             }
 
-            result.EventRouter = Read_List(reader, Read_EventRouter_Events, 1, 0x1416FD570);
+            result.EventRouter = ReadComponent(reader, (n) => {
+                return Read_List(reader, Read_EventRouter_Events, 1, 0x1416FD570);
+            });
 
             result.JointTypes = Read_List(reader, Read_ClusterDefinition_JointType, 1, 0x1416F3200);
             for (int i = 0; i < result.JointTypes.Count; i++)
