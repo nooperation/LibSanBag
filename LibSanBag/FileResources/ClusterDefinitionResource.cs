@@ -161,7 +161,7 @@ namespace LibSanBag.FileResources
             }
         }
 
-        class Transform
+        public class Transform
         {
             public List<float> Q { get; set; }
             public List<float> T { get; set; }
@@ -194,7 +194,7 @@ namespace LibSanBag.FileResources
             };
         }
 
-        struct GrabPointDefinition
+        public class GrabPointDefinition
         {
             public uint Version { get; set; }
             public uint Type { get; set; }
@@ -229,7 +229,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioResourcePoolSound
+        public class AudioResourcePoolSound
         {
             public uint Version { get; set; }
             public bool Enabled { get; set; }
@@ -272,7 +272,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct SitPointDefinition
+        public class SitPointDefinition
         {
             public uint Version { get; set; }
             public uint Type { get; set; }
@@ -296,7 +296,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct SelectionBeamPointDefinition
+        public class SelectionBeamPointDefinition
         {
             public uint Version { get; set; }
             public Transform LocalOffset { get; set; }
@@ -315,10 +315,11 @@ namespace LibSanBag.FileResources
         }
 
 
-        struct RigidBody
+        public class RigidBody
         {
             public uint Version { get; set; }
             public string BodyResourceHandle { get; set; }
+
             public byte[] BodyCinfo { get; set; }
             public List<string> Materials { get; set; }
             public string Shape { get; set; }
@@ -394,7 +395,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AnimationComponentNode
+        public class AnimationComponentNode
         {
             public uint Version { get; set; }
             public string AnimationBindingUuid { get; set; }
@@ -425,7 +426,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AnimationOverride
+        public class AnimationOverride
         {
             public uint Version { get; set; }
             public string AnimationOverrideName { get; set; }
@@ -460,7 +461,7 @@ namespace LibSanBag.FileResources
             return skeletonMapperUUID;
         }
 
-        struct OffsetTransform
+        public class OffsetTransform
         {
             public uint Version { get; set; }
 
@@ -501,7 +502,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AnimationComponent
+        public class AnimationComponent
         {
             public uint Version { get; set; }
             public string ProjectDataUuid { get; set; }
@@ -593,7 +594,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct PoseComponent
+        public class PoseComponent
         {
             public uint Version { get; set; }
         }
@@ -606,7 +607,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct CharComponent
+        public class CharComponent
         {
             public uint Version { get; set; }
             public string SpeechAlgorithmUuid { get; set; }
@@ -637,7 +638,7 @@ namespace LibSanBag.FileResources
         }
 
 
-        struct CameraComponent
+        public class CameraComponent
         {
             public uint Version { get; set; }
             public uint NearPlane { get; set; }
@@ -671,7 +672,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct LightComponent
+        public class LightComponent
         {
             public uint Version { get; set; }
             public uint LightType { get; set; }
@@ -731,7 +732,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct PartLod
+        public class PartLod
         {
             public uint Version { get; set; }
             public uint IndexStart { get; set; }
@@ -753,7 +754,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct ModelDefinitionPart
+        public class ModelDefinitionPart
         {
             public uint Version { get; set; }
             public string MaterialUuid { get; set; }
@@ -803,7 +804,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct ModelDefinition
+        public class ModelDefinition
         {
             public uint Version { get; set; }
             public string GeometryUuid { get; set; }
@@ -827,7 +828,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct MeshComponent_V3
+        public class MeshComponent_V3
         {
             public uint Version { get; set; }
             public string Name { get; set; }
@@ -871,7 +872,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct StaticMeshComponent
+        public class StaticMeshComponent
         {
             public uint Version { get; set; }
             public MeshComponent_V3 MeshComponent_V3 { get; set; }
@@ -905,7 +906,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct RiggedMeshComponent
+        public class RiggedMeshComponent
         {
             public uint Version { get; set; }
             public MeshComponent_V3 MeshComponent_V3 { get; set; }
@@ -939,7 +940,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioShape
+        public class AudioShape
         {
             public uint Version { get; set; }
             public uint Type { get; set; }
@@ -965,7 +966,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioComponent
+        public class AudioComponent
         {
             public uint Version { get; set; }
             public string BankResourceUuid { get; set; }
@@ -1003,7 +1004,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AABB
+        public class AABB
         {
             public List<float> Min { get; set; }
             public List<float> Max { get; set; }
@@ -1023,7 +1024,7 @@ namespace LibSanBag.FileResources
             }; ;
         }
 
-        struct TerrainComponentRuntimeData
+        public class TerrainComponentRuntimeData
         {
             public uint Version { get; set; }
             public uint Unused { get; set; }
@@ -1079,7 +1080,7 @@ namespace LibSanBag.FileResources
         }
 
 
-        struct TerrainComponent
+        public class TerrainComponent
         {
             public uint Version { get; set; }
             public string Name { get; set; }
@@ -1111,7 +1112,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct IKBodyComponent
+        public class IKBodyComponent
         {
             public uint Version { get; set; }
         }
@@ -1124,7 +1125,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct MovementComponent
+        public class MovementComponent
         {
             public string Name { get; set; }
         }
@@ -1138,7 +1139,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct SpawnPointComponent
+        public class SpawnPointComponent
         {
             public uint Version { get; set; }
             public byte InitialSpawnPoint { get; set; }
@@ -1159,7 +1160,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct EntityInfo
+        public class EntityInfo
         {
             public uint Version { get; set; }
             public Transform EntityToObject { get; set; }
@@ -1239,7 +1240,7 @@ namespace LibSanBag.FileResources
             return matrix;
         }
 
-        struct ObjectClusterTransform
+        public class ObjectClusterTransform
         {
             public uint Version { get; set; }
             public List<List<float>> Rotation { get; set; }
@@ -1301,7 +1302,7 @@ namespace LibSanBag.FileResources
             };
         }
 
-        public struct ScriptTypeCodes
+        public class ScriptTypeCodes
         {
             public const int System_Boolean = 0x4101;
             public const int System_SByte = 0x101;
@@ -1439,7 +1440,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        class ScriptParameter
+        public class ScriptParameter
         {
             public uint Version { get; set; }
             public string Name { get; set; }
@@ -1476,14 +1477,14 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct ScriptComponent
+        public class ScriptComponent
         {
             public uint Version { get; set; }
             public string Name { get; set; }
             public uint Type { get; set; }
             public string ScriptMetadataResourceUuid { get; set; }
             public string ScriptCompiledBytecodeResourceUuid { get; set; }
-            public ScriptParameter Parameter { get; set; }
+            public List<ScriptParameter> Parameters { get; set; } = new List<ScriptParameter>();
             public string BaseDefinition { get; set; }
         }
         private ScriptComponent Read_ScriptComponent(BinaryReader reader)
@@ -1511,7 +1512,8 @@ namespace LibSanBag.FileResources
             var paramCount = reader.ReadUInt32();
             for (int i = 0; i < paramCount; i++)
             {
-                result.Parameter = Read_ScriptComponent_parameter(reader);
+                var parameter = Read_ScriptComponent_parameter(reader);
+                result.Parameters.Add(parameter);
             }
 
             if (result.Version >= 4)
@@ -1522,7 +1524,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioPlaySoundAtLocationEvent
+        public class AudioPlaySoundAtLocationEvent
         {
             public uint Version { get; set; }
             public List<float> Location { get; set; }
@@ -1546,7 +1548,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioPlayUrlEvent
+        public class AudioPlayUrlEvent
         {
             public uint Version { get; set; }
             public string Url { get; set; }
@@ -1564,7 +1566,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioPlayChannelEvent
+        public class AudioPlayChannelEvent
         {
             public uint Version { get; set; }
             public uint StreamChannel { get; set; }
@@ -1591,7 +1593,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioUuidEvent
+        public class AudioUuidEvent
         {
             public uint Version { get; set; }
             public string Uuid { get; set; }
@@ -1607,7 +1609,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioBindStreamEvent
+        public class AudioBindStreamEvent
         {
             public uint Version { get; set; }
             public uint StreamTagHash { get; set; }
@@ -1624,7 +1626,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioUnbindStreamEvent
+        public class AudioUnbindStreamEvent
         {
             public uint Version { get; set; }
             public uint StreamTagHash { get; set; }
@@ -1639,7 +1641,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioStopSoundEvent
+        public class AudioStopSoundEvent
         {
             public uint Version { get; set; }
             public string SoundResourceId { get; set; }
@@ -1657,7 +1659,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct AudioPlaySoundEvent
+        public class AudioPlaySoundEvent
         {
             public uint Version { get; set; }
             public string SoundResourceId { get; set; }
@@ -1677,7 +1679,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct EventParams
+        public class EventParams
         {
             public AudioPlaySoundEvent AudioPlaySoundEvent { get; set; }
             public AudioStopSoundEvent AudioStopSoundEvent { get; set; }
@@ -1728,7 +1730,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct EventRouterEvent
+        public class EventRouterEvent
         {
             public uint Version { get; set; }
             public uint SourceEmitter { get; set; }
@@ -1763,7 +1765,7 @@ namespace LibSanBag.FileResources
             return data;
         }
 
-        struct JointDefinition
+        public class JointDefinition
         {
             public uint Version { get; set; }
             public ulong EntityA { get; set; }
@@ -1807,7 +1809,7 @@ namespace LibSanBag.FileResources
             return ReadString(reader);
         }
 
-        struct ScriptedInteractionAction
+        public class ScriptedInteractionAction
         {
             public uint Version { get; set; }
             public string Label { get; set; }
@@ -1829,7 +1831,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct ScriptedInteraction
+        public class ScriptedInteraction
         {
             public uint Version { get; set; }
             public string Prompt { get; set; }
@@ -1850,7 +1852,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        class ClusterObject
+        public class ClusterObject
         {
             public uint Version { get; set; }
             public ObjectClusterTransform ObjectToCluster { get; set; }
@@ -1910,7 +1912,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        struct JointDefinitions
+        public class JointDefinitions
         {
             public uint Version { get; set; }
             public ulong ObjectA { get; set; }
@@ -1918,7 +1920,6 @@ namespace LibSanBag.FileResources
             public uint JointType { get; set; }
             public JointDefinition JointDefinition { get; set; }
         }
-
         private JointDefinitions Read_Joints(BinaryReader reader)
         {
             var result = new JointDefinitions();
@@ -1936,14 +1937,18 @@ namespace LibSanBag.FileResources
 
         public string Name { get; set; } = "";
 
+        public uint Version { get; set; }
+        public List<ClusterObject> ObjectsDefs { get; set; }
+        public List<JointDefinitions> JointDefs { get; set; }
+
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                var version = ReadVersion(reader, 1, 0x1410E3B70);
-
-                var objectDefs = Read_List(reader, Read_Objects, 1, 0x1416E96E0);
-                var jointDefs = Read_List(reader, Read_Joints, 1, 0x1416E96F0);
+                this.Version = ReadVersion(reader, 1, 0x1410E3B70);
+                
+                this.ObjectsDefs = Read_List(reader, Read_Objects, 1, 0x1416E96E0);
+                this.JointDefs = Read_List(reader, Read_Joints, 1, 0x1416E96F0);
 
                 Filename = Name;
                 Source = Name;
