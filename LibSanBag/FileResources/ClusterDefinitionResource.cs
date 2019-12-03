@@ -121,6 +121,21 @@ namespace LibSanBag.FileResources
             return version;
         }
 
+        private List<T> Read_List<T>(BinaryReader reader, Func<BinaryReader, T> func, uint currentVersion, ulong versionType)
+        {
+            List<T> result = new List<T>();
+
+            var version = ReadVersion(reader, currentVersion, versionType);
+
+            var count = reader.ReadUInt32();
+            for (int i = 0; i < count; i++)
+            {
+                var value = func(reader);
+                result.Add(value);
+            }
+
+            return result;
+        }
 
         private T ReadComponent<T>(BinaryReader reader, Func<BinaryReader, T> func)
         {
@@ -178,101 +193,156 @@ namespace LibSanBag.FileResources
             };
         }
 
-        private void Read_RigidBody_Materials(BinaryReader reader)
+        private List<string> Read_RigidBody_Materials(BinaryReader reader)
         {
+            var result = new List<string>();
+
             var version = ReadVersion(reader, 1, 0x14170C770);
-
-            var num_values = reader.ReadUInt32();
-            for (int i = 0; i < num_values; i++)
-            {
-                var valueUUID = ReadUUID(reader);
-            }
-        }
-
-        private void Read_RigidBody_GrabPointDefinition(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 4, 0x14170FBC0);
-
-            var type = reader.ReadUInt32();
-
-            // var localOffset = 
-            Read_Transform(reader);
-
-            if (version >= 2)
-            {
-                var isSticky = reader.ReadByte();
-            }
-            if (version >= 3)
-            {
-                var baseDefinition = ReadStringVersioned(reader);
-            }
-            if (version >= 4)
-            {
-                var aimAtCursor = reader.ReadByte();
-            }
-        }
-
-        private void Read_RigidBody_GrabPointDefinitions(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 1, 0x14170CCA0);
-
-            var UnknownCount = reader.ReadUInt32();
-            for (int i = 0; i < UnknownCount; i++)
-            {
-                Read_RigidBody_GrabPointDefinition(reader);
-            }
-        }
-
-        private List<string> Read_Audiocomponent_SoundResources(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 1, 0x14121C2C0);
-
-            List<string> soundResources = new List<string>();
 
             var count = reader.ReadUInt32();
             for (int i = 0; i < count; i++)
             {
                 var valueUUID = ReadUUID(reader);
-                soundResources.Add(valueUUID);
+                result.Add(valueUUID);
             }
 
-            return soundResources;
+            return result;
         }
 
-        private void Read_RigidBody_AudioResourcePoolSound(BinaryReader reader)
+        struct GrabPointDefinition
         {
-            var version = ReadVersion(reader, 1, 0x14120B5B0);
-
-            var enabled = reader.ReadByte();
-            var loudnessOffset = reader.ReadInt32();
-            var pitchRange = reader.ReadInt32();
-
-            var sounds = Read_Audiocomponent_SoundResources(reader);
+            public uint Version { get; set; }
+            public uint Type { get; set; }
+            public Transform LocalOffset { get; set; }
+            public bool IsSticky { get; set; }
+            public string BaseDefinition { get; set; }
+            public bool AimAtCursor { get; set; }
         }
 
-        private void Read_RigidBody_AudioResourcePoolSounds(BinaryReader reader)
+        private GrabPointDefinition Read_RigidBody_GrabPointDefinition(BinaryReader reader)
         {
+            var result = new GrabPointDefinition();
+
+            result.Version = ReadVersion(reader, 4, 0x14170FBC0);
+
+            result.Type = reader.ReadUInt32();
+            result.LocalOffset = Read_Transform(reader);
+
+            if (result.Version >= 2)
+            {
+                result.IsSticky = reader.ReadBoolean();
+            }
+            if (result.Version >= 3)
+            {
+                result.BaseDefinition = ReadStringVersioned(reader);
+            }
+            if (result.Version >= 4)
+            {
+                result.AimAtCursor = reader.ReadBoolean();
+            }
+
+            return result;
+        }
+
+        private List<GrabPointDefinition> Read_RigidBody_GrabPointDefinitions(BinaryReader reader)
+        {
+            var result = new List<GrabPointDefinition>();
+
+            var version = ReadVersion(reader, 1, 0x14170CCA0);
+
+            var UnknownCount = reader.ReadUInt32();
+            for (int i = 0; i < UnknownCount; i++)
+            {
+                var grabPointDefinition = Read_RigidBody_GrabPointDefinition(reader);
+                result.Add(grabPointDefinition);
+            }
+
+            return result;
+        }
+
+        private List<string> Read_Audiocomponent_SoundResources(BinaryReader reader)
+        {
+            List<string> result = new List<string>();
+
+            var version = ReadVersion(reader, 1, 0x14121C2C0);
+
+            var count = reader.ReadUInt32();
+            for (int i = 0; i < count; i++)
+            {
+                var valueUUID = ReadUUID(reader);
+                result.Add(valueUUID);
+            }
+
+            return result;
+        }
+
+        struct AudioResourcePoolSound
+        {
+            public uint Version { get; set; }
+            public bool Enabled { get; set; }
+            public int LoudnessOffset { get; set; }
+            public int PitchRange { get; set; }
+            public uint Data { get; set; }
+            public List<string> Sounds { get; set; }
+        }
+
+        private AudioResourcePoolSound Read_RigidBody_AudioResourcePoolSound(BinaryReader reader)
+        {
+            var result = new AudioResourcePoolSound();
+
+            result.Version = ReadVersion(reader, 1, 0x14120B5B0);
+
+            result.Enabled = reader.ReadBoolean();
+            result.LoudnessOffset = reader.ReadInt32();
+            result.PitchRange = reader.ReadInt32();
+
+            result.Sounds = Read_List(reader, ReadUUID, 1, 0x14121C2C0);
+
+            return result;
+        }
+
+        private List<AudioResourcePoolSound> Read_RigidBody_AudioResourcePoolSounds(BinaryReader reader)
+        {
+            var result = new List<AudioResourcePoolSound>();
+
             var version = ReadVersion(reader, 1, 0x141203830);
 
             var UnknownCount = reader.ReadUInt32();
             for (int i = 0; i < UnknownCount; i++)
             {
                 var data = reader.ReadUInt32();
-                Read_RigidBody_AudioResourcePoolSound(reader);
+                var poolSound = Read_RigidBody_AudioResourcePoolSound(reader);
+
+                poolSound.Data = data;
+                result.Add(poolSound);
             }
+
+            return result;
         }
 
-        private void Read_RigidBody_SitPointDefinition(BinaryReader reader)
+        struct SitPointDefinition
         {
-            var version = ReadVersion(reader, 2, 0x14170FBD0);
+            public uint Version { get; set; }
+            public uint Type { get; set; }
+            public Transform LocalOffset { get; set; }
+            public string BaseDefinition { get; set; }
+        }
 
-            var type = reader.ReadUInt32();
-            var localOffset = Read_Transform(reader);
+        private SitPointDefinition Read_RigidBody_SitPointDefinition(BinaryReader reader)
+        {
+            var result = new SitPointDefinition();
 
-            if (version >= 2)
+            result.Version = ReadVersion(reader, 2, 0x14170FBD0);
+
+            result.Type = reader.ReadUInt32();
+            result.LocalOffset = Read_Transform(reader);
+
+            if (result.Version >= 2)
             {
-                var baseDefinition = ReadStringVersioned(reader);
+                result.BaseDefinition = ReadStringVersioned(reader);
             }
+
+            return result;
         }
 
         private void Read_RigidBody_SitPointDefinitions(BinaryReader reader)
@@ -963,8 +1033,7 @@ namespace LibSanBag.FileResources
         {
             var version = ReadVersion(reader, 5, 0x1416F8590);
 
-            // entityToObject ?
-            Read_Transform(reader);
+            var entityToObject = Read_Transform(reader);
 
             ReadComponent(reader, Read_RigidBody);                // rigidBodyDef
             ReadComponent(reader, Read_AnimationComponent);       // animationComponentDef
