@@ -9,14 +9,7 @@ namespace LibSanBag.FileResources
     {
         public override bool IsCompressed => true;
 
-        /// <summary>
-        /// Script filename
-        /// </summary>
-        public string Filename { get; set; }
-        /// <summary>
-        /// Script source code
-        /// </summary>
-        public string Source { get; set; }
+
 
         public static ClusterDefinitionResource Create(string version = "")
         {
@@ -28,7 +21,6 @@ namespace LibSanBag.FileResources
             var textLength = decompressedStream.ReadInt32();
             var text = new string(decompressedStream.ReadChars(textLength));
 
-           //Console.WriteLine($"ReadString: {text}");
             return text;
         }
 
@@ -53,8 +45,6 @@ namespace LibSanBag.FileResources
             }
 
             var uuid = sb.ToString();
-            // Console.WriteLine($"ReadUUID: {uuid}");
-
             return uuid;
         }
 
@@ -98,8 +88,6 @@ namespace LibSanBag.FileResources
             }
 
             var uuid = sb.ToString();
-           // Console.WriteLine($"ReadUUID_B: {uuid}");
-
             return uuid;
         }
 
@@ -313,7 +301,6 @@ namespace LibSanBag.FileResources
 
             return result;
         }
-
 
         public class RigidBody
         {
@@ -1936,7 +1923,6 @@ namespace LibSanBag.FileResources
         }
 
         public string Name { get; set; } = "";
-
         public uint Version { get; set; }
         public List<ClusterObject> ObjectsDefs { get; set; }
         public List<JointDefinitions> JointDefs { get; set; }
@@ -1949,9 +1935,6 @@ namespace LibSanBag.FileResources
                 
                 this.ObjectsDefs = Read_List(reader, Read_Objects, 1, 0x1416E96E0);
                 this.JointDefs = Read_List(reader, Read_Joints, 1, 0x1416E96F0);
-
-                Filename = Name;
-                Source = Name;
             }
         }
     }
