@@ -593,9 +593,17 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private void Read_PoseComponent(BinaryReader reader)
+        struct PoseComponent
         {
-            var version_inner = ReadVersion(reader, 1, 0x1417056E0);
+            public uint Version { get; set; }
+        }
+        private PoseComponent Read_PoseComponent(BinaryReader reader)
+        {
+            var result = new PoseComponent();
+
+            result.Version = ReadVersion(reader, 1, 0x1417056E0);
+
+            return result;
         }
 
         struct CharComponent
@@ -663,43 +671,64 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private void Read_LightComponent(BinaryReader reader)
+        struct LightComponent
         {
-            var version = ReadVersion(reader, 5, 0x141705710);
+            public uint Version { get; set; }
+            public uint LightType { get; set; }
+            public string Name { get; set; }
+            public List<float> RgbIntensity { get; set; }
+            public uint Range { get; set; }
+            public bool IsShadowCaster { get; set; }
+            public bool EnableDynamicCasters { get; set; }
+            public float SpotAngle { get; set; }
+            public float SpotAngularFalloff { get; set; }
+            public float SpotNearClip { get; set; }
+            public bool IsStatic { get; set; }
+            public string BaseDefinition { get; set; }
+            public uint EditInstanceId { get; set; }
+            public uint EditLinkId { get; set; }
+        }
+        private LightComponent Read_LightComponent(BinaryReader reader)
+        {
+            var result = new LightComponent();
 
-            var lightType = reader.ReadUInt32();
+            result.Version = ReadVersion(reader, 5, 0x141705710);
 
-            var name = ReadString(reader);
+            result.LightType = reader.ReadUInt32();
 
-            var rgbIntensity = ReadVectorF(reader, 4); // TODO: Double check dimensions
+            result.Name = ReadString(reader);
 
-            var range = reader.ReadUInt32();
-            var isShadowCaster = reader.ReadByte();
+            result.RgbIntensity = ReadVectorF(reader, 4); // TODO: Double check dimensions
 
-            if (version >= 3)
+            result.Range = reader.ReadUInt32();
+            result.IsShadowCaster = reader.ReadBoolean();
+
+            if (result.Version >= 3)
             {
-                var enableDynamicCasters = reader.ReadByte();
+                result.EnableDynamicCasters = reader.ReadBoolean();
             }
 
-            var spot_angle = reader.ReadUInt32();
-            var spot_angularFalloff = reader.ReadUInt32();
-            var spot_nearClip = reader.ReadUInt32();
+            result.SpotAngle = reader.ReadUInt32();
+            result.SpotAngularFalloff = reader.ReadUInt32();
+            result.SpotNearClip = reader.ReadUInt32();
 
-            if (version >= 2)
+            if (result.Version >= 2)
             {
-                var isStatic =reader.ReadByte();
+                result.IsStatic = reader.ReadBoolean();
             }
 
-            if (version >= 4)
+            if (result.Version >= 4)
             {
-                var baseDefinition = ReadStringVersioned(reader);
+                result.BaseDefinition = ReadStringVersioned(reader);
             }
 
-            if (version >= 5)
+            if (result.Version >= 5)
             {
-                var editInstanceId = reader.ReadUInt32();
-                var editLinkId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadUInt32();
+                result.EditLinkId = reader.ReadUInt32();
             }
+
+            return result;
         }
 
         struct PartLod
@@ -774,138 +803,204 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private void Read_ModelDefinition(BinaryReader reader)
+        struct ModelDefinition
         {
-            var version_inner = ReadVersion(reader, 2, 0x1411FD8F0);
+            public uint Version { get; set; }
+            public string GeometryUuid { get; set; }
+            public List<ModelDefinitionPart> Parts { get; set; }
+        }
+        private ModelDefinition Read_ModelDefinition(BinaryReader reader)
+        {
+            var result = new ModelDefinition();
 
-            var geometryUUID = ReadUUID(reader);
+            result.Version = ReadVersion(reader, 2, 0x1411FD8F0);
 
-            var parts = Read_List(reader, Read_ModelDefinition_Part, 1, 0x141206410);
+            result.GeometryUuid = ReadUUID(reader);
 
-            if (version_inner < 2)
+            result.Parts = Read_List(reader, Read_ModelDefinition_Part, 1, 0x141206410);
+
+            if (result.Version < 2)
             {
                 // noop
             }
+
+            return result;
         }
 
-        private void Read_MeshComponent_v3(BinaryReader reader)
+        struct MeshComponent_V3
         {
-            var version = ReadVersion(reader, 5, 0x141706B40);
-            var name = ReadString(reader);
-
-            // modelDefinition
-            ReadComponent(reader, Read_ModelDefinition);
-
-            var scale = reader.ReadUInt32();
-
-            if (version >= 2)
-            {
-                var maxRenderDistance = reader.ReadUInt32();
-            }
-            if (version >= 3)
-            {
-                var inScriptable = reader.ReadByte();
-            }
-            if (version >= 4)
-            {
-                var isVisible = reader.ReadByte();
-            }
-            if (version >= 5)
-            {
-                var editInstanceId = reader.ReadUInt32();
-                var editLinkId = reader.ReadUInt32();
-            }
+            public uint Version { get; set; }
+            public string Name { get; set; }
+            public ModelDefinition ModelDefinition { get; set; }
+            public float Scale { get; set; }
+            public float MaxRenderDistance { get; set; }
+            public bool IsScriptable { get; set; }
+            public bool IsVisible { get; set; }
+            public uint EditInstanceId { get; set; }
+            public uint EditLinkId { get; set; }
         }
-        private void Read_StaticMeshComponent(BinaryReader reader)
+        private MeshComponent_V3 Read_MeshComponent_v3(BinaryReader reader)
         {
-            var version = ReadVersion(reader, 3, 0x141705720);
+            var result = new MeshComponent_V3();
 
-            if (version >= 3)
+            result.Version = ReadVersion(reader, 5, 0x141706B40);
+            result.Name = ReadString(reader);
+
+            result.ModelDefinition = ReadComponent(reader, Read_ModelDefinition);
+
+            result.Scale = reader.ReadUInt32();
+
+            if (result.Version >= 2)
             {
-                Read_MeshComponent_v3(reader);
+                result.MaxRenderDistance = reader.ReadUInt32();
+            }
+            if (result.Version >= 3)
+            {
+                result.IsScriptable = reader.ReadBoolean();
+            }
+            if (result.Version >= 4)
+            {
+                result.IsVisible = reader.ReadBoolean();
+            }
+            if (result.Version >= 5)
+            {
+                result.EditInstanceId = reader.ReadUInt32();
+                result.EditLinkId = reader.ReadUInt32();
+            }
+
+            return result;
+        }
+
+        struct StaticMeshComponent
+        {
+            public uint Version { get; set; }
+            public MeshComponent_V3 MeshComponent_V3 { get; set; }
+            public string Name { get; set; }
+            public ModelDefinition ModelDefinition { get; set; }
+            public bool IsShadowCaster { get; set; }
+            public float Scale { get; set; }
+        }
+        private StaticMeshComponent Read_StaticMeshComponent(BinaryReader reader)
+        {
+            var result = new StaticMeshComponent();
+
+            result.Version = ReadVersion(reader, 3, 0x141705720);
+
+            if (result.Version >= 3)
+            {
+                result.MeshComponent_V3 = Read_MeshComponent_v3(reader);
             }
             else
             {
-                var name = ReadString(reader);
+                result.Name = ReadString(reader);
+                result.ModelDefinition = ReadComponent(reader, Read_ModelDefinition);
+                result.IsShadowCaster = reader.ReadBoolean();
 
-                // modelDefinition
-                ReadComponent(reader, Read_ModelDefinition);
-
-                // skip?? TODO: Remove me most likely
-                var shadowCaster = reader.ReadByte();
-
-                if (version >= 2)
+                if (result.Version >= 2)
                 {
-                    var scale = reader.ReadUInt32();
+                    result.Scale = reader.ReadSingle();
                 }
             }
+
+            return result;
         }
 
-        private void Read_RiggedMeshComponent(BinaryReader reader)
+        struct RiggedMeshComponent
         {
-            var version = ReadVersion(reader, 3, 0x141705730);
+            public uint Version { get; set; }
+            public MeshComponent_V3 MeshComponent_V3 { get; set; }
+            public string Name { get; set; }
+            public ModelDefinition ModelDefinition { get; set; }
+            public bool IsShadowCaster { get; set; }
+            public float Scale { get; set; }
+        }
+        private RiggedMeshComponent Read_RiggedMeshComponent(BinaryReader reader)
+        {
+            var result = new RiggedMeshComponent();
 
-            if (version >= 3)
+            result.Version = ReadVersion(reader, 3, 0x141705730);
+
+            if (result.Version >= 3)
             {
-                Read_MeshComponent_v3(reader);
+                result.MeshComponent_V3 = Read_MeshComponent_v3(reader);
             }
             else
             {
-                var name = ReadString(reader);
+                result.Name = ReadString(reader);
+                result.ModelDefinition = ReadComponent(reader, Read_ModelDefinition);
+                result.IsShadowCaster = reader.ReadBoolean();
 
-                // modelDefinition
-                ReadComponent(reader, Read_ModelDefinition);
-
-                // yeah i don't know. maybe? i think we skip this byte though
-                var shadowCaster = reader.ReadByte();
-
-                if (version >= 2)
+                if (result.Version >= 2)
                 {
-                    var scale = reader.ReadUInt32();
+                    result.Scale = reader.ReadSingle();
                 }
             }
+
+            return result;
         }
 
-        // read_audiocomponent_shape ?
-        private void Read_Audiocomponent_Shape(BinaryReader reader)
+        struct AudioShape
         {
-            var version = ReadVersion(reader, 1, 0x14170C990);
+            public uint Version { get; set; }
+            public uint Type { get; set; }
+            public uint SphereRadius { get; set; }
+            public AABB Aabb { get; set; }
+        }
+        private AudioShape Read_Audiocomponent_Shape(BinaryReader reader)
+        {
+            var result = new AudioShape();
 
-            var type = reader.ReadUInt32();
-            if(type == 2)
+            result.Version = ReadVersion(reader, 1, 0x14170C990);
+
+            result.Type = reader.ReadUInt32();
+            if(result.Type == 2)
             {
-                var sphereRadius = reader.ReadUInt32();
+                result.SphereRadius = reader.ReadUInt32();
             }
-            else if (type == 3)
+            else if (result.Type == 3)
             {
-                var aabb = Read_AABB(reader);
+                result.Aabb = Read_AABB(reader);
             }
+
+            return result;
         }
 
-        private void Read_AudioComponent(BinaryReader reader)
+        struct AudioComponent
         {
-            var version = ReadVersion(reader, 4, 0x141705740);
+            public uint Version { get; set; }
+            public string BankResourceUuid { get; set; }
+            public List<string> SoundResources { get; set; }
+            public AudioShape Shape { get; set; }
+            public string BaseDefinition { get; set; }
+            public uint EditInstanceId { get; set; }
+            public uint EditLinkId { get; set; }
+        }
+        private AudioComponent Read_AudioComponent(BinaryReader reader)
+        {
+            var result = new AudioComponent();
 
-            if (version < 3)
+            result.Version = ReadVersion(reader, 4, 0x141705740);
+
+            if (result.Version < 3)
             {
-                var bankResourceUUID = ReadUUID(reader);
+                result.BankResourceUuid = ReadUUID(reader);
             }
 
-            var soundResources = Read_List(reader, ReadUUID, 1, 0x14121C2C0);
+            result.SoundResources = Read_List(reader, ReadUUID, 1, 0x14121C2C0);
 
-            // shape
-            Read_Audiocomponent_Shape(reader);
+            result.Shape = Read_Audiocomponent_Shape(reader);
 
-            if (version >= 2)
+            if (result.Version >= 2)
             {
-                var baseDefinition = ReadStringVersioned(reader);
+                result.BaseDefinition = ReadStringVersioned(reader);
             }
-            if (version >= 4)
+            if (result.Version >= 4)
             {
-                var editInstanceId = reader.ReadUInt32();
-                var editLinkId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadUInt32();
+                result.EditLinkId = reader.ReadUInt32();
             }
 
+            return result;
         }
 
         struct AABB
@@ -984,81 +1079,145 @@ namespace LibSanBag.FileResources
         }
 
 
-        private void Read_TerrainComponent(BinaryReader reader)
+        struct TerrainComponent
         {
-            var version = ReadVersion(reader, 3, 0x141706740);
-            var name = ReadString(reader);
-            var versionB = ReadVersion(reader, 1, 0x14170D340);
+            public uint Version { get; set; }
+            public string Name { get; set; }
+            public uint Version2 { get; set; }
+            public List<TerrainComponentRuntimeData> RuntimeData { get; set; }
+            public AABB Aabb { get; set; }
+            public UInt64 AudioMaterialIndex { get; set; }
+        }
+        private TerrainComponent Read_TerrainComponent(BinaryReader reader)
+        {
+            var result = new TerrainComponent();
 
-            var runtimeData = Read_List(reader, Read_TerrainComponent_RuntimeData_inner, 1, 0x14170FC10);
+            result.Version = ReadVersion(reader, 3, 0x141706740);
+            result.Name = ReadString(reader);
+            result.Version2 = ReadVersion(reader, 1, 0x14170D340);
 
-            if (version >= 2)
+            result.RuntimeData = Read_List(reader, Read_TerrainComponent_RuntimeData_inner, 1, 0x14170FC10);
+
+            if (result.Version >= 2)
             {
-                var aabb = Read_AABB(reader);
+                result.Aabb = Read_AABB(reader);
             }
 
-            if (version >= 3)
+            if (result.Version >= 3)
             {
-                var audioMaterialIndex = reader.ReadUInt64();
+                result.AudioMaterialIndex = reader.ReadUInt64();
             }
+
+            return result;
         }
 
-        private void Read_IKBodyComponent(BinaryReader reader)
+        struct IKBodyComponent
         {
-            var version_inner = ReadVersion(reader, 1, 0x141706750);
+            public uint Version { get; set; }
+        }
+        private IKBodyComponent Read_IKBodyComponent(BinaryReader reader)
+        {
+            var result = new IKBodyComponent();
+
+            result.Version = ReadVersion(reader, 1, 0x141706750);
+
+            return result;
         }
 
-        private void Read_MovementComponent(BinaryReader reader)
+        struct MovementComponent
         {
-            var name = ReadStringVersioned(reader);
+            public string Name { get; set; }
+        }
+        private MovementComponent Read_MovementComponent(BinaryReader reader)
+        {
+            // TODO: No version??
+            var result = new MovementComponent();
+
+            result.Name = ReadStringVersioned(reader);
+
+            return result;
         }
 
-        private void Read_SpawnPointComponent(BinaryReader reader)
+        struct SpawnPointComponent
         {
-            var version = ReadVersion(reader, 2, 0x141706760);
-            var initialSpawnPoint = reader.ReadByte();
+            public uint Version { get; set; }
+            public byte InitialSpawnPoint { get; set; }
+            public string BaseDefinition { get; set; }
+        }
+        private SpawnPointComponent Read_SpawnPointComponent(BinaryReader reader)
+        {
+            var result = new SpawnPointComponent();
 
-            if (version >= 2)
+            result.Version = ReadVersion(reader, 2, 0x141706760);
+            result.InitialSpawnPoint = reader.ReadByte();
+
+            if (result.Version >= 2)
             {
-                var baseDefinition = ReadStringVersioned(reader);
+                result.BaseDefinition = ReadStringVersioned(reader);
             }
+
+            return result;
         }
 
-        private void ClusterDefinition_reader4(BinaryReader reader)
+        struct EntityInfo
         {
-            var version = ReadVersion(reader, 5, 0x1416F8590);
+            public uint Version { get; set; }
+            public Transform EntityToObject { get; set; }
+            public RigidBody RigidBodyDef { get; set; }
+            public AnimationComponent AnimationComponentDef { get; set; }
+            public PoseComponent PoseComponentDef{ get; set; }
+            public CharComponent CharComponentDef { get; set; }
+            public CameraComponent CameraComponentDef { get; set; }
+            public LightComponent LightComponentDef { get; set; }
+            public StaticMeshComponent StaticMeshComponentDef { get; set; }
+            public RiggedMeshComponent RiggedMeshComponentDef { get; set; }
+            public AudioComponent AudioComponentDef { get; set; }
+            public TerrainComponent TerrainComponentDef { get; set; }
+            public IKBodyComponent IkBodyComponentDef { get; set; }
+            public MovementComponent MovementComponentDef { get; set; }
+            public SpawnPointComponent SpawnPointComponentDef { get; set; }
+            public string Name { get; set; }
+            public bool FixedInScene { get; set; }
+        }
+        private EntityInfo Read_EntityInfo(BinaryReader reader)
+        {
+            var result = new EntityInfo();
 
-            var entityToObject = Read_Transform(reader);
+            result.Version = ReadVersion(reader, 5, 0x1416F8590);
 
-            ReadComponent(reader, Read_RigidBody);                // rigidBodyDef
-            ReadComponent(reader, Read_AnimationComponent);       // animationComponentDef
-            ReadComponent(reader, Read_PoseComponent);            // poseComponentDef
-            ReadComponent(reader, Read_CharComponent);            // charComponentDef
-            ReadComponent(reader, Read_CameraComponent);          // cameraComponentDef
-            ReadComponent(reader, Read_LightComponent);           // lightComponentDef
-            ReadComponent(reader, Read_StaticMeshComponent);      // staticMeshComponentDef
-            ReadComponent(reader, Read_RiggedMeshComponent);      // riggedMeshComponentDef
-            ReadComponent(reader, Read_AudioComponent);           // audioComponentDef
+            result.EntityToObject = Read_Transform(reader);
 
-            if (version >= 2)
+            result.RigidBodyDef = ReadComponent(reader, Read_RigidBody);
+            result.AnimationComponentDef = ReadComponent(reader, Read_AnimationComponent);
+            result.PoseComponentDef = ReadComponent(reader, Read_PoseComponent);
+            result.CharComponentDef = ReadComponent(reader, Read_CharComponent);
+            result.CameraComponentDef = ReadComponent(reader, Read_CameraComponent);
+            result.LightComponentDef = ReadComponent(reader, Read_LightComponent);
+            result.StaticMeshComponentDef = ReadComponent(reader, Read_StaticMeshComponent);
+            result.RiggedMeshComponentDef = ReadComponent(reader, Read_RiggedMeshComponent);
+            result.AudioComponentDef = ReadComponent(reader, Read_AudioComponent);
+
+            if (result.Version >= 2)
             {
-                ReadComponent(reader, Read_TerrainComponent);     // terrainComponentDef
+                result.TerrainComponentDef = ReadComponent(reader, Read_TerrainComponent);
             }
-            if (version >= 3)
+            if (result.Version >= 3)
             {
-                ReadComponent(reader, Read_IKBodyComponent);      // ikBodyComponentDef
+                result.IkBodyComponentDef = ReadComponent(reader, Read_IKBodyComponent);
             }
-            if (version >= 4)
+            if (result.Version >= 4)
             {
-                ReadComponent(reader, Read_MovementComponent);    // movementComponentDef
+                result.MovementComponentDef = ReadComponent(reader, Read_MovementComponent);
             }
-            if (version >= 5)
+            if (result.Version >= 5)
             {
-                ReadComponent(reader, Read_SpawnPointComponent);  // spawnPointComponentDef
+                result.SpawnPointComponentDef = ReadComponent(reader, Read_SpawnPointComponent);
             }
 
-            var name = ReadString(reader);
-            var fixedInScene = reader.ReadByte();
+            result.Name = ReadString(reader);
+            result.FixedInScene = reader.ReadBoolean();
+
+            return result;
         }
 
         private List<List<float>> Read_RotationMatrix(BinaryReader reader, int dimension=3)
@@ -1080,14 +1239,22 @@ namespace LibSanBag.FileResources
             return matrix;
         }
 
-        private void ClusterDefinition_reader1(BinaryReader reader)
+        struct ObjectClusterTransform
         {
-            var version = ReadVersion(reader, 1, 0x141198AB0);
+            public uint Version { get; set; }
+            public List<List<float>> Rotation { get; set; }
+            public List<float> Translation { get; set; }
+        }
+        private ObjectClusterTransform Read_ObjectClusterTransform(BinaryReader reader)
+        {
+            var result = new ObjectClusterTransform();
 
-            var rotation = Read_RotationMatrix(reader);
+            result.Version = ReadVersion(reader, 1, 0x141198AB0);
 
-            // guessing this is some translation component
-            var translation = ReadVectorF(reader, 3);
+            result.Rotation = Read_RotationMatrix(reader);
+            result.Translation = ReadVectorF(reader, 3); // just a guess
+
+            return result;
         }
 
         class InteractionResult
@@ -1355,150 +1522,239 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private void Read_ClusterDefinition_ScriptDefs_V1(BinaryReader reader)
+        struct AudioPlaySoundAtLocationEvent
         {
-            var version = ReadVersion(reader, 1, 0x1416E9720);
+            public uint Version { get; set; }
+            public List<float> Location { get; set; }
+            public AudioShape Shape { get; set; }
+            public string SoundResourceId { get; set; }
+            public uint Loudness { get; set; }
+        }
+        private AudioPlaySoundAtLocationEvent Read_EventRouter_AudioPlaySoundAtLocationEvent(BinaryReader reader)
+        {
+            var result = new AudioPlaySoundAtLocationEvent();
 
-            var unknownCounter = reader.ReadUInt32();
-            for (int i = 0; i < unknownCounter; i++)
+            result.Version = ReadVersion(reader, 2, 0x14170EFF0);
+
+            result.Location = ReadVectorF(reader, 4); // might be integers?
+
+            result.Shape = Read_Audiocomponent_Shape(reader);
+
+            result.SoundResourceId = ReadUUID(reader);
+            result.Loudness = reader.ReadUInt32();
+
+            return result;
+        }
+
+        struct AudioPlayUrlEvent
+        {
+            public uint Version { get; set; }
+            public string Url { get; set; }
+            public uint Loudness { get; set; }
+        }
+        private AudioPlayUrlEvent Read_EventRouter_AudioPlayUrlEvent(BinaryReader reader)
+        {
+            var result = new AudioPlayUrlEvent();
+
+            result.Version = ReadVersion(reader, 1, 0x14170F000);
+
+            result.Url = ReadString(reader);
+            result.Loudness = reader.ReadUInt32();
+
+            return result;
+        }
+
+        struct AudioPlayChannelEvent
+        {
+            public uint Version { get; set; }
+            public uint StreamChannel { get; set; }
+            public string Url { get; set; }
+            public uint Loudness { get; set; }
+        }
+        private AudioPlayChannelEvent Read_EventRouter_AudioPlayChannelEvent(BinaryReader reader)
+        {
+            var result = new AudioPlayChannelEvent();
+
+            result.Version = ReadVersion(reader, 2, 0x14170F010);
+
+            if (result.Version >= 2)
             {
-                // "value"
-                ReadComponent(reader, Read_ScriptComponent);
-            }
-        }
-
-        private void Read_EventRouter_AudioPlaySoundAtLocationEvent(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 2, 0x14170EFF0);
-
-            var location = ReadVectorF(reader, 4); // might be integers?
-
-            // var shape = 
-            Read_Audiocomponent_Shape(reader);
-
-            var soundResourceId = ReadUUID(reader);
-            var loudness = reader.ReadUInt32();
-        }
-
-        private void Read_EventRouter_AudioPlayUrlEvent(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 1, 0x14170F000);
-
-            var url = ReadString(reader);
-            var loudness = reader.ReadUInt32();
-        }
-
-        private void Read_EventRouter_AudioPlayChannelEvent(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 2, 0x14170F010);
-
-            if (version >= 2)
-            {
-                var streamChannel = reader.ReadUInt32();
+                result.StreamChannel = reader.ReadUInt32();
             }
             else
             {
-                var url = ReadString(reader);
+                result.Url = ReadString(reader);
             }
 
-            var loudness = reader.ReadUInt32();
+            result.Loudness = reader.ReadUInt32();
+
+            return result;
         }
 
-        private void Read_EventRouter_AudioUuidEvent(BinaryReader reader)
+        struct AudioUuidEvent
         {
-            var version = ReadVersion(reader, 1, 0x14170EFE0);
+            public uint Version { get; set; }
+            public string Uuid { get; set; }
+        }
+        private AudioUuidEvent Read_EventRouter_AudioUuidEvent(BinaryReader reader)
+        {
+            var result = new AudioUuidEvent();
 
-            var m_uuid = ReadUUID_B(reader);
+            result.Version = ReadVersion(reader, 1, 0x14170EFE0);
+
+            result.Uuid = ReadUUID_B(reader);
+
+            return result;
         }
 
-        private void Read_EventRouter_AudioBindStreamEvent(BinaryReader reader)
+        struct AudioBindStreamEvent
         {
-            var version = ReadVersion(reader, 1, 0x14170EFC0);
-            var streamTagHash = reader.ReadUInt32();
-            var loudness = reader.ReadUInt32();
+            public uint Version { get; set; }
+            public uint StreamTagHash { get; set; }
+            public uint Loudness { get; set; }
+        }
+        private AudioBindStreamEvent Read_EventRouter_AudioBindStreamEvent(BinaryReader reader)
+        {
+            var result = new AudioBindStreamEvent();
+
+            result.Version = ReadVersion(reader, 1, 0x14170EFC0);
+            result.StreamTagHash = reader.ReadUInt32();
+            result.Loudness = reader.ReadUInt32();
+
+            return result;
         }
 
-        private void Read_EventRouter_AudioUnbindStreamEvent(BinaryReader reader)
+        struct AudioUnbindStreamEvent
         {
-            var version = ReadVersion(reader, 1, 0x14170EFD0);
-            var streamTagHash = reader.ReadUInt32();
+            public uint Version { get; set; }
+            public uint StreamTagHash { get; set; }
+        }
+        private AudioUnbindStreamEvent Read_EventRouter_AudioUnbindStreamEvent(BinaryReader reader)
+        {
+            var result = new AudioUnbindStreamEvent();
+
+            result.Version = ReadVersion(reader, 1, 0x14170EFD0);
+            result.StreamTagHash = reader.ReadUInt32();
+
+            return result;
         }
 
-        private void Read_EventRouter_AudioStopSoundEvent(BinaryReader reader)
+        struct AudioStopSoundEvent
         {
-            var versionA = ReadVersion(reader, 1, 0x14170EFB0);
+            public uint Version { get; set; }
+            public string SoundResourceId { get; set; }
+            public bool Immediate { get; set; }
+        }
+        private AudioStopSoundEvent Read_EventRouter_AudioStopSoundEvent(BinaryReader reader)
+        {
+            var result = new AudioStopSoundEvent();
 
-            var soundResourceId = ReadUUID(reader);
-            var immediate = reader.ReadByte();
+            result.Version = ReadVersion(reader, 1, 0x14170EFB0);
+
+            result.SoundResourceId = ReadUUID(reader);
+            result.Immediate = reader.ReadBoolean();
+
+            return result;
         }
 
-
-        private void Read_EventRouter_AudioPlaySoundEvent(BinaryReader reader)
+        struct AudioPlaySoundEvent
         {
-            var versionA = ReadVersion(reader, 1, 0x14170EFA0);
+            public uint Version { get; set; }
+            public string SoundResourceId { get; set; }
+            public uint Loudness { get; set; }
+            public bool Loop { get; set; }
+        }
+        private AudioPlaySoundEvent Read_EventRouter_AudioPlaySoundEvent(BinaryReader reader)
+        {
+            var result = new AudioPlaySoundEvent();
 
-            var soundResourceId = ReadUUID(reader);
-            var loudness = reader.ReadUInt32();
-            var loop = reader.ReadByte();
+            result.Version = ReadVersion(reader, 1, 0x14170EFA0);
+
+            result.SoundResourceId = ReadUUID(reader);
+            result.Loudness = reader.ReadUInt32();
+            result.Loop = reader.ReadBoolean();
+
+            return result;
         }
 
-        private void Read_EventRouter_EventParams(BinaryReader reader, uint eventType)
+        struct EventParams
         {
+            public AudioPlaySoundEvent AudioPlaySoundEvent { get; set; }
+            public AudioStopSoundEvent AudioStopSoundEvent { get; set; }
+            public AudioBindStreamEvent AudioBindStreamEvent { get; set; }
+            public AudioUuidEvent AudioUuidEvent { get; set; }
+            public AudioPlaySoundAtLocationEvent AudioPlaySoundAtLocationEvent { get; set; }
+            public AudioPlayUrlEvent AudioPlayUrlEvent { get; set; }
+            public AudioPlayChannelEvent AudioPlayChannelEvent { get; set; }
+            public AudioUnbindStreamEvent AudioUnbindStreamEvent { get; set; }
+        }
+        private EventParams Read_EventRouter_EventParams(BinaryReader reader, uint eventType)
+        {
+            var result = new EventParams();
+
             if (eventType == 1)
             {
-                // var audioPlaySoundEvent = 
-                Read_EventRouter_AudioPlaySoundEvent(reader);
+                result.AudioPlaySoundEvent = Read_EventRouter_AudioPlaySoundEvent(reader);
             }
             else if (eventType == 2)
             {
-                // var audioStopSoundEvent = 
-                Read_EventRouter_AudioStopSoundEvent(reader);
+                result.AudioStopSoundEvent = Read_EventRouter_AudioStopSoundEvent(reader);
             }
             else if (eventType == 4)
             {
-                // var audioBindStreamEvent = 
-                Read_EventRouter_AudioBindStreamEvent(reader);
+                result.AudioBindStreamEvent = Read_EventRouter_AudioBindStreamEvent(reader);
             }
             else if (eventType == 16)
             {
-                // var audioUuidEvent = 
-                Read_EventRouter_AudioUuidEvent(reader);
+                result.AudioUuidEvent = Read_EventRouter_AudioUuidEvent(reader);
             }
             else if (eventType == 64)
             {
-                // var audioPlaySoundAtLocationEvent = 
-                Read_EventRouter_AudioPlaySoundAtLocationEvent(reader);
+                result.AudioPlaySoundAtLocationEvent = Read_EventRouter_AudioPlaySoundAtLocationEvent(reader);
             }
             else if (eventType == 256)
             {
-                // var audioPlayUrlEvent = 
-                Read_EventRouter_AudioPlayUrlEvent(reader);
+                result.AudioPlayUrlEvent = Read_EventRouter_AudioPlayUrlEvent(reader);
             }
             else if (eventType > 16)
             {
-                // var audioPlayChannelEvent = 
-                Read_EventRouter_AudioPlayChannelEvent(reader);
+                result.AudioPlayChannelEvent = Read_EventRouter_AudioPlayChannelEvent(reader);
             }
             else if(eventType < 16)
             {
-                // var audioUnbindStreamEvent = 
-                Read_EventRouter_AudioUnbindStreamEvent(reader);
+                result.AudioUnbindStreamEvent = Read_EventRouter_AudioUnbindStreamEvent(reader);
             }
+
+            return result;
         }
 
-        private void Read_EventRouter_Events(BinaryReader reader)
+        struct EventRouterEvent
         {
-            var version = ReadVersion(reader, 1, 0x1417056B0);
+            public uint Version { get; set; }
+            public uint SourceEmitter { get; set; }
+            public ushort SourceEntityIndex { get; set; }
+            public uint SourceEvent { get; set; }
+            public uint TargetReceiver { get; set; }
+            public ushort TargetEntityIndex  { get; set; }
+            public uint TargetEvent { get; set; }
+            public EventParams TargetEventParams { get; set; }
+        }
+        private EventRouterEvent Read_EventRouter_Events(BinaryReader reader)
+        {
+            var result = new EventRouterEvent();
 
-            var sourceEmitter = reader.ReadUInt32();
-            var sourceEntityIndex = reader.ReadUInt16();
-            var sourceEvent = reader.ReadUInt32();
-            var targetReceiver = reader.ReadUInt32();
-            var targetEntityIndex = reader.ReadUInt16();
-            var targetEvent = reader.ReadUInt32();
+            result.Version = ReadVersion(reader, 1, 0x1417056B0);
 
-            // targetEventParams = 
-            Read_EventRouter_EventParams(reader, targetEvent);
+            result.SourceEmitter = reader.ReadUInt32();
+            result.SourceEntityIndex = reader.ReadUInt16();
+            result.SourceEvent = reader.ReadUInt32();
+            result.TargetReceiver = reader.ReadUInt32();
+            result.TargetEntityIndex = reader.ReadUInt16();
+            result.TargetEvent = reader.ReadUInt32();
+
+            result.TargetEventParams = Read_EventRouter_EventParams(reader, result.TargetEvent);
+
+            return result;
         }
 
         private uint Read_ClusterDefinition_JointType(BinaryReader reader)
@@ -1526,9 +1782,9 @@ namespace LibSanBag.FileResources
             result.EntityB = reader.ReadUInt64();
             result.Type = reader.ReadUInt32();
 
-            if (result.T != 1)
+            if (result.Type != 1)
             {
-                if (result.T == 2)
+                if (result.Type == 2)
                 {
                     result.AttachmentBoneName = ReadString(reader);
                 }
@@ -1594,46 +1850,62 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private void ClusterDefinition_reader0(BinaryReader reader)
+        class ClusterObject
         {
-            var version = ReadVersion(reader, 5, 0x1416EDFF0);
+            public uint Version { get; set; }
+            public ObjectClusterTransform ObjectToCluster { get; set; }
+            public List<EntityInfo> EntityInfos { get; set; }
+            public List<ScriptComponent> ScriptDefs { get; set; }
+            public List<EventRouterEvent> EventRouter { get; set; }
+            public List<uint> JointTypes { get; set; }
+            public List<JointDefinition> JoinDefinitions { get; set; } = new List<JointDefinition>();
+            public List<ScriptedInteraction> ScriptedInteractions { get; set; }
+            public string Name { get; set; }
+            public uint EditInstanceId { get; set; }
+        }
+        private ClusterObject Read_Objects(BinaryReader reader)
+        {
+            var result = new ClusterObject();
 
-            // objectToCluster = 
-            ClusterDefinition_reader1(reader);
+            result.Version = ReadVersion(reader, 5, 0x1416EDFF0);
 
-            var entityInfos = Read_List(reader, ClusterDefinition_reader4, 1, 0x1416F31F0);
+            result.ObjectToCluster =  Read_ObjectClusterTransform(reader);
 
-            if (version < 3)
+            result.EntityInfos = Read_List(reader, Read_EntityInfo, 1, 0x1416F31F0);
+
+            if (result.Version < 3)
             {
-                var scriptDefs = Read_List(reader, n => ReadComponent(n, Read_ScriptComponent), 1, 0x1416E9720);
-                Read_ClusterDefinition_ScriptDefs_V1(reader);
+                // this is busted after this point...
+                result.ScriptDefs = Read_List(reader, n => ReadComponent(n, Read_ScriptComponent), 1, 0x1416E9720);
             }
             else
             {
-                var scriptDefs = Read_List(reader, Read_ScriptComponent, 1, 0x1416E9710);
+                result.ScriptDefs = Read_List(reader, Read_ScriptComponent, 1, 0x1416E9710);
             }
 
-            var eventRouter = Read_List(reader, Read_EventRouter_Events, 1, 0x1416FD570);
+            result.EventRouter = Read_List(reader, Read_EventRouter_Events, 1, 0x1416FD570);
 
-            var jointTypes = Read_List(reader, Read_ClusterDefinition_JointType, 1, 0x1416F3200);
-            for (int i = 0; i < jointTypes.Count; i++)
+            result.JointTypes = Read_List(reader, Read_ClusterDefinition_JointType, 1, 0x1416F3200);
+            for (int i = 0; i < result.JointTypes.Count; i++)
             {
-                // var joinDefinition = 
-                Read_JointDefinition(reader);
+                var joinDefinition = Read_JointDefinition(reader);
+                result.JoinDefinitions.Add(joinDefinition);
             }
 
-            if (version >= 2)
+            if (result.Version >= 2)
             {
-                var scriptedInteractions = Read_List(reader, Read_ClusterDefinition_ScriptedInteraction, 1, 0x1416F4530);
+                result.ScriptedInteractions = Read_List(reader, Read_ClusterDefinition_ScriptedInteraction, 1, 0x1416F4530);
             }
-            if (version >= 4)
+            if (result.Version >= 4)
             {
-                this.Name = ReadString(reader);
+                result.Name = ReadString(reader);
             }
-            if (version >= 5)
+            if (result.Version >= 5)
             {
-                var editInstanceId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadUInt32();
             }
+
+            return result;
         }
 
         struct JointDefinitions
@@ -1668,7 +1940,7 @@ namespace LibSanBag.FileResources
             {
                 var version = ReadVersion(reader, 1, 0x1410E3B70);
 
-                var objectDefs = Read_List(reader, ClusterDefinition_reader0, 1, 0x1416E96E0);
+                var objectDefs = Read_List(reader, Read_Objects, 1, 0x1416E96E0);
                 var jointDefs = Read_List(reader, Read_Joints, 1, 0x1416E96F0);
 
                 Filename = Name;
