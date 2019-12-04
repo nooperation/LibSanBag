@@ -146,9 +146,9 @@ namespace LibSanBag.FileResources
             public uint Version { get; set; }
             public uint SourceFlags { get; set; }
             public uint SpawnLifetimePolicy { get; set; }
-            public ulong TotalSpawnLimit { get; set; }
-            public ulong PerUserSpawnLimit { get; set; }
-            public uint SpawnTimeout { get; set; }
+            public long TotalSpawnLimit { get; set; }
+            public long PerUserSpawnLimit { get; set; }
+            public float SpawnTimeout { get; set; }
         }
         private RuntimeInventorySettings Read_RuntimeInventorySettings(BinaryReader reader)
         {
@@ -158,9 +158,9 @@ namespace LibSanBag.FileResources
 
             result.SourceFlags = reader.ReadUInt32();
             result.SpawnLifetimePolicy = reader.ReadUInt32();
-            result.TotalSpawnLimit = reader.ReadUInt64();
-            result.PerUserSpawnLimit = reader.ReadUInt64();
-            result.SpawnTimeout = reader.ReadUInt32();
+            result.TotalSpawnLimit = reader.ReadInt64();
+            result.PerUserSpawnLimit = reader.ReadInt64();
+            result.SpawnTimeout = reader.ReadSingle();
 
             return result;
         }
