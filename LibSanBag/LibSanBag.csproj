@@ -72,6 +72,7 @@
     <Compile Include="FileResources\ManifestResource.cs" />
     <Compile Include="FileResources\ScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\ScriptMetadataResource.cs" />
+    <Compile Include="FileResources\ClusterDefinitionResource.cs" />
     <Compile Include="FileResources\ScriptSourceTextResource.cs" />
     <Compile Include="FileResources\LuaScriptResource.cs" />
     <Compile Include="FileResources\SoundResource.cs" />
@@ -116,6 +117,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
       <Version>3.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="SanTools.LibCRN">
       <Version>1.0.8</Version>
