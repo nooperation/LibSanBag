@@ -85,7 +85,9 @@ namespace LibSanBag.FileResources
         protected string ReadString(BinaryReader decompressedStream)
         {
             var textLength = decompressedStream.ReadInt32();
-            var text = new string(decompressedStream.ReadChars(textLength));
+
+            var rawTextBytes = decompressedStream.ReadBytes(textLength);
+            var text = ASCIIEncoding.UTF8.GetString(rawTextBytes);
 
             return text;
         }
