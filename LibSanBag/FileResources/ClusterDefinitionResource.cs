@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -222,7 +224,7 @@ namespace LibSanBag.FileResources
             public uint Version { get; set; }
             public bool Enabled { get; set; }
             public int LoudnessOffset { get; set; }
-            public int PitchRange { get; set; }
+            public float PitchRange { get; set; }
             public uint Data { get; set; }
             public List<string> Sounds { get; set; }
         }
@@ -234,7 +236,7 @@ namespace LibSanBag.FileResources
 
             result.Enabled = reader.ReadBoolean();
             result.LoudnessOffset = reader.ReadInt32();
-            result.PitchRange = reader.ReadInt32();
+            result.PitchRange = reader.ReadSingle();
 
             result.Sounds = Read_List(reader, ReadUUID, 1, 0x14121C2C0);
 
@@ -307,7 +309,10 @@ namespace LibSanBag.FileResources
             public uint Version { get; set; }
             public string BodyResourceHandle { get; set; }
 
+            [JsonIgnore]
             public byte[] BodyCinfo { get; set; }
+            public int BodyCinfoLength => BodyCinfo?.Length ?? 0;
+
             public List<string> Materials { get; set; }
             public string Shape { get; set; }
             public string AudioMaterial { get; set; }
@@ -318,8 +323,8 @@ namespace LibSanBag.FileResources
             public bool CanRide { get; set; }
             public string BaseDefinition { get; set; }
             public List<SelectionBeamPointDefinition> SelectionBeamPointDefinitions { get; set; }
-            public uint EditInstanceId { get; set; }
-            public uint EditLinkId { get; set; }
+            public int EditInstanceId { get; set; }
+            public int EditLinkId { get; set; }
             public uint CollisionFilterOverride { get; set; }
         }
         private RigidBody Read_RigidBody(BinaryReader reader)
@@ -371,8 +376,8 @@ namespace LibSanBag.FileResources
             }
             if(result.Version >= 12)
             {
-                result.EditInstanceId = reader.ReadUInt32();
-                result.EditLinkId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadInt32();
+                result.EditLinkId = reader.ReadInt32();
             }
             if(result.Version >= 13)
             {
@@ -387,7 +392,7 @@ namespace LibSanBag.FileResources
             public uint Version { get; set; }
             public string AnimationBindingUuid { get; set; }
             public string AnimationName { get; set; }
-            public uint PlaybackSpeed { get; set; }
+            public float PlaybackSpeed { get; set; }
             public uint StartTime { get; set; }
             public uint PlaybackMode { get; set; }
             public uint AnimationBindingRemapIndex { get; set; }
@@ -401,7 +406,7 @@ namespace LibSanBag.FileResources
             result.AnimationBindingUuid = ReadUUID(reader);
             result.AnimationName = ReadString(reader);
 
-            result.PlaybackSpeed = reader.ReadUInt32();
+            result.PlaybackSpeed = reader.ReadSingle();
             result.StartTime = reader.ReadUInt32();
             result.PlaybackMode = reader.ReadUInt32();
 
@@ -498,17 +503,17 @@ namespace LibSanBag.FileResources
             public string AnimationBindingUuid { get; set; }
             public uint CreationMode { get; set; }
             public bool ClientOnly { get; set; }
-            public uint PlaybackSpeed { get; set; }
+            public float PlaybackSpeed { get; set; }
             public uint StartTime { get; set; }
             public uint PlaybackMode { get; set; }
             public bool BeginOnLoad { get; set; }
             public List<AnimationComponentNode> AnimationNodes { get; set; }
             public uint AnimationBindingRemapIndex { get; set; }
             public string BaseDefinition { get; set; }
-            public uint Scale { get; set; }
+            public float Scale { get; set; }
             public List<AnimationOverride> AnimationOverrides { get; set; }
-            public uint EditInstanceId { get; set; }
-            public uint EditLinkId { get; set; }
+            public int EditInstanceId { get; set; }
+            public int EditLinkId { get; set; }
             public List<string> AnimationSkeletonMappers { get; set; }
             public List<OffsetTransform> SgOffsetTransformsMap { get; set; }
         }
@@ -527,7 +532,7 @@ namespace LibSanBag.FileResources
 
             if (result.Version >= 2)
             {
-                result.PlaybackSpeed = reader.ReadUInt32();
+                result.PlaybackSpeed = reader.ReadSingle();
                 result.StartTime = reader.ReadUInt32();
             }
 
@@ -557,7 +562,7 @@ namespace LibSanBag.FileResources
             }
             if (result.Version >= 7)
             {
-                result.Scale = reader.ReadUInt32();
+                result.Scale = reader.ReadSingle();
             }
             if (result.Version >= 8)
             {
@@ -565,8 +570,8 @@ namespace LibSanBag.FileResources
             }
             if (result.Version >= 9)
             {
-                result.EditInstanceId = reader.ReadUInt32();
-                result.EditLinkId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadInt32();
+                result.EditLinkId = reader.ReadInt32();
             }
             if (result.Version >= 10)
             {
@@ -632,8 +637,8 @@ namespace LibSanBag.FileResources
             public uint FarPlane { get; set; }
             public uint DiagonalFovRadius { get; set; }
             public string BaseDefinition { get; set; }
-            public uint EditInstanceId { get; set; }
-            public uint EditLinkId { get; set; }
+            public int EditInstanceId { get; set; }
+            public int EditLinkId { get; set; }
         }
         private CameraComponent Read_CameraComponent(BinaryReader reader)
         {
@@ -652,8 +657,8 @@ namespace LibSanBag.FileResources
 
             if (result.Version >= 3)
             {
-                result.EditInstanceId = reader.ReadUInt32();
-                result.EditLinkId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadInt32();
+                result.EditLinkId = reader.ReadInt32();
             }
 
             return result;
@@ -673,8 +678,8 @@ namespace LibSanBag.FileResources
             public float SpotNearClip { get; set; }
             public bool IsStatic { get; set; }
             public string BaseDefinition { get; set; }
-            public uint EditInstanceId { get; set; }
-            public uint EditLinkId { get; set; }
+            public int EditInstanceId { get; set; }
+            public int EditLinkId { get; set; }
         }
         private LightComponent Read_LightComponent(BinaryReader reader)
         {
@@ -712,8 +717,8 @@ namespace LibSanBag.FileResources
 
             if (result.Version >= 5)
             {
-                result.EditInstanceId = reader.ReadUInt32();
-                result.EditLinkId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadInt32();
+                result.EditLinkId = reader.ReadInt32();
             }
 
             return result;
@@ -824,8 +829,8 @@ namespace LibSanBag.FileResources
             public float MaxRenderDistance { get; set; }
             public bool IsScriptable { get; set; }
             public bool IsVisible { get; set; }
-            public uint EditInstanceId { get; set; }
-            public uint EditLinkId { get; set; }
+            public int EditInstanceId { get; set; }
+            public int EditLinkId { get; set; }
         }
         private MeshComponent_V3 Read_MeshComponent_v3(BinaryReader reader)
         {
@@ -836,11 +841,11 @@ namespace LibSanBag.FileResources
 
             result.ModelDefinition = ReadComponent(reader, Read_ModelDefinition);
 
-            result.Scale = reader.ReadUInt32();
+            result.Scale = reader.ReadSingle();
 
             if (result.Version >= 2)
             {
-                result.MaxRenderDistance = reader.ReadUInt32();
+                result.MaxRenderDistance = reader.ReadSingle();
             }
             if (result.Version >= 3)
             {
@@ -852,8 +857,8 @@ namespace LibSanBag.FileResources
             }
             if (result.Version >= 5)
             {
-                result.EditInstanceId = reader.ReadUInt32();
-                result.EditLinkId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadInt32();
+                result.EditLinkId = reader.ReadInt32();
             }
 
             return result;
@@ -960,8 +965,8 @@ namespace LibSanBag.FileResources
             public List<string> SoundResources { get; set; }
             public AudioShape Shape { get; set; }
             public string BaseDefinition { get; set; }
-            public uint EditInstanceId { get; set; }
-            public uint EditLinkId { get; set; }
+            public int EditInstanceId { get; set; }
+            public int EditLinkId { get; set; }
         }
         private AudioComponent Read_AudioComponent(BinaryReader reader)
         {
@@ -984,8 +989,8 @@ namespace LibSanBag.FileResources
             }
             if (result.Version >= 4)
             {
-                result.EditInstanceId = reader.ReadUInt32();
-                result.EditLinkId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadInt32();
+                result.EditLinkId = reader.ReadInt32();
             }
 
             return result;
@@ -1239,6 +1244,7 @@ namespace LibSanBag.FileResources
 
             result.Version = ReadVersion(reader, 1, 0x141198AB0);
 
+            
             result.Rotation = Read_RotationMatrix(reader);
             result.Translation = ReadVectorF(reader, 3); // just a guess
 
@@ -1289,44 +1295,68 @@ namespace LibSanBag.FileResources
             };
         }
 
-        public class ScriptTypeCodes
+        public enum ScriptTypeCodes
         {
-            public const int System_Boolean = 0x4101;
-            public const int System_SByte = 0x101;
-            public const int System_Byte = 0x8101;
-            public const int System_Int16 = 0x102;
-            public const int System_UInt16 = 0x8102;
-            public const int System_Int32 = 0x104;
-            public const int System_UInt32 = 0x8104;
-            public const int System_Int64 = 0x108;
-            public const int System_UInt64 = 0x8108;
-            public const int System_Single = 0x204;
-            public const int System_Double = 0x208;
-            public const int System_String = 0x400;
-            public const int System_Object = 0x800;
-            public const int Sansar_Simulation_AnimationComponent = 0x801;
-            public const int Sansar_Simulation_RigidBodyComponent = 0x802;
-            public const int Sansar_Simulation_AudioComponent = 0x803;
-            public const int Sansar_Simulation_LightComponent = 0x804;
-            public const int Sansar_Simulation_MeshComponent = 0x805;
-            public const int Sansar_Simulation_CameraComponent = 0x806;
-            public const int Sansar_Simulation_UnknownResourceA = 0x2000;
-            public const int Sansar_Simulation_UnknownResourceB = 0x2001;
-            public const int Sansar_Simulation_ClusterResource = 0x2002;
-            public const int Sansar_Simulation_SoundResource = 0x2003;
-            public const int Sansar_Simulation_Interaction = 0x10000;
-            public const int Sansar_Simulation_QuestDefinition = 0x20000;
-            public const int Sansar_Simulation_ObjectiveDefinition = 0x20001;
-            public const int Sansar_Simulation_QuestCharacter = 0x20002;
-            public const int Mono_Simd_Vector4f = 0x1001;
-            public const int Sansar_Vector = 0x1002;
-            public const int Sansar_Quaternion = 0x1003;
-            public const int Sansar_Color = 0x1004;
+            System_Boolean = 0x4101,
+            System_SByte = 0x101,
+            System_Byte = 0x8101,
+            System_Int16 = 0x102,
+            System_UInt16 = 0x8102,
+            System_Int32 = 0x104,
+            System_UInt32 = 0x8104,
+            System_Int64 = 0x108,
+            System_UInt64 = 0x8108,
+            System_Single = 0x204,
+            System_Double = 0x208,
+            System_String = 0x400,
+            System_Object = 0x800,
+            Sansar_Simulation_AnimationComponent = 0x801,
+            Sansar_Simulation_RigidBodyComponent = 0x802,
+            Sansar_Simulation_AudioComponent = 0x803,
+            Sansar_Simulation_LightComponent = 0x804,
+            Sansar_Simulation_MeshComponent = 0x805,
+            Sansar_Simulation_CameraComponent = 0x806,
+            Sansar_Simulation_UnknownResourceA = 0x2000,
+            Sansar_Simulation_UnknownResourceB = 0x2001,
+            Sansar_Simulation_ClusterResource = 0x2002,
+            Sansar_Simulation_SoundResource = 0x2003,
+            Sansar_Simulation_Interaction = 0x10000,
+            Sansar_Simulation_QuestDefinition = 0x20000,
+            Sansar_Simulation_ObjectiveDefinition = 0x20001,
+            Sansar_Simulation_QuestCharacter = 0x20002,
+            Mono_Simd_Vector4f = 0x1001,
+            Sansar_Vector = 0x1002,
+            Sansar_Quaternion = 0x1003,
+            Sansar_Color = 0x1004,
+        }
+        private static string ScriptTypeToString(ScriptTypeCodes scriptType)
+        {
+            if(((uint)scriptType & (1<<28)) > 0)
+            {
+                var typeMask = (1 << 28) - 1;
+                var subtypeName = ScriptTypeToString((ScriptTypeCodes)((uint)scriptType & typeMask));
+
+                return $"List<{subtypeName}>";
+            }
+
+            // TODO: What collection type has the 1<<29 flag?
+
+            try
+            {
+                var name = Enum.GetName(typeof(ScriptTypeCodes), scriptType);
+                name = name.Replace("_", ".");
+                return name;
+            }
+            catch (Exception)
+            {
+                return $"Unknown ({scriptType})";
+            }
         }
 
-        private object Read_ScriptComponent_value(BinaryReader reader, uint scriptTypeCode, bool versionAtLeast11)
+        private object Read_ScriptComponent_value(BinaryReader reader, ScriptTypeCodes scriptTypeCode, bool versionAtLeast11)
         {
             object result = null;
+
             switch (scriptTypeCode)
             {
                 case ScriptTypeCodes.System_SByte: //0x101
@@ -1376,8 +1406,7 @@ namespace LibSanBag.FileResources
                 case ScriptTypeCodes.Sansar_Quaternion: //0x1003
                 case ScriptTypeCodes.Sansar_Color: // = 0x1004
                 {
-                    var second = ReadVectorF(reader, 4);
-                    result = $"<{string.Join(",", second)}>";
+                    result = ReadVectorF(reader, 4);
                     break;
                 }
                 case ScriptTypeCodes.Sansar_Simulation_UnknownResourceA: //0x2000
@@ -1431,7 +1460,10 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; set; }
             public string Name { get; set; }
-            public uint Type { get; set; }
+            
+            public ScriptTypeCodes Type { get; set; }
+            public string TypeName => ScriptTypeToString(Type);
+
             public List<ScriptParameter> Children { get; set; } = new List<ScriptParameter>();
             public object Value { get; set; }
         }
@@ -1447,12 +1479,12 @@ namespace LibSanBag.FileResources
                 // noop
             }
 
-            result.Type = reader.ReadUInt32();
-            if ((result.Type & (1 << 29)) != 0)
+            result.Type = (ScriptTypeCodes)reader.ReadUInt32();
+            if (((uint)result.Type & (1 << 29)) != 0)
             {
                 result.Children = Read_List(reader, Read_ScriptComponent_parameter, 1, 0x1411CF7F0);
             }
-            else if ((result.Type & (1 << 28)) != 0)
+            else if (((uint)result.Type & (1 << 28)) != 0)
             {
                 result.Children = Read_List(reader, Read_ScriptComponent_parameter, 1, 0x1411CF800);
             }
@@ -1850,7 +1882,7 @@ namespace LibSanBag.FileResources
             public List<JointDefinition> JoinDefinitions { get; set; } = new List<JointDefinition>();
             public List<ScriptedInteraction> ScriptedInteractions { get; set; }
             public string Name { get; set; }
-            public uint EditInstanceId { get; set; }
+            public int EditInstanceId { get; set; }
         }
         private ClusterObject Read_Objects(BinaryReader reader)
         {
@@ -1893,7 +1925,7 @@ namespace LibSanBag.FileResources
             }
             if (result.Version >= 5)
             {
-                result.EditInstanceId = reader.ReadUInt32();
+                result.EditInstanceId = reader.ReadInt32();
             }
 
             return result;
