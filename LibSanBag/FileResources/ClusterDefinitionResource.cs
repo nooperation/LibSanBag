@@ -1256,45 +1256,39 @@ namespace LibSanBag.FileResources
 
         class InteractionResult
         {
+            public uint Version { get; set; }
             public string Prompt { get; set; }
-            public string Label { get; set; }
             public bool Enabled { get; set; }
+            public uint Label_Version { get; set; }
+            public string Label { get; set; }
+            public bool Label_Enabled { get; set; }
             public string Key { get; set; }
-
-            public override string ToString()
-            {
-                return $"Prompt: {Prompt} | Label: {Label} | Enabled={Enabled} | Key: {Key}";
-            }
         }
         private InteractionResult Read_ScriptComponent_Interaction(BinaryReader reader)
         {
-            var version = ReadVersion(reader, 2, 0x1411D4980);
-            var prompt = ReadString(reader);
-            var enabled = reader.ReadByte();
+            var result = new InteractionResult();
 
-            var label = string.Empty;
-            var key = string.Empty;
-            if (version < 2)
+            result.Version = ReadVersion(reader, 2, 0x1411D4980);
+            result.Prompt = ReadString(reader);
+            result.Enabled = reader.ReadBoolean();
+
+            // todo: need examples...
+            if (result.Version < 2)
             {
                 var inner_version = ReadVersion(reader, 3, 0x1411E4F00);
-                label = ReadString_VersionSafe(reader, inner_version, 3);
+                result.Label = ReadString_VersionSafe(reader, inner_version, 3);
 
                 if (inner_version < 3)
                 {
-                    var enabled_old = reader.ReadByte(); // skip byte?
+                    result.Label_Enabled = reader.ReadBoolean();
                 }
                 if (inner_version >= 2)
                 {
-                    key = ReadString_VersionSafe(reader, inner_version, 3);
+                    result.Key = ReadString_VersionSafe(reader, inner_version, 3);
                 }
             }
 
-            return new InteractionResult()
-            {
-                Label = label,
-                Prompt = prompt,
-                Key = key
-            };
+            return result;
         }
 
         public enum ScriptTypeCodes
@@ -1466,7 +1460,7 @@ namespace LibSanBag.FileResources
             public ScriptTypeCodes Type { get; set; }
             public string TypeName => ScriptTypeToString(Type);
 
-            public List<ScriptParameter> Children { get; set; } = new List<ScriptParameter>();
+            public List<ScriptParameter> Children { get; set; }
             public object Value { get; set; }
         }
         private ScriptParameter Read_ScriptComponent_parameter(BinaryReader reader)
@@ -1551,7 +1545,7 @@ namespace LibSanBag.FileResources
             public List<float> Location { get; set; }
             public AudioShape Shape { get; set; }
             public string SoundResourceId { get; set; }
-            public uint Loudness { get; set; }
+            public float Loudness { get; set; }
         }
         private AudioPlaySoundAtLocationEvent Read_EventRouter_AudioPlaySoundAtLocationEvent(BinaryReader reader)
         {
@@ -1564,7 +1558,7 @@ namespace LibSanBag.FileResources
             result.Shape = Read_Audiocomponent_Shape(reader);
 
             result.SoundResourceId = ReadUUID(reader);
-            result.Loudness = reader.ReadUInt32();
+            result.Loudness = reader.ReadSingle();
 
             return result;
         }
@@ -1573,7 +1567,7 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; set; }
             public string Url { get; set; }
-            public uint Loudness { get; set; }
+            public float Loudness { get; set; }
         }
         private AudioPlayUrlEvent Read_EventRouter_AudioPlayUrlEvent(BinaryReader reader)
         {
@@ -1582,7 +1576,7 @@ namespace LibSanBag.FileResources
             result.Version = ReadVersion(reader, 1, 0x14170F000);
 
             result.Url = ReadString(reader);
-            result.Loudness = reader.ReadUInt32();
+            result.Loudness = reader.ReadSingle();
 
             return result;
         }
@@ -1592,7 +1586,7 @@ namespace LibSanBag.FileResources
             public uint Version { get; set; }
             public uint StreamChannel { get; set; }
             public string Url { get; set; }
-            public uint Loudness { get; set; }
+            public float Loudness { get; set; }
         }
         private AudioPlayChannelEvent Read_EventRouter_AudioPlayChannelEvent(BinaryReader reader)
         {
@@ -1609,7 +1603,7 @@ namespace LibSanBag.FileResources
                 result.Url = ReadString(reader);
             }
 
-            result.Loudness = reader.ReadUInt32();
+            result.Loudness = reader.ReadSingle();
 
             return result;
         }
@@ -1634,7 +1628,7 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; set; }
             public uint StreamTagHash { get; set; }
-            public uint Loudness { get; set; }
+            public float Loudness { get; set; }
         }
         private AudioBindStreamEvent Read_EventRouter_AudioBindStreamEvent(BinaryReader reader)
         {
@@ -1642,7 +1636,7 @@ namespace LibSanBag.FileResources
 
             result.Version = ReadVersion(reader, 1, 0x14170EFC0);
             result.StreamTagHash = reader.ReadUInt32();
-            result.Loudness = reader.ReadUInt32();
+            result.Loudness = reader.ReadSingle();
 
             return result;
         }
@@ -1684,7 +1678,7 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; set; }
             public string SoundResourceId { get; set; }
-            public uint Loudness { get; set; }
+            public float Loudness { get; set; }
             public bool Loop { get; set; }
         }
         private AudioPlaySoundEvent Read_EventRouter_AudioPlaySoundEvent(BinaryReader reader)
@@ -1694,7 +1688,7 @@ namespace LibSanBag.FileResources
             result.Version = ReadVersion(reader, 1, 0x14170EFA0);
 
             result.SoundResourceId = ReadUUID(reader);
-            result.Loudness = reader.ReadUInt32();
+            result.Loudness = reader.ReadSingle();
             result.Loop = reader.ReadBoolean();
 
             return result;
