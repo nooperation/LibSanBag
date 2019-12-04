@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,176 +9,98 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public abstract class GeometryResource : BaseFileResource
-    {
-        public List<uint> Indices { get; set; }
-        public List<float> Vertices { get; set; }
-        public List<float> Tangents { get; set; }
-        public List<float> Bitangents { get; set; }
-        public List<float> TexCoords0 { get; set; }
-        public List<float> TexCoords1 { get; set; }
-        public List<float> BlendWeights { get; set; }
-        public List<uint> BlendIndices { get; set; }
-
-        public static GeometryResource Create(string version = "")
-        {
-            switch (version)
-            {
-                case "581a503da8d3e98a":
-                default:
-                    return new GeometryResource_581a503da8d3e98a();
-            }
-        }
-    }
-
-    public class GeometryResource_581a503da8d3e98a : GeometryResource
+    public class GeometryResource : BaseFileResource
     {
         public override bool IsCompressed => true;
 
+        public static GeometryResource Create(string version = "")
+        {
+            return new GeometryResource();
+        }
+
+        public class GeometryType
+        {
+            public uint Version { get; set; }
+            public string Name { get; set; }
+            public uint Format { get; set; }
+        }
+        private GeometryType Read_GeometryType(BinaryReader reader)
+        {
+            var result = new GeometryType();
+
+            result.Version = ReadVersion(reader, 1, 0x1411FD900);
+            result.Name = ReadString(reader);
+            result.Format = reader.ReadUInt32();
+
+            return result;
+        }
+
+        public class VertexStream
+        {
+            public uint Version { get; set; }
+            public GeometryType Type { get; set; }
+
+            [JsonIgnore]
+            public byte[] Data { get; set; }
+            public int DataLength => Data?.Length ?? 0;
+        }
+        private VertexStream Read_VertexStream(BinaryReader reader)
+        {
+            var result = new VertexStream();
+
+            result.Version = ReadVersion(reader, 1, 0x1411E4EF0);
+
+            result.Type = Read_GeometryType(reader);
+            result.Data = Read_Array(reader);
+
+            return result;
+        }
+
+        public class GeometryComponent
+        {
+            public uint Version { get; set; }
+            public uint IndexCount { get; set; }
+            public uint VertextCount { get; set; }
+            public uint IndexFormat { get; set; }
+            [JsonIgnore]
+            public byte[] IndexData { get; set; }
+            public int IndexDataLength => IndexData?.Length ?? 0;
+            public List<VertexStream> VertexStreams{ get; set; }
+        }
+        private GeometryComponent Read_GeometryComponent(BinaryReader reader)
+        {
+            var result = new GeometryComponent();
+
+            result.Version = ReadVersion(reader, 1, 0x14120B5A0);
+
+            result.IndexCount = reader.ReadUInt32();
+            result.VertextCount = reader.ReadUInt32();
+            result.IndexFormat = reader.ReadUInt32(); 
+
+            var indexDataLength = reader.ReadInt32();
+            result.IndexData = reader.ReadBytes(indexDataLength);
+            result.VertexStreams = Read_List(reader, Read_VertexStream, 1, 0x1411D9B70);
+
+            return result;
+        }
+
+        public uint Version { get; set; }
+        public List<AABB> ArticulatedBounds { get; set; }
+        public List<Transform> InverseBindPose { get; set; }
+        public AABB Bounds { get; set; }
+        public GeometryComponent GeometryData { get; set; }
+
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
-            Indices = new List<uint>();
-            Vertices = new List<float>();
-            Tangents = new List<float>();
-            Bitangents = new List<float>();
-            TexCoords0 = new List<float>();
-            TexCoords1 = new List<float>();
-            BlendWeights = new List<float>();
-            BlendIndices = new List<uint>();
-
-            using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
+            using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                ResourceVersion = br.ReadInt32();
+                this.Version = ReadVersion(reader, 1, 0x1411D9B90); // C303A54169058B48
 
-                var unknown2 = br.ReadUInt32();
-                var numUnknownVals1 = br.ReadUInt32();
-                var numUnknownVals1Flag = br.ReadUInt32();
-                if (numUnknownVals1 != 0)
-                {
-                    br.ReadBytes((int)(32 * numUnknownVals1));
+                this.ArticulatedBounds = Read_List(reader, Read_AABB, 1, 0x141205430);
+                this.InverseBindPose = Read_List(reader, Read_Transform, 1, 0x1411F3EA0);
+                this.Bounds = Read_AABB(reader);
 
-                    var unknown3 = br.ReadUInt32();
-                    var numUnknownVals2 = br.ReadUInt32();
-                    if (numUnknownVals2 != 0)
-                    {
-                        var numUnknownVals2Flag = br.ReadUInt32();
-                        br.ReadBytes((int)(28 * numUnknownVals2));
-                    }
-                }
-                else
-                {
-                    br.ReadBytes(4);
-                    br.ReadBytes(4);
-                }
-
-                // 0x20 bytes
-                var minX = br.ReadSingle();
-                var minY = br.ReadSingle();
-                var minZ = br.ReadSingle();
-                var minW = br.ReadSingle();
-                var maxX = br.ReadSingle();
-                var maxY = br.ReadSingle();
-                var maxZ = br.ReadSingle();
-                var maxW = br.ReadSingle();
-
-                // 0x18 bytes
-                var unknown6 = br.ReadUInt32();
-                var unknown7 = br.ReadUInt32();
-                var unknown8 = br.ReadUInt32();
-                var numIndices = br.ReadUInt32();
-                var numTexCoords = br.ReadUInt32();
-                var bytesPerIndex = br.ReadUInt32();
-
-                var indexByteCount = br.ReadUInt32();
-                var indexCount = indexByteCount / bytesPerIndex;
-
-                if (bytesPerIndex == 4)
-                {
-                    for (int i = 0; i < indexCount; i++)
-                    {
-                        var index = br.ReadUInt32();
-                        Indices.Add(index);
-                    }
-                }
-                else if (bytesPerIndex == 2)
-                {
-                    for (int i = 0; i < indexCount; i++)
-                    {
-                        var index = br.ReadUInt16();
-                        Indices.Add(index);
-                    }
-                }
-
-                var unknown12 = br.ReadUInt32();
-                var numTags = br.ReadUInt32();
-                var unknown14 = br.ReadUInt32();
-                var unknown15 = br.ReadUInt32();
-
-                for(var tagIndex = 0; tagIndex < numTags; ++tagIndex)
-                {
-                    var tagLength = br.ReadInt32();
-                    var tag = new string(br.ReadChars(tagLength));
-                    var tagUnknown = br.ReadUInt32();
-                    var payloadByteCount = br.ReadInt32();
-
-                    // TODO: These are most likely incorrect datatypes
-                    switch (tag)
-                    {
-                        case "position":
-                            for (var i = 0; i < payloadByteCount/4; i++)
-                            {
-                                var vert = br.ReadSingle();
-                                Vertices.Add(vert);
-                            }
-                            break;
-                        case "tangent":
-                            for (var i = 0; i < payloadByteCount / 4; i++)
-                            {
-                                var vert = br.ReadSingle();
-                                Tangents.Add(vert);
-                            }
-                            break;
-                        case "bitangent":
-                            for (var i = 0; i < payloadByteCount / 4; i++)
-                            {
-                                var vert = br.ReadSingle();
-                                Bitangents.Add(vert);
-                            }
-                            break;
-                        case "texCoord0":
-                            for (var i = 0; i < payloadByteCount / 4; i++)
-                            {
-                                var vert = br.ReadSingle();
-                                TexCoords0.Add(vert);
-                            }
-                            break;
-                        case "texCoord1":
-                            for (var i = 0; i < payloadByteCount / 4; i++)
-                            {
-                                var vert = br.ReadSingle();
-                                TexCoords1.Add(vert);
-                            }
-                            break;
-                        case "blendWeights":
-                            for (var i = 0; i < payloadByteCount / 4; i++)
-                            {
-                                var vert = br.ReadSingle();
-                                BlendWeights.Add(vert);
-                            }
-                            break;
-                        case "blendIndices":
-                            for (var i = 0; i < payloadByteCount / 4; i++)
-                            {
-                                var vert = br.ReadUInt32();
-                                BlendIndices.Add(vert);
-                            }
-                            break;
-                        default:
-                            Debug.WriteLine("Unknown tag: " + tag);
-                            br.ReadBytes(payloadByteCount);
-                            break;
-                    }
-                }
+                this.GeometryData = ReadComponent(reader, Read_GeometryComponent);
             }
         }
     }

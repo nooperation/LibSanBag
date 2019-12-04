@@ -32,9 +32,7 @@ namespace LibSanBag.FileResources
 
             result.Version = ReadVersion(reader, 3, 0x1411ABAC0);
             result.Name = ReadString(reader);
-
-            var dataLength = reader.ReadInt32();
-            result.Data = reader.ReadBytes(dataLength);
+            result.Data = Read_Array(reader);
 
             if (result.Version >= 2)
             {
