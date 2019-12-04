@@ -16,14 +16,6 @@ namespace LibSanBag.FileResources
             return new ClusterDefinitionResource();
         }
 
-        public virtual string ReadString(BinaryReader decompressedStream)
-        {
-            var textLength = decompressedStream.ReadInt32();
-            var text = new string(decompressedStream.ReadChars(textLength));
-
-            return text;
-        }
-
         private string ReadString_VersionSafe(BinaryReader reader, uint version, int max_version)
         {
             if (version >= max_version)
@@ -101,24 +93,6 @@ namespace LibSanBag.FileResources
             return uuid;
         }
 
-        private Dictionary<ulong, uint> versionMap = new Dictionary<ulong, uint>();
-        private uint ReadVersion(BinaryReader reader, uint defaultVersion, ulong? versionType)
-        {
-            if (versionType != null && versionMap.ContainsKey(versionType.Value))
-            {
-                return versionMap[versionType.Value];
-            }
-
-            var version = reader.ReadUInt32();
-
-            if (versionType != null)
-            {
-                versionMap[versionType.Value] = version;
-            }
-
-            return version;
-        }
-
         private List<T> Read_List<T>(BinaryReader reader, Func<BinaryReader, T> func, uint currentVersion, ulong versionType)
         {
             List<T> result = new List<T>();
@@ -133,30 +107,6 @@ namespace LibSanBag.FileResources
             }
 
             return result;
-        }
-
-        private T ReadComponent<T>(BinaryReader reader, Func<BinaryReader, T> func)
-        {
-            var version = ReadVersion(reader, 1, 0x1413A0990);
-
-            var unknownA = reader.ReadUInt32();
-            if (unknownA != 0)
-            {
-                return func(reader);
-            }
-
-            return default(T);
-        }
-
-        private void ReadComponent(BinaryReader reader, Action<BinaryReader> func)
-        {
-            var version = ReadVersion(reader, 1, 0x1413A0990);
-
-            var unknownA = reader.ReadUInt32();
-            if (unknownA != 0)
-            {
-                func(reader);
-            }
         }
 
         private List<float> ReadVectorF(BinaryReader reader, int dimensions)
