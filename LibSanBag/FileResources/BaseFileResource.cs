@@ -84,6 +84,16 @@ namespace LibSanBag.FileResources
             return text;
         }
 
+        internal string ReadString_VersionSafe(BinaryReader reader, uint version, int max_version)
+        {
+            if (version >= max_version)
+            {
+                return "";
+            }
+
+            return ReadString(reader);
+        }
+
         internal T ReadComponent<T>(BinaryReader reader, Func<BinaryReader, T> func)
         {
             var version = ReadVersion(reader, 1, 0x1413A0990);
@@ -207,5 +217,23 @@ namespace LibSanBag.FileResources
             return data;
         }
 
+        internal List<List<float>> Read_RotationMatrix(BinaryReader reader, int dimension = 3)
+        {
+            var version = ReadVersion(reader, 1, 0x14119F1D0);
+
+            var matrix = new List<List<float>>();
+            for (int rowIndex = 0; rowIndex < dimension; rowIndex++)
+            {
+                var row = new List<float>();
+                for (int colIndex = 0; colIndex < dimension; colIndex++)
+                {
+                    var col = reader.ReadSingle();
+                    row.Add(col);
+                }
+                matrix.Add(row);
+            }
+
+            return matrix;
+        }
     }
 }

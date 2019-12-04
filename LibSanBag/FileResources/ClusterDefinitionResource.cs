@@ -16,17 +16,6 @@ namespace LibSanBag.FileResources
             return new ClusterDefinitionResource();
         }
 
-        private string ReadString_VersionSafe(BinaryReader reader, uint version, int max_version)
-        {
-            if (version >= max_version)
-            {
-                return "";
-            }
-
-            return ReadString(reader);
-        }
-
-
         private string ReadStringVersioned(BinaryReader reader)
         {
             var version = ReadVersion(reader, 1, 0x1416F4E40);
@@ -1074,25 +1063,6 @@ namespace LibSanBag.FileResources
             result.FixedInScene = reader.ReadBoolean();
 
             return result;
-        }
-
-        private List<List<float>> Read_RotationMatrix(BinaryReader reader, int dimension=3)
-        {
-            var version = ReadVersion(reader, 1, 0x14119F1D0);
-
-            var matrix = new List<List<float>>();
-            for (int rowIndex = 0; rowIndex < dimension; rowIndex++)
-            {
-                var row = new List<float>();
-                for (int colIndex = 0; colIndex < dimension; colIndex++)
-                {
-                    var col = reader.ReadSingle();
-                    row.Add(col);
-                }
-                matrix.Add(row);
-            }
-
-            return matrix;
         }
 
         public class ObjectClusterTransform
