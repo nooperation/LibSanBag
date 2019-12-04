@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibSanBag.ResourceUtils;
+using Newtonsoft.Json;
 
 namespace LibSanBag.FileResources
 {
@@ -58,8 +59,14 @@ namespace LibSanBag.FileResources
 
         public abstract void InitFromRawDecompressed(byte[] decompressedBytes);
 
-        private Dictionary<ulong, uint> versionMap = new Dictionary<ulong, uint>();
-        internal uint ReadVersion(BinaryReader reader, uint defaultVersion, ulong? versionType)
+
+        protected void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap)
+        {
+            this.versionMap = newVersionMap;
+        }
+
+        protected Dictionary<ulong, uint> versionMap = new Dictionary<ulong, uint>();
+        protected uint ReadVersion(BinaryReader reader, uint defaultVersion, ulong? versionType)
         {
             if (versionType != null && versionMap.ContainsKey(versionType.Value))
             {
@@ -76,7 +83,7 @@ namespace LibSanBag.FileResources
             return version;
         }
 
-        internal virtual string ReadString(BinaryReader decompressedStream)
+        protected string ReadString(BinaryReader decompressedStream)
         {
             var textLength = decompressedStream.ReadInt32();
             var text = new string(decompressedStream.ReadChars(textLength));
@@ -84,7 +91,7 @@ namespace LibSanBag.FileResources
             return text;
         }
 
-        internal string ReadString_VersionSafe(BinaryReader reader, uint version, int max_version)
+        protected string ReadString_VersionSafe(BinaryReader reader, uint version, int max_version)
         {
             if (version >= max_version)
             {
@@ -94,7 +101,7 @@ namespace LibSanBag.FileResources
             return ReadString(reader);
         }
 
-        internal T ReadComponent<T>(BinaryReader reader, Func<BinaryReader, T> func)
+        protected T ReadComponent<T>(BinaryReader reader, Func<BinaryReader, T> func)
         {
             var version = ReadVersion(reader, 1, 0x1413A0990);
 
@@ -107,7 +114,7 @@ namespace LibSanBag.FileResources
             return default(T);
         }
 
-        internal void ReadComponent(BinaryReader reader, Action<BinaryReader> func)
+        protected void ReadComponent(BinaryReader reader, Action<BinaryReader> func)
         {
             var version = ReadVersion(reader, 1, 0x1413A0990);
 
@@ -118,7 +125,7 @@ namespace LibSanBag.FileResources
             }
         }
 
-        internal List<T> Read_List<T>(BinaryReader reader, Func<BinaryReader, T> func, uint currentVersion, ulong versionType)
+        protected List<T> Read_List<T>(BinaryReader reader, Func<BinaryReader, T> func, uint currentVersion, ulong versionType)
         {
             List<T> result = new List<T>();
 
@@ -134,7 +141,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        internal List<float> ReadVectorF(BinaryReader reader, int dimensions)
+        protected List<float> ReadVectorF(BinaryReader reader, int dimensions)
         {
             var result = new List<float>();
 
@@ -147,7 +154,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        internal string ReadUUID(BinaryReader reader)
+        protected string ReadUUID(BinaryReader reader)
         {
             var version = ReadVersion(reader, 2, 0x141196890);
 
@@ -176,7 +183,7 @@ namespace LibSanBag.FileResources
             public List<float> Q { get; set; }
             public List<float> T { get; set; }
         }
-        internal Transform Read_Transform(BinaryReader reader)
+        protected Transform Read_Transform(BinaryReader reader)
         {
             var version = ReadVersion(reader, 1, 0x1411A0F00);
 
@@ -195,7 +202,7 @@ namespace LibSanBag.FileResources
             public List<float> Min { get; set; }
             public List<float> Max { get; set; }
         }
-        internal AABB Read_AABB(BinaryReader reader)
+        protected AABB Read_AABB(BinaryReader reader)
         {
             var version = ReadVersion(reader, 1, 0x141205310);
 
@@ -206,10 +213,10 @@ namespace LibSanBag.FileResources
             {
                 Min = min,
                 Max = max
-            }; ;
+            };
         }
 
-        internal byte[] Read_Array(BinaryReader reader)
+        protected byte[] Read_Array(BinaryReader reader)
         {
             var dataLength = reader.ReadInt32();
             var data = reader.ReadBytes(dataLength);
@@ -217,7 +224,7 @@ namespace LibSanBag.FileResources
             return data;
         }
 
-        internal List<List<float>> Read_RotationMatrix(BinaryReader reader, int dimension = 3)
+        protected List<List<float>> Read_RotationMatrix(BinaryReader reader, int dimension = 3)
         {
             var version = ReadVersion(reader, 1, 0x14119F1D0);
 

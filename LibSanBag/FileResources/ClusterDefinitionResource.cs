@@ -1332,7 +1332,7 @@ namespace LibSanBag.FileResources
             public List<ScriptParameter> Parameters { get; set; } = new List<ScriptParameter>();
             public string BaseDefinition { get; set; }
         }
-        private ScriptComponent Read_ScriptComponent(BinaryReader reader)
+        public ScriptComponent Read_ScriptComponent(BinaryReader reader)
         {
             var result = new ScriptComponent();
 
