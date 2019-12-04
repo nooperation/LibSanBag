@@ -11,8 +11,6 @@ namespace LibSanBag.FileResources
     {
         public override bool IsCompressed => true;
 
-
-
         public static ClusterDefinitionResource Create(string version = "")
         {
             return new ClusterDefinitionResource();
@@ -24,6 +22,16 @@ namespace LibSanBag.FileResources
             var text = new string(decompressedStream.ReadChars(textLength));
 
             return text;
+        }
+
+        private string ReadString_VersionSafe(BinaryReader reader, uint version, int max_version)
+        {
+            if (version >= max_version)
+            {
+                return "";
+            }
+
+            return ReadString(reader);
         }
 
         private string ReadUUID(BinaryReader reader)
@@ -151,12 +159,6 @@ namespace LibSanBag.FileResources
             }
         }
 
-        public class Transform
-        {
-            public List<float> Q { get; set; }
-            public List<float> T { get; set; }
-        }
-
         private List<float> ReadVectorF(BinaryReader reader, int dimensions)
         {
             var result = new List<float>();
@@ -170,6 +172,11 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public class Transform
+        {
+            public List<float> Q { get; set; }
+            public List<float> T { get; set; }
+        }
         private Transform Read_Transform(BinaryReader reader)
         {
             var version = ReadVersion(reader, 1, 0x1411A0F00);
@@ -193,7 +200,6 @@ namespace LibSanBag.FileResources
             public string BaseDefinition { get; set; }
             public bool AimAtCursor { get; set; }
         }
-
         private GrabPointDefinition Read_RigidBody_GrabPointDefinition(BinaryReader reader)
         {
             var result = new GrabPointDefinition();
@@ -446,7 +452,7 @@ namespace LibSanBag.FileResources
 
         private string Read_AnimationComponent_AnimationSkeletonMapper(BinaryReader reader)
         {
-            var innerVersion = ReadVersion(reader, 1, 0x14170FC00);
+            var version = ReadVersion(reader, 1, 0x14170FC00);
 
             var skeletonMapperUUID = ReadUUID(reader);
 
@@ -628,7 +634,6 @@ namespace LibSanBag.FileResources
 
             return result;
         }
-
 
         public class CameraComponent
         {
@@ -1001,7 +1006,6 @@ namespace LibSanBag.FileResources
             public List<float> Min { get; set; }
             public List<float> Max { get; set; }
         }
-
         private AABB Read_AABB(BinaryReader reader)
         {
             var version = ReadVersion(reader, 1, 0x141205310);
@@ -1070,7 +1074,6 @@ namespace LibSanBag.FileResources
 
             return result;
         }
-
 
         public class TerrainComponent
         {
@@ -1263,7 +1266,6 @@ namespace LibSanBag.FileResources
                 return $"Prompt: {Prompt} | Label: {Label} | Enabled={Enabled} | Key: {Key}";
             }
         }
-
         private InteractionResult Read_ScriptComponent_Interaction(BinaryReader reader)
         {
             var version = ReadVersion(reader, 2, 0x1411D4980);
@@ -1816,16 +1818,6 @@ namespace LibSanBag.FileResources
             }
 
             return result;
-        }
-
-        private string ReadString_VersionSafe(BinaryReader reader, uint version, int max_version)
-        {
-            if (version >= max_version)
-            {
-                return "";
-            }
-
-            return ReadString(reader);
         }
 
         public class ScriptedInteractionAction
