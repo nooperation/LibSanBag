@@ -68,16 +68,16 @@ namespace LibSanBag.FileResources
         public class SpatialIndexNode
         {
             public uint Version { get; set; }
-            public long PopulationBitfield { get; set; }
-            public int FirstChildIndex { get; set; }
+            public ulong PopulationBitfield { get; set; }
+            public uint FirstChildIndex { get; set; }
         }
         private SpatialIndexNode Read_SpatialIndex_Node(BinaryReader reader)
         {
             var result = new SpatialIndexNode();
 
             result.Version = ReadVersion(reader, 1, 0x1411D9930);
-            result.PopulationBitfield = reader.ReadInt64();
-            result.FirstChildIndex = reader.ReadInt32();
+            result.PopulationBitfield = reader.ReadUInt64();
+            result.FirstChildIndex = reader.ReadUInt32();
 
             return result;
         }
@@ -85,7 +85,7 @@ namespace LibSanBag.FileResources
         public class LevelOffsets
         {
             public uint Version { get; set; }
-            public List<int> Offsets { get; set; } = new List<int>();
+            public List<float> Offsets { get; set; } = new List<float>();
         }
         private LevelOffsets Read_LevelOffsets(BinaryReader reader, int count)
         {
@@ -95,7 +95,7 @@ namespace LibSanBag.FileResources
 
             for (int i = 0; i < count; i++)
             {
-                var offset = reader.ReadInt32();
+                var offset = reader.ReadSingle();
                 result.Offsets.Add(offset);
             }
 
@@ -152,12 +152,12 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; set; }
             public SpatialIndex SpatialIndex { get; set; }
-            public List<float> ProbeEmission { get; set; }
+            public List<int> ProbeEmission { get; set; }
             public List<SkyTransferMatrix> SkyTransferMatrices { get; set; }
-            public List<float> ProbeVideoEmission { get; set; }
-            public List<float> SkyTransferProbeIds { get; set; }
-            public List<float> InfillProbeIds { get; set; }
-            public List<float> InfillNeighborIds { get; set; }
+            public List<int> ProbeVideoEmission { get; set; }
+            public List<int> SkyTransferProbeIds { get; set; }
+            public List<int> InfillProbeIds { get; set; }
+            public List<int> InfillNeighborIds { get; set; }
             public LevelOffsets InfillPhaseOffsets { get; set; }
             public List<UInt64> FullNeighborhoodBitfield { get; set; }
             public List<UInt64> FringeCellLocs { get; set; }
@@ -169,7 +169,7 @@ namespace LibSanBag.FileResources
             result.Version = ReadVersion(reader, 2, 0x1411ADFC0);
 
             result.SpatialIndex = Read_SpatialIndex(reader);
-            result.ProbeEmission = Read_List(reader, n => n.ReadSingle(), 1, 0x1411BF150);
+            result.ProbeEmission = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
             result.SkyTransferMatrices = Read_List(reader, Read_SkyTransfer_Matrix, 1, 0x1411BF160);
 
             if(result.Version < 2)
@@ -178,12 +178,12 @@ namespace LibSanBag.FileResources
             }
             else
             {
-                result.ProbeVideoEmission = Read_List(reader, n => n.ReadSingle(), 1, 0x1411BF150);
+                result.ProbeVideoEmission = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
             }
 
-            result.SkyTransferProbeIds = Read_List(reader, n => n.ReadSingle(), 1, 0x1411BF150);
-            result.InfillProbeIds = Read_List(reader, n => n.ReadSingle(), 1, 0x1411BF150);
-            result.InfillNeighborIds = Read_List(reader, n => n.ReadSingle(), 1, 0x1411BF150);
+            result.SkyTransferProbeIds = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
+            result.InfillProbeIds = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
+            result.InfillNeighborIds = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
 
             result.InfillPhaseOffsets = Read_LevelOffsets(reader, 6);
 
@@ -230,7 +230,7 @@ namespace LibSanBag.FileResources
             public List<ClusterInstantiation> ClusterInstantiations { get; set; }
             public RenderChunk RenderChunk { get; set; }
             public uint Version3 { get; set; }
-            public string UnknownId { get; set; }
+            public string EnvironmentId { get; set; }
             public List<string> AudioChunk { get; set; }
         }
         private WorldChunkDef Read_WorldChunkDefinition(BinaryReader reader)
@@ -247,7 +247,7 @@ namespace LibSanBag.FileResources
             result.RenderChunk = Read_RenderChunk(reader);
 
             result.Version3 = ReadVersion(reader, 2, 0x1416E9750);
-            result.UnknownId = ReadUUID(reader);
+            result.EnvironmentId = ReadUUID(reader);
 
             if (result.Version3 >= 2)
             {
