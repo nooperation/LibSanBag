@@ -1293,7 +1293,7 @@ namespace LibSanBag.FileResources
             public List<ScriptParameter> Children { get; set; }
             public object Value { get; set; }
         }
-        private ScriptParameter Read_ScriptComponent_parameter(BinaryReader reader)
+        internal ScriptParameter Read_ScriptComponent_parameter(BinaryReader reader)
         {
             var result = new ScriptParameter();
 
