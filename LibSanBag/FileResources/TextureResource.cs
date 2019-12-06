@@ -14,84 +14,9 @@ namespace LibSanBag.FileResources
     {
         public override bool IsCompressed => true;
 
-        public enum TextureType
-        {
-            DDS = 0,
-            CRN = 1,
-            PNG = 2,
-            BMP = 3,
-            JPG = 4
-        }
-
-
         public static TextureResource Create(string version = "")
         {
             return new TextureResource();
-        }
-
-        /// <summary>
-        /// Converts this texture to a different resolution, codec, or format
-        /// </summary>
-        /// <param name="codec">Type of image to convert this texture to</param>
-        /// <param name="width">Width to resize image to. May not be available. Width of 0 preserves the original width.</param>
-        /// <param name="height">Height to resize image to. May not be available. Height of 0 preserves the original height.</param>
-        /// <returns>Converted image bytes</returns>
-        public byte[] ConvertTo(TextureType codec, UInt64 width = 0, UInt64 height = 0)
-        {
-            if (TextureType.CRN == TextureType.CRN)
-            {
-                if (codec == TextureType.CRN)
-                {
-                    return Resource.Data;
-                }
-
-                var crnCodec = GetCrnTextureType(codec);
-                return LibCRN.GetImageBytesFromCRN(Resource.Data, crnCodec, Resource.MipLevels.Count, null);
-            }
-            else
-            {
-                if (codec == TextureType.DDS)
-                {
-                    return Resource.Data;
-                }
-
-                var ddsCodec = GetDdsTextureType(codec);
-                return LibDDS.GetImageBytesFromDds(Resource.Data, width, height, ddsCodec);
-            }
-        }
-
-        public LibDDS.ConversionOptions.CodecType GetDdsTextureType(TextureType codec)
-        {
-            switch (codec)
-            {
-                case TextureType.DDS:
-                    return LibDDS.ConversionOptions.CodecType.CODEC_DDS;
-                case TextureType.PNG:
-                    return LibDDS.ConversionOptions.CodecType.CODEC_PNG;
-                case TextureType.BMP:
-                    return LibDDS.ConversionOptions.CodecType.CODEC_BMP;
-                default:
-                    throw new NotImplementedException("Cannot convert DDS to " + codec.ToString());
-            }
-        }
-
-        public LibCRN.ImageCodec GetCrnTextureType(TextureType codec)
-        {
-            switch (codec)
-            {
-                case TextureType.DDS:
-                    return LibCRN.ImageCodec.DDS;
-                case TextureType.CRN:
-                    return LibCRN.ImageCodec.CRN;
-                case TextureType.PNG:
-                    return LibCRN.ImageCodec.PNG;
-                case TextureType.BMP:
-                    return LibCRN.ImageCodec.BMP;
-                case TextureType.JPG:
-                    return LibCRN.ImageCodec.JPG;
-                default:
-                    throw new NotImplementedException("Cannot convert CRN to " + codec.ToString());
-            }
         }
 
         public class TextureMip
