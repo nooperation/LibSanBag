@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static LibSanBag.FileResources.ClusterDefinitionResource;
 
 namespace LibSanBag.FileResources
@@ -56,11 +52,7 @@ namespace LibSanBag.FileResources
             result.Version = ReadVersion(reader, 3, 0x1411DD3F0);
             result.Name = ReadString(reader);
 
-            if(result.Version < 2)
-            {
-                // noop
-            }
-            else
+            if(result.Version >= 2)
             {
                 result.ScriptType = reader.ReadUInt32();
             }
