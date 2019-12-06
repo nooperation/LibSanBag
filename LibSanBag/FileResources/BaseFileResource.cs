@@ -181,40 +181,38 @@ namespace LibSanBag.FileResources
 
         public class Transform
         {
+            public uint Version { get; set; }
             public List<float> Q { get; set; }
             public List<float> T { get; set; }
         }
         protected Transform Read_Transform(BinaryReader reader)
         {
-            var version = ReadVersion(reader, 1, 0x1411A0F00);
+            var result = new Transform();
 
-            var q = ReadVectorF(reader, 4);
-            var t = ReadVectorF(reader, 3);
+            result.Version = ReadVersion(reader, 1, 0x1411A0F00);
+            
+            result.Q = ReadVectorF(reader, 4);
+            result.T = ReadVectorF(reader, 3);
 
-            return new Transform()
-            {
-                Q = q,
-                T = t
-            };
+            return result;
         }
 
         public class AABB
         {
+            public uint Version { get; set; }
             public List<float> Min { get; set; }
             public List<float> Max { get; set; }
         }
         protected AABB Read_AABB(BinaryReader reader)
         {
-            var version = ReadVersion(reader, 1, 0x141205310);
+            var result = new AABB();
 
-            var min = ReadVectorF(reader, 4);
-            var max = ReadVectorF(reader, 4);
+            result.Version = ReadVersion(reader, 1, 0x141205310);
 
-            return new AABB()
-            {
-                Min = min,
-                Max = max
-            };
+            result.Min = ReadVectorF(reader, 4);
+            result.Max = ReadVectorF(reader, 4);
+
+            return result;
         }
 
         protected byte[] Read_Array(BinaryReader reader)
