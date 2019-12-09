@@ -289,7 +289,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        public class WorldDefinition
+        public class WorldDef
         {
             public uint Version { get; set; }
             public uint VersionOld { get; set; }
@@ -318,9 +318,9 @@ namespace LibSanBag.FileResources
             public List<uint> PreloadInstanceIds { get; set; }
             public RuntimeInventorySettings RuntimeInventorySettings { get; set; }
         }
-        private WorldDefinition Read_WorldDefinitionResource(BinaryReader reader)
+        private WorldDef Read_WorldDefinitionResource(BinaryReader reader)
         {
-            var result = new WorldDefinition();
+            var result = new WorldDef();
 
             result.Version = ReadVersion(reader, 14, 0x1410E3B90);
 
@@ -423,7 +423,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        public WorldDefinition Resource { get; set; }
+        public WorldDef Resource { get; set; }
 
         private ClusterDefinitionResource tempReader;
         public override void InitFromRawDecompressed(byte[] decompressedBytes)

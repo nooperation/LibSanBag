@@ -7,7 +7,7 @@ namespace LibSanBag.FileResources
     {
         public override bool IsCompressed => true;
         public uint Version { get; set; }
-        public SoundResourceData Sound { get; set; }
+        public SoundResourceData Resource { get; set; }
 
         public static SoundResource Create(string version = "")
         {
@@ -52,7 +52,7 @@ namespace LibSanBag.FileResources
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 this.Version = ReadVersion(reader, 1, 0x1410E3B40);
-                this.Sound = ReadComponent(reader, Read_SoundResource);
+                this.Resource = ReadComponent(reader, Read_SoundResource);
             }
         }
     }

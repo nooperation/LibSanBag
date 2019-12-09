@@ -44,6 +44,8 @@ namespace LibSanBag.FileResources
             public List<ScriptProperty> Properties { get; set; }
             public string DisplayName { get; set; }
             public string Tooltip { get; set; }
+
+            public override string ToString() => DisplayName;
         }
         private ScriptClass Read_ScriptClass(BinaryReader reader)
         {

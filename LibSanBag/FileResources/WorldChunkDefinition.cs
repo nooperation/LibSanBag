@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
-    public class WorldChunkDefinition : BaseFileResource
+    public class WorldChunkDefinitionResource : BaseFileResource
     {
         public override bool IsCompressed => true;
 
-        public static WorldChunkDefinition Create(string version = "")
+        public static WorldChunkDefinitionResource Create(string version = "")
         {
-            return new WorldChunkDefinition();
+            return new WorldChunkDefinitionResource();
         }
 
         public class ClusterInstantiation
