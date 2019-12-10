@@ -219,7 +219,8 @@ namespace LibSanBag.FileResources
                 result.UnknownY = Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
             }
 
-            result.UnknownZ = 0;// TODO
+            result.UnknownZ = Read_BlueprintResource_v1_innerR(reader);
+            // TODO
             // TODO: craptone more
             return result;
         }
@@ -331,13 +332,188 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public class V1_InnerR_inner_D
+        {
+            public uint Version { get; internal set; }
+        }
+        private V1_InnerR_inner_D Read_BlueprintResource_v1_innerR_inner_D(BinaryReader reader)
+        {
+            var result = new V1_InnerR_inner_D();
+
+            return result;
+        }
+        public class V1_InnerR_inner_C
+        {
+            public uint Version { get; internal set; }
+        }
+        private V1_InnerR_inner_C Read_BlueprintResource_v1_innerR_inner_C(BinaryReader reader)
+        {
+            var result = new V1_InnerR_inner_C();
+
+            return result;
+        }
+        public class V1_InnerR_inner_B
+        {
+            public uint Version { get; internal set; }
+        }
+        private V1_InnerR_inner_B Read_BlueprintResource_v1_innerR_inner_B(BinaryReader reader)
+        {
+            var result = new V1_InnerR_inner_B();
+
+            return result;
+        }
+
+        public class V1_InnerR_inner_Aa
+        {
+            public uint Version { get; internal set; }
+            public bool UnknownA { get; internal set; }
+            public int UnknownB { get; internal set; }
+        }
+        private V1_InnerR_inner_Aa Read_BlueprintResource_v1_innerR_inner_Aa(BinaryReader reader)
+        {
+            var result = new V1_InnerR_inner_Aa();
+
+            result.Version = ReadVersion(reader, 2, 0x141209060);
+            result.UnknownA = reader.ReadBoolean();
+            if(result.Version < 2)
+            {
+                result.UnknownB = reader.ReadInt32();
+            }
+
+            return result;
+        }
+
+        public class V1_InnerR_inner_Ac
+        {
+            public V1_InnerR_inner_Ab UnknownA { get; internal set; }
+            public uint Version { get; internal set; }
+            public int UnknownB { get; internal set; }
+        }
+        private V1_InnerR_inner_Ac Read_BlueprintResource_v1_innerR_inner_Ac(BinaryReader reader)
+        {
+            var result = new V1_InnerR_inner_Ac();
+
+            result.UnknownA = Read_BlueprintResource_v1_innerR_inner_Ab(reader);
+            result.Version = ReadVersion(reader, 2, 0x141209070);
+
+            if(result.Version < 2)
+            {
+                result.UnknownB = reader.ReadInt32();
+            }
+
+            return result;
+        }
+
+
+        public class V1_InnerR_inner_Ab_internal
+        {
+            public uint Version { get; internal set; }
+            public int UnknownA { get; internal set; }
+            public string UnknownB { get; internal set; }
+            public V1_InnerL_v4_innerC UnknownC { get; internal set; }
+        }
+        private V1_InnerR_inner_Ab_internal Read_BlueprintResource_v1_innerR_inner_Ab_internal(BinaryReader reader)
+        {
+            var result = new V1_InnerR_inner_Ab_internal();
+
+            result.Version = ReadVersion(reader, 3, 0x1411D0CE0);
+            result.UnknownA = reader.ReadInt32();
+
+            if(result.UnknownA - 1 != 0 && result.UnknownA - 2 != 0)
+            {
+                if(result.UnknownA - 2 == 3)
+                {
+                    result.UnknownB = ReadString(reader);
+                }
+                else
+                {
+                    if(false /* something confusing */)
+                    {
+                        // TODO: This might be possible?
+                        reader.ReadInt64(); // I don't know
+                    }
+                    else
+                    {
+                        result.UnknownC = Read_BlueprintResource_v1_innerL_v4_innerC(reader);
+                    }
+                }
+            }
+
+
+            return result;
+        }
+
+        public class V1_InnerR_inner_Ab
+        {
+            public uint Version { get; internal set; }
+            public int UnknownA { get; internal set; }
+            public int UnknownB { get; internal set; }
+            public int UnknownC { get; internal set; }
+            public string UnknownD { get; internal set; }
+            public List<V1_InnerR_inner_Ab_internal> UnknownE { get; internal set; }
+        }
+        private V1_InnerR_inner_Ab Read_BlueprintResource_v1_innerR_inner_Ab(BinaryReader reader)
+        {
+            var result = new V1_InnerR_inner_Ab();
+
+            result.Version = ReadVersion(reader, 4, 0x14120B730);
+            result.UnknownA = reader.ReadInt32();
+            result.UnknownB = reader.ReadInt32();
+
+            if(result.Version < 4)
+            {
+                result.UnknownC = reader.ReadInt32();
+            }
+            if(result.Version >= 2)
+            {
+                result.UnknownD = ReadString(reader);
+            }
+            if(result.Version >= 3)
+            {
+                // TODO: probably broken
+                result.UnknownE = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0);
+            }
+
+            return result;
+        }
+
+        public class V1_InnerR_inner_A
+        {
+            public uint Version { get; internal set; }
+            public List<V1_InnerR_inner_Aa> UnknownA { get; internal set; }
+            public List<V1_InnerR_inner_Ab> UnknownB { get; internal set; }
+            public List<V1_InnerR_inner_Ac> UnknownC { get; internal set; }
+            public bool UnknownD { get; internal set; }
+        }
+        private V1_InnerR_inner_A Read_BlueprintResource_v1_innerR_inner_A(BinaryReader reader)
+        {
+            var result = new V1_InnerR_inner_A();
+
+            result.Version = ReadVersion(reader, 1, 0x1410BB180);
+            result.UnknownA = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Aa, 1, 0x141201180);
+            result.UnknownB = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab, 1, 0x141201190);
+            result.UnknownC = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ac, 1, 0x1412011A0);
+            result.UnknownD = reader.ReadBoolean();
+
+            return result;
+        }
+
         public class V1_InnerR
         {
             public uint Version { get; internal set; }
         }
+
         private V1_InnerR Read_BlueprintResource_v1_innerR(BinaryReader reader)
         {
             var result = new V1_InnerR();
+
+            result.Version = ReadVersion(reader, 2, 0x1411CDF20);
+            if(result.Version >= 2)
+            {
+                result.UnknownA = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_A, 1, 0x1411DA7B0);
+
+                // TODO: b, c, d
+            }
 
             return result;
         }
