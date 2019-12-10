@@ -179,6 +179,41 @@ namespace LibSanBag.FileResources
             return uuid;
         }
 
+        public string ReadUUID_B(BinaryReader reader)
+        {
+            var version = ReadVersion(reader, 2, 0x141160230);
+
+            var item1 = reader.ReadUInt64();
+            var item2 = reader.ReadUInt64();
+
+            var left = BitConverter.GetBytes(item1);
+            var right = BitConverter.GetBytes(item2);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = left.Length - 1; i >= 0; i--)
+            {
+                sb.AppendFormat("{0:x2}", left[i]);
+
+                if (i == 4 || i == 2 || i == 0)
+                {
+                    sb.Append('-');
+                }
+            }
+            for (int i = right.Length - 1; i >= 0; i--)
+            {
+                sb.AppendFormat("{0:x2}", right[i]);
+
+                if (i == 6)
+                {
+                    sb.Append('-');
+                }
+            }
+
+            var uuid = sb.ToString();
+            return uuid;
+        }
+
         public class Transform
         {
             public uint Version { get; set; }

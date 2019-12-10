@@ -24,41 +24,6 @@ namespace LibSanBag.FileResources
             return name;
         }
 
-        private string ReadUUID_B(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 2, 0x141160230);
-
-            var item1 = reader.ReadUInt64();
-            var item2 = reader.ReadUInt64();
-
-            var left = BitConverter.GetBytes(item1);
-            var right = BitConverter.GetBytes(item2);
-
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = left.Length - 1; i >= 0; i--)
-            {
-                sb.AppendFormat("{0:x2}", left[i]);
-
-                if (i == 4 || i == 2 || i ==0)
-                {
-                    sb.Append('-');
-                }
-            }
-            for (int i = right.Length - 1; i >= 0; i--)
-            {
-                sb.AppendFormat("{0:x2}", right[i]);
-
-                if (i == 6)
-                {
-                    sb.Append('-');
-                }
-            }
-
-            var uuid = sb.ToString();
-            return uuid;
-        }
-
         public class GrabPointDefinition
         {
             public uint Version { get; set; }
@@ -117,7 +82,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private List<AudioResourcePoolSound> Read_RigidBody_AudioResourcePoolSounds(BinaryReader reader)
+        public List<AudioResourcePoolSound> Read_RigidBody_AudioResourcePoolSounds(BinaryReader reader)
         {
             var result = new List<AudioResourcePoolSound>();
 
@@ -336,7 +301,7 @@ namespace LibSanBag.FileResources
             public List<float> Scale { get; set; }
             public string Data { get; set; }
         }
-        private OffsetTransform Read_AnimationComponent_OffsetTransform(BinaryReader reader)
+        public OffsetTransform Read_AnimationComponent_OffsetTransform(BinaryReader reader)
         {
             var result = new OffsetTransform();
 
@@ -349,7 +314,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private List<OffsetTransform> Read_AnimationComponent_OffsetTransformsMap(BinaryReader reader)
+        public List<OffsetTransform> Read_AnimationComponent_OffsetTransformsMap(BinaryReader reader)
         {
             var result = new List<OffsetTransform>();
 

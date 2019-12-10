@@ -210,6 +210,7 @@ namespace LibSanBag.FileResources
         {
             var result = new WorldChunk();
 
+            // TODO: Something isn't right here. why is the read_uuid version read before calling ReadUUID...? seems like a mistake
             result.Version = ReadVersion(reader, 1, 0x141196890);
             result.Id = ReadUUID(reader);
 
@@ -258,8 +259,9 @@ namespace LibSanBag.FileResources
             if (result.Version < 4)
             {
                 result.BankResource = ReadUUID(reader);
-                result.InnerVersion = ReadVersion(reader, 2, 0x141160230);
 
+                // TODO: this is ReadUUID_B...
+                result.InnerVersion = ReadVersion(reader, 2, 0x141160230);
                 result.BackgroundEvent = ReadUUID(reader); // Only guessing this is a uuid. migght still just be 2x int64
                                                            // result. = reader.ReadInt64();
                                                            //result.BackgroundEvent = reader.ReadInt64();

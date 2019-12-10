@@ -67,6 +67,7 @@
     <Compile Include="FileRecord.cs" />
     <Compile Include="FileRecordInfo.cs" />
     <Compile Include="FileResources\BaseFileResource.cs" />
+    <Compile Include="FileResources\BlueprintResource.cs" />
     <Compile Include="FileResources\WorldChunkDefinition.cs" />
     <Compile Include="FileResources\WorldDefinition.cs" />
     <Compile Include="FileResources\GeometryResource.cs" />
