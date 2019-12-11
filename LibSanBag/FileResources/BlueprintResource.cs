@@ -2069,13 +2069,16 @@ namespace LibSanBag.FileResources
                 result.UnknownF = ReadUUID(reader);
             }
 
-            if(result.Version < 2)
+            if(result.Version >= 2)
             {
-                result.BlendShape = ReadUUID(reader);
-            }
-            else if(result.Version < 5)
-            {
-                result.Morphs = ReadUUID(reader);
+                if (result.Version < 5)
+                {
+                    result.Morphs = ReadUUID(reader);
+                }
+                else
+                {
+                    result.BlendShape = ReadUUID(reader);
+                }
             }
 
             return result;
@@ -2123,19 +2126,14 @@ namespace LibSanBag.FileResources
             result.UnknownD = ReadString(reader);
             result.UnknownE = reader.ReadInt32();
 
-            if(result.Version >= 3)
+            if(result.Version >= 3 && result.Version < 5)
             {
-                if(result.Version < 5)
-                {
-                    result.UnknownF = reader.ReadBoolean();
-                }
-
+                result.UnknownF = reader.ReadBoolean();
+            }
+            else if(result.Version >= 5)
+            {
                 result.UnknownG = Read_List(reader, ReadString, 1, 0x14119ADB0);
-
-                if(result.Version >= 5)
-                {
-                   result.UnknownH = reader.ReadInt32();
-                }
+                result.UnknownH = reader.ReadInt32();
             }
 
             if (result.Version >= 6)
@@ -2466,7 +2464,7 @@ namespace LibSanBag.FileResources
                 result.UnknownE = reader.ReadByte();
             }
 
-            if(result.UnknownB != 0)
+            if (result.UnknownB != 0)
             {
                 result.UnknownB_ID = ReadUUID(reader);
             }
@@ -2671,6 +2669,28 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public class SomethingA
+        {
+            public List<V1_InnerQ> OldData { get; internal set; }
+            public List<BP_Inner1> NewData { get; internal set; }
+        }
+        private SomethingA Read_BlueprintResource_Something(BinaryReader reader, uint version)
+        {
+            var result = new SomethingA();
+
+            if (version < 6)
+            {
+                result.OldData = Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+            }
+            else
+            {
+                result.NewData = Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+            }
+
+            return result;
+        }
+
+
         public class Blueprint
         {
             public uint Version { get; set; }
@@ -2691,6 +2711,44 @@ namespace LibSanBag.FileResources
             public List<BP_Inner1> UnknownL { get; internal set; }
             public List<int> UnknownM { get; internal set; }
             public long UnknownN { get; internal set; }
+            public List<V1_InnderD> UnknownO { get; internal set; }
+            public SomethingA UnkonwnO_A { get; internal set; }
+            public List<V1_InnerE> UnknownP { get; internal set; }
+            public SomethingA UnkonwnP_A { get; internal set; }
+            public List<V1_InnerF> UnknownQ { get; internal set; }
+            public SomethingA UnkonwnQ_A { get; internal set; }
+            public List<V1_InnerG> UnknownR { get; internal set; }
+            public SomethingA UnkonwnR_A { get; internal set; }
+            public List<V1_InnerH> UnknownS { get; internal set; }
+            public SomethingA UnkonwnS_A { get; internal set; }
+            public List<V1_InnerI> UnknownT { get; internal set; }
+            public SomethingA UnkonwnT_A { get; internal set; }
+            public List<V1_InnerJ> UnknownU { get; internal set; }
+            public SomethingA UnkonwnU_A { get; internal set; }
+            public List<V1_InnerK> UnknownV { get; internal set; }
+            public SomethingA UnkonwnV_A { get; internal set; }
+            public List<V1_InnerL> UnknownW { get; internal set; }
+            public SomethingA UnkonwnW_A { get; internal set; }
+            public List<V1_InnerM> UnknownX { get; internal set; }
+            public SomethingA UnkonwnX_A { get; internal set; }
+            public List<V1_InnerN> UnknownY { get; internal set; }
+            public SomethingA UnkonwnY_A { get; internal set; }
+            public List<V1_InnerO> UnknownZ { get; internal set; }
+            public SomethingA UnkonwnZ_A { get; internal set; }
+            public List<V1_InnerS> UnknownAA { get; internal set; }
+            public SomethingA UnkonwnAA_A { get; internal set; }
+            public List<V1_InnerT> UnknownAB { get; internal set; }
+            public SomethingA UnkonwnAB_A { get; internal set; }
+            public List<V1_InnerU> UnknownAC { get; internal set; }
+            public SomethingA UnkonwnAC_A { get; internal set; }
+            public List<V1_InnerV> UnknownAD { get; internal set; }
+            public SomethingA UnkonwnAD_A { get; internal set; }
+            public List<V1_InnerW> UnknownAE { get; internal set; }
+            public SomethingA UnkonwnAE_A { get; internal set; }
+            public V1_InnerR UnknownAF { get; internal set; }
+            public List<string> UnknownAG { get; internal set; }
+            public int UnknownAH { get; internal set; }
+            public int UnknownHI { get; internal set; }
         }
         private Blueprint Read_BlueprintResource(BinaryReader reader)
         {
@@ -2742,248 +2800,112 @@ namespace LibSanBag.FileResources
             result.UnknownN = reader.ReadInt64();
             if((result.UnknownN & (1 << 0)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerD, 1, 0x1411D00F0);
-
-                if(result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownO = Read_List(reader, Read_BlueprintResource_v1_innerD, 1, 0x1411D00F0);
+                result.UnkonwnO_A = Read_BlueprintResource_Something(reader, result.Version);
             }
             
             if((result.UnknownN & (1 << 1)) != 0)
             {
-                Read_BlueprintResource_v1_innerE(reader);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownP = Read_List(reader, Read_BlueprintResource_v1_innerE, 1, 0x1411D0110);
+                result.UnkonwnP_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if ((result.UnknownN & (1 << 2)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerF, 1, 0x1411D0120);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownQ = Read_List(reader, Read_BlueprintResource_v1_innerF, 1, 0x1411D0120);
+                result.UnkonwnQ_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if ((result.UnknownN & (1 << 3)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerG, 1, 0x1411D0130);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownR = Read_List(reader, Read_BlueprintResource_v1_innerG, 1, 0x1411D0130);
+                result.UnkonwnR_A = Read_BlueprintResource_Something(reader, result.Version);
             }
-
 
             if ((result.UnknownN & (1 << 4)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerH, 1, 0x1411D0140);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownS = Read_List(reader, Read_BlueprintResource_v1_innerH, 1, 0x1411D0140); 
+                result.UnkonwnS_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if ((result.UnknownN & (1 << 5)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerI, 1, 0x1411D0150);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownT = Read_List(reader, Read_BlueprintResource_v1_innerI, 1, 0x1411D0150);
+                result.UnkonwnT_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if ((result.UnknownN & (1 << 6)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerJ, 1, 0x1411D0160);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownU = Read_List(reader, Read_BlueprintResource_v1_innerJ, 1, 0x1411D0160);
+                result.UnkonwnU_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if ((result.UnknownN & (1 << 7)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerK, 1, 0x1411D0170);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownV = Read_List(reader, Read_BlueprintResource_v1_innerK, 1, 0x1411D0170);
+                result.UnkonwnV_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if ((result.UnknownN & (1 << 8)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerL, 1, 0x1411D0180);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownW = Read_List(reader, Read_BlueprintResource_v1_innerL, 1, 0x1411D0180);
+                result.UnkonwnW_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if ((result.UnknownN & (1 << 9)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerM, 1, 0x1411D0190);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownX = Read_List(reader, Read_BlueprintResource_v1_innerM, 1, 0x1411D0190);
+                result.UnkonwnX_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if ((result.UnknownN & (1 << 10)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerN, 1, 0x1411A0410);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownY = Read_List(reader, Read_BlueprintResource_v1_innerN, 1, 0x1411A0410);
+                result.UnkonwnY_A = Read_BlueprintResource_Something(reader, result.Version);
             }
             if ((result.UnknownN & (1 << 11)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerO, 1, 0x1411D01A0);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownZ = Read_List(reader, Read_BlueprintResource_v1_innerO, 1, 0x1411D01A0);
+                result.UnkonwnZ_A = Read_BlueprintResource_Something(reader, result.Version);
             }
             if ((result.UnknownN & (1 << 12)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerS, 1, 0x1411D01B0);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownAA = Read_List(reader, Read_BlueprintResource_v1_innerS, 1, 0x1411D01B0);
+                result.UnkonwnAA_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if ((result.UnknownN & (1 << 13)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerT, 1, 0x1411D01C0);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownAB = Read_List(reader, Read_BlueprintResource_v1_innerT, 1, 0x1411D01C0);
+                result.UnkonwnAB_A = Read_BlueprintResource_Something(reader, result.Version);
             }
             if ((result.UnknownN & (1 << 14)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerU, 1, 0x1411D01D0);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownAC = Read_List(reader, Read_BlueprintResource_v1_innerU, 1, 0x1411D01D0);
+                result.UnkonwnAC_A = Read_BlueprintResource_Something(reader, result.Version);
             } 
             if ((result.UnknownN & (1 << 15)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerV, 1, 0x1411D01E0);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownAD = Read_List(reader, Read_BlueprintResource_v1_innerV, 1, 0x1411D01E0);
+                result.UnkonwnAD_A = Read_BlueprintResource_Something(reader, result.Version);
             }  
             if ((result.UnknownN & (1 << 16)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerW, 1, 0x1411D01F0);
-
-                if (result.Version < 6)
-                {
-                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
-                }
-                else
-                {
-                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
-                }
+                result.UnknownAE = Read_List(reader, Read_BlueprintResource_v1_innerW, 1, 0x1411D01F0);
+                result.UnkonwnAE_A = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if(result.Version < 7)
             {
-                Read_BlueprintResource_v1_innerR(reader);
+                result.UnknownAF = Read_BlueprintResource_v1_innerR(reader);
             }
-            Read_List(reader, ReadString, 1, 0x1411CD3D0);
-            reader.ReadInt32();
+
+            result.UnknownAG = Read_List(reader, ReadString, 1, 0x1411CD3D0);
+            result.UnknownAH = reader.ReadInt32();
 
             if(result.Version >= 7)
             {
-                reader.ReadInt32();
+                result.UnknownHI = reader.ReadInt32();
             }
 
             return result;
