@@ -1876,11 +1876,13 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; internal set; }
             public int UnknownA { get; internal set; }
+            public string Unknown0 { get; internal set; }
         }
         private V1_InnerK_Inner_Inner_A_innerB Read_BlueprintResource_v1_innerK_Inner_Inner_A_innerB(BinaryReader reader)
         {
             var result = new V1_InnerK_Inner_Inner_A_innerB();
 
+            result.Unknown0 = ReadString(reader);
             result.Version = ReadVersion(reader, 1, 0x14121E210);
             result.UnknownA = reader.ReadInt32();
 
@@ -1892,11 +1894,13 @@ namespace LibSanBag.FileResources
             public uint Version { get; internal set; }
             public uint VersionB { get; internal set; }
             public string Texture { get; internal set; }
+            public string Unknown0 { get; internal set; }
         }
         private V1_InnerK_Inner_Inner_A_inner Read_BlueprintResource_v1_innerK_Inner_Inner_A_inner(BinaryReader reader)
         {
             var result = new V1_InnerK_Inner_Inner_A_inner();
 
+            result.Unknown0 = ReadString(reader);
             result.Version = ReadVersion(reader, 1, 0x14121E200);
             result.VersionB = ReadVersion(reader, 1, 0x141223110);
             result.Texture = ReadUUID(reader);
@@ -2092,6 +2096,7 @@ namespace LibSanBag.FileResources
             public int UnknownI { get; internal set; }
             public bool UnknownJ { get; internal set; }
             public bool UnknownK { get; internal set; }
+            public AInner UnkonwnL { get; internal set; }
         }
         private V1_InnerK_Inner Read_BlueprintResource_v1_innerK_Inner(BinaryReader reader)
         {
@@ -2101,7 +2106,7 @@ namespace LibSanBag.FileResources
 
             if(result.Version >= 4)
             {
-                Read_BlueprintResource_A_inner(reader);
+                result.UnkonwnL = Read_BlueprintResource_A_inner(reader);
             }
 
             if(result.Version == 1)
