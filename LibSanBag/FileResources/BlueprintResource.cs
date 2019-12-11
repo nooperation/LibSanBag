@@ -2503,10 +2503,16 @@ namespace LibSanBag.FileResources
         public class BP_Inner1
         {
             public uint Version { get; set; }
+            public int UnknownA { get; internal set; }
+            public int UnknownB { get; internal set; }
         }
         private BP_Inner1 Read_BlueprintResource_inner1(BinaryReader reader)
         {
             var result = new BP_Inner1();
+
+            result.Version = ReadVersion(reader, 1, 0x1411ECD10);
+            result.UnknownA = reader.ReadInt32();
+            result.UnknownB = reader.ReadInt32();
 
             return result;
         }
@@ -2524,7 +2530,13 @@ namespace LibSanBag.FileResources
             public List<List<int>> UnknownFList { get; internal set; }
             public uint UnknownG { get; internal set; }
             public List<List<int>> UnknownGList { get; internal set; }
-
+            public List<AData> UnknownH { get; internal set; }
+            public List<BData> UnknownI { get; internal set; }
+            public List<BlueprintV1InnerB> UnknownJ { get; internal set; }
+            public List<int> UnknownK { get; internal set; }
+            public List<BP_Inner1> UnknownL { get; internal set; }
+            public List<int> UnknownM { get; internal set; }
+            public long UnknownN { get; internal set; }
         }
         private Blueprint Read_BlueprintResource(BinaryReader reader)
         {
@@ -2573,7 +2585,252 @@ namespace LibSanBag.FileResources
                 result.UnknownM = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
             }
 
-            // TODO: missing everything after this
+            result.UnknownN = reader.ReadInt64();
+            if((result.UnknownN & (1 << 0)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerD, 1, 0x1411D00F0);
+
+                if(result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+            
+            if((result.UnknownN & (1 << 1)) != 0)
+            {
+                Read_BlueprintResource_v1_innerE(reader);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if ((result.UnknownN & (1 << 2)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerF, 1, 0x1411D0120);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if ((result.UnknownN & (1 << 3)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerG, 1, 0x1411D0130);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+
+            if ((result.UnknownN & (1 << 4)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerH, 1, 0x1411D0140);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if ((result.UnknownN & (1 << 5)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerI, 1, 0x1411D0150);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if ((result.UnknownN & (1 << 6)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerJ, 1, 0x1411D0160);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if ((result.UnknownN & (1 << 7)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerK, 1, 0x1411D0170);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if ((result.UnknownN & (1 << 8)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerL, 1, 0x1411D0180);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if ((result.UnknownN & (1 << 9)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerM, 1, 0x1411D0190);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if ((result.UnknownN & (1 << 10)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerN, 1, 0x1411A0410);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+            if ((result.UnknownN & (1 << 11)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerO, 1, 0x1411D01A0);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+            if ((result.UnknownN & (1 << 12)) != 0)
+            {
+                Read_List(reader, Read_BlueprintResource_v1_innerP, 1, 0x1411CD370);
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if ((result.UnknownN & (1 << 13)) != 0)
+            {
+                // TODO
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+            if ((result.UnknownN & (1 << 14)) != 0)
+            {
+                // TODO
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            } 
+            if ((result.UnknownN & (1 << 15)) != 0)
+            {
+                // TODO
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }  
+            if ((result.UnknownN & (1 << 16)) != 0)
+            {
+                // TODO
+
+                if (result.Version < 6)
+                {
+                    Read_List(reader, Read_BlueprintResource_v1_innerQ, 1, 0x1411D0100);
+                }
+                else
+                {
+                    Read_List(reader, Read_BlueprintResource_inner1, 1, 0x1411D9920);
+                }
+            }
+
+            if(result.Version < 7)
+            {
+                Read_BlueprintResource_v1_innerR(reader);
+            }
+            Read_List(reader, ReadString, 1, 0x1411CD3D0);
+            reader.ReadInt32();
+
+            if(result.Version >= 7)
+            {
+                reader.ReadInt32();
+            }
 
             return result;
         }
