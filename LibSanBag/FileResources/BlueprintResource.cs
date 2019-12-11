@@ -2069,14 +2069,13 @@ namespace LibSanBag.FileResources
                 result.UnknownF = ReadUUID(reader);
             }
 
-            if(result.Version >= 2)
+            if(result.Version < 2)
             {
-                if(result.Version < 5)
-                {
-                    result.Morphs = ReadUUID(reader);
-                }
-
                 result.BlendShape = ReadUUID(reader);
+            }
+            else if(result.Version < 5)
+            {
+                result.Morphs = ReadUUID(reader);
             }
 
             return result;
