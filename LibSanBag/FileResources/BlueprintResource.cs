@@ -325,13 +325,133 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public class V1_InnerX
+        {
+            public uint Version { get; internal set; }
+        }
+        private V1_InnerX Read_BlueprintResource_v1_innerX(BinaryReader reader)
+        {
+            var result = new V1_InnerX();
+
+            return result;
+        }
+
+        public class V1_InnerW
+        {
+            public uint Version { get; internal set; }
+            public AInner UnknownA { get; internal set; }
+        }
+        private V1_InnerW Read_BlueprintResource_v1_innerW(BinaryReader reader)
+        {
+            var result = new V1_InnerW();
+
+            result.Version = ReadVersion(reader, 1, 0x1410BB100);
+
+            result.Version = ReadVersion(reader, 1, 0x1411DDD80);
+            result.UnknownA = Read_BlueprintResource_A_inner(reader);
+
+            return result;
+        }
+
+        public class V1_InnerV
+        {
+            public uint Version { get; internal set; }
+            public int UnknownB { get; internal set; }
+            public V1_InnerU_inner UnknownA { get; internal set; }
+        }
+        private V1_InnerV Read_BlueprintResource_v1_innerV(BinaryReader reader)
+        {
+            var result = new V1_InnerV();
+
+            result.Version = ReadVersion(reader, 1, 0x1410BB0F0);
+            result.UnknownA = Read_BlueprintResource_v1_innerU_inner(reader);
+            result.UnknownB = reader.ReadInt32();
+
+            return result;
+        }
+
+        public class V1_InnerU_inner
+        {
+            public uint Version { get; internal set; }
+            public AInner UnknownA { get; internal set; }
+        }
+        private V1_InnerU_inner Read_BlueprintResource_v1_innerU_inner(BinaryReader reader)
+        {
+            var result = new V1_InnerU_inner();
+
+            result.Version = ReadVersion(reader, 1, 0x1411DDD80);
+            result.UnknownA = Read_BlueprintResource_A_inner(reader);
+
+            return result;
+        }
+
+        public class V1_InnerU
+        {
+            public uint Version { get; internal set; }
+           
+            public V1_InnerU_inner UnknownA { get; internal set; }
+            public int UnknownB { get; internal set; }
+            public bool UnknownC { get; internal set; }
+            public bool UnknownD { get; internal set; }
+            public AInner UnknownE { get; internal set; }
+            public int UnknownF { get; internal set; }
+        }
+        private V1_InnerU Read_BlueprintResource_v1_innerU(BinaryReader reader)
+        {
+            var result = new V1_InnerU();
+
+            result.Version = ReadVersion(reader, 5, 0x1410BB0E0);
+            if(result.Version >= 3)
+            {
+                result.UnknownA = Read_BlueprintResource_v1_innerU_inner(reader);
+
+                result.UnknownB = reader.ReadInt32();
+                result.UnknownC = reader.ReadBoolean();
+                result.UnknownD = reader.ReadBoolean();
+            }
+            else
+            {
+                result.UnknownE = Read_BlueprintResource_A_inner(reader);
+                result.UnknownF = reader.ReadInt32();
+            }
+
+            return result;
+        }
+
+        public class V1_InnerT
+        {
+            public uint Version { get; internal set; }
+            public AInner UnknownA { get; internal set; }
+        }
+        private V1_InnerT Read_BlueprintResource_v1_innerT(BinaryReader reader)
+        {
+            var result = new V1_InnerT();
+
+            result.Version = ReadVersion(reader, 2, 0x1410BB0D0);
+            if(result.Version >= 2)
+            {
+                result.UnknownA = Read_BlueprintResource_A_inner(reader);
+            }
+
+            return result;
+        }
+
         public class V1_InnerS
         {
             public uint Version { get; internal set; }
+            public V1_InnerL UnknownA { get; internal set; }
+            public string ClothSource { get; internal set; }
         }
         private V1_InnerS Read_BlueprintResource_v1_innerS(BinaryReader reader)
         {
             var result = new V1_InnerS();
+
+            result.Version = ReadVersion(reader, 1, 0x1410BB0C0);
+            if(result.Version == 1)
+            {
+                result.UnknownA = Read_BlueprintResource_v1_innerL(reader);
+                result.ClothSource = ReadUUID(reader);
+            }
 
             return result;
         }
@@ -2755,7 +2875,7 @@ namespace LibSanBag.FileResources
             }
             if ((result.UnknownN & (1 << 12)) != 0)
             {
-                Read_List(reader, Read_BlueprintResource_v1_innerP, 1, 0x1411CD370);
+                Read_List(reader, Read_BlueprintResource_v1_innerS, 1, 0x1411D01B0);
 
                 if (result.Version < 6)
                 {
@@ -2769,7 +2889,7 @@ namespace LibSanBag.FileResources
 
             if ((result.UnknownN & (1 << 13)) != 0)
             {
-                // TODO
+                Read_List(reader, Read_BlueprintResource_v1_innerT, 1, 0x1411D01C0);
 
                 if (result.Version < 6)
                 {
@@ -2782,7 +2902,7 @@ namespace LibSanBag.FileResources
             }
             if ((result.UnknownN & (1 << 14)) != 0)
             {
-                // TODO
+                Read_List(reader, Read_BlueprintResource_v1_innerU, 1, 0x1411D01D0);
 
                 if (result.Version < 6)
                 {
@@ -2795,7 +2915,7 @@ namespace LibSanBag.FileResources
             } 
             if ((result.UnknownN & (1 << 15)) != 0)
             {
-                // TODO
+                Read_List(reader, Read_BlueprintResource_v1_innerV, 1, 0x1411D01E0);
 
                 if (result.Version < 6)
                 {
@@ -2808,7 +2928,7 @@ namespace LibSanBag.FileResources
             }  
             if ((result.UnknownN & (1 << 16)) != 0)
             {
-                // TODO
+                Read_List(reader, Read_BlueprintResource_v1_innerW, 1, 0x1411D01F0);
 
                 if (result.Version < 6)
                 {
