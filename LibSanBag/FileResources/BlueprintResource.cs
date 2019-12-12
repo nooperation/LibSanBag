@@ -551,7 +551,10 @@ namespace LibSanBag.FileResources
 
             if(result.Version < 3)
             {
+
+                // TODO: Confirm this, i don't think actually reads anything int he internal loop...
                 result.UnknownC = Read_List(reader, n => n.ReadInt32(), 1, 0x1411C3BB0);
+                // result.UnknownC = Read_List(reader, n => { return 0; }, 1, 0x1411C3BB0);
             }
             else
             {
