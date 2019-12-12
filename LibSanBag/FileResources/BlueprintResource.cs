@@ -2700,60 +2700,59 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; set; }
             public BlueprintV1 OldData { get; internal set; }
-            public List<BlueprintV1Inner> UnknownA { get; internal set; }
-            public List<int> UnknownB { get; internal set; }
-            public List<V1_InnerP> UnknownC { get; internal set; }
-            public string UnknownD { get; internal set; }
-            public V1_UnknownC UnknownE { get; internal set; }
-            public uint UnknownF { get; internal set; }
-            public List<List<int>> UnknownFList { get; internal set; }
-            public uint UnknownG { get; internal set; }
-            public List<List<int>> UnknownGList { get; internal set; }
-            public List<AData> UnknownH { get; internal set; }
-            public List<BData> UnknownI { get; internal set; }
+            public List<BlueprintV1Inner> Objects { get; internal set; }
+            public List<int> ObjectIndices { get; internal set; }
+            public List<V1_InnerP> EntitySchematics { get; internal set; }
+            public string Name { get; internal set; }
+            public V1_UnknownC TransformGraphEntries { get; internal set; }
+            public uint TransformSchematicCount { get; internal set; }
+            public List<List<int>> TransformSchematics { get; internal set; }
+            public uint TransformNonSchematicCount { get; internal set; }
+            public List<List<int>> TransformNonSchematics { get; internal set; }
+            public List<AData> JointSchematics { get; internal set; }
+            public List<BData> JointGraphEntries { get; internal set; }
             public List<BlueprintV1InnerB> UnknownJ { get; internal set; }
-            public List<int> UnknownK { get; internal set; }
-            public List<BP_Inner1> UnknownL { get; internal set; }
-            public List<int> UnknownM { get; internal set; }
-            public long UnknownN { get; internal set; }
-            public List<V1_InnderD> UnknownO { get; internal set; }
-            public SomethingA UnkonwnO_A { get; internal set; }
-            public List<V1_InnerE> UnknownP { get; internal set; }
-            public SomethingA UnkonwnP_A { get; internal set; }
-            public List<V1_InnerF> UnknownQ { get; internal set; }
-            public SomethingA UnkonwnQ_A { get; internal set; }
-            public List<V1_InnerG> UnknownR { get; internal set; }
-            public SomethingA UnkonwnR_A { get; internal set; }
-            public List<V1_InnerH> UnknownS { get; internal set; }
-            public SomethingA UnkonwnS_A { get; internal set; }
-            public List<V1_InnerI> UnknownT { get; internal set; }
-            public SomethingA UnkonwnT_A { get; internal set; }
-            public List<V1_InnerJ> UnknownU { get; internal set; }
-            public SomethingA UnkonwnU_A { get; internal set; }
-            public List<V1_InnerK> UnknownV { get; internal set; }
-            public SomethingA UnkonwnV_A { get; internal set; }
-            public List<V1_InnerL> UnknownW { get; internal set; }
-            public SomethingA UnkonwnW_A { get; internal set; }
-            public List<V1_InnerM> UnknownX { get; internal set; }
-            public SomethingA UnkonwnX_A { get; internal set; }
-            public List<V1_InnerN> UnknownY { get; internal set; }
-            public SomethingA UnkonwnY_A { get; internal set; }
-            public List<V1_InnerO> UnknownZ { get; internal set; }
-            public SomethingA UnkonwnZ_A { get; internal set; }
-            public List<V1_InnerS> UnknownAA { get; internal set; }
-            public SomethingA UnkonwnAA_A { get; internal set; }
-            public List<V1_InnerT> UnknownAB { get; internal set; }
-            public SomethingA UnkonwnAB_A { get; internal set; }
-            public List<V1_InnerU> UnknownAC { get; internal set; }
-            public SomethingA UnkonwnAC_A { get; internal set; }
-            public List<V1_InnerV> UnknownAD { get; internal set; }
-            public SomethingA UnkonwnAD_A { get; internal set; }
-            public List<V1_InnerW> UnknownAE { get; internal set; }
-            public SomethingA UnkonwnAE_A { get; internal set; }
-            public V1_InnerR UnknownAF { get; internal set; }
-            public List<string> UnknownAG { get; internal set; }
-            public int UnknownAH { get; internal set; }
-            public int UnknownHI { get; internal set; }
+            public List<BP_Inner1> EntityJoinRangesArray { get; internal set; }
+            public List<int> EntityJointIndices { get; internal set; }
+            public long SchematicBitField { get; internal set; }
+            public List<V1_InnderD> AnimData { get; internal set; }
+            public SomethingA AnimIndices { get; internal set; }
+            public List<V1_InnerE> PoseData { get; internal set; }
+            public SomethingA PoseIndices { get; internal set; }
+            public List<V1_InnerF> RBodData { get; internal set; }
+            public SomethingA RBodIndices { get; internal set; }
+            public List<V1_InnerG> CharData { get; internal set; }
+            public SomethingA CharIndices { get; internal set; }
+            public List<V1_InnerH> SptData { get; internal set; }
+            public SomethingA SptIndices { get; internal set; }
+            public List<V1_InnerI> CamData { get; internal set; }
+            public SomethingA CamIndices { get; internal set; }
+            public List<V1_InnerJ> LitData { get; internal set; }
+            public SomethingA LitIndices { get; internal set; }
+            public List<V1_InnerK> SMshData { get; internal set; }
+            public SomethingA SMshIndices { get; internal set; }
+            public List<V1_InnerL> RMeshData { get; internal set; }
+            public SomethingA RMeshIndices { get; internal set; }
+            public List<V1_InnerM> AudData { get; internal set; }
+            public SomethingA AudIndices { get; internal set; }
+            public List<V1_InnerN> ScrData { get; internal set; }
+            public SomethingA ScrIndices { get; internal set; }
+            public List<V1_InnerO> TeraData { get; internal set; }
+            public SomethingA TeraIndices { get; internal set; }
+            public List<V1_InnerS> CloData { get; internal set; }
+            public SomethingA CloIndices { get; internal set; }
+            public List<V1_InnerT> IKBdData { get; internal set; }
+            public SomethingA IKBdIndices { get; internal set; }
+            public List<V1_InnerU> GrbpData { get; internal set; }
+            public SomethingA GrbpIndices { get; internal set; }
+            public List<V1_InnerV> SitpData { get; internal set; }
+            public SomethingA SitpIndices { get; internal set; }
+            public List<V1_InnerW> SebpData { get; internal set; }
+            public SomethingA SebpIndices { get; internal set; }
+            public V1_InnerR EditParameterGraph { get; internal set; }
+            public List<string> CustomCapabilities { get; internal set; }
+            public int Scale { get; internal set; }
+            public int HighestLinkId { get; internal set; }
         }
         private Blueprint Read_BlueprintResource(BinaryReader reader)
         {
@@ -2766,151 +2765,152 @@ namespace LibSanBag.FileResources
                 return result;
             }
 
-            result.UnknownA = Read_List(reader, Read_BlueprintResource_v1_inner, 1, 0x1411CD360);
-            result.UnknownB = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
-            result.UnknownC = Read_List(reader, Read_BlueprintResource_v1_innerP, 1, 0x1411CD370);
-            result.UnknownD = ReadString(reader);
-            result.UnknownE = Read_BlueprintResource_v1_UnknownC(reader);
+            result.Objects = Read_List(reader, Read_BlueprintResource_v1_inner, 1, 0x1411CD360);
+            result.ObjectIndices = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
+            result.EntitySchematics = Read_List(reader, Read_BlueprintResource_v1_innerP, 1, 0x1411CD370);
+            result.Name = ReadString(reader);
+            result.TransformGraphEntries = Read_BlueprintResource_v1_UnknownC(reader);
 
-            result.UnknownF = reader.ReadUInt32();
-            result.UnknownFList = new List<List<int>>();
-            for (int i = 0; i < result.UnknownF; i++)
+            result.TransformSchematicCount = reader.ReadUInt32();
+            result.TransformSchematics = new List<List<int>>();
+            for (int i = 0; i < result.TransformSchematicCount; i++)
             {
                 var item = Read_List(reader, n => n.ReadInt32(), 1, 0x1411CD380);
-                result.UnknownFList.Add(item);
+                result.TransformSchematics.Add(item);
             }
 
-            result.UnknownG = reader.ReadUInt32();
-            result.UnknownGList = new List<List<int>>();
-            for (int i = 0; i < result.UnknownG; i++)
+            result.TransformNonSchematicCount = reader.ReadUInt32();
+            result.TransformNonSchematics = new List<List<int>>();
+            for (int i = 0; i < result.TransformNonSchematicCount; i++)
             {
                 var item = Read_List(reader, n => n.ReadInt32(), 1, 0x1411CD380);
-                result.UnknownGList.Add(item);
+                result.TransformNonSchematics.Add(item);
             }
 
-            result.UnknownH = Read_List(reader, Read_BluepintResource_A, 1, 0x1411CD390);
-            result.UnknownI = Read_List(reader, Read_BluepintResource_B, 1, 0x1411CD3A0);
+            result.JointSchematics = Read_List(reader, Read_BluepintResource_A, 1, 0x1411CD390);
+            result.JointGraphEntries = Read_List(reader, Read_BluepintResource_B, 1, 0x1411CD3A0);
+            // entityJoinRanges..?
 
             if(result.Version < 6)
             {
                 result.UnknownJ = Read_List(reader, Read_BlueprintResource_v1_innerB, 1, 0x1411CD3B0);
-                result.UnknownK = Read_List(reader, n => n.ReadInt32(), 1, 0x1411CD3C0);
+                result.EntityJointIndices = Read_List(reader, n => n.ReadInt32(), 1, 0x1411CD3C0);
             }
             else
             {
-                result.UnknownL = Read_List(reader, Read_BlueprintResource_inner1 , 1, 0x1411D9920);
-                result.UnknownM = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
+                result.EntityJoinRangesArray = Read_List(reader, Read_BlueprintResource_inner1 , 1, 0x1411D9920);
+                result.EntityJointIndices = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
             }
 
-            result.UnknownN = reader.ReadInt64();
-            if((result.UnknownN & (1 << 0)) != 0)
+            result.SchematicBitField = reader.ReadInt64();
+            if((result.SchematicBitField & (1 << 0)) != 0)
             {
-                result.UnknownO = Read_List(reader, Read_BlueprintResource_v1_innerD, 1, 0x1411D00F0);
-                result.UnkonwnO_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.AnimData = Read_List(reader, Read_BlueprintResource_v1_innerD, 1, 0x1411D00F0);
+                result.AnimIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
             
-            if((result.UnknownN & (1 << 1)) != 0)
+            if((result.SchematicBitField & (1 << 1)) != 0)
             {
-                result.UnknownP = Read_List(reader, Read_BlueprintResource_v1_innerE, 1, 0x1411D0110);
-                result.UnkonwnP_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.PoseData = Read_List(reader, Read_BlueprintResource_v1_innerE, 1, 0x1411D0110);
+                result.PoseIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 2)) != 0)
+            if ((result.SchematicBitField & (1 << 2)) != 0)
             {
-                result.UnknownQ = Read_List(reader, Read_BlueprintResource_v1_innerF, 1, 0x1411D0120);
-                result.UnkonwnQ_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.RBodData = Read_List(reader, Read_BlueprintResource_v1_innerF, 1, 0x1411D0120);
+                result.RBodIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 3)) != 0)
+            if ((result.SchematicBitField & (1 << 3)) != 0)
             {
-                result.UnknownR = Read_List(reader, Read_BlueprintResource_v1_innerG, 1, 0x1411D0130);
-                result.UnkonwnR_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.CharData = Read_List(reader, Read_BlueprintResource_v1_innerG, 1, 0x1411D0130);
+                result.CharIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 4)) != 0)
+            if ((result.SchematicBitField & (1 << 4)) != 0)
             {
-                result.UnknownS = Read_List(reader, Read_BlueprintResource_v1_innerH, 1, 0x1411D0140); 
-                result.UnkonwnS_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.SptData = Read_List(reader, Read_BlueprintResource_v1_innerH, 1, 0x1411D0140); 
+                result.SptIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 5)) != 0)
+            if ((result.SchematicBitField & (1 << 5)) != 0)
             {
-                result.UnknownT = Read_List(reader, Read_BlueprintResource_v1_innerI, 1, 0x1411D0150);
-                result.UnkonwnT_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.CamData = Read_List(reader, Read_BlueprintResource_v1_innerI, 1, 0x1411D0150);
+                result.CamIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 6)) != 0)
+            if ((result.SchematicBitField & (1 << 6)) != 0)
             {
-                result.UnknownU = Read_List(reader, Read_BlueprintResource_v1_innerJ, 1, 0x1411D0160);
-                result.UnkonwnU_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.LitData = Read_List(reader, Read_BlueprintResource_v1_innerJ, 1, 0x1411D0160);
+                result.LitIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 7)) != 0)
+            if ((result.SchematicBitField & (1 << 7)) != 0)
             {
-                result.UnknownV = Read_List(reader, Read_BlueprintResource_v1_innerK, 1, 0x1411D0170);
-                result.UnkonwnV_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.SMshData = Read_List(reader, Read_BlueprintResource_v1_innerK, 1, 0x1411D0170);
+                result.SMshIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 8)) != 0)
+            if ((result.SchematicBitField & (1 << 8)) != 0)
             {
-                result.UnknownW = Read_List(reader, Read_BlueprintResource_v1_innerL, 1, 0x1411D0180);
-                result.UnkonwnW_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.RMeshData = Read_List(reader, Read_BlueprintResource_v1_innerL, 1, 0x1411D0180);
+                result.RMeshIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 9)) != 0)
+            if ((result.SchematicBitField & (1 << 9)) != 0)
             {
-                result.UnknownX = Read_List(reader, Read_BlueprintResource_v1_innerM, 1, 0x1411D0190);
-                result.UnkonwnX_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.AudData = Read_List(reader, Read_BlueprintResource_v1_innerM, 1, 0x1411D0190);
+                result.AudIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 10)) != 0)
+            if ((result.SchematicBitField & (1 << 10)) != 0)
             {
-                result.UnknownY = Read_List(reader, Read_BlueprintResource_v1_innerN, 1, 0x1411A0410);
-                result.UnkonwnY_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.ScrData = Read_List(reader, Read_BlueprintResource_v1_innerN, 1, 0x1411A0410);
+                result.ScrIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
-            if ((result.UnknownN & (1 << 11)) != 0)
+            if ((result.SchematicBitField & (1 << 11)) != 0)
             {
-                result.UnknownZ = Read_List(reader, Read_BlueprintResource_v1_innerO, 1, 0x1411D01A0);
-                result.UnkonwnZ_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.TeraData = Read_List(reader, Read_BlueprintResource_v1_innerO, 1, 0x1411D01A0);
+                result.TeraIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
-            if ((result.UnknownN & (1 << 12)) != 0)
+            if ((result.SchematicBitField & (1 << 12)) != 0)
             {
-                result.UnknownAA = Read_List(reader, Read_BlueprintResource_v1_innerS, 1, 0x1411D01B0);
-                result.UnkonwnAA_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.CloData = Read_List(reader, Read_BlueprintResource_v1_innerS, 1, 0x1411D01B0);
+                result.CloIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
-            if ((result.UnknownN & (1 << 13)) != 0)
+            if ((result.SchematicBitField & (1 << 13)) != 0)
             {
-                result.UnknownAB = Read_List(reader, Read_BlueprintResource_v1_innerT, 1, 0x1411D01C0);
-                result.UnkonwnAB_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.IKBdData = Read_List(reader, Read_BlueprintResource_v1_innerT, 1, 0x1411D01C0);
+                result.IKBdIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
-            if ((result.UnknownN & (1 << 14)) != 0)
+            if ((result.SchematicBitField & (1 << 14)) != 0)
             {
-                result.UnknownAC = Read_List(reader, Read_BlueprintResource_v1_innerU, 1, 0x1411D01D0);
-                result.UnkonwnAC_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.GrbpData = Read_List(reader, Read_BlueprintResource_v1_innerU, 1, 0x1411D01D0);
+                result.GrbpIndices = Read_BlueprintResource_Something(reader, result.Version);
             } 
-            if ((result.UnknownN & (1 << 15)) != 0)
+            if ((result.SchematicBitField & (1 << 15)) != 0)
             {
-                result.UnknownAD = Read_List(reader, Read_BlueprintResource_v1_innerV, 1, 0x1411D01E0);
-                result.UnkonwnAD_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.SitpData = Read_List(reader, Read_BlueprintResource_v1_innerV, 1, 0x1411D01E0);
+                result.SitpIndices = Read_BlueprintResource_Something(reader, result.Version);
             }  
-            if ((result.UnknownN & (1 << 16)) != 0)
+            if ((result.SchematicBitField & (1 << 16)) != 0)
             {
-                result.UnknownAE = Read_List(reader, Read_BlueprintResource_v1_innerW, 1, 0x1411D01F0);
-                result.UnkonwnAE_A = Read_BlueprintResource_Something(reader, result.Version);
+                result.SebpData = Read_List(reader, Read_BlueprintResource_v1_innerW, 1, 0x1411D01F0);
+                result.SebpIndices = Read_BlueprintResource_Something(reader, result.Version);
             }
 
             if(result.Version < 7)
             {
-                result.UnknownAF = Read_BlueprintResource_v1_innerR(reader);
+                result.EditParameterGraph = Read_BlueprintResource_v1_innerR(reader);
             }
 
-            result.UnknownAG = Read_List(reader, ReadString, 1, 0x1411CD3D0);
-            result.UnknownAH = reader.ReadInt32();
+            result.CustomCapabilities = Read_List(reader, ReadString, 1, 0x1411CD3D0);
+            result.Scale = reader.ReadInt32();
 
             if(result.Version >= 7)
             {
-                result.UnknownHI = reader.ReadInt32();
+                result.HighestLinkId = reader.ReadInt32();
             }
 
             return result;
