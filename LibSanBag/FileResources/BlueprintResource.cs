@@ -18,19 +18,19 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; set; }
             public uint VersionB { get; set; }
-            public string UnknownA { get; internal set; }
-            public int UnknownC { get; internal set; }
+            public string OriginClusterId { get; internal set; }
+            public int LinkId { get; internal set; }
         }
         private AInner Read_BlueprintResource_A_inner(BinaryReader reader)
         {
             var result = new AInner();
 
             result.Version = ReadVersion(reader, 2, 0x1411B1100);
-            result.UnknownA = ReadUUID(reader);
+            result.OriginClusterId = ReadUUID(reader);
 
             if (result.Version >= 2)
             {
-                result.UnknownC = reader.ReadInt32();
+                result.LinkId = reader.ReadInt32();
             }
 
             return result;
@@ -40,8 +40,8 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; set; }
             public AInner UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
-            public byte UnknownC { get; internal set; }
+            public int Type { get; internal set; }
+            public bool Breakable { get; internal set; }
             public uint VersionB { get; internal set; }
             public uint VersionC { get; internal set; }
             public string VersionCString { get; internal set; }
@@ -57,20 +57,23 @@ namespace LibSanBag.FileResources
                 result.UnknownA = Read_BlueprintResource_A_inner(reader);
             }
 
-            result.UnknownB = reader.ReadInt32();
-            result.UnknownC = reader.ReadByte();
+            result.Type = reader.ReadInt32();
+            result.Breakable = reader.ReadBoolean();
 
-            if (result.UnknownB == 1)
+            if (result.Type == 1)
             {
+                // info =
                 result.VersionB = ReadVersion(reader, 1, 0x1411ECD30);
             }
-            else if (result.UnknownB == 2)
+            else if (result.Type == 2)
             {
+                // info =
                 result.VersionC = ReadVersion(reader, 1, 0x1411ECD40);
                 result.VersionCString = ReadString(reader);
             }
             else
             {
+                // info = 
                 result.UnknownD = ReadUUID(reader);
             }
 
@@ -80,8 +83,8 @@ namespace LibSanBag.FileResources
         public class BData
         {
             public uint Version { get; set; }
-            public int UnknownA { get; set; }
-            public int UnknownB { get; set; }
+            public uint EntityA { get; set; }
+            public uint EntityB { get; set; }
         }
         private BData Read_BluepintResource_B(BinaryReader reader)
         {
@@ -89,8 +92,8 @@ namespace LibSanBag.FileResources
 
             result.Version = ReadVersion(reader, 1, 0x1411D9940);
 
-            result.UnknownA = reader.ReadInt32();
-            result.UnknownB = reader.ReadInt32();
+            result.EntityA = reader.ReadUInt32();
+            result.EntityB = reader.ReadUInt32();
 
             return result;
         }
@@ -98,7 +101,7 @@ namespace LibSanBag.FileResources
         public class BlueprintV1Inner
         {
             public uint Version { get; set; }
-            public int UnknownA { get; internal set; }
+            public int LinkId { get; internal set; }
         }
         public BlueprintV1Inner Read_BlueprintResource_v1_inner(BinaryReader reader)
         {
@@ -107,7 +110,7 @@ namespace LibSanBag.FileResources
             result.Version = ReadVersion(reader, 2, 0x1410BB140);
             if(result.Version >= 2)
             {
-                result.UnknownA = reader.ReadInt32();
+                result.LinkId = reader.ReadInt32();
             }
             else
             {
@@ -121,16 +124,16 @@ namespace LibSanBag.FileResources
         public class BlueprintV1InnerB
         {
             public uint Version { get; set; }
-            public int UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
+            public uint Start { get; internal set; }
+            public uint End { get; internal set; }
         }
         public BlueprintV1InnerB Read_BlueprintResource_v1_innerB(BinaryReader reader)
         {
             var result = new BlueprintV1InnerB();
 
             result.Version = ReadVersion(reader, 1, 0x1411D9950);
-            result.UnknownA = reader.ReadInt32();
-            result.UnknownB = reader.ReadInt32();
+            result.Start = reader.ReadUInt32();
+            result.End = reader.ReadUInt32();
 
             return result;
         }
@@ -253,73 +256,72 @@ namespace LibSanBag.FileResources
         public class V1_InnerP_inner
         {
             public uint Version { get; internal set; }
-            public V1_InnerP_innerA UnknownA { get; internal set; }
-            public string UnknownB { get; internal set; }
-            public bool UnknownC { get; internal set; }
-            public int UnknownD { get; internal set; }
-            public bool UnknownE { get; internal set; }
-            public bool UnknownF { get; internal set; }
-            public List<float> UnknownG { get; internal set; }
-            public List<float> UnknownH { get; internal set; }
-            public int UnknownI { get; internal set; }
-            public string UnknownJ { get; internal set; }
-            public List<ClusterDefinitionResource.AudioResourcePoolSound> UnknownK { get; internal set; }
-            public bool UnknownL { get; internal set; }
-            public int UnknownM { get; internal set; }
-            public string UnknownN { get; internal set; }
+            public V1_InnerP_innerA Material { get; internal set; }
+            public string Name { get; internal set; }
+            public bool IsDynamic { get; internal set; }
+            public int MotionType { get; internal set; }
+            public bool CanGrab { get; internal set; }
+            public bool IsTriggerVolume { get; internal set; }
+            public List<float> LinearVelocity { get; internal set; }
+            public List<float> AngularVelocity { get; internal set; }
+            public float Density { get; internal set; }
+            public string AudioMaterialId { get; internal set; }
+            public List<ClusterDefinitionResource.AudioResourcePoolSound> AudioResourcePools { get; internal set; }
+            public bool CanRide { get; internal set; }
+            public int FilterType { get; internal set; }
+            public string AudioMaterialTrackingId { get; internal set; }
         }
         private V1_InnerP_inner Read_BlueprintResource_v1_innerP_inner(BinaryReader reader)
         {
             var result = new V1_InnerP_inner();
 
             result.Version = ReadVersion(reader, 11, 0x1411ECD20);
-            result.UnknownA = Read_BlueprintResource_v1_innerP_innerA(reader);
-            result.UnknownB = ReadString(reader);
+            result.Material = Read_BlueprintResource_v1_innerP_innerA(reader);
+            result.Name = ReadString(reader);
 
             if (result.Version < 6)
             {
-                result.UnknownC = reader.ReadBoolean();
+                result.IsDynamic = reader.ReadBoolean();
             }
             else
             {
-                result.UnknownD = reader.ReadInt32();
-                result.UnknownE = reader.ReadBoolean();
+                result.MotionType = reader.ReadInt32();
+                result.CanGrab = reader.ReadBoolean();
             }
 
-            if(result.Version < 8 && result.UnknownD == 2)
+            if(result.Version < 8 && result.MotionType == 2)
             {
                 // TODO: ??? noop?
             }
 
             if(result.Version >= 4)
             {
-                result.UnknownF = reader.ReadBoolean();
+                result.IsTriggerVolume = reader.ReadBoolean();
             }
 
-            result.UnknownG = ReadVectorF(reader, 4);
-            result.UnknownH = ReadVectorF(reader, 4);
-            result.UnknownI = reader.ReadInt32();
+            result.LinearVelocity = ReadVectorF(reader, 4);
+            result.AngularVelocity = ReadVectorF(reader, 4);
+            result.Density = reader.ReadSingle();
 
             if(result.Version >= 2)
             {
-                result.UnknownJ = ReadUUID(reader);
+                result.AudioMaterialId = ReadUUID(reader);
             }
             if(result.Version >= 9)
             {
-                result.UnknownK = ClusterReader.Read_RigidBody_AudioResourcePoolSounds(reader);
+                result.AudioResourcePools = ClusterReader.Read_RigidBody_AudioResourcePoolSounds(reader);
             }
             if(result.Version >= 10)
             {
-                result.UnknownL = reader.ReadBoolean();
+                result.CanRide = reader.ReadBoolean();
             }
             if(result.Version >= 11)
             {
-                result.UnknownM = reader.ReadInt32();
+                result.FilterType = reader.ReadInt32();
             }
-
             if(result.Version - 5 <= 1)
             {
-                result.UnknownN = ReadUUID_B(reader);
+                result.AudioMaterialTrackingId = ReadUUID_B(reader);
             }
 
             return result;
@@ -874,21 +876,21 @@ namespace LibSanBag.FileResources
         public class V1_InnerP
         {
             public uint Version { get; internal set; }
-            public string UnknownA { get; internal set; }
-            public V1_InnerP_inner UnknownB { get; internal set; }
-            public int UnknownC { get; internal set; }
+            public string Name { get; internal set; }
+            public V1_InnerP_inner Body { get; internal set; }
+            public int LinkId { get; internal set; }
         }
         private V1_InnerP Read_BlueprintResource_v1_innerP(BinaryReader reader)
         {
             var result = new V1_InnerP();
 
             result.Version = ReadVersion(reader, 2, 0x1410BB120);
-            result.UnknownA = ReadString(reader);
-            result.UnknownB = Read_BlueprintResource_v1_innerP_inner(reader);
+            result.Name = ReadString(reader);
+            result.Body = Read_BlueprintResource_v1_innerP_inner(reader);
 
             if(result.Version >= 2)
             {
-                result.UnknownC = reader.ReadInt32();
+                result.LinkId = reader.ReadInt32();
             }
             
             return result;
@@ -2092,17 +2094,17 @@ namespace LibSanBag.FileResources
         public class V1_InnerK_Inner
         {
             public uint Version { get; internal set; }
-            public string UnknownA { get; internal set; }
-            public V1_InnerK_Inner_Inner UnknownB { get; internal set; }
-            public byte UnknownC { get; internal set; }
-            public string UnknownD { get; internal set; }
-            public int UnknownE { get; internal set; }
-            public bool UnknownF { get; internal set; }
-            public List<string> UnknownG { get; internal set; }
-            public int UnknownH { get; internal set; }
-            public int UnknownI { get; internal set; }
-            public bool UnknownJ { get; internal set; }
-            public bool UnknownK { get; internal set; }
+            public string ModelDefinitionId { get; internal set; }
+            public V1_InnerK_Inner_Inner Model { get; internal set; }
+            public bool ShadowCaster { get; internal set; }
+            public string Name { get; internal set; }
+            public float Scale { get; internal set; }
+            public bool IsAttachment { get; internal set; }
+            public List<string> Tags { get; internal set; }
+            public int LayerId { get; internal set; }
+            public float MaxRenderDistance { get; internal set; }
+            public bool IsScriptable { get; internal set; }
+            public bool IsInitiallyVisible { get; internal set; }
             public AInner UnkonwnL { get; internal set; }
         }
         private V1_InnerK_Inner Read_BlueprintResource_v1_innerK_Inner(BinaryReader reader)
@@ -2116,42 +2118,44 @@ namespace LibSanBag.FileResources
                 result.UnkonwnL = Read_BlueprintResource_A_inner(reader);
             }
 
-            if(result.Version == 1)
+            if (result.Version == 1)
             {
-                result.UnknownA = ReadUUID(reader);
+                result.ModelDefinitionId = ReadUUID(reader);
             }
-
-            result.UnknownB = Read_BlueprintResource_v1_innerK_Inner_Inner(reader);
+            else
+            {
+                result.Model = Read_BlueprintResource_v1_innerK_Inner_Inner(reader);
+            }
 
             if(result.Version < 5)
             {
-                result.UnknownC = reader.ReadByte(); // unused?
+                result.ShadowCaster = reader.ReadBoolean();
             }
 
-            result.UnknownD = ReadString(reader);
-            result.UnknownE = reader.ReadInt32();
+            result.Name = ReadString(reader);
+            result.Scale = reader.ReadSingle();
 
             if(result.Version >= 3 && result.Version < 5)
             {
-                result.UnknownF = reader.ReadBoolean();
+                result.IsAttachment = reader.ReadBoolean();
             }
             else if(result.Version >= 5)
             {
-                result.UnknownG = Read_List(reader, ReadString, 1, 0x14119ADB0);
-                result.UnknownH = reader.ReadInt32();
+                result.Tags = Read_List(reader, ReadString, 1, 0x14119ADB0);
+                result.LayerId = reader.ReadInt32();
             }
 
             if (result.Version >= 6)
             {
-               result.UnknownI = reader.ReadInt32();
+               result.MaxRenderDistance = reader.ReadSingle();
             }
             if (result.Version >= 7)
             {
-               result.UnknownJ = reader.ReadBoolean();
+               result.IsScriptable = reader.ReadBoolean();
             }
             if (result.Version >= 8)
             {
-               result.UnknownK = reader.ReadBoolean();
+               result.IsInitiallyVisible = reader.ReadBoolean();
             }
 
             return result;
@@ -2162,10 +2166,10 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; internal set; }
             public string ModelDefinition { get; internal set; }
-            public byte UnknownB { get; internal set; }
+            public byte ShadowCaster { get; internal set; }
             public string Name { get; internal set; }
-            public int UnknownD { get; internal set; }
-            public V1_InnerK_Inner UnknownV2 { get; internal set; }
+            public float Scale { get; internal set; }
+            public V1_InnerK_Inner MeshSchematic { get; internal set; }
         }
         private V1_InnerK Read_BlueprintResource_v1_innerK(BinaryReader reader)
         {
@@ -2175,13 +2179,13 @@ namespace LibSanBag.FileResources
             if(result.Version == 1)
             {
                 result.ModelDefinition = ReadUUID(reader);
-                result.UnknownB = reader.ReadByte(); // unused?
+                result.ShadowCaster = reader.ReadByte(); // unused?
                 result.Name = ReadString(reader);
-                result.UnknownD = reader.ReadInt32();
+                result.Scale = reader.ReadSingle();
             }
             else if(result.Version >= 2)
             {
-                result.UnknownV2 = Read_BlueprintResource_v1_innerK_Inner(reader);
+                result.MeshSchematic = Read_BlueprintResource_v1_innerK_Inner(reader);
             }
 
             return result;
@@ -2191,17 +2195,17 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; internal set; }
             public AInner UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
-            public string UnknownC { get; internal set; }
-            public List<float> UnknownD { get; internal set; }
-            public int UnknownE { get; internal set; }
-            public int UnknownF { get; internal set; }
-            public bool UnknownG { get; internal set; }
-            public int UnknownH { get; internal set; }
-            public int UnknownI { get; internal set; }
-            public int UnknownJ { get; internal set; }
-            public bool UnknownK { get; internal set; }
-            public bool UnknownL { get; internal set; }
+            public int LightType { get; internal set; }
+            public string Name { get; internal set; }
+            public List<float> Color { get; internal set; }
+            public float Intensity { get; internal set; }
+            public float Range { get; internal set; }
+            public bool IsShadowCaster { get; internal set; }
+            public float SpotAngle { get; internal set; }
+            public float SpotAngularFalloff { get; internal set; }
+            public float SpotNearClip { get; internal set; }
+            public bool Scriptable { get; internal set; }
+            public bool EnableDynamicShadows { get; internal set; }
         }
         private V1_InnerJ Read_BlueprintResource_v1_innerJ(BinaryReader reader)
         {
@@ -2213,30 +2217,30 @@ namespace LibSanBag.FileResources
                 result.UnknownA = Read_BlueprintResource_A_inner(reader);
             }
 
-            result.UnknownB = reader.ReadInt32();
-            result.UnknownC = ReadString(reader);
-            result.UnknownD = ReadVectorF(reader, 4);
+            result.LightType = reader.ReadInt32();
+            result.Name = ReadString(reader);
+            result.Color = ReadVectorF(reader, 4);
 
             if(result.Version < 3)
             {
                 // noop
             }
 
-            result.UnknownE = reader.ReadInt32();
-            result.UnknownF = reader.ReadInt32();
-            result.UnknownG = reader.ReadBoolean();
+            result.Intensity = reader.ReadSingle();
+            result.Range = reader.ReadSingle();
+            result.IsShadowCaster = reader.ReadBoolean();
 
-            result.UnknownH = reader.ReadInt32();
-            result.UnknownI = reader.ReadInt32();
-            result.UnknownJ = reader.ReadInt32();
+            result.SpotAngle = reader.ReadSingle();
+            result.SpotAngularFalloff = reader.ReadSingle();
+            result.SpotNearClip = reader.ReadSingle();
 
             if (result.Version >= 4)
             {
-                result.UnknownK = reader.ReadBoolean();
+                result.Scriptable = reader.ReadBoolean();
             }
             if(result.Version >= 5)
             {
-                result.UnknownL = reader.ReadBoolean();
+                result.EnableDynamicShadows = reader.ReadBoolean();
             }
 
             return result;
@@ -2246,10 +2250,10 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; internal set; }
             public AInner UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
-            public int UnknownC { get; internal set; }
-            public int UnknownD { get; internal set; }
-            public bool UnknownE { get; internal set; }
+            public float DiagonalFovRadians { get; internal set; }
+            public float NearPlane { get; internal set; }
+            public float FarPlane { get; internal set; }
+            public bool Perspective { get; internal set; }
         }
         private V1_InnerI Read_BlueprintResource_v1_innerI(BinaryReader reader)
         {
@@ -2261,10 +2265,10 @@ namespace LibSanBag.FileResources
                 result.UnknownA = Read_BlueprintResource_A_inner(reader);
             }
 
-            result.UnknownB = reader.ReadInt32();
-            result.UnknownC = reader.ReadInt32();
-            result.UnknownD = reader.ReadInt32();
-            result.UnknownE = reader.ReadBoolean();
+            result.DiagonalFovRadians = reader.ReadSingle();
+            result.NearPlane = reader.ReadSingle();
+            result.FarPlane = reader.ReadSingle();
+            result.Perspective = reader.ReadBoolean();
 
             return result;
         }
@@ -2273,7 +2277,7 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; internal set; }
             public AInner UnknownA { get; internal set; }
-            public bool UnknownB { get; internal set; }
+            public bool IsInitialSpawnPoint { get; internal set; }
         }
         private V1_InnerH Read_BlueprintResource_v1_innerH(BinaryReader reader)
         {
@@ -2287,7 +2291,7 @@ namespace LibSanBag.FileResources
 
             if(result.Version >= 3)
             {
-                result.UnknownB = reader.ReadBoolean();
+                result.IsInitialSpawnPoint = reader.ReadBoolean();
             }
 
             return result;
@@ -2297,9 +2301,9 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; internal set; }
             public AInner UnknownA { get; internal set; }
-            public string UnknownB { get; internal set; }
-            public string UnknownC { get; internal set; }
-            public bool UnknownD { get; internal set; }
+            public string SpeechAlgorithmsId { get; internal set; }
+            public string SpeechCharacterId { get; internal set; }
+            public bool HandsRigged { get; internal set; }
         }
         private V1_InnerG Read_BlueprintResource_v1_innerG(BinaryReader reader)
         {
@@ -2311,12 +2315,12 @@ namespace LibSanBag.FileResources
                 result.UnknownA = Read_BlueprintResource_A_inner(reader);
             }
 
-            result.UnknownB = ReadUUID(reader);
-            result.UnknownC = ReadUUID(reader);
+            result.SpeechAlgorithmsId = ReadUUID(reader);
+            result.SpeechCharacterId = ReadUUID(reader);
 
             if(result.Version >= 3)
             {
-                result.UnknownD = reader.ReadBoolean();
+                result.HandsRigged = reader.ReadBoolean();
             }
 
             return result;
@@ -2325,14 +2329,14 @@ namespace LibSanBag.FileResources
         public class V1_InnerF_Inner
         {
             public uint Version { get; set; }
-            public byte UnknownA { get; set; }
+            public byte Flags { get; set; }
         }
         private V1_InnerF_Inner Read_BlueprintResource_v1_innerF_Inner(BinaryReader reader)
         {
             var result = new V1_InnerF_Inner();
 
             result.Version = ReadVersion(reader, 1, 0x1411F3E90);
-            result.UnknownA = reader.ReadByte();
+            result.Flags = reader.ReadByte();
 
             return result;
         }
@@ -2341,17 +2345,17 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; internal set; }
             public AInner UnknownA { get; internal set; }
-            public bool UnknownB { get; internal set; }
-            public bool UnknownC { get; internal set; }
-            public int UnknownD { get; internal set; }
-            public List<float> UnknownE { get; internal set; }
-            public int UnknownF { get; internal set; }
-            public string UnknownG { get; internal set; }
-            public string UnknownH { get; internal set; }
-            public int UnknownI { get; internal set; }
-            public byte UnknownJ { get; internal set; }
-            public int UnknownK { get; internal set; }
-            public V1_InnerF_Inner UnknownL { get; internal set; }
+            public bool HasShapeResource { get; internal set; }
+            public bool HasShapeModelerResourceRef { get; internal set; }
+            public int ShapeType { get; internal set; }
+            public List<float> BoxExtents { get; internal set; }
+            public float SphereRadius { get; internal set; }
+            public string ShapeId { get; internal set; }
+            public string SourceResourceRefId { get; internal set; }
+            public float ShapeScale { get; internal set; }
+            public bool HasCollision { get; internal set; }
+            public int AudioLinkCount { get; internal set; }
+            public V1_InnerF_Inner ProhibitInvalidEnumVisibility { get; internal set; }
         }
         private V1_InnerF Read_BlueprintResource_v1_innerF(BinaryReader reader)
         {
@@ -2363,43 +2367,43 @@ namespace LibSanBag.FileResources
                 result.UnknownA = Read_BlueprintResource_A_inner(reader);
             }
 
-            result.UnknownB = true;
-            result.UnknownC = true;
+            result.HasShapeResource = true;
+            result.HasShapeModelerResourceRef = true;
 
             if(result.Version >= 4)
             {
-                result.UnknownB = reader.ReadBoolean(); 
-                result.UnknownC = reader.ReadBoolean(); 
+                result.HasShapeResource = reader.ReadBoolean(); 
+                result.HasShapeModelerResourceRef = reader.ReadBoolean(); 
             }
 
-            result.UnknownD = reader.ReadInt32();
-            result.UnknownE = ReadVectorF(reader, 4);
-            result.UnknownF = reader.ReadInt32();
+            result.ShapeType = reader.ReadInt32();
+            result.BoxExtents = ReadVectorF(reader, 4);
+            result.SphereRadius = reader.ReadSingle();
 
-            if(result.UnknownB)
+            if(result.HasShapeResource)
             {
-                result.UnknownG = ReadUUID(reader);
+                result.ShapeId = ReadUUID(reader);
             }
-            if(result.UnknownC)
+            if(result.HasShapeModelerResourceRef)
             {
-                result.UnknownH = ReadUUID(reader);
+                result.SourceResourceRefId = ReadUUID(reader);
             }
 
-            result.UnknownI = reader.ReadInt32();
+            result.ShapeScale = reader.ReadSingle();
 
             if(result.Version >= 2)
             {
-                result.UnknownJ = reader.ReadByte();
+                result.HasCollision = reader.ReadBoolean();
             }
 
-            if(result.Version <= 4) // -3 <= 1
+            if(result.Version >= 3 && result.Version <= 4)
             {
-                result.UnknownK = reader.ReadInt32(); // unused, skip 4 bytes
+                result.AudioLinkCount = reader.ReadInt32();
             }
 
             if(result.Version >= 7)
             {
-                result.UnknownL = Read_BlueprintResource_v1_innerF_Inner(reader);
+                result.ProhibitInvalidEnumVisibility = Read_BlueprintResource_v1_innerF_Inner(reader);
             }
 
             return result;
@@ -2408,7 +2412,7 @@ namespace LibSanBag.FileResources
         public class V1_InnerE
         {
             public uint Version { get; internal set; }
-            public AInner UnknownA { get; internal set; }
+            public AInner Data { get; internal set; }
         }
         private V1_InnerE Read_BlueprintResource_v1_innerE(BinaryReader reader)
         {
@@ -2417,7 +2421,7 @@ namespace LibSanBag.FileResources
             result.Version = ReadVersion(reader, 2, 0x1410BB010);
             if(result.Version >= 2)
             {
-                result.UnknownA = Read_BlueprintResource_A_inner(reader);
+                result.Data = Read_BlueprintResource_A_inner(reader);
             }
 
             return result;
@@ -2427,24 +2431,24 @@ namespace LibSanBag.FileResources
         {
             public uint Version { get; set; }
             public AInner UnknownA { get; internal set; }
-            public byte UnknownB { get; internal set; }
-            public byte UnknownC { get; internal set; }
-            public byte UnknownD { get; internal set; }
-            public byte UnknownE { get; internal set; }
-            public string UnknownB_ID { get; internal set; }
-            public string UnknownC_ID { get; internal set; }
-            public string UnknownD_ID { get; internal set; }
-            public string UnknownE_ID { get; internal set; }
-            public int UnknownF { get; internal set; }
-            public byte UnknownG { get; internal set; }
-            public int UnknownH { get; internal set; }
-            public int UnknownI { get; internal set; }
-            public int UnknownJ { get; internal set; }
-            public byte UnknownK { get; internal set; }
-            public List<V1InnerD_V6> UnknownL { get; internal set; }
-            public List<V1InnerD_V7> UnknownM { get; internal set; }
-            public List<V1InnerD_V8> UnknownN { get; internal set; }
-            public List<ClusterDefinitionResource.OffsetTransform> UnknownO { get; internal set; }
+            public bool HasProjectData { get; internal set; }
+            public bool HasProxyShape { get; internal set; }
+            public bool HasSkeleton { get; internal set; }
+            public bool HasAnimBinding { get; internal set; }
+            public string ProjectDataId { get; internal set; }
+            public string ProxyShapeId { get; internal set; }
+            public string SkeletonId { get; internal set; }
+            public string AnimationBindingId { get; internal set; }
+            public int CreationMode { get; internal set; }
+            public bool ClientOnly { get; internal set; }
+            public float PlaybackSpeed { get; internal set; }
+            public float StartTime { get; internal set; }
+            public int PlaybackMode { get; internal set; }
+            public bool BeginOnLoad { get; internal set; }
+            public List<V1InnerD_V6> AnimationData { get; internal set; }
+            public List<V1InnerD_V7> AnimationOverrides { get; internal set; }
+            public List<V1InnerD_V8> AnimationSkeletonMappers { get; internal set; }
+            public List<ClusterDefinitionResource.OffsetTransform> SgOffsetTransformsMap { get; internal set; }
         }
 
         private V1_InnderD Read_BlueprintResource_v1_innerD(BinaryReader reader)
@@ -2457,71 +2461,71 @@ namespace LibSanBag.FileResources
                 result.UnknownA = Read_BlueprintResource_A_inner(reader);
             }
 
-            result.UnknownB = 1;
-            result.UnknownC = 1;
-            result.UnknownD = 1;
-            result.UnknownE = 1;
+            result.HasProjectData = true;
+            result.HasProxyShape = true;
+            result.HasSkeleton = true;
+            result.HasAnimBinding = true;
             if (result.Version >= 2)
             {
-                result.UnknownB = reader.ReadByte();
-                result.UnknownC = reader.ReadByte();
-                result.UnknownD = reader.ReadByte();
-                result.UnknownE = reader.ReadByte();
+                result.HasProjectData = reader.ReadBoolean();
+                result.HasProxyShape = reader.ReadBoolean();
+                result.HasSkeleton = reader.ReadBoolean();
+                result.HasAnimBinding = reader.ReadBoolean();
             }
 
-            if (result.UnknownB != 0)
+            if (result.HasProjectData)
             {
-                result.UnknownB_ID = ReadUUID(reader);
+                result.ProjectDataId = ReadUUID(reader);
             }
 
-            if(result.UnknownC != 0)
+            if(result.HasProxyShape)
             {
-                result.UnknownC_ID = ReadUUID(reader);
+                result.ProxyShapeId = ReadUUID(reader);
             }
 
-            if (result.UnknownD != 0)
+            if (result.HasSkeleton)
             {
-                result.UnknownD_ID = ReadUUID(reader);
+                result.SkeletonId = ReadUUID(reader);
             }
 
-            if (result.UnknownE != 0)
+            if (result.HasAnimBinding)
             {
-                result.UnknownE_ID = ReadUUID(reader);
+                result.AnimationBindingId = ReadUUID(reader);
             }
 
-            result.UnknownF = reader.ReadInt32();
-            result.UnknownG = reader.ReadByte();
+            result.CreationMode = reader.ReadInt32();
+            result.ClientOnly = reader.ReadBoolean();
 
             if(result.Version >= 4)
             {
-                result.UnknownH = reader.ReadInt32();
-                result.UnknownI = reader.ReadInt32();
+                result.PlaybackSpeed = reader.ReadSingle();
+                result.StartTime = reader.ReadSingle();
             }
 
             if (result.Version >= 5)
             {
-                result.UnknownJ = reader.ReadInt32();
-                result.UnknownK = reader.ReadByte();
+                result.PlaybackMode = reader.ReadInt32();
+                result.BeginOnLoad = reader.ReadBoolean();
             }
 
             if(result.Version >= 6)
             {
-                result.UnknownL = Read_List(reader, Read_BlueprintResource_v1_innerD_V6, 1, 0x1411F0410);
+                result.AnimationData = Read_List(reader, Read_BlueprintResource_v1_innerD_V6, 1, 0x1411F0410);
             }
 
             if(result.Version >= 7)
             {
-                result.UnknownM = Read_List(reader, Read_BlueprintResource_v1_innerD_V7, 1, 0x1411F80B0);
+                result.AnimationOverrides = Read_List(reader, Read_BlueprintResource_v1_innerD_V7, 1, 0x1411F80B0);
             }
 
             if(result.Version >= 8)
             {
-                result.UnknownN = Read_List(reader, Read_BlueprintResource_v1_innerD_V8, 1, 0x1411F80C0);
+                result.AnimationSkeletonMappers = Read_List(reader, Read_BlueprintResource_v1_innerD_V8, 1, 0x1411F80C0);
             }
 
             if(result.Version == 9)
             {
-                result.UnknownO = ClusterReader.Read_AnimationComponent_OffsetTransformsMap(reader);
+                result.SgOffsetTransformsMap = ClusterReader.Read_AnimationComponent_OffsetTransformsMap(reader);
             }
 
             return result;
@@ -2530,14 +2534,14 @@ namespace LibSanBag.FileResources
         public class V1InnerD_V8
         {
             public uint Version { get; internal set; }
-            public string Id { get; internal set; }
+            public string SkeletonMapperId { get; internal set; }
         }
         private V1InnerD_V8 Read_BlueprintResource_v1_innerD_V8(BinaryReader reader)
         {
             var result = new V1InnerD_V8();
 
             result.Version = ReadVersion(reader, 1, 0x1411F80C0);
-            result.Id = ReadUUID(reader);
+            result.SkeletonMapperId = ReadUUID(reader);
 
             return result;
         }
@@ -2545,25 +2549,25 @@ namespace LibSanBag.FileResources
         public class V1InnerD_V7
         {
             public uint Version { get; internal set; }
-            public string UnknownA { get; internal set; }
-            public string UnknownB { get; internal set; }
-            public string UnknownC { get; internal set; }
-            public string UnknownD { get; internal set; }
-            public string UnknownE { get; internal set; }
+            public string AnimationBindingId { get; internal set; }
+            public string AnimationOverrideName { get; internal set; }
+            public string AnimationName { get; internal set; }
+            public string AnimationClusterResourceId { get; internal set; }
+            public string AnimationSkeletonName { get; internal set; }
         }
         private V1InnerD_V7 Read_BlueprintResource_v1_innerD_V7(BinaryReader reader)
         {
             var result = new V1InnerD_V7();
 
             result.Version = ReadVersion(reader, 2, 0x141205330);
-            result.UnknownA = ReadUUID(reader);
-            result.UnknownB = ReadString(reader);
-            result.UnknownC = ReadString(reader);
-            result.UnknownD = ReadUUID(reader);
+            result.AnimationBindingId = ReadUUID(reader);
+            result.AnimationOverrideName = ReadString(reader);
+            result.AnimationName = ReadString(reader);
+            result.AnimationClusterResourceId = ReadUUID(reader);
 
             if(result.Version >= 2)
             {
-                result.UnknownE = ReadString(reader);
+                result.AnimationSkeletonName = ReadString(reader);
             }
 
             return result;
@@ -2572,27 +2576,27 @@ namespace LibSanBag.FileResources
         public class V1InnerD_V6
         {
             public uint Version { get; set; }
-            public string UnknownA { get; internal set; }
-            public string UnknownB { get; internal set; }
-            public int UnknownC { get; internal set; }
-            public int UnknownD { get; internal set; }
-            public int UnknownE { get; internal set; }
-            public string UnknownF { get; internal set; }
+            public string AnimationBindingId { get; internal set; }
+            public string AnimationName { get; internal set; }
+            public float PlaybackSpeed { get; internal set; }
+            public int PlaybackMode { get; internal set; }
+            public int AnimationBindingRemapIndex { get; internal set; }
+            public string AnimationClusterResourceId { get; internal set; }
         }
         private V1InnerD_V6 Read_BlueprintResource_v1_innerD_V6(BinaryReader reader)
         {
             var result = new V1InnerD_V6();
 
             result.Version = ReadVersion(reader, 3, 0x1412021F0);
-            result.UnknownA = ReadUUID(reader);
-            result.UnknownB = ReadString(reader);
-            result.UnknownC = reader.ReadInt32();
-            result.UnknownD = reader.ReadInt32();
+            result.AnimationBindingId = ReadUUID(reader);
+            result.AnimationName = ReadString(reader);
+            result.PlaybackSpeed = reader.ReadSingle();
+            result.PlaybackMode = reader.ReadInt32();
 
             if(result.Version == 2)
             {
-                result.UnknownE = reader.ReadInt32(); // unused, 4 bytes?
-                result.UnknownF = ReadUUID(reader);
+                result.AnimationBindingRemapIndex = reader.ReadInt32();
+                result.AnimationClusterResourceId = ReadUUID(reader);
             }
 
             return result;
@@ -2601,11 +2605,12 @@ namespace LibSanBag.FileResources
         public class V1_UnknownC_Inner
         {
             public uint Version { get; set; }
-            public int UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
-            public Transform UnknownC { get; internal set; }
-            public int UnknownD { get; internal set; }
-            public int UnknownF { get; internal set; }
+            public uint ParentIndex { get; internal set; }
+            public uint Flags { get; internal set; }
+            public Transform LocalTransform { get; internal set; }
+            public int ElementType { get; internal set; }
+            public List<float> UserRotationValues { get; internal set; }
+            public uint LinkId { get; internal set; }
         }
 
         private V1_UnknownC_Inner Read_BlueprintResource_v1_UnknownC_inner(BinaryReader reader)
@@ -2613,63 +2618,38 @@ namespace LibSanBag.FileResources
             var result = new V1_UnknownC_Inner();
 
             result.Version = ReadVersion(reader, 4, 0x1410BB110);
-            result.UnknownA = reader.ReadInt32();
-            result.UnknownB = reader.ReadInt32();
-            result.UnknownC = Read_Transform(reader);
-            result.UnknownD = reader.ReadInt32();
+            result.ParentIndex = reader.ReadUInt32();
+            result.Flags = reader.ReadUInt32();
+            result.LocalTransform = Read_Transform(reader);
+            result.ElementType = reader.ReadInt32();
 
             if (result.Version >= 3)
             {
-                // m128
-                reader.ReadUInt64();
-                reader.ReadUInt64();
+                result.UserRotationValues = ReadVectorF(reader, 4);
             }
 
             if (result.Version >= 4)
             {
-                result.UnknownF = reader.ReadInt32();
+                result.LinkId = reader.ReadUInt32();
             }
 
             return result;
         }
 
-        public class V1_UnknownC
-        {
-            public uint Version { get; set; }
-            public int UnknownA { get; internal set; }
-            public List<V1_UnknownC_Inner> UnknownB { get; internal set; }
-        }
-        private V1_UnknownC Read_BlueprintResource_v1_UnknownC(BinaryReader reader)
-        {
-            var result = new V1_UnknownC();
-
-            result.Version = ReadVersion(reader, 1, 0x1411D9910);
-
-            result.UnknownA = reader.ReadInt32();
-
-            result.UnknownB = new List<V1_UnknownC_Inner>();
-            for (int i = 0; i < result.UnknownA; i++)
-            {
-                var item = Read_BlueprintResource_v1_UnknownC_inner(reader);
-                result.UnknownB.Add(item);
-            }
-
-            return result;
-        }
 
         public class BP_Inner1
         {
             public uint Version { get; set; }
-            public int UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
+            public uint Start { get; internal set; }
+            public uint End { get; internal set; }
         }
         private BP_Inner1 Read_BlueprintResource_inner1(BinaryReader reader)
         {
             var result = new BP_Inner1();
 
             result.Version = ReadVersion(reader, 1, 0x1411ECD10);
-            result.UnknownA = reader.ReadInt32();
-            result.UnknownB = reader.ReadInt32();
+            result.Start = reader.ReadUInt32();
+            result.End = reader.ReadUInt32();
 
             return result;
         }
@@ -2704,14 +2684,14 @@ namespace LibSanBag.FileResources
             public List<int> ObjectIndices { get; internal set; }
             public List<V1_InnerP> EntitySchematics { get; internal set; }
             public string Name { get; internal set; }
-            public V1_UnknownC TransformGraphEntries { get; internal set; }
+            public List<V1_UnknownC_Inner> TransformGraphEntries { get; internal set; }
             public uint TransformSchematicCount { get; internal set; }
             public List<List<int>> TransformSchematics { get; internal set; }
             public uint TransformNonSchematicCount { get; internal set; }
             public List<List<int>> TransformNonSchematics { get; internal set; }
             public List<AData> JointSchematics { get; internal set; }
             public List<BData> JointGraphEntries { get; internal set; }
-            public List<BlueprintV1InnerB> UnknownJ { get; internal set; }
+            public List<BlueprintV1InnerB> EntityJoinRangesOldList { get; internal set; }
             public List<BP_Inner1> EntityJoinRangesArray { get; internal set; }
             public List<int> EntityJointIndices { get; internal set; }
             public long SchematicBitField { get; internal set; }
@@ -2751,7 +2731,7 @@ namespace LibSanBag.FileResources
             public SomethingA SebpIndices { get; internal set; }
             public V1_InnerR EditParameterGraph { get; internal set; }
             public List<string> CustomCapabilities { get; internal set; }
-            public int Scale { get; internal set; }
+            public float Scale { get; internal set; }
             public int HighestLinkId { get; internal set; }
         }
         private Blueprint Read_BlueprintResource(BinaryReader reader)
@@ -2769,7 +2749,7 @@ namespace LibSanBag.FileResources
             result.ObjectIndices = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
             result.EntitySchematics = Read_List(reader, Read_BlueprintResource_v1_innerP, 1, 0x1411CD370);
             result.Name = ReadString(reader);
-            result.TransformGraphEntries = Read_BlueprintResource_v1_UnknownC(reader);
+            result.TransformGraphEntries = Read_List(reader, Read_BlueprintResource_v1_UnknownC_inner, 1, 0x1411D9910);
 
             result.TransformSchematicCount = reader.ReadUInt32();
             result.TransformSchematics = new List<List<int>>();
@@ -2789,11 +2769,11 @@ namespace LibSanBag.FileResources
 
             result.JointSchematics = Read_List(reader, Read_BluepintResource_A, 1, 0x1411CD390);
             result.JointGraphEntries = Read_List(reader, Read_BluepintResource_B, 1, 0x1411CD3A0);
-            // entityJoinRanges..?
-
+            
+            // entityJoinRanges =
             if(result.Version < 6)
             {
-                result.UnknownJ = Read_List(reader, Read_BlueprintResource_v1_innerB, 1, 0x1411CD3B0);
+                result.EntityJoinRangesOldList = Read_List(reader, Read_BlueprintResource_v1_innerB, 1, 0x1411CD3B0);
                 result.EntityJointIndices = Read_List(reader, n => n.ReadInt32(), 1, 0x1411CD3C0);
             }
             else
@@ -2906,7 +2886,7 @@ namespace LibSanBag.FileResources
             }
 
             result.CustomCapabilities = Read_List(reader, ReadString, 1, 0x1411CD3D0);
-            result.Scale = reader.ReadInt32();
+            result.Scale = reader.ReadSingle();
 
             if(result.Version >= 7)
             {
