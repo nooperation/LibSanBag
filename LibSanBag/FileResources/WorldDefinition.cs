@@ -431,7 +431,7 @@ namespace LibSanBag.FileResources
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             tempReader = new ClusterDefinitionResource();
-            tempReader.OverrideVersionMap(this.versionMap);
+            tempReader.OverrideVersionMap(this.versionMap, this.componentMap);
 
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {

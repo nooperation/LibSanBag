@@ -38,13 +38,13 @@ namespace LibSanBag.FileResources
 
             if (IsCompressed)
             {
-                try
+               // try
                 {
                     decompressedBytes = Unpacker.DecompressResource(compressedStream);
                     InitFromRawDecompressed(decompressedBytes);
                     return;
                 }
-                catch (Exception)
+                //catch (Exception)
                 {
                 }
             }
@@ -59,9 +59,10 @@ namespace LibSanBag.FileResources
 
         public abstract void InitFromRawDecompressed(byte[] decompressedBytes);
 
-        internal void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap)
+        internal void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
         {
             this.versionMap = newVersionMap;
+            this.componentMap = newComponentMap;
         }
 
         protected Dictionary<ulong, uint> versionMap = new Dictionary<ulong, uint>();
@@ -102,6 +103,7 @@ namespace LibSanBag.FileResources
             return ReadString(reader);
         }
 
+        protected Dictionary<uint, object> componentMap = new Dictionary<uint, object>();
         protected T ReadComponent<T>(BinaryReader reader, Func<BinaryReader, T> func)
         {
             var version = ReadVersion(reader, 1, 0x1413A0990);
@@ -109,7 +111,15 @@ namespace LibSanBag.FileResources
             var unknownA = reader.ReadUInt32();
             if (unknownA != 0)
             {
-                return func(reader);
+                if(componentMap.ContainsKey(unknownA))
+                {
+                    return (T)componentMap[unknownA];
+                }
+
+                var result = func(reader);
+                componentMap[unknownA] = result;
+
+                return result;
             }
 
             return default(T);
@@ -122,7 +132,13 @@ namespace LibSanBag.FileResources
             var unknownA = reader.ReadUInt32();
             if (unknownA != 0)
             {
+                if (componentMap.ContainsKey(unknownA))
+                {
+                    return;
+                }
+
                 func(reader);
+                componentMap[unknownA] = true;
             }
         }
 

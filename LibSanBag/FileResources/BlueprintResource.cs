@@ -236,9 +236,9 @@ namespace LibSanBag.FileResources
         public class V1_InnerP_innerA
         {
             public uint Version { get; internal set; }
-            public int UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
-            public int UnknownC { get; internal set; }
+            public int DynamicFriction { get; internal set; }
+            public int StaticFriction { get; internal set; }
+            public int Restitution { get; internal set; }
         }
         private V1_InnerP_innerA Read_BlueprintResource_v1_innerP_innerA(BinaryReader reader)
         {
@@ -246,9 +246,9 @@ namespace LibSanBag.FileResources
 
             result.Version = ReadVersion(reader, 1, 0x1412021E0);
 
-            result.UnknownA = reader.ReadInt32();
-            result.UnknownB = reader.ReadInt32();
-            result.UnknownC = reader.ReadInt32();
+            result.DynamicFriction = reader.ReadInt32();
+            result.StaticFriction = reader.ReadInt32();
+            result.Restitution = reader.ReadInt32();
 
             return result;
         }
@@ -466,45 +466,48 @@ namespace LibSanBag.FileResources
 
         public class V1_InnerR_inner_E
         {
-            public List<V1_InnerR_inner_A> UnknownA { get; internal set; }
-            public List<V1_InnerR_inner_B> UnknownB { get; internal set; }
-            public List<int> UnknownC { get; internal set; }
-            public List<V1_InnerR_inner_C> UnknownD { get; internal set; }
-            public List<int> UnknownE { get; internal set; }
-            public List<long> UnknownF { get; internal set; }
-            public List<V1_InnerR_inner_D> UnknownG { get; internal set; }
+            public List<V1_InnerR_inner_A> InstanceDescriptors { get; internal set; }
+            public List<V1_InnerR_inner_B> TerminalParametersInfo { get; internal set; }
+            public List<int> TerminalParametersInfoIndices { get; internal set; }
+            public List<V1_InnerR_inner_C> Parameters { get; internal set; }
+            public List<int> ParameterConnectionHandleIndices { get; internal set; }
+            public List<long> ElementPropertyAccessorIndices { get; internal set; }
+            public List<V1_InnerR_inner_D> Connections { get; internal set; }
+            public long InputParameterHandleIndex { get; internal set; }
+            public long OutputParameterHandleIndex { get; internal set; }
+            public long InstanceDescriptorHandleIndex { get; internal set; }
         }
         private V1_InnerR_inner_E Read_BlueprintResource_v1_innerR_inner_E(BinaryReader reader)
         {
             var result = new V1_InnerR_inner_E();
 
-            result.UnknownA = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_A, 1, 0x1411DA7B0);
-            result.UnknownB = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_B, 1, 0x1411DA7C0);
-            result.UnknownC = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
-            result.UnknownD = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_C, 1, 0x1411A6190);
-            result.UnknownE = Read_List(reader, n => n.ReadInt32(), 1, 0x1411DC3F0);
+            result.InstanceDescriptors = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_A, 1, 0x1411DA7B0);
+            result.TerminalParametersInfo = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_B, 1, 0x1411DA7C0);
+            result.TerminalParametersInfoIndices = Read_List(reader, n => n.ReadInt32(), 1, 0x1411BF150);
+            result.Parameters = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_C, 1, 0x1411A6190);
+            result.ParameterConnectionHandleIndices = Read_List(reader, n => n.ReadInt32(), 1, 0x1411DC3F0);
 
-            var unknown = 0;
-            result.UnknownF = new List<long>();
+            var unknown = 0; // TODO: Unknown counter
+            result.ElementPropertyAccessorIndices = new List<long>();
             for (int i = 0; i < unknown; i++)
             {
                 var item = reader.ReadInt64();
-                result.UnknownF.Add(item);
+                result.ElementPropertyAccessorIndices.Add(item);
             }
             
-            result.UnknownG = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_D, 1, 0x1411DA7D0);
+            result.Connections = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_D, 1, 0x1411DA7D0);
 
             var unknown2 = 0; // TODO: Unknown counter
             for (var i = 0; i < unknown2; ++i)
             {
-                reader.ReadInt64();
-                reader.ReadInt64();
+                result.InputParameterHandleIndex = reader.ReadInt64();
+                result.OutputParameterHandleIndex = reader.ReadInt64();
             }
 
             var unknown3 = 0; // TODO: Unknown counter
             for (var i = 0; i < unknown3; ++i)
             {
-                reader.ReadInt64();
+                result.InstanceDescriptorHandleIndex = reader.ReadInt64();
             }
 
             return result;
@@ -513,23 +516,23 @@ namespace LibSanBag.FileResources
         public class V1_InnerR_inner_D
         {
             public uint Version { get; internal set; }
-            public int UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
-            public V1_InnerR_inner_B_inner UnknownC { get; internal set; }
-            public V1_InnerR_inner_B_inner UnknownD { get; internal set; }
+            public int ConnectionInputParameterConnectorIndex { get; internal set; }
+            public int ConnectionOutputParameterConnectorIndex { get; internal set; }
+            public V1_InnerR_inner_B_inner InputParameterHandle { get; internal set; }
+            public V1_InnerR_inner_B_inner OutputParameterHandle { get; internal set; }
         }
         private V1_InnerR_inner_D Read_BlueprintResource_v1_innerR_inner_D(BinaryReader reader)
         {
             var result = new V1_InnerR_inner_D();
 
             result.Version = ReadVersion(reader, 2, 0x1410BB160);
-            result.UnknownA = reader.ReadInt32();
-            result.UnknownB = reader.ReadInt32();
+            result.ConnectionInputParameterConnectorIndex = reader.ReadInt32();
+            result.ConnectionOutputParameterConnectorIndex = reader.ReadInt32();
 
             if(result.Version >= 2)
             {
-                result.UnknownC = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
-                result.UnknownD = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
+                result.InputParameterHandle = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
+                result.OutputParameterHandle = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
             }
 
             return result;
@@ -538,49 +541,173 @@ namespace LibSanBag.FileResources
         public class V1_InnerR_inner_C
         {
             public uint Version { get; internal set; }
-            public int UnknownA { get; internal set; }
-            public List<V1_InnerR_inner_C_A> UnknownB { get; internal set; }
-            public List<int> UnknownC { get; internal set; }
-            public List<V1_InnerR_inner_C_A_internal> UnknownD { get; internal set; }
-            public List<string> UnknownE { get; internal set; }
-            public List<string> UnknownF { get; internal set; }
-            public List<V1_InnerR_inner_Ab_internal> UnknownG { get; internal set; }
-            public List<List<V1_InnerR_inner_Ab_internal>> UnknownH { get; internal set; }
-            public V1_InnerR_inner_B_inner UnknownI { get; internal set; }
-            public V1_InnerR_inner_B_inner UnknownJ { get; internal set; }
+            public int ParameterType { get; internal set; }
+            public List<V1_InnerR_inner_C_A> InputConnectors { get; internal set; }
+            public List<int> OutputConnectorsOld { get; internal set; }
+            public List<V1_InnerR_inner_C_A_internal> OutputConnectors { get; internal set; }
+            public List<string> InputConnectorNames { get; internal set; }
+            public List<string> OutputConnectorNames { get; internal set; }
+            public List<V1_InnerR_inner_Ab_internal> ParameterAttributes { get; internal set; }
+            public List<List<V1_InnerR_inner_Ab_internal>> UserAttributes { get; internal set; }
+            public V1_InnerR_inner_B_inner InstanceDescriptorHandle { get; internal set; }
+            public V1_InnerR_inner_B_inner ElementPropertyAccessorHandle { get; internal set; }
         }
         private V1_InnerR_inner_C Read_BlueprintResource_v1_innerR_inner_C(BinaryReader reader)
         {
             var result = new V1_InnerR_inner_C();
 
             result.Version = ReadVersion(reader, 4, 0x1410BB150);
-            result.UnknownA = reader.ReadInt32();
-            result.UnknownB = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_C_A, 1, 0x1411C3B90);
+            result.ParameterType = reader.ReadInt32();
+            result.InputConnectors = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_C_A, 1, 0x1411C3B90);
 
             if(result.Version < 3)
             {
-
                 // TODO: Confirm this, i don't think actually reads anything int he internal loop...
-                result.UnknownC = Read_List(reader, n => n.ReadInt32(), 1, 0x1411C3BB0);
-                // result.UnknownC = Read_List(reader, n => { return 0; }, 1, 0x1411C3BB0);
+                result.OutputConnectorsOld = Read_List(reader, n => { return -1; }, 1, 0x1411C3BB0);
             }
             else
             {
-                result.UnknownD = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_C_A_internal, 1, 0x1411C3BA0);
+                result.OutputConnectors = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_C_A_internal, 1, 0x1411C3BA0);
             }
 
-            result.UnknownE = Read_List(reader, ReadString, 1, 0x14119ADB0);
-            result.UnknownF = Read_List(reader, ReadString, 1, 0x14119ADB0);
+            result.InputConnectorNames = Read_List(reader, ReadString, 1, 0x14119ADB0);
+            result.OutputConnectorNames = Read_List(reader, ReadString, 1, 0x14119ADB0);
+            // missing one byte read above ^ ??
 
-            if(false)
+
+            // TODO: this is just bs, playing around
+            
+            if (result.ParameterType == 3)
             {
-                // todo: hell no. not doing this
+                var x = reader.ReadInt32();
+                var z = ReadUUID(reader);
             }
 
-            if(result.Version >= 3)
+            Console.WriteLine("ParameterType = {0:x}", result.ParameterType);
+
+            if(result.ParameterType == 0x01 || result.ParameterType == 0x03 || result.ParameterType == 0x06 || result.ParameterType == 0x08 || result.ParameterType == 0x07 || result.ParameterType == 0x0A)
             {
-                result.UnknownG = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0);
-                result.UnknownH = Read_List(
+                // nothing
+            }
+            else if(result.ParameterType == 0x11)
+            {
+                var x = reader.ReadByte();
+            }
+            else if(result.ParameterType == 0x1c)
+            {
+                var x = reader.ReadByte();
+            }
+            else if(result.ParameterType == 0x20)
+            {
+                var y = reader.ReadInt32();
+            }
+            else if(result.ParameterType == 0x7b)
+            {
+                var y = reader.ReadBytes(0x14);
+            }
+            else if(result.ParameterType == 0x74)
+            {
+                var y = reader.ReadBytes(0x14);
+            }
+            else if (result.ParameterType == 0x1B)
+            {
+                var y = ReadVectorF(reader, 4);
+            }
+            else if(result.ParameterType == 0x15)
+            {
+                var y = reader.ReadInt32();
+            }
+            else if(result.ParameterType == 0x16) // 22 -> 
+            {
+                var y = reader.ReadUInt64();
+            }
+            else if(result.ParameterType == 0x25) // 37 -> 5
+            {
+                var y = reader.ReadSingle();
+            }
+            else if(result.ParameterType == 0x26) // 38 -> 6
+            {
+                var xx = ReadVectorF(reader, 4);
+            }
+            else if(result.ParameterType == 0x75)
+            {
+                var y = reader.ReadInt32();
+            }
+            else
+            {
+                Console.WriteLine("asdf");
+            }
+
+            if (false)
+            {
+                /*
+                for (int i = 0; i < 0; i++)
+                {
+                    switch(0)
+                    {
+                        case 11:
+                        case 12:
+                        case 13:
+                        case 14:
+                        case 18:
+                        case 19:
+                            // todo
+                            break;
+                        default:
+                            break;
+                    }
+                    switch(0)
+                    {
+                        case 0:
+                            reader.ReadByte();
+                            break;
+                        case 1:
+                        case 8:
+                        case 9:
+                            // todo
+                            break;
+                        case 2:
+                            reader.ReadUInt32();
+                            break;
+                        case 3:
+                        case 5:
+                            reader.ReadSingle();
+                            break;
+                        case 4:
+                            reader.ReadBoolean();
+                            break;
+                        case 6:
+                            ReadVectorF(reader, 4);
+                            break;
+                        case 7:
+                            // todo
+                            break;
+                        case 15:
+                            // todo
+                            break;
+                        case 16:
+                            ReadString(reader);
+                            break;
+                        case 10:
+                            Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
+                            break;
+                        case 22:
+                            // todo
+                            break;
+                        case 24:
+                            // todo
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                */
+            }
+
+            if (result.Version >= 3)
+            {
+                result.ParameterAttributes = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0);
+                result.UserAttributes = Read_List(
                     reader, 
                     n => Read_List(n, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0), 
                     1,
@@ -590,8 +717,8 @@ namespace LibSanBag.FileResources
 
             if(result.Version >= 4)
             {
-                result.UnknownI = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
-                result.UnknownJ = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
+                result.InstanceDescriptorHandle = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
+                result.ElementPropertyAccessorHandle = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
             }
 
             return result;
@@ -600,8 +727,8 @@ namespace LibSanBag.FileResources
         public class V1_InnerR_inner_C_A_internal
         {
             public uint Version { get; internal set; }
-            public List<V1_InnerR_inner_Ab_internal> UnknownA { get; internal set; }
-            public V1_InnerR_inner_B_inner UnknownB { get; internal set; }
+            public List<V1_InnerR_inner_Ab_internal> Attributes { get; internal set; }
+            public V1_InnerR_inner_B_inner ConnectionHandle { get; internal set; }
         }
         private V1_InnerR_inner_C_A_internal Read_BlueprintResource_v1_innerR_inner_C_A_internal(BinaryReader reader)
         {
@@ -611,11 +738,11 @@ namespace LibSanBag.FileResources
 
             if (result.Version >= 2)
             {
-                result.UnknownA = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0);
+                result.Attributes = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0);
             }
             if (result.Version >= 3)
             {
-                result.UnknownB = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
+                result.ConnectionHandle = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
             }
 
             return result;
@@ -624,10 +751,9 @@ namespace LibSanBag.FileResources
         public class V1_InnerR_inner_C_A
         {
             public uint Version { get; internal set; }
-            public uint Version2 { get; internal set; }
             public V1_InnerR_inner_C_A_internal UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
-            public byte[] UnknownC { get; internal set; }
+            public int DataType { get; internal set; }
+            public byte[] InputRangeByteArray { get; internal set; }
         }
         private V1_InnerR_inner_C_A Read_BlueprintResource_v1_innerR_inner_C_A(BinaryReader reader)
         {
@@ -639,8 +765,8 @@ namespace LibSanBag.FileResources
                 result.UnknownA = Read_BlueprintResource_v1_innerR_inner_C_A_internal(reader);
             }
 
-            result.UnknownB = reader.ReadInt32();
-            result.UnknownC = Read_Array(reader);
+            result.DataType = reader.ReadInt32();
+            result.InputRangeByteArray = Read_Array(reader);
 
             return result;
         }
@@ -648,16 +774,16 @@ namespace LibSanBag.FileResources
         public class V1_InnerR_inner_B
         {
             public uint Version { get; internal set; }
-            public int UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
-            public int UnknownC { get; internal set; }
-            public int UnknownD { get; internal set; }
-            public V1_InnerR_inner_B_inner UnknownE { get; internal set; }
+            public int ElementType { get; internal set; }
+            public int PropertyIndex { get; internal set; }
+            public int ArrayIndexPropertyIndex { get; internal set; }
+            public int ArrayValueType { get; internal set; }
+            public V1_InnerR_inner_B_inner ElementHandle { get; internal set; }
         }
         private V1_InnerR_inner_B Read_BlueprintResource_v1_innerR_inner_B(BinaryReader reader)
         {
             var result = new V1_InnerR_inner_B();
-            result.UnknownA = 0xFFFF;
+            result.ElementType = 0xFFFF;
 
             result.Version = ReadVersion(reader, 3, 0x1410BB170);
             if(result.Version >= 3)
@@ -666,15 +792,15 @@ namespace LibSanBag.FileResources
             }
             else
             {
-                result.UnknownA = reader.ReadInt32();
+                result.ElementType = reader.ReadInt32();
             }
-            result.UnknownB = reader.ReadInt32();
-            result.UnknownC = reader.ReadInt32();
-            result.UnknownD = reader.ReadInt32();
+            result.PropertyIndex = reader.ReadInt32();
+            result.ArrayIndexPropertyIndex = reader.ReadInt32();
+            result.ArrayValueType = reader.ReadInt32();
 
             if (result.Version >= 2)
             {
-                result.UnknownE = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
+                result.ElementHandle = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
             }
 
             return result;
@@ -682,7 +808,7 @@ namespace LibSanBag.FileResources
 
         public class V1_InnerR_inner_B_inner
         {
-            public long UnknownA { get; internal set; }
+            public long Bits { get; internal set; }
             public V1_InnerL_v4_innerC UnknownB { get; internal set; }
         }
         private V1_InnerR_inner_B_inner Read_BlueprintResource_v1_innerR_inner_B_inner(BinaryReader reader)
@@ -693,7 +819,7 @@ namespace LibSanBag.FileResources
             if (false /* something confusing */)
             {
                 // TODO: This might be possible?
-                result.UnknownA = reader.ReadInt64(); // I don't know
+                result.Bits = reader.ReadInt64(); // I don't know
             }
             else
             {
@@ -714,7 +840,7 @@ namespace LibSanBag.FileResources
         {
             var result = new V1_InnerR_inner_Aa();
 
-            result.UnknownC = Read_BlueprintResource_v1_innerR_inner_Ab(reader); // no annotation..?
+            result.UnknownC = Read_BlueprintResource_v1_innerR_inner_Ab(reader);
 
             result.Version = ReadVersion(reader, 2, 0x141209060);
             result.IsRequired = reader.ReadBoolean();
@@ -730,18 +856,18 @@ namespace LibSanBag.FileResources
         {
             public V1_InnerR_inner_Ab UnknownA { get; internal set; }
             public uint Version { get; internal set; }
-            public int UnknownB { get; internal set; }
+            public int ValueOffsetFromStructInStateInstance { get; internal set; }
         }
         private V1_InnerR_inner_Ac Read_BlueprintResource_v1_innerR_inner_Ac(BinaryReader reader)
         {
             var result = new V1_InnerR_inner_Ac();
 
             result.UnknownA = Read_BlueprintResource_v1_innerR_inner_Ab(reader);
-            result.Version = ReadVersion(reader, 2, 0x141209070);
 
+            result.Version = ReadVersion(reader, 2, 0x141209070);
             if(result.Version < 2)
             {
-                result.UnknownB = reader.ReadInt32();
+                result.ValueOffsetFromStructInStateInstance = reader.ReadInt32();
             }
 
             return result;
@@ -755,6 +881,10 @@ namespace LibSanBag.FileResources
             public V1_InnerR_inner_B_inner UnknownC { get; internal set; }
             public string UnknownB { get; internal set; }
             public string Name { get; internal set; }
+            public int Result_Int { get; internal set; }
+            public float Result_Float { get; internal set; }
+            public string Result_StringRef { get; internal set; }
+            public V1_InnerR_inner_B_inner ElementHandle { get; internal set; }
         }
         private V1_InnerR_inner_Ab_internal Read_BlueprintResource_v1_innerR_inner_Ab_internal(BinaryReader reader)
         {
@@ -764,6 +894,8 @@ namespace LibSanBag.FileResources
             result.Type = reader.ReadInt32();
 
             /*
+             * TODO: REVISIT
+             * */
             if(result.Type == 1)
             {
                 result.Result_Int = reader.ReadInt32();
@@ -784,9 +916,9 @@ namespace LibSanBag.FileResources
             if(result.Version >= 2)
             {
                 result.Name = ReadString(reader);
-            }*/
+            }
 
-            
+            /*
             if(result.Type - 1 != 0 && result.Type - 2 != 0)
             {
                 if(result.Type - 3 == 3)
@@ -798,12 +930,12 @@ namespace LibSanBag.FileResources
                     result.UnknownC = Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
                 }
             }
-
             if (result.Version >= 2)
             {
                 result.Name = ReadString(reader);
             }
-            
+            */
+
             return result;
         }
 
@@ -896,16 +1028,16 @@ namespace LibSanBag.FileResources
         public class V1_InnerQ
         {
             public uint Version { get; internal set; }
-            public int UnknownA { get; internal set; }
-            public int UnknownB { get; internal set; }
+            public int Start { get; internal set; }
+            public int End { get; internal set; }
         }
         private V1_InnerQ Read_BlueprintResource_v1_innerQ(BinaryReader reader)
         {
             var result = new V1_InnerQ();
 
             result.Version = ReadVersion(reader, 1, 0x1411DA900);
-            result.UnknownA = reader.ReadInt32();
-            result.UnknownB = reader.ReadInt32();
+            result.Start = reader.ReadInt32();
+            result.End = reader.ReadInt32();
 
             return result;
         }
@@ -1459,14 +1591,14 @@ namespace LibSanBag.FileResources
         public class V1_InnerN_inner_inner
         {
             public uint Version { get; internal set; }
-            public int UnknownA { get; internal set; }
+            public int Type { get; internal set; }
         }
         private V1_InnerN_inner_inner Read_BlueprintResource_v1_innerN_inner_inner(BinaryReader reader)
         {
             var result = new V1_InnerN_inner_inner();
 
             result.Version = ReadVersion(reader, 6, 0x1411A3E00);
-            result.UnknownA = reader.ReadInt32();
+            result.Type = reader.ReadInt32();
 
             return result;
         }
@@ -1474,20 +1606,20 @@ namespace LibSanBag.FileResources
         public class V1_InnerN_inner
         {
             public uint Version { get; internal set; }
-            public V1_InnerN_inner_inner UnknownA { get; internal set; }
-            public V1_InnerN_inner_inner UnknownB { get; internal set; }
-            public string UnknownC { get; internal set; }
-            public string UnknownD { get; internal set; }
+            public V1_InnerN_inner_inner Value { get; internal set; }
+            public V1_InnerN_inner_inner Attributes { get; internal set; }
+            public string MetadataName { get; internal set; }
+            public string DisplayName { get; internal set; }
         }
         private V1_InnerN_inner Read_BlueprintResource_v1_innerN_inner(BinaryReader reader)
         {
             var result = new V1_InnerN_inner();
 
             result.Version = ReadVersion(reader, 2, 0x1411CCEA0);
-            result.UnknownA = Read_BlueprintResource_v1_innerN_inner_inner(reader);
-            result.UnknownB = Read_BlueprintResource_v1_innerN_inner_inner(reader);
-            result.UnknownC = ReadString(reader);
-            result.UnknownD = ReadString(reader);
+            result.Value = Read_BlueprintResource_v1_innerN_inner_inner(reader);
+            result.Attributes = Read_BlueprintResource_v1_innerN_inner_inner(reader);
+            result.MetadataName = ReadString(reader);
+            result.DisplayName = ReadString(reader);
 
             return result;
         }
@@ -1850,7 +1982,7 @@ namespace LibSanBag.FileResources
             }
             else if (result.Version >= 5)
             {
-                result.UnknownG = Read_BlueprintResource_v1_innerK_Inner(reader);
+                result.UnknownG = Read_BlueprintResource_v1_innerK_Inner(reader); // second time around, something bad happens here...
                 result.MeshBindings = ReadComponent(reader, n => Read_List(n, Read_Transform, 1, 0x1411F3EA0));
                 result.Pose = ReadComponent(reader, n => Read_List(n, ClusterReader.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0));
                 result.AttachmentPoints = Read_List(reader, Read_BlueprintResource_v1_innerL_v4, 1, 0x1411F2790);
@@ -1863,6 +1995,7 @@ namespace LibSanBag.FileResources
 
             return result;
         }
+        private bool x = false;
         
         public class V1_InnerK_Inner_Inner_A_innerE
         {
@@ -2967,7 +3100,7 @@ namespace LibSanBag.FileResources
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             ClusterReader = new ClusterDefinitionResource();
-            ClusterReader.OverrideVersionMap(this.versionMap);
+            ClusterReader.OverrideVersionMap(this.versionMap, this.componentMap);
 
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {

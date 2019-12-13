@@ -154,7 +154,7 @@ namespace LibSanBag.FileResources
         private ClusterDefinitionResource cluster = new ClusterDefinitionResource();
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
-            cluster.OverrideVersionMap(versionMap);
+            cluster.OverrideVersionMap(versionMap, this.componentMap);
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 this.Resource = Read_ScriptMetadataResource(decompressedStream);
