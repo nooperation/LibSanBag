@@ -572,22 +572,23 @@ namespace LibSanBag.FileResources
 
             result.InputConnectorNames = Read_List(reader, ReadString, 1, 0x14119ADB0);
             result.OutputConnectorNames = Read_List(reader, ReadString, 1, 0x14119ADB0);
-            // missing one byte read above ^ ??
 
 
-            // TODO: this is just bs, playing around
-            
-            if (result.ParameterType == 3)
+
+
+            if(result.ParameterType == 0x01 ||
+                result.ParameterType == 0x06 ||
+                result.ParameterType == 0x08 ||
+                result.ParameterType == 0x07 ||
+                result.ParameterType == 0x0A
+            )
+            {
+                // nothing
+            }
+            else if (result.ParameterType == 3)
             {
                 var x = reader.ReadInt32();
                 var z = ReadUUID(reader);
-            }
-
-            Console.WriteLine("ParameterType = {0:x}", result.ParameterType);
-
-            if(result.ParameterType == 0x01 || result.ParameterType == 0x03 || result.ParameterType == 0x06 || result.ParameterType == 0x08 || result.ParameterType == 0x07 || result.ParameterType == 0x0A)
-            {
-                // nothing
             }
             else if(result.ParameterType == 0x11)
             {
@@ -617,15 +618,15 @@ namespace LibSanBag.FileResources
             {
                 var y = reader.ReadInt32();
             }
-            else if(result.ParameterType == 0x16) // 22 -> 
+            else if(result.ParameterType == 0x16)
             {
                 var y = reader.ReadUInt64();
             }
-            else if(result.ParameterType == 0x25) // 37 -> 5
+            else if(result.ParameterType == 0x25)
             {
                 var y = reader.ReadSingle();
             }
-            else if(result.ParameterType == 0x26) // 38 -> 6
+            else if(result.ParameterType == 0x26)
             {
                 var xx = ReadVectorF(reader, 4);
             }
@@ -635,7 +636,7 @@ namespace LibSanBag.FileResources
             }
             else
             {
-                Console.WriteLine("asdf");
+                throw new Exception("Butts");
             }
 
             if (false)
@@ -1636,7 +1637,7 @@ namespace LibSanBag.FileResources
             var result = new UnknownCase7Data();
 
             result.Id = ReadUUID(reader);
-            if (version != 3)
+            if (version == 3)
             {
                 result.TrackingTag = reader.ReadInt32();
             }
@@ -1644,17 +1645,32 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public class UnknownCase9Data_inner
+        {
+            public string Data { get; internal set; }
+            public V1_InnerN_inner_inner Value { get; internal set; }
+        }
+        private UnknownCase9Data_inner Read_UnknownCase9_inner(BinaryReader reader)
+        {
+            var result = new UnknownCase9Data_inner();
+
+            result.Data = ReadString(reader);
+            result.Value = Read_BlueprintResource_v1_innerN_inner_inner(reader);
+
+            return result;
+
+        }
         public class UnknownCase9Data
         {
             public int Subtype { get; internal set; }
-            public List<V1_InnerN_inner_inner> StringMap { get; internal set; }
+            public List<UnknownCase9Data_inner> StringMap { get; internal set; }
         }
         private UnknownCase9Data Read_UnknownCase9(BinaryReader reader)
         {
             var result = new UnknownCase9Data();
 
             result.Subtype = reader.ReadInt32();
-            result.StringMap = Read_List(reader, Read_BlueprintResource_v1_innerN_inner_inner, 1, 0x1411B25C0);
+            result.StringMap = Read_List(reader, Read_UnknownCase9_inner, 1, 0x1411B25C0);
 
             return result;
         }
@@ -1676,7 +1692,7 @@ namespace LibSanBag.FileResources
         }
         private object ReadSomethingCrazy(BinaryReader reader, int val, ulong version)
         {
-            switch(val)
+            switch (val)
             {
                 case 0:
                     return null;
@@ -1937,17 +1953,17 @@ namespace LibSanBag.FileResources
         {
             var result = new V1_InnerM();
 
-            result.HasBankResource = result.Version < 7;
-            result.HasSoundResource = true;
-            result.HasHandleCollection = true;
-
             result.Version = ReadVersion(reader, 7, 0x1410BB090);
             if(result.Version >= 4)
             {
                 result.UnknownX = Read_BlueprintResource_A_inner(reader);
             }
 
-            if(result.Version >= 2)
+            result.HasBankResource = result.Version < 7;
+            result.HasSoundResource = true;
+            result.HasHandleCollection = true;
+
+            if (result.Version >= 2)
             {
                 if(result.Version < 7)
                 {
