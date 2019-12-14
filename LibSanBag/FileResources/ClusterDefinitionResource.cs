@@ -1036,7 +1036,7 @@ namespace LibSanBag.FileResources
             public List<List<float>> Rotation { get; set; }
             public List<float> Translation { get; set; }
         }
-        private ObjectClusterTransform Read_ObjectClusterTransform(BinaryReader reader)
+        public ObjectClusterTransform Read_ObjectClusterTransform(BinaryReader reader)
         {
             var result = new ObjectClusterTransform();
 

@@ -1587,18 +1587,204 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public class UnknownCase15Data
+        {
+            public uint Version { get; internal set; }
+            public uint InstanceId { get; internal set; }
+            public uint ElementType { get; internal set; }
+            public uint LinkId { get; internal set; }
+        }
+        private UnknownCase15Data Read_UnknownCase15(BinaryReader reader)
+        {
+            var result = new UnknownCase15Data();
+
+            result.Version = ReadVersion(reader, 1, 0x1411A6EC0);
+            result.InstanceId = reader.ReadUInt32();
+            result.ElementType = reader.ReadUInt32();
+            result.LinkId = reader.ReadUInt32();
+
+            return result;
+        }
+
+        public class UnknownCase5Data
+        {
+            public int Subtype { get; internal set; }
+            public List<V1_InnerN_inner_inner> Array { get; internal set; }
+            public List<uint> ArrayTrackingTags { get; internal set; }
+        }
+        private UnknownCase5Data Read_UnknownCase5(BinaryReader reader, ulong version)
+        {
+            var result = new UnknownCase5Data();
+
+            result.Subtype = reader.ReadInt32();
+            result.Array = Read_List(reader, Read_BlueprintResource_v1_innerN_inner_inner, 1, 0x1411B25B0);
+            if (version >= 6)
+            {
+                result.ArrayTrackingTags = Read_List(reader, n => n.ReadUInt32(), 1, 0x1411A28D0);
+            }
+
+            return result;
+        }
+
+        public class UnknownCase7Data
+        {
+            public int TrackingTag { get; internal set; }
+            public string Id { get; internal set; }
+        }
+        private UnknownCase7Data Read_UnknownCase7(BinaryReader reader, ulong version)
+        {
+            var result = new UnknownCase7Data();
+
+            result.Id = ReadUUID(reader);
+            if (version != 3)
+            {
+                result.TrackingTag = reader.ReadInt32();
+            }
+
+            return result;
+        }
+
+        public class UnknownCase9Data
+        {
+            public int Subtype { get; internal set; }
+            public List<V1_InnerN_inner_inner> StringMap { get; internal set; }
+        }
+        private UnknownCase9Data Read_UnknownCase9(BinaryReader reader)
+        {
+            var result = new UnknownCase9Data();
+
+            result.Subtype = reader.ReadInt32();
+            result.StringMap = Read_List(reader, Read_BlueprintResource_v1_innerN_inner_inner, 1, 0x1411B25C0);
+
+            return result;
+        }
+
+        public class UnknownCase13Data
+        {
+            public int Subtype { get; internal set; }
+            public List<V1_InnerN_inner_inner> Array { get; internal set; }
+        }
+        private UnknownCase13Data Read_UnknownCase13(BinaryReader reader)
+        {
+            var result = new UnknownCase13Data();
+
+            result.Subtype = reader.ReadInt32();
+            result.Array = Read_List(reader, Read_BlueprintResource_v1_innerN_inner_inner, 1, 0x1411B25B0);
+
+            return result;
+
+        }
+        private object ReadSomethingCrazy(BinaryReader reader, int val, ulong version)
+        {
+            switch(val)
+            {
+                case 0:
+                    return null;
+                case 1: // int64
+                    return reader.ReadInt64();
+                case 2: // double
+                    return reader.ReadDouble();
+                case 3: // vector4
+                    return ReadVectorF(reader, 4);
+                case 4: // mTransform
+                    return ClusterReader.Read_ObjectClusterTransform(reader);
+                case 5: // subtype
+                    return Read_UnknownCase5(reader, version);
+                case 6: // string
+                    return ReadString(reader);
+                case 7: // resource id
+                    return Read_UnknownCase7(reader, version);
+                case 8: // ElementHandle
+                    return Read_BlueprintResource_v1_innerL_v4_innerC(reader);
+                case 9: // subtype
+                    return Read_UnknownCase9(reader);
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                    return Read_UnknownCase13(reader);
+                case 14: // TrackedElementId
+                    return Read_BlueprintResource_v1_innerL_v4_innerB(reader);
+                case 15: // TrackedMemberId
+                    return Read_UnknownCase15(reader);
+                default:
+                    return null;
+            }
+
+            /*
+            0x1418DF53E  0x1418D9AA4
+            0x1418DF48B  0x1418D9ABC
+            0x1418DF48B  0x1418D9AD1
+            0x1418DF4CC  0x1418D9AE6
+            0x1418DF56C  0x1418D9B44
+            0x1418DF377  0x1418D995D
+            0x1418DF554  0x1418D9B29
+            0x1418DF57A  0x1418D9B64
+            0x1418DF4FC  0x1418D9B01
+            0x1418DF61B  0x1418D9F0A
+            0x1418DF441  0x1418D9A62
+            0x1418DF441  0x1418D9A62
+            0x1418DF441  0x1418D9A62
+            0x1418DF441  0x1418D9A62
+            0x1418DF665  0x1418D9F48
+            0x1418DF676  0x1418D9F60
+            */
+        }
+
+        private int ConvertTypeValue(uint typeValue)
+        {
+            typeValue = typeValue & 0xFF000000;
+
+            switch (typeValue)
+            {
+                case 0x8000000:
+                    return 13;
+                case 0x4000000:
+                    return 11;
+                case 0x5000000:
+                    return 3;
+                case 0x6000000:
+                    return 4;
+                case 0x2000000:
+                    return 6;
+                case 0x80000000:
+                    return 5;
+                case 0x81000000:
+                    return 9;
+                case 0x1000000:
+                    return 7;
+                case 0xC000000:
+                    return 15;
+                case 0x9000000:
+                    return 12;
+                case 0xA000000:
+                    return 10;
+                case 0xB000000:
+                    return 14;
+                case 0x40000000:
+                    return 1;
+                case 0x41000000:
+                    return 2;
+                default:
+                    return 0;
+            }
+        }
 
         public class V1_InnerN_inner_inner
         {
             public uint Version { get; internal set; }
-            public int Type { get; internal set; }
+            public uint Type { get; internal set; }
+            public object Data { get; internal set; }
         }
         private V1_InnerN_inner_inner Read_BlueprintResource_v1_innerN_inner_inner(BinaryReader reader)
         {
             var result = new V1_InnerN_inner_inner();
 
             result.Version = ReadVersion(reader, 6, 0x1411A3E00);
-            result.Type = reader.ReadInt32();
+            result.Type = reader.ReadUInt32();
+
+            var realType = ConvertTypeValue(result.Type);
+            result.Data = ReadSomethingCrazy(reader, realType, result.Version);
 
             return result;
         }
@@ -3097,6 +3283,8 @@ namespace LibSanBag.FileResources
         private ClusterDefinitionResource ClusterReader { get; set; }
 
         public Blueprint Resource { get; set; }
+        public string Id { get; private set; }
+
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             ClusterReader = new ClusterDefinitionResource();
