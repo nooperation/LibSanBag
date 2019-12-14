@@ -580,7 +580,14 @@ namespace LibSanBag.FileResources
                 result.ParameterType == 0x06 ||
                 result.ParameterType == 0x08 ||
                 result.ParameterType == 0x07 ||
-                result.ParameterType == 0x0A
+                result.ParameterType == 0x0A || 
+                
+                result.ParameterType == 0x3b ||
+                result.ParameterType == 0x7e ||
+                result.ParameterType == 0x7f || 
+                result.ParameterType == 0x0e || 
+                result.ParameterType == 0x80 || 
+                result.ParameterType == 0x38
             )
             {
                 // nothing
@@ -634,9 +641,24 @@ namespace LibSanBag.FileResources
             {
                 var y = reader.ReadInt32();
             }
+            else if(result.ParameterType == 0x18)
+            {
+                var x = reader.ReadInt32();
+                var y = ReadUUID(reader);
+            }
+            else if(result.ParameterType == 0x72)
+            {
+                var x = ReadUUID(reader);
+                var y = reader.ReadSingle();
+                var z = ReadUUID(reader);
+                var a  = reader.ReadInt64();
+                var b  = reader.ReadInt32();
+
+            }
             else
             {
-                throw new Exception("Butts");
+                Console.WriteLine("Unknown parameter type: {0:x}", result.ParameterType);
+               // throw new Exception("Butts");
             }
 
             if (false)
@@ -1084,6 +1106,7 @@ namespace LibSanBag.FileResources
             public int UnknownN { get; internal set; }
             public List<float> UnknownO { get; internal set; }
             public List<float> UnknownP { get; internal set; }
+            public List<float> UnknownQ { get; internal set; }
         }
         private V1_InnerO_inner_inner_innerB_inner Read_BlueprintResource_v1_innerO_inner_inner_innerB_inner(BinaryReader reader)
         {
@@ -1107,6 +1130,7 @@ namespace LibSanBag.FileResources
 
             result.UnknownO = ReadVectorF(reader, 4);
             result.UnknownP = ReadVectorF(reader, 4);
+            result.UnknownQ = ReadVectorF(reader, 4);
             
             return result;
         }
