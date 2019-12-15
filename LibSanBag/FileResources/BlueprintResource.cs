@@ -143,7 +143,7 @@ namespace LibSanBag.FileResources
             public List<BlueprintV1Inner> UnknownA { get; internal set; }
             public List<int> UnknownB { get; internal set; }
             public int UnknownD { get; internal set; }
-            public List<BlueprintV1Inner> UnknownE { get; internal set; }
+            public List<List<int>> UnknownE { get; internal set; }
             public List<AData> UnknownF { get; internal set; }
             public List<BData> UnknownG { get; internal set; }
             public List<BlueprintV1InnerB> UnknownH { get; internal set; }
@@ -183,10 +183,10 @@ namespace LibSanBag.FileResources
                 result.UnknownD = reader.ReadInt32();
             }
 
-            result.UnknownE = new List<BlueprintV1Inner>();
+            result.UnknownE = new List<List<int>>();
             for (int i = 0; i < result.UnknownD; i++)
             {
-                var item = Read_BlueprintResource_v1_inner(reader);
+                var item = Read_List(reader, n => n.ReadInt32(), 1, 0x1411CD380);
                 result.UnknownE.Add(item);
             }
 
@@ -2889,6 +2889,7 @@ namespace LibSanBag.FileResources
             result.HasProxyShape = true;
             result.HasSkeleton = true;
             result.HasAnimBinding = true;
+
             if (result.Version >= 2)
             {
                 result.HasProjectData = reader.ReadBoolean();
