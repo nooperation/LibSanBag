@@ -68,6 +68,8 @@
     <Compile Include="FileRecordInfo.cs" />
     <Compile Include="FileResources\BaseFileResource.cs" />
     <Compile Include="FileResources\BlueprintResource.cs" />
+    <Compile Include="FileResources\TextureSource.cs" />
+    <Compile Include="FileResources\PickResource.cs" />
     <Compile Include="FileResources\MaterialResource.cs" />
     <Compile Include="FileResources\WorldChunkDefinition.cs" />
     <Compile Include="FileResources\WorldDefinition.cs" />
