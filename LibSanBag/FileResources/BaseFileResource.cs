@@ -87,6 +87,11 @@ namespace LibSanBag.FileResources
         {
             var textLength = decompressedStream.ReadInt32();
 
+            if(textLength == 0)
+            {
+                return "";
+            }
+
             var rawTextBytes = decompressedStream.ReadBytes(textLength);
             var text = Encoding.UTF8.GetString(rawTextBytes);
 
