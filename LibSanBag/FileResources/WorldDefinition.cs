@@ -27,7 +27,7 @@ namespace LibSanBag.FileResources
             public float UnderexposureCorrectionRate { get; set; }
             public float OverexposureCorrectionRate { get; set; }
         }
-        private ExposureData Read_ExposureData(BinaryReader reader)
+        public ExposureData Read_ExposureData(BinaryReader reader)
         {
             var result = new ExposureData();
 
@@ -52,7 +52,7 @@ namespace LibSanBag.FileResources
             public float OutlineInset { get; set; }
             public float SaturationBoost { get; set; }
         }
-        private PostEffectData Read_PostEffectData(BinaryReader reader)
+        public PostEffectData Read_PostEffectData(BinaryReader reader)
         {
             var result = new PostEffectData();
 
@@ -82,7 +82,7 @@ namespace LibSanBag.FileResources
             public float MediaSurfaceAudioRadius { get; set; }
             public float MediaSurfaceAudioLoudness { get; set; }
         }
-        private MediaSurfaceData Read_MediaSurfaceData(BinaryReader reader)
+        public MediaSurfaceData Read_MediaSurfaceData(BinaryReader reader)
         {
             var result = new MediaSurfaceData();
 
@@ -124,7 +124,7 @@ namespace LibSanBag.FileResources
             public float BloomWidth { get; set; }
             public float BloomWarmth { get; set; }
         }
-        private BloomData Read_BloomData(BinaryReader reader)
+        public BloomData Read_BloomData(BinaryReader reader)
         {
             var result = new BloomData();
 
@@ -150,7 +150,7 @@ namespace LibSanBag.FileResources
             public long PerUserSpawnLimit { get; set; }
             public float SpawnTimeout { get; set; }
         }
-        private RuntimeInventorySettings Read_RuntimeInventorySettings(BinaryReader reader)
+        public RuntimeInventorySettings Read_RuntimeInventorySettings(BinaryReader reader)
         {
             var result = new RuntimeInventorySettings();
 
@@ -180,7 +180,7 @@ namespace LibSanBag.FileResources
             public float RayleighFarDistance { get; set; }
             public float SecondaryScatter { get; set; }
         }
-        private AtmosphereData Read_AtmosphereData(BinaryReader reader)
+        public AtmosphereData Read_AtmosphereData(BinaryReader reader)
         {
             var result = new AtmosphereData();
 

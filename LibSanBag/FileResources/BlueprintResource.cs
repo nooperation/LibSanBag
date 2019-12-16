@@ -552,7 +552,7 @@ namespace LibSanBag.FileResources
             public V1_InnerR_inner_B_inner InstanceDescriptorHandle { get; internal set; }
             public V1_InnerR_inner_B_inner ElementPropertyAccessorHandle { get; internal set; }
         }
-        private V1_InnerR_inner_C Read_BlueprintResource_v1_innerR_inner_C(BinaryReader reader)
+        public V1_InnerR_inner_C Read_BlueprintResource_v1_innerR_inner_C(BinaryReader reader)
         {
             var result = new V1_InnerR_inner_C();
 
@@ -1816,7 +1816,7 @@ namespace LibSanBag.FileResources
             public uint Type { get; internal set; }
             public object Data { get; internal set; }
         }
-        private V1_InnerN_inner_inner Read_BlueprintResource_v1_innerN_inner_inner(BinaryReader reader)
+        public V1_InnerN_inner_inner Read_BlueprintResource_v1_innerN_inner_inner(BinaryReader reader)
         {
             var result = new V1_InnerN_inner_inner();
 
@@ -1925,7 +1925,7 @@ namespace LibSanBag.FileResources
             public int ScriptType { get; internal set; }
             public V1_InnerN_innerB UnknownF { get; internal set; }
         }
-        private V1_InnerN Read_BlueprintResource_v1_innerN(BinaryReader reader)
+        public V1_InnerN Read_BlueprintResource_v1_innerN(BinaryReader reader)
         {
             var result = new V1_InnerN();
 
@@ -2071,7 +2071,7 @@ namespace LibSanBag.FileResources
             public uint Version { get; internal set; }
             public long Value { get; internal set; }
         }
-        private V1_InnerL_v4_innerC Read_BlueprintResource_v1_innerL_v4_innerC(BinaryReader reader)
+        public V1_InnerL_v4_innerC Read_BlueprintResource_v1_innerL_v4_innerC(BinaryReader reader)
         {
             var result = new V1_InnerL_v4_innerC();
 
@@ -2092,7 +2092,7 @@ namespace LibSanBag.FileResources
             public int ElementType { get; internal set; }
             public uint LinkId { get; internal set; }
         }
-        private V1_InnerL_v4_innerB Read_BlueprintResource_v1_innerL_v4_innerB(BinaryReader reader)
+        public V1_InnerL_v4_innerB Read_BlueprintResource_v1_innerL_v4_innerB(BinaryReader reader)
         {
             var result = new V1_InnerL_v4_innerB();
 
