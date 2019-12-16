@@ -909,7 +909,7 @@ namespace LibSanBag.FileResources
             public bool EnableAvatarAvatarCollisions { get; internal set; }
             public bool AllowFreeCamera { get; internal set; }
             public bool AllowTeleport { get; internal set; }
-            public bool TeleportRangeMaximum { get; internal set; }
+            public float TeleportRangeMaximum { get; internal set; }
             public List<ParentingData> ParentingData { get; internal set; }
             public List<Parenting_V21> Parenting_V21 { get; internal set; }
             public List<Parenting_V19> Parenting_V19 { get; internal set; }
@@ -1022,7 +1022,7 @@ namespace LibSanBag.FileResources
             {
                 result.AllowFreeCamera = reader.ReadBoolean();
                 result.AllowTeleport = reader.ReadBoolean();
-                result.TeleportRangeMaximum = reader.ReadBoolean();
+                result.TeleportRangeMaximum = reader.ReadSingle();
             }
 
             if(result.Version >= 19)
