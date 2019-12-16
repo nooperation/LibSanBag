@@ -261,7 +261,7 @@ namespace LibSanBag.FileResources
         {
             var result = new EditWorldSessionDataListItem();
 
-            result.Data = ReadString(reader);
+            result.Data = ReadUUID(reader);
             result.Value = Read_EditWorldSessionData(reader);
 
             return result;
@@ -458,8 +458,9 @@ namespace LibSanBag.FileResources
         public class OverrideLock
         {
             public uint Version { get; internal set; }
-            public Override_V5 Key { get; internal set; }
+            public Override_V5_V1 Key { get; internal set; }
             public BlueprintResource.V1_InnerN_inner_inner Value { get; internal set; }
+            public object Value_Old { get; internal set; }
             public string PersonaId { get; internal set; }
         }
         private OverrideLock Read_OverrideLock(BinaryReader reader)
@@ -467,10 +468,11 @@ namespace LibSanBag.FileResources
             var result = new OverrideLock();
 
             result.Version = ReadVersion(reader, 2, 0x1411B5890);
-            result.Key = Read_Override_V5(reader);
+            result.Key = Read_Override_V5_V1(reader);
             if(result.Version < 2)
             {
                 throw new Exception("TODO: Not yet implemented");
+                result.Value_Old = BlueprintReader.ReadSomethingCrazy(reader, 0, 0);
             }
             else
             {
@@ -529,6 +531,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+
         public class Override_V5
         {
             public uint Version { get; internal set; }
@@ -540,7 +543,7 @@ namespace LibSanBag.FileResources
         {
             var result = new Override_V5();
 
-            result.Version = ReadVersion(reader, 2, 0x1411C4E10);
+            result.Version = ReadVersion(reader, 1, 0x1411B70A0);
             result.Handle = BlueprintReader.Read_BlueprintResource_v1_innerL_v4_innerC(reader);
 
             if (result.Version < 2)
@@ -555,18 +558,92 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public class Override_V5_ListItem
+        {
+            public Override_V5_V1 Data { get; internal set; }
+            public BlueprintResource.V1_InnerN_inner_inner Value { get; internal set; }
+        }
+        private Override_V5_ListItem Read_Override_V5_ListItem(BinaryReader reader)
+        {
+            var result = new Override_V5_ListItem();
+
+            result.Data = Read_Override_V5_V1(reader);
+            result.Value = BlueprintReader.Read_BlueprintResource_v1_innerN_inner_inner(reader);
+
+            return result;
+        }
+
+        public class Override_V5_V1
+        {
+            public uint Version { get; internal set; }
+            public BlueprintResource.V1_InnerL_v4_innerC Handle { get; internal set; }
+            public int PropertyIndex { get; internal set; }
+            public int PropertyCode { get; internal set; }
+        }
+        private Override_V5_V1 Read_Override_V5_V1(BinaryReader reader)
+        {
+            var result = new Override_V5_V1();
+
+            var unknownFlag = true;
+            if (unknownFlag)
+            {
+                result.Version = ReadVersion(reader, 2, 0x1411C4E10);
+                result.Handle = BlueprintReader.Read_BlueprintResource_v1_innerL_v4_innerC(reader);
+
+                if (result.Version < 2)
+                {
+                    result.PropertyIndex = reader.ReadInt32();
+                }
+                else
+                {
+                    result.PropertyCode = reader.ReadInt32();
+                }
+            }
+            else
+            {
+                result.Handle = BlueprintReader.Read_BlueprintResource_v1_innerL_v4_innerC(reader);
+                result.PropertyIndex = reader.ReadInt32();
+            }
+
+            return result;
+        }
+
+        public class Override_V5_V1_ListItem
+        {
+            public Override_V5_V1 Data { get; internal set; }
+            public object Value { get; internal set; }
+        }
+        private Override_V5_V1_ListItem Read_Override_V5_V1_ListItem(BinaryReader reader)
+        {
+            var result = new Override_V5_V1_ListItem();
+
+            throw new Exception("Not implemented");
+
+            result.Data = Read_Override_V5_V1(reader);
+            result.Value = BlueprintReader.ReadSomethingCrazy(reader, 0, 0); // TODO;
+
+            return result;
+        }
+
         public class LicenseOverrides_V5
         {
             public uint Version { get; internal set; }
-            public List<Override_V5> Overrides { get; internal set; }
+            public List<Override_V5_V1_ListItem> Overrides_V1 { get; internal set; }
+            public List<Override_V5_ListItem> Overrides { get; internal set; }
         }
         private LicenseOverrides_V5 Read_LicenseOverrides_V5(BinaryReader reader)
         {
             var result = new LicenseOverrides_V5();
 
             result.Version = ReadVersion(reader, 3, 0x1411A6E80);
-            result.Overrides = Read_List(reader, Read_Override_V5, 1, 0x1411B7090);
-
+            if (result.Version == 1)
+            {
+                result.Overrides_V1 = Read_List(reader, Read_Override_V5_V1_ListItem, 1, 0x1411B7090);
+            }
+            else
+            {
+                result.Overrides = Read_List(reader, Read_Override_V5_ListItem, 1, 0x1411B70A0);
+            }
             return result;
         }
 
@@ -641,7 +718,7 @@ namespace LibSanBag.FileResources
 
             if(result.Version >= 2)
             {
-                result.UUID = ReadUUID(reader);
+                result.UUID = ReadUUID_B(reader);
             }
 
             if(result.Version >= 3)
@@ -756,9 +833,10 @@ namespace LibSanBag.FileResources
             public string BackgroundEvent { get; internal set; }
             public string BackgroundSoundResource { get; internal set; }
             public float BackgroundSoundLoudness { get; internal set; }
+            public bool UseBackgroundStream { get; internal set; }
             public string BackgroundStreamUrl { get; internal set; }
             public int BackgroundStreamChannel { get; internal set; }
-            public List<AudioStream> AudioStreams { get; internal set; }
+            public List<AudioStreamListItem> AudioStreams { get; internal set; }
         }
         private AudioWorldSource Read_AudioWorldSource(BinaryReader reader)
         {
@@ -766,16 +844,26 @@ namespace LibSanBag.FileResources
 
             result.Version = ReadVersion(reader, 4, 0x1411A0F30);
 
-            result.BankResource = ReadUUID(reader);
-            result.BackgroundEvent = ReadString(reader);
+            if(result.Version < 4)
+            {
+                result.BankResource = ReadUUID(reader);
+                result.BackgroundEvent = ReadUUID_B(reader);
+            }
+
             result.BackgroundSoundResource = ReadUUID(reader);
             result.BackgroundSoundLoudness = reader.ReadSingle();
 
             if(result.Version >= 2)
             {
+                result.UseBackgroundStream = reader.ReadBoolean();
+
                 if(result.Version == 2)
                 {
                     result.BackgroundStreamUrl = ReadString(reader);
+                    if(result.UseBackgroundStream)
+                    {
+                        result.BackgroundStreamChannel = 11;
+                    }
                 }
                 else
                 {
@@ -785,7 +873,7 @@ namespace LibSanBag.FileResources
 
             if(result.Version >= 3)
             {
-                result.AudioStreams = Read_List(reader,Read_AudioStream, 1, 0x1411AF530);
+                result.AudioStreams = Read_List(reader,Read_AudioStreamListItem, 1, 0x1411AF530);
             }
 
             return result;

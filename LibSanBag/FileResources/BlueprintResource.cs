@@ -1714,7 +1714,7 @@ namespace LibSanBag.FileResources
             return result;
 
         }
-        private object ReadSomethingCrazy(BinaryReader reader, int val, ulong version)
+        public object ReadSomethingCrazy(BinaryReader reader, int val, ulong version)
         {
             switch (val)
             {
