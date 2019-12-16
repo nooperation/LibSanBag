@@ -640,7 +640,7 @@ namespace LibSanBag.FileResources
             public string GeometryUuid { get; set; }
             public List<ModelDefinitionPart> Parts { get; set; }
         }
-        private ModelDefinition Read_ModelDefinition(BinaryReader reader)
+        public ModelDefinition Read_ModelDefinition(BinaryReader reader)
         {
             var result = new ModelDefinition();
 
