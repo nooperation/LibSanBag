@@ -646,14 +646,36 @@ namespace LibSanBag.FileResources
                 var x = reader.ReadInt32();
                 var y = ReadUUID(reader);
             }
+            else if(result.ParameterType == 0x27)
+            {
+                // TODO: Find out what this is
+                var x = reader.ReadInt64(); // -1
+                var z = reader.ReadInt64(); // 0
+                reader.ReadByte();
+
+                var aasdfa = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0);
+                var t = reader.ReadInt32(); // 3
+                var u = reader.ReadInt32(); // 0
+            }
+            else if(result.ParameterType == 0x2b)
+            {
+                // TODO: Find out what this is
+                var x = reader.ReadInt64(); // -1
+                var y = reader.ReadInt64(); // 0
+                var z = reader.ReadInt32(); // 0
+
+                var aasdfa = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0);
+                var s = reader.ReadInt32(); // 1
+                var t = reader.ReadInt32(); // 3
+            }
             else if(result.ParameterType == 0x72)
             {
+                // TODO: Find out what this is
                 var x = ReadUUID(reader);
                 var y = reader.ReadSingle();
-                var z = ReadUUID(reader);
+                var z = ReadUUID(reader);   
                 var a  = reader.ReadInt64();
                 var b  = reader.ReadInt32();
-
             }
             else
             {
