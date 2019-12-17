@@ -426,17 +426,27 @@ namespace LibSanBag.FileResources
         }
 
         public WorldDef Resource { get; set; }
-
-        private ClusterDefinitionResource tempReader;
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
-            tempReader = new ClusterDefinitionResource();
-            tempReader.OverrideVersionMap(this.versionMap, this.componentMap);
-
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 this.Resource = Read_WorldDefinitionResource(reader);
             }
+        }
+
+        private ClusterDefinitionResource tempReader;
+        public WorldDefinitionResource()
+        {
+            tempReader = new ClusterDefinitionResource();
+            tempReader.OverrideVersionMap(this.versionMap, this.componentMap);
+        }
+
+        internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
+        {
+            this.versionMap = newVersionMap;
+            this.componentMap = newComponentMap;
+
+            tempReader.OverrideVersionMap(newVersionMap, newComponentMap);
         }
     }
 }

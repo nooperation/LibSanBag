@@ -672,7 +672,9 @@ namespace LibSanBag.FileResources
             public string Blueprint { get; internal set; }
             public string Name { get; internal set; }
             public List<BlueprintResource.V1_InnerR_inner_C> ParamOverrides { get; internal set; }
+            [JsonIgnore]
             public List<ParamOverride> Overrides { get; internal set; }
+            public int NumOverrides => Overrides?.Count ?? 0;
             public LicenseOverrides_V5 LicenseOverrides_V5 { get; internal set; }
             public LicenseOverrides LicenseOverrides { get; internal set; }
             public string UUID { get; internal set; }
@@ -684,7 +686,7 @@ namespace LibSanBag.FileResources
             public bool MoveableFromScript { get; internal set; }
             public List<ScriptUsingSceneScript> ScriptsUsingSceneScript { get; internal set; }
         }
-        private WorldObject Read_WorldObject(BinaryReader reader)
+        public WorldObject Read_WorldObject(BinaryReader reader)
         {
             var result = new WorldObject();
 
@@ -1063,12 +1065,19 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public World Resource { get; set; }
+        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        {
+            using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
+            {
+                this.Resource = Read_WorldSource(reader);
+            }
+        }
+
         private BlueprintResource BlueprintReader;
         private WorldDefinitionResource WorldDefinitionReader;
         private ClusterDefinitionResource ClusterReader;
-
-        public World Resource { get; set; }
-        public override void InitFromRawDecompressed(byte[] decompressedBytes)
+        public WorldSource()
         {
             BlueprintReader = new BlueprintResource();
             BlueprintReader.OverrideVersionMap(this.versionMap, this.componentMap);
@@ -1078,11 +1087,16 @@ namespace LibSanBag.FileResources
 
             ClusterReader = new ClusterDefinitionResource();
             ClusterReader.OverrideVersionMap(this.versionMap, this.componentMap);
+        }
 
-            using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
-            {
-                this.Resource = Read_WorldSource(reader);
-            }
+        internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
+        {
+            this.versionMap = newVersionMap;
+            this.componentMap = newComponentMap;
+
+            BlueprintReader.OverrideVersionMap(newVersionMap, newComponentMap);
+            WorldDefinitionReader.OverrideVersionMap(newVersionMap, newComponentMap);
+            ClusterReader.OverrideVersionMap(newVersionMap, newComponentMap);
         }
     }
 }

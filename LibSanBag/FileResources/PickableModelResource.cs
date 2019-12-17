@@ -40,13 +40,24 @@ namespace LibSanBag.FileResources
         public PickableModel Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
-            ClusterReader = new ClusterDefinitionResource();
-            ClusterReader.OverrideVersionMap(versionMap, componentMap);
-
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 this.Resource = Read_PickableModelResource(reader);
             }
+        }
+
+        public PickableModelResource()
+        {
+            ClusterReader = new ClusterDefinitionResource();
+            ClusterReader.OverrideVersionMap(versionMap, componentMap);
+        }
+
+        internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
+        {
+            this.versionMap = newVersionMap;
+            this.componentMap = newComponentMap;
+
+            ClusterReader.OverrideVersionMap(newVersionMap, newComponentMap);
         }
     }
 }

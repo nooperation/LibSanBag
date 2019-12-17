@@ -150,15 +150,28 @@ namespace LibSanBag.FileResources
         }
 
         public ScriptMetadata Resource { get; set; }
-
-        private ClusterDefinitionResource cluster = new ClusterDefinitionResource();
+        
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
-            cluster.OverrideVersionMap(versionMap, this.componentMap);
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 this.Resource = Read_ScriptMetadataResource(decompressedStream);
             }
+        }
+
+        private ClusterDefinitionResource cluster;
+        public ScriptMetadataResource()
+        {
+            cluster = new ClusterDefinitionResource();
+            cluster.OverrideVersionMap(versionMap, this.componentMap);
+        }
+
+        internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
+        {
+            this.versionMap = newVersionMap;
+            this.componentMap = newComponentMap;
+
+            cluster.OverrideVersionMap(newVersionMap, newComponentMap);
         }
     }
 }

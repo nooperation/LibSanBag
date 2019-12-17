@@ -205,7 +205,7 @@ namespace LibSanBag.FileResources
             public uint VisibilityTomeIdRangeEnd { get; set; }
             public LightTransport LightTransport { get; set; }
         }
-        private RenderChunk Read_RenderChunk(BinaryReader reader)
+        public RenderChunk Read_RenderChunk(BinaryReader reader)
         {
             var result = new RenderChunk();
 

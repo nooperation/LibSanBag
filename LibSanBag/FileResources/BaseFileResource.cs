@@ -59,7 +59,7 @@ namespace LibSanBag.FileResources
 
         public abstract void InitFromRawDecompressed(byte[] decompressedBytes);
 
-        internal void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
+        internal virtual void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
         {
             this.versionMap = newVersionMap;
             this.componentMap = newComponentMap;

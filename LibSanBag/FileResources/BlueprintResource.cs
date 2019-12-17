@@ -573,9 +573,6 @@ namespace LibSanBag.FileResources
             result.InputConnectorNames = Read_List(reader, ReadString, 1, 0x14119ADB0);
             result.OutputConnectorNames = Read_List(reader, ReadString, 1, 0x14119ADB0);
 
-
-
-
             if(result.ParameterType == 0x01 ||
                 result.ParameterType == 0x06 ||
                 result.ParameterType == 0x08 ||
@@ -651,6 +648,7 @@ namespace LibSanBag.FileResources
                 // TODO: Find out what this is
                 var x = reader.ReadInt64(); // -1
                 var z = reader.ReadInt64(); // 0
+
                 reader.ReadByte();
 
                 var aasdfa = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0);
@@ -702,76 +700,10 @@ namespace LibSanBag.FileResources
                 var a  = reader.ReadInt64();
                 var b  = reader.ReadInt32();
             }
+
             else
             {
                 Console.WriteLine("Unknown parameter type: {0:x}", result.ParameterType);
-               // throw new Exception("Butts");
-            }
-
-            if (false)
-            {
-                /*
-                for (int i = 0; i < 0; i++)
-                {
-                    switch(0)
-                    {
-                        case 11:
-                        case 12:
-                        case 13:
-                        case 14:
-                        case 18:
-                        case 19:
-                            // todo
-                            break;
-                        default:
-                            break;
-                    }
-                    switch(0)
-                    {
-                        case 0:
-                            reader.ReadByte();
-                            break;
-                        case 1:
-                        case 8:
-                        case 9:
-                            // todo
-                            break;
-                        case 2:
-                            reader.ReadUInt32();
-                            break;
-                        case 3:
-                        case 5:
-                            reader.ReadSingle();
-                            break;
-                        case 4:
-                            reader.ReadBoolean();
-                            break;
-                        case 6:
-                            ReadVectorF(reader, 4);
-                            break;
-                        case 7:
-                            // todo
-                            break;
-                        case 15:
-                            // todo
-                            break;
-                        case 16:
-                            ReadString(reader);
-                            break;
-                        case 10:
-                            Read_BlueprintResource_v1_innerR_inner_B_inner(reader);
-                            break;
-                        case 22:
-                            // todo
-                            break;
-                        case 24:
-                            // todo
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                */
             }
 
             if (result.Version >= 3)
@@ -3375,13 +3307,24 @@ namespace LibSanBag.FileResources
 
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
-            ClusterReader = new ClusterDefinitionResource();
-            ClusterReader.OverrideVersionMap(this.versionMap, this.componentMap);
-
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 this.Resource = Read_BlueprintResource(reader);
             }
+        }
+
+        public BlueprintResource()
+        {
+            ClusterReader = new ClusterDefinitionResource();
+            ClusterReader.OverrideVersionMap(this.versionMap, this.componentMap);
+        }
+
+        internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
+        {
+            this.versionMap = newVersionMap;
+            this.componentMap = newComponentMap;
+
+            ClusterReader.OverrideVersionMap(newVersionMap, newComponentMap);
         }
     }
 }
