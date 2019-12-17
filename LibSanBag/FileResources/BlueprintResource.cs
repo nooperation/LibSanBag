@@ -2965,7 +2965,7 @@ namespace LibSanBag.FileResources
         {
             var result = new V1InnerD_V8();
 
-            result.Version = ReadVersion(reader, 1, 0x1411F80C0);
+            result.Version = ReadVersion(reader, 1, 0x141205340);
             result.SkeletonMapperId = ReadUUID(reader);
 
             return result;
