@@ -11,6 +11,7 @@ namespace LibSanBag
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         public enum ResourceType
         {
+            Invalid,
             BankResource,
             BlueprintResource,
             ClusterDefinition,

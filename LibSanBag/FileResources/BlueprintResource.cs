@@ -2167,8 +2167,12 @@ namespace LibSanBag.FileResources
             public float Scale { get; internal set; }
             public V1_InnerK_Inner UnknownG { get; internal set; }
             public List<V1_InnerL_v4> AttachmentPoints { get; internal set; }
+            [JsonIgnore]
             public List<Transform> MeshBindings { get; internal set; }
+            public int MeshBindingsCount => MeshBindings?.Count ?? 0;
+            [JsonIgnore]
             public List<ClusterDefinitionResource.OffsetTransform> Pose { get; internal set; }
+            public int PoseCount => Pose?.Count ?? 0;
             public string MorphSkeleton { get; internal set; }
         }
         private V1_InnerL Read_BlueprintResource_v1_innerL(BinaryReader reader)
