@@ -72,6 +72,7 @@
     <Compile Include="FileResources\AudioMaterialResource.cs" />
     <Compile Include="FileResources\BankResource.cs" />
     <Compile Include="FileResources\PickableModelResource.cs" />
+    <Compile Include="FileResources\WorldChunkSource.cs" />
     <Compile Include="FileResources\WorldSource.cs" />
     <Compile Include="FileResources\TextureSource.cs" />
     <Compile Include="FileResources\PickResource.cs" />
