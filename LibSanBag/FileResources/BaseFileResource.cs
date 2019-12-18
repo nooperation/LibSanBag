@@ -66,7 +66,7 @@ namespace LibSanBag.FileResources
         }
 
         protected Dictionary<ulong, uint> versionMap = new Dictionary<ulong, uint>();
-        protected uint ReadVersion(BinaryReader reader, uint defaultVersion, ulong? versionType)
+        protected uint ReadVersion(BinaryReader reader, uint maxVersion, ulong? versionType)
         {
             if (versionType != null && versionMap.ContainsKey(versionType.Value))
             {
@@ -74,6 +74,15 @@ namespace LibSanBag.FileResources
             }
 
             var version = reader.ReadUInt32();
+            //if(version == 0)
+            //{
+            //    throw new Exception("Invalid version: Zero. Parser is broken.");
+            //}
+
+            if(version > maxVersion)
+            {
+                throw new Exception($"Parser {versionType:X} is out of date. Found version {version}, but we only support up to version {maxVersion}.");
+            }
 
             if (versionType != null)
             {

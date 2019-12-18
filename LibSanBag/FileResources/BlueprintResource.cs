@@ -574,158 +574,173 @@ namespace LibSanBag.FileResources
             result.InputConnectorNames = Read_List(reader, ReadString, 1, 0x14119ADB0);
             result.OutputConnectorNames = Read_List(reader, ReadString, 1, 0x14119ADB0);
 
-            if (result.ParameterType == 0x01 ||
-                result.ParameterType == 0x06 ||
-                result.ParameterType == 0x08 ||
-                result.ParameterType == 0x07 ||
-                result.ParameterType == 0x0A ||
+            switch (result.ParameterType)
+            {
+                case 0:
+                case 0x4B:
+                    result.Payload = reader.ReadBytes(32);
+                    break;
 
-                result.ParameterType == 0x3b ||
-                result.ParameterType == 0x7e ||
-                result.ParameterType == 0x7f ||
-                result.ParameterType == 0x0e ||
-                result.ParameterType == 0x80 ||
-                result.ParameterType == 0x38
-            )
-            {
-                // nothing
-            }
-            else if (result.ParameterType == 3)
-            {
-                result.Payload = new
-                {
-                    X = reader.ReadInt32(),
-                    Y = ReadUUID(reader)
-                };
-            }
-            else if (result.ParameterType == 0x11)
-            {
-                result.Payload = reader.ReadByte();
-            }
-            else if (result.ParameterType == 0x1c)
-            {
-                result.Payload = reader.ReadByte();
-            }
-            else if (result.ParameterType == 0x20)
-            {
-                result.Payload = reader.ReadInt32();
-            }
-            else if (result.ParameterType == 0x7b)
-            {
-                result.Payload = reader.ReadBytes(0x14);
-            }
-            else if (result.ParameterType == 0x74)
-            {
-                result.Payload = reader.ReadBytes(0x14);
-            }
-            else if (result.ParameterType == 0x1B)
-            {
-                result.Payload = ReadVectorF(reader, 4);
-            }
-            else if (result.ParameterType == 0x15)
-            {
-                result.Payload = reader.ReadInt32();
-            }
-            else if (result.ParameterType == 0x16)
-            {
-                result.Payload = reader.ReadUInt64();
-            }
-            else if (result.ParameterType == 0x25)
-            {
-                result.Payload = reader.ReadSingle();
-            }
-            else if (result.ParameterType == 0x26)
-            {
-                result.Payload = ReadVectorF(reader, 4);
-            }
-            else if (result.ParameterType == 0x75)
-            {
-                result.Payload = reader.ReadInt32();
-            }
-            else if (result.ParameterType == 0x18)
-            {
-                result.Payload = new
-                {
-                    X = reader.ReadInt32(),
-                    U = ReadUUID(reader)
-                };
-            }
-            else if (result.ParameterType == 0x27)
-            {
-                result.Payload = new
-                {
-                    // TODO: Find out what this is
-                    x = reader.ReadInt64(), // -1
-                    z = reader.ReadInt64(), // 0
+                case 0x01:
+                case 0x06:
+                case 0x08:
+                case 0x07:
+                case 0x0A:
+                case 0x3b:
+                case 0x7e:
+                case 0x7f:
+                case 0x0e:
+                case 0x80:
+                case 0x38:
+                    break;
 
-                    q = reader.ReadByte(),
+                case 0x11:
+                case 0x12:
+                case 0x1C:
+                case 0x1D:
+                    result.Payload = reader.ReadByte();
+                    break;
 
-                    a = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0),
-                    b = reader.ReadInt32(), // 3
-                    c = reader.ReadInt32(), // 0
-                };
-            }
-            else if (result.ParameterType == 0x2b)
-            {
-                result.Payload = new
-                {
-                    // TODO: Find out what this is
-                    x = reader.ReadInt64(), // -1
-                    y = reader.ReadInt64(), // 0
+                case 0x13:
+                case 0x1E:
+                    result.Payload = reader.ReadUInt64();
+                    break;
 
-                    q = reader.ReadInt32(), // 0
+                case 0x15:
+                case 0x1A:
+                case 0x54:
+                case 0x89:
+                case 0x8A:
+                case 0x90:
+                case 0x91:
+                case 0x92:
+                case 0x93:
+                    result.Payload = reader.ReadInt32();
+                    break;
 
-                    a = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0),
-                    b = reader.ReadInt32(), // 1
-                    c = reader.ReadInt32(), // 3
-                };
-            }
-            else if (result.ParameterType == 0x30)
-            {
-                result.Payload = new
-                {
-                    // TODO: Find out what this is
-                    x = reader.ReadInt64(), // -1
-                    y = reader.ReadInt64(), // 0
+                case 3:
+                case 0x18:
+                case 0x23:
+                case 0x56:
+                case 0x6D:
+                case 0x6E:
+                case 0x71:
+                case 0x74:
+                case 0x79:
+                case 0x7A:
+                case 0x8F:
+                case 0x7b:
+                    result.Payload = new
+                    {
+                        X = reader.ReadInt32(),
+                        Y = ReadUUID(reader)
+                    };
+                    break;
 
-                    q = ReadVectorF(reader, 4), // 0
+                case 0x19:
+                case 0x1B:
+                case 0x24:
+                case 0x26:
+                case 0x4A:
+                case 0x53:
+                case 0x84:
+                    result.Payload = ReadVectorF(reader, 4);
+                    break;
 
-                    a = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0),
-                    b = reader.ReadInt32(), // 1
-                    c = reader.ReadInt32(), // 3
-                };
-            }
-            else if (result.ParameterType == 0x2f)
-            {
-                result.Payload = new
-                {
-                    // TODO: Find out what this is
-                    x = reader.ReadInt64(), // -1
-                    y = reader.ReadInt64(), // 0
+                case 0x14:
+                case 0x16:
+                case 0x1F:
+                case 0x21:
+                case 0x49:
+                case 0x4C:
+                case 0x55:
+                    result.Payload = reader.ReadUInt64();
+                    break;
 
-                    q = reader.ReadInt32(), // 0
+                case 0x25:
+                case 0x20:
+                    result.Payload = reader.ReadSingle();
+                    break;
 
-                    a = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0),
-                    b = reader.ReadInt32(), // 1
-                    c = reader.ReadInt32(), // 3
-                };
-            }
-            else if (result.ParameterType == 0x72)
-            {
-                result.Payload = new
-                {
-                    // TODO: Find out what this is
-                    x = ReadUUID(reader),
-                    y = reader.ReadSingle(),
-                    z = ReadUUID(reader),
-                    a = reader.ReadInt64(),
-                    b = reader.ReadInt32()
-                };
-            }
+                case 0x75:
+                    result.Payload = reader.ReadInt32();
+                    break;
 
-            else
-            {
-                Console.WriteLine("Unknown parameter type: {0:x}", result.ParameterType);
+                case 0x27:
+                    result.Payload = new
+                    {
+                        // TODO: Find out what this is
+                        x = reader.ReadInt64(), // -1
+                        z = reader.ReadInt64(), // 0
+
+                        q = reader.ReadByte(),
+
+                        a = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0),
+                        b = reader.ReadInt32(), // 3
+                        c = reader.ReadInt32(), // 0
+                    };
+                    break;
+
+                case 0x2b:
+                    result.Payload = new
+                    {
+                        // TODO: Find out what this is
+                        x = reader.ReadInt64(), // -1
+                        y = reader.ReadInt64(), // 0
+
+                        q = reader.ReadSingle(), // 0
+
+                        a = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0),
+                        b = reader.ReadInt32(), // 1
+                        d = reader.ReadInt32(), // 3
+                    };
+                    break;
+
+                case 0x30:
+                    result.Payload = new
+                    {
+                        // TODO: Find out what this is
+                        x = reader.ReadInt64(), // -1
+                        y = reader.ReadInt64(), // 0
+
+                        q = ReadVectorF(reader, 4), // 0
+
+                        a = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0),
+                        b = reader.ReadInt32(), // 1
+                        c = reader.ReadInt32(), // 3
+                    };
+                    break;
+
+                case 0x2f:
+                    result.Payload = new
+                    {
+                        // TODO: Find out what this is
+                        x = reader.ReadInt64(), // -1
+                        y = reader.ReadInt64(), // 0
+
+                        q = reader.ReadInt32(), // 0
+
+                        a = Read_List(reader, Read_BlueprintResource_v1_innerR_inner_Ab_internal, 1, 0x1411C3BC0),
+                        b = reader.ReadInt32(), // 1
+                        c = reader.ReadInt32(), // 3
+                    };
+                    break;
+
+                case 0x72:
+                    result.Payload = new
+                    {
+                        // TODO: Find out what this is
+                        x = ReadUUID(reader),
+                        y = reader.ReadSingle(),
+                        z = ReadUUID(reader),
+                        a = reader.ReadInt64(),
+                        b = reader.ReadInt32()
+                    };
+                    break;
+
+                default:
+                    Console.WriteLine("Unknown parameter type: {0:x}", result.ParameterType);
+                    break;
             }
 
             if (result.Version >= 3)
