@@ -12,8 +12,6 @@ namespace LibSanBag.FileResources
 {
     public class WorldChunkSource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static WorldChunkSource Create(string version = "")
         {
             return new WorldChunkSource();
@@ -143,6 +141,8 @@ namespace LibSanBag.FileResources
             }
         }
 
+        #region ParserInit
+
         private WorldSource WorldSourceReader;
         private WorldChunkDefinitionResource WorldChunkDefReader;
         public WorldChunkSource()
@@ -162,5 +162,7 @@ namespace LibSanBag.FileResources
             WorldSourceReader.OverrideVersionMap(newVersionMap, newComponentMap);
             WorldChunkDefReader.OverrideVersionMap(newVersionMap, newComponentMap);
         }
+
+        #endregion
     }
 }

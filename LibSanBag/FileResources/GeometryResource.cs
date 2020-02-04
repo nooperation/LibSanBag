@@ -11,8 +11,6 @@ namespace LibSanBag.FileResources
 {
     public class GeometryResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static GeometryResource Create(string version = "")
         {
             return new GeometryResource();

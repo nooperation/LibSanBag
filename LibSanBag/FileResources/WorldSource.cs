@@ -1,19 +1,11 @@
-﻿using LibSanBag;
-using LibSanBag.ResourceUtils;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
     public class WorldSource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static WorldSource Create(string version = "")
         {
             return new WorldSource();
@@ -672,7 +664,6 @@ namespace LibSanBag.FileResources
             public string Blueprint { get; internal set; }
             public string Name { get; internal set; }
             public List<BlueprintResource.V1_InnerR_inner_C> ParamOverrides { get; internal set; }
-            [JsonIgnore]
             public List<ParamOverride> Overrides { get; internal set; }
             public int NumOverrides => Overrides?.Count ?? 0;
             public LicenseOverrides_V5 LicenseOverrides_V5 { get; internal set; }
@@ -1074,6 +1065,8 @@ namespace LibSanBag.FileResources
             }
         }
 
+        #region ParserInit
+
         private BlueprintResource BlueprintReader;
         private WorldDefinitionResource WorldDefinitionReader;
         private ClusterDefinitionResource ClusterReader;
@@ -1098,5 +1091,6 @@ namespace LibSanBag.FileResources
             WorldDefinitionReader.OverrideVersionMap(newVersionMap, newComponentMap);
             ClusterReader.OverrideVersionMap(newVersionMap, newComponentMap);
         }
+        #endregion
     }
 }

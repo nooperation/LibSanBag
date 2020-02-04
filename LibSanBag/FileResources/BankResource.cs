@@ -1,19 +1,10 @@
-﻿using LibSanBag;
-using LibSanBag.ResourceUtils;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
     public class BankResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static BankResource Create(string version = "")
         {
             return new BankResource();
@@ -53,9 +44,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        public uint Version { get; private set; }
         public Bank Resource { get; set; }
-
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))

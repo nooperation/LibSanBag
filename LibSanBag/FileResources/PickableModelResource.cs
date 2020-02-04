@@ -1,19 +1,10 @@
-﻿using LibSanBag;
-using LibSanBag.ResourceUtils;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
     public class PickableModelResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static PickableModelResource Create(string version = "")
         {
             return new PickableModelResource();
@@ -30,13 +21,12 @@ namespace LibSanBag.FileResources
             var result = new PickableModel();
 
             result.Version = ReadVersion(reader, 1, 0x1411C3BF0);
-            result.Model = ReadComponent(reader, ClusterReader.Read_ModelDefinition);
+            result.Model = ReadComponent(reader, clusterReader.Read_ModelDefinition);
             result.PickResource = ReadUUID(reader);
 
             return result;
         }
 
-        private ClusterDefinitionResource ClusterReader;
         public PickableModel Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
@@ -46,10 +36,12 @@ namespace LibSanBag.FileResources
             }
         }
 
+        #region ParserInit
+        private ClusterDefinitionResource clusterReader;
         public PickableModelResource()
         {
-            ClusterReader = new ClusterDefinitionResource();
-            ClusterReader.OverrideVersionMap(versionMap, componentMap);
+            clusterReader = new ClusterDefinitionResource();
+            clusterReader.OverrideVersionMap(versionMap, componentMap);
         }
 
         internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
@@ -57,7 +49,8 @@ namespace LibSanBag.FileResources
             this.versionMap = newVersionMap;
             this.componentMap = newComponentMap;
 
-            ClusterReader.OverrideVersionMap(newVersionMap, newComponentMap);
+            clusterReader.OverrideVersionMap(newVersionMap, newComponentMap);
         }
+        #endregion
     }
 }

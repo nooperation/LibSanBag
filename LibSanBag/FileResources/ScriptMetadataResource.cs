@@ -7,8 +7,6 @@ namespace LibSanBag.FileResources
 {
     public class ScriptMetadataResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static ScriptMetadataResource Create(string version = "")
         {
             return new ScriptMetadataResource();
@@ -31,7 +29,7 @@ namespace LibSanBag.FileResources
             result.Name = ReadString(reader);
             result.TypeString = ReadString(reader);
             result.Type = reader.ReadUInt32();
-            result.Attributes = Read_List(reader, cluster.Read_ScriptComponent_parameter, 1, 0x1411CF800);
+            result.Attributes = Read_List(reader, clusterDefinition.Read_ScriptComponent_parameter, 1, 0x1411CF800);
 
             return result;
         }
@@ -150,7 +148,6 @@ namespace LibSanBag.FileResources
         }
 
         public ScriptMetadata Resource { get; set; }
-        
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
@@ -159,11 +156,13 @@ namespace LibSanBag.FileResources
             }
         }
 
-        private ClusterDefinitionResource cluster;
+        #region ParserInit
+
+        private ClusterDefinitionResource clusterDefinition;
         public ScriptMetadataResource()
         {
-            cluster = new ClusterDefinitionResource();
-            cluster.OverrideVersionMap(versionMap, this.componentMap);
+            clusterDefinition = new ClusterDefinitionResource();
+            clusterDefinition.OverrideVersionMap(versionMap, this.componentMap);
         }
 
         internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
@@ -171,7 +170,9 @@ namespace LibSanBag.FileResources
             this.versionMap = newVersionMap;
             this.componentMap = newComponentMap;
 
-            cluster.OverrideVersionMap(newVersionMap, newComponentMap);
+            clusterDefinition.OverrideVersionMap(newVersionMap, newComponentMap);
         }
+
+        #endregion
     }
 }

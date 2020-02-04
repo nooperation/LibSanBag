@@ -11,8 +11,6 @@ namespace LibSanBag.FileResources
 {
     public class WorldDefinitionResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static WorldDefinitionResource Create(string version = "")
         {
             return new WorldDefinitionResource();
@@ -359,11 +357,11 @@ namespace LibSanBag.FileResources
 
             if (result.Version < 9)
             {
-                result.ScriptDefs = Read_List(reader, n => ReadComponent(n, tempReader.Read_ScriptComponent), 1, 0x1416E9720);
+                result.ScriptDefs = Read_List(reader, n => ReadComponent(n, clusterDefinition.Read_ScriptComponent), 1, 0x1416E9720);
             }
             else
             {
-                result.ScriptDefs = Read_List(reader, tempReader.Read_ScriptComponent, 1, 0x1416E9710);
+                result.ScriptDefs = Read_List(reader, clusterDefinition.Read_ScriptComponent, 1, 0x1416E9710);
             }
 
             result.SkyCubemap = ReadUUID(reader);
@@ -434,11 +432,13 @@ namespace LibSanBag.FileResources
             }
         }
 
-        private ClusterDefinitionResource tempReader;
+        #region ParserInit
+
+        private ClusterDefinitionResource clusterDefinition;
         public WorldDefinitionResource()
         {
-            tempReader = new ClusterDefinitionResource();
-            tempReader.OverrideVersionMap(this.versionMap, this.componentMap);
+            clusterDefinition = new ClusterDefinitionResource();
+            clusterDefinition.OverrideVersionMap(this.versionMap, this.componentMap);
         }
 
         internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
@@ -446,7 +446,9 @@ namespace LibSanBag.FileResources
             this.versionMap = newVersionMap;
             this.componentMap = newComponentMap;
 
-            tempReader.OverrideVersionMap(newVersionMap, newComponentMap);
+            clusterDefinition.OverrideVersionMap(newVersionMap, newComponentMap);
         }
+
+        #endregion
     }
 }

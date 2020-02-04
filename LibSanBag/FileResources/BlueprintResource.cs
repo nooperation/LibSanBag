@@ -7,8 +7,6 @@ namespace LibSanBag.FileResources
 {
     public class BlueprintResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static BlueprintResource Create(string version = "")
         {
             return new BlueprintResource();
@@ -309,7 +307,7 @@ namespace LibSanBag.FileResources
             }
             if (result.Version >= 9)
             {
-                result.AudioResourcePools = ClusterReader.Read_RigidBody_AudioResourcePoolSounds(reader);
+                result.AudioResourcePools = clusterDefinition.Read_RigidBody_AudioResourcePoolSounds(reader);
             }
             if (result.Version >= 10)
             {
@@ -742,6 +740,8 @@ namespace LibSanBag.FileResources
                     Console.WriteLine("Unknown parameter type: {0:x}", result.ParameterType);
                     break;
             }
+
+            Console.WriteLine($"{result.ParameterType:X} -> {result.Payload}");
 
             if (result.Version >= 3)
             {
@@ -1743,7 +1743,7 @@ namespace LibSanBag.FileResources
                 case 3: // vector4
                     return ReadVectorF(reader, 4);
                 case 4: // mTransform
-                    return ClusterReader.Read_ObjectClusterTransform(reader);
+                    return clusterDefinition.Read_ObjectClusterTransform(reader);
                 case 5: // subtype
                     return Read_UnknownCase5(reader, version);
                 case 6: // string
@@ -1907,7 +1907,7 @@ namespace LibSanBag.FileResources
                 result.Parameters = new List<ClusterDefinitionResource.ScriptParameter>();
                 for (int i = 0; i < result.ParamCount; i++)
                 {
-                    var parameter = ClusterReader.Read_ScriptComponent_parameter(reader);
+                    var parameter = clusterDefinition.Read_ScriptComponent_parameter(reader);
                     result.Parameters.Add(parameter);
                 }
             }
@@ -2157,7 +2157,7 @@ namespace LibSanBag.FileResources
             result.TriangleIndex = reader.ReadInt32();
 
             result.Weights = Read_List(reader, Read_BlueprintResource_v1_innerL_v4_inner, 1, 0x14120B090);
-            result.AttachmentTransform = ClusterReader.Read_AnimationComponent_OffsetTransform(reader);
+            result.AttachmentTransform = clusterDefinition.Read_AnimationComponent_OffsetTransform(reader);
 
             if (result.Version >= 2)
             {
@@ -2202,7 +2202,7 @@ namespace LibSanBag.FileResources
                 result.ShadowCaster = reader.ReadBoolean();
                 result.Name = ReadString(reader);
                 result.MeshBindingsOld = Read_List(reader, Read_Transform, 1, 0x1411F3EA0);
-                result.PoseOld = Read_List(reader, ClusterReader.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0);
+                result.PoseOld = Read_List(reader, clusterDefinition.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0);
             }
             else if (result.Version == 2)
             {
@@ -2210,27 +2210,27 @@ namespace LibSanBag.FileResources
                 result.ShadowCaster = reader.ReadBoolean();
                 result.Name = ReadString(reader);
                 result.MeshBindingsOld = Read_List(reader, Read_Transform, 1, 0x1411F3EA0);
-                result.PoseOld = Read_List(reader, ClusterReader.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0);
+                result.PoseOld = Read_List(reader, clusterDefinition.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0);
                 result.Scale = reader.ReadSingle();
             }
             else if (result.Version == 3)
             {
                 result.UnknownG = Read_BlueprintResource_v1_innerK_Inner(reader);
                 result.MeshBindingsOld = Read_List(reader, Read_Transform, 1, 0x1411F3EA0);
-                result.PoseOld = Read_List(reader, ClusterReader.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0);
+                result.PoseOld = Read_List(reader, clusterDefinition.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0);
             }
             else if (result.Version == 4)
             {
                 result.UnknownG = Read_BlueprintResource_v1_innerK_Inner(reader);
                 result.MeshBindingsOld = Read_List(reader, Read_Transform, 1, 0x1411F3EA0);
-                result.PoseOld = Read_List(reader, ClusterReader.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0);
+                result.PoseOld = Read_List(reader, clusterDefinition.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0);
                 result.AttachmentPoints = Read_List(reader, Read_BlueprintResource_v1_innerL_v4, 1, 0x1411F2790);
             }
             else if (result.Version >= 5)
             {
                 result.UnknownG = Read_BlueprintResource_v1_innerK_Inner(reader); // second time around, something bad happens here...
                 result.MeshBindings = ReadComponent(reader, n => Read_List(n, Read_Transform, 1, 0x1411F3EA0));
-                result.Pose = ReadComponent(reader, n => Read_List(n, ClusterReader.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0));
+                result.Pose = ReadComponent(reader, n => Read_List(n, clusterDefinition.Read_AnimationComponent_OffsetTransform, 1, 0x1411F3EB0));
                 result.AttachmentPoints = Read_List(reader, Read_BlueprintResource_v1_innerL_v4, 1, 0x1411F2790);
             }
 
@@ -2970,7 +2970,7 @@ namespace LibSanBag.FileResources
 
             if (result.Version == 9)
             {
-                result.SgOffsetTransformsMap = ClusterReader.Read_AnimationComponent_OffsetTransformsMap(reader);
+                result.SgOffsetTransformsMap = clusterDefinition.Read_AnimationComponent_OffsetTransformsMap(reader);
             }
 
             return result;
@@ -3341,11 +3341,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private ClusterDefinitionResource ClusterReader { get; set; }
-
         public Blueprint Resource { get; set; }
-        public string Id { get; private set; }
-
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
@@ -3354,10 +3350,13 @@ namespace LibSanBag.FileResources
             }
         }
 
+        #region ParserInit
+
+        private ClusterDefinitionResource clusterDefinition { get; set; }
         public BlueprintResource()
         {
-            ClusterReader = new ClusterDefinitionResource();
-            ClusterReader.OverrideVersionMap(this.versionMap, this.componentMap);
+            clusterDefinition = new ClusterDefinitionResource();
+            clusterDefinition.OverrideVersionMap(this.versionMap, this.componentMap);
         }
 
         internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
@@ -3365,7 +3364,9 @@ namespace LibSanBag.FileResources
             this.versionMap = newVersionMap;
             this.componentMap = newComponentMap;
 
-            ClusterReader.OverrideVersionMap(newVersionMap, newComponentMap);
+            clusterDefinition.OverrideVersionMap(newVersionMap, newComponentMap);
         }
+
+        #endregion
     }
 }

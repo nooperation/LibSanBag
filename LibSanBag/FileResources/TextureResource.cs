@@ -6,8 +6,6 @@ namespace LibSanBag.FileResources
 {
     public class TextureResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static TextureResource Create(string version = "")
         {
             return new TextureResource();

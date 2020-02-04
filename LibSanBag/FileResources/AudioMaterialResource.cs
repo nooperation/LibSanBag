@@ -12,8 +12,6 @@ namespace LibSanBag.FileResources
 {
     public class AudioMaterialResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static AudioMaterialResource Create(string version = "")
         {
             return new AudioMaterialResource();

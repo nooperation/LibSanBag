@@ -1,19 +1,11 @@
-﻿using LibSanBag;
-using LibSanBag.ResourceUtils;
-using Newtonsoft.Json;
-using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
     public class TextureSource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static TextureSource Create(string version = "")
         {
             return new TextureSource();

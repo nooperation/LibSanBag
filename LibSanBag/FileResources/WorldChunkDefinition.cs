@@ -11,8 +11,6 @@ namespace LibSanBag.FileResources
 {
     public class WorldChunkDefinitionResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static WorldChunkDefinitionResource Create(string version = "")
         {
             return new WorldChunkDefinitionResource();
@@ -258,7 +256,6 @@ namespace LibSanBag.FileResources
         }
 
         public WorldChunkDef Resource { get; set; }
-
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))

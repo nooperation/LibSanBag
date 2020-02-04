@@ -5,10 +5,6 @@ namespace LibSanBag.FileResources
 {
     public class SoundResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-        public uint Version { get; set; }
-        public SoundResourceData Resource { get; set; }
-
         public static SoundResource Create(string version = "")
         {
             return new SoundResource();
@@ -47,12 +43,27 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public class Sound
+        {
+            public uint Version { get; set; }
+            public SoundResourceData Data { get; internal set; }
+        }
+        private Sound Read_Sound(BinaryReader reader)
+        {
+            var result = new Sound();
+
+            result.Version = ReadVersion(reader, 1, 0x1410E3B40);
+            result.Data = ReadComponent(reader, Read_SoundResource);
+
+            return result;
+        }
+
+        public Sound Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                this.Version = ReadVersion(reader, 1, 0x1410E3B40);
-                this.Resource = ReadComponent(reader, Read_SoundResource);
+                this.Resource = Read_Sound(reader);
             }
         }
     }

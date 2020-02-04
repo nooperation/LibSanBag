@@ -1,26 +1,13 @@
-﻿using LibSanBag;
-using LibSanBag.ResourceUtils;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
     public class MaterialResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static MaterialResource Create(string version = "")
         {
             return new MaterialResource();
-        }
-
-        public MaterialResource()
-        {
-
         }
 
         public class TextureParameters

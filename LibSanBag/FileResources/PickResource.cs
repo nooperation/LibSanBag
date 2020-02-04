@@ -1,19 +1,10 @@
-﻿using LibSanBag;
-using LibSanBag.ResourceUtils;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LibSanBag.FileResources
 {
     public class PickResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static PickResource Create(string version = "")
         {
             return new PickResource();
@@ -27,7 +18,6 @@ namespace LibSanBag.FileResources
             [JsonIgnore]
             public byte[] HavokShape { get; internal set; }
         }
-
         private Pick Read_PickResource(BinaryReader reader)
         {
             var result = new Pick();

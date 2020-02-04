@@ -5,8 +5,10 @@ namespace LibSanBag.FileResources
 {
     public class ScriptSourceTextResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-        public SourceScriptText Resource { get; set; }
+        public static ScriptSourceTextResource Create(string version = "")
+        {
+            return new ScriptSourceTextResource();
+        }
 
         public class SourceScriptText
         {
@@ -46,17 +48,13 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        public SourceScriptText Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
                 this.Resource = Read_ScriptSourceText(decompressedStream);
             }
-        }
-
-        public static ScriptSourceTextResource Create(string version = "")
-        {
-            return new ScriptSourceTextResource();
         }
     }
 }

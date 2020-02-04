@@ -9,8 +9,6 @@ namespace LibSanBag.FileResources
 {
     public class ClusterDefinitionResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static ClusterDefinitionResource Create(string version = "")
         {
             return new ClusterDefinitionResource();
@@ -1735,19 +1733,29 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        public string Name { get; set; } = "";
-        public uint Version { get; set; }
-        public List<ClusterObject> ObjectsDefs { get; set; }
-        public List<JointDefinitions> JointDefs { get; set; }
+        public class ClusterDefinition
+        {
+            public uint Version { get; set; }
+            public List<ClusterObject> ObjectsDefs { get; internal set; }
+            public List<JointDefinitions> JointDefs { get; internal set; }
+        }
+        private ClusterDefinition Read_ClusterDefinition(BinaryReader reader)
+        {
+            var result = new ClusterDefinition();
 
+            result.Version = ReadVersion(reader, 1, 0x1410E3B70);
+            result.ObjectsDefs = Read_List(reader, Read_Objects, 1, 0x1416E96E0);
+            result.JointDefs = Read_List(reader, Read_Joints, 1, 0x1416E96F0);
+
+            return result;
+        }
+
+        public ClusterDefinition Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                this.Version = ReadVersion(reader, 1, 0x1410E3B70);
-                
-                this.ObjectsDefs = Read_List(reader, Read_Objects, 1, 0x1416E96E0);
-                this.JointDefs = Read_List(reader, Read_Joints, 1, 0x1416E96F0);
+                this.Resource = Read_ClusterDefinition(reader);
             }
         }
     }
