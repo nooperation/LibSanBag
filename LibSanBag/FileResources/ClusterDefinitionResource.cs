@@ -358,7 +358,7 @@ namespace LibSanBag.FileResources
         {
             var result = new AnimationComponent();
 
-            result.Version = ReadVersion(reader, 12, 0x1417056D0);
+            result.Version = ReadVersion(reader, 13, 0x1417056D0);
             result.ProjectDataUuid = ReadUUID(reader);
             result.ProxyShapeUuid = ReadUUID(reader);
             result.SkeletonUuid = ReadUUID(reader);
@@ -401,9 +401,12 @@ namespace LibSanBag.FileResources
             {
                 result.Scale = reader.ReadSingle();
             }
-            if (result.Version >= 8)
+            if (result.Version < 13)
             {
-                result.AnimationOverrides = Read_List(reader, Read_AnimationComponent_AnimationOverride, 1, 0x14170CE40);
+                if (result.Version >= 8)
+                {
+                    result.AnimationOverrides = Read_List(reader, Read_AnimationComponent_AnimationOverride, 1, 0x14170CE40);
+                }
             }
             if (result.Version >= 9)
             {
@@ -667,12 +670,13 @@ namespace LibSanBag.FileResources
             public bool IsVisible { get; set; }
             public int EditInstanceId { get; set; }
             public int EditLinkId { get; set; }
+            public List<uint> MaterialIndex { get; internal set; }
         }
         private MeshComponent_V3 Read_MeshComponent_v3(BinaryReader reader)
         {
             var result = new MeshComponent_V3();
 
-            result.Version = ReadVersion(reader, 5, 0x141706B40);
+            result.Version = ReadVersion(reader, 6, 0x141706B40);
             result.Name = ReadString(reader);
 
             result.ModelDefinition = ReadComponent(reader, Read_ModelDefinition);
@@ -695,6 +699,10 @@ namespace LibSanBag.FileResources
             {
                 result.EditInstanceId = reader.ReadInt32();
                 result.EditLinkId = reader.ReadInt32();
+            }
+            if(result.Version >= 6)
+            {
+                result.MaterialIndex = Read_List(reader, n => n.ReadUInt32(), 1, 0x1411B9600);
             }
 
             return result;
@@ -1084,6 +1092,23 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        class CharacterAnimationResult
+        {
+            public uint Version { get; set; }
+            public string ResourceId { get; internal set; }
+            public uint SkeletonType { get; internal set; }
+        }
+        private CharacterAnimationResult Read_ScriptComponent_CharacterAnimation(BinaryReader reader)
+        {
+            var result = new CharacterAnimationResult();
+
+            result.Version = ReadVersion(reader, 1, 0x1411EDC80);
+            result.ResourceId = ReadUUID(reader);
+            result.SkeletonType = reader.ReadUInt32();
+
+            return result;
+        }
+
         public enum ScriptTypeCodes
         {
             System_Boolean = 0x4101,
@@ -1110,6 +1135,7 @@ namespace LibSanBag.FileResources
             Sansar_Simulation_ClusterResource = 0x2002,
             Sansar_Simulation_SoundResource = 0x2003,
             Sansar_Simulation_Interaction = 0x10000,
+            Sansar_Simulation_CharacterAnimation = 0x12001,
             Sansar_Simulation_QuestDefinition = 0x20000,
             Sansar_Simulation_ObjectiveDefinition = 0x20001,
             Sansar_Simulation_QuestCharacter = 0x20002,
@@ -1227,6 +1253,9 @@ namespace LibSanBag.FileResources
                     break;
                 case ScriptTypeCodes.Sansar_Simulation_Interaction: //0x10000
                     result = Read_ScriptComponent_Interaction(reader);
+                    break;
+                case ScriptTypeCodes.Sansar_Simulation_CharacterAnimation: // 0x12001
+                    result = Read_ScriptComponent_CharacterAnimation(reader);
                     break;
                 case ScriptTypeCodes.Sansar_Simulation_QuestDefinition: //0x20000
                     result = ReadUUID_B(reader);
