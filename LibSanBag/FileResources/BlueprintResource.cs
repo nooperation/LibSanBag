@@ -447,16 +447,23 @@ namespace LibSanBag.FileResources
             public uint Version { get; internal set; }
             public V1_InnerL UnknownA { get; internal set; }
             public string ClothSource { get; internal set; }
+            public Transform ClothTransform { get; internal set; }
+            public float ClothScale { get; internal set; }
         }
         private V1_InnerS Read_BlueprintResource_v1_innerS(BinaryReader reader)
         {
             var result = new V1_InnerS();
 
-            result.Version = ReadVersion(reader, 1, 0x1410BB0C0);
-            if (result.Version == 1)
+            result.Version = ReadVersion(reader, 2, 0x1410BB0C0);
+            if (result.Version >= 1)
             {
                 result.UnknownA = Read_BlueprintResource_v1_innerL(reader);
                 result.ClothSource = ReadUUID(reader);
+            }
+            if(result.Version >= 2)
+            {
+                result.ClothTransform = Read_Transform(reader);
+                result.ClothScale = reader.ReadSingle();
             }
 
             return result;
@@ -2899,7 +2906,7 @@ namespace LibSanBag.FileResources
         {
             var result = new V1_InnderD();
 
-            result.Version = ReadVersion(reader, 10, 0x1410BB000);
+            result.Version = ReadVersion(reader, 11, 0x1410BB000);
             if (result.Version >= 3)
             {
                 result.UnknownA = Read_BlueprintResource_A_inner(reader);
@@ -2958,9 +2965,12 @@ namespace LibSanBag.FileResources
                 result.AnimationData = Read_List(reader, Read_BlueprintResource_v1_innerD_V6, 1, 0x1411F0410);
             }
 
-            if (result.Version >= 7)
+            if (result.Version < 11)
             {
-                result.AnimationOverrides = Read_List(reader, Read_BlueprintResource_v1_innerD_V7, 1, 0x1411F80B0);
+                if (result.Version >= 7)
+                {
+                    result.AnimationOverrides = Read_List(reader, Read_BlueprintResource_v1_innerD_V7, 1, 0x1411F80B0);
+                }
             }
 
             if (result.Version >= 8)
