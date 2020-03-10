@@ -94,7 +94,7 @@ namespace LibSanBag.FileResources
         {
             var result = new Material();
 
-            result.Version = ReadVersion(reader, 1, 0x141211B30);
+            result.Version = ReadVersion(reader, 3, 0x141211B30);
             result.Type = ReadString(reader);
             result.Name = ReadString(reader);
             result.TextureParameters = Read_List(reader, Read_TextureParameters, 1, 0x141223400);
