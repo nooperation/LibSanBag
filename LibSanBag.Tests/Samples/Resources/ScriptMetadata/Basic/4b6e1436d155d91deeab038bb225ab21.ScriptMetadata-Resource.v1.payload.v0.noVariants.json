@@ -1,15 +1,37 @@
 {
   "IsCompressed": true,
-  "AssemblyTooltip": "\u0004",
-  "Warnings": "",
-  "DefaultScript": null,
-  "UnknownA": 0,
-  "UnknownB": 0,
-  "UnknownC": 1,
+  "AssemblyTooltip": "",
+  "ScriptSourceTextName": "",
+  "BuildWarnings": "",
+  "DefaultScript": "",
+  "OtherWarnings": "",
+  "UsesRestrictedAPI": 0,
   "ScriptCount": 0,
-  "UnknownE": 0,
-  "HasAssemblyTooltip": true,
   "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": null,
+  "ScriptPayloadVersion": null,
+  "PropertyVersion": null,
+  "AttributeVersion": null,
+  "AttributePayloadVersion": null,
   "Scripts": [],
-  "Strings": []
+  "Strings": [
+    {
+      "Key": "EnforcerVersion",
+      "Value": "2.0.0.0"
+    },
+    {
+      "Key": "Created",
+      "Value": "2018-02-16T00:24:31Z"
+    },
+    {
+      "Key": "UserPersona",
+      "Value": "1c3aad2b-0258-4c90-a604-0da35a9743f9"
+    },
+    {
+      "Key": "ServiceVersion",
+      "Value": "f37fae5.276"
+    }
+  ],
+  "ResourceVersion": 4
 }

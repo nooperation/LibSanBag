@@ -51,10 +51,7 @@ namespace LibSanBag.ResourceUtils
                 IntPtr.Zero,
                 0);
 
-            // Remove the 4 byte compression header
-            var fixedArray = new byte[decompressedSize - 4];
-            Buffer.BlockCopy(decompressedBuffer, 4, fixedArray, 0, fixedArray.Length);
-            return fixedArray;
+            return decompressedBuffer;
         }
     }
 }

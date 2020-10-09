@@ -163,14 +163,30 @@ namespace LibSanBag.ResourceUtils
                 }
             }
 
-            internal int Width;
-            internal int Height;
+            internal UInt64 Width;
+            internal UInt64 Height;
             internal CodecType Codec;
             internal DXGI_FORMAT Format;
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        public struct ImageProperties
+        {
+            UInt64 width;
+            UInt64 height;
+            ConversionOptions.DXGI_FORMAT format;
+        }
+
         [DllImport("LibDDS.dll")]
-        private static extern bool ConvertDdsInMemory(byte[] ddsBytes, long ddsBytesSize, out IntPtr outImageBytes, out long outImageBytesSize, ConversionOptions options);
+        private static extern bool ConvertDdsInMemory(
+            byte[] ddsBytes,
+            long ddsBytesSize,
+            ConversionOptions options,
+            out IntPtr outImageBytes,
+            out long outImageBytesSize,
+            out ImageProperties originalImageProperties
+        );
 
         [DllImport("LibDDS.dll")]
         private static extern IntPtr GetError();
@@ -228,10 +244,10 @@ namespace LibSanBag.ResourceUtils
         /// <returns>Converted image bytes</returns>
         public static byte[] GetImageBytesFromDds(
             byte[] ddsBytes,
-            int width = 0,
-            int height = 0,
+            UInt64 width = 0,
+            UInt64 height = 0,
             ConversionOptions.CodecType codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG,
-            ConversionOptions.DXGI_FORMAT format = ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R32G32B32A32_FLOAT)
+            ConversionOptions.DXGI_FORMAT format = ConversionOptions.DXGI_FORMAT.DXGI_FORMAT_R8G8B8A8_UNORM)
         {
             if (IsAvailable == false)
             {
@@ -247,7 +263,8 @@ namespace LibSanBag.ResourceUtils
             options.Format = format;
             options.Codec = codec;
 
-            var result = ConvertDdsInMemory(ddsBytes, ddsBytes.Length, out rawImageData, out rawImageDataSize, options);
+            ImageProperties originalImageProperties;
+            var result = ConvertDdsInMemory(ddsBytes, ddsBytes.Length, options, out rawImageData, out rawImageDataSize, out originalImageProperties);
             if (result == false)
             {
                 throw new Exception("Failed to read DDS: " + GetErrorString());

@@ -67,18 +67,24 @@
     <Compile Include="FileRecord.cs" />
     <Compile Include="FileRecordInfo.cs" />
     <Compile Include="FileResources\BaseFileResource.cs" />
+    <Compile Include="FileResources\BlueprintResource.cs" />
+    <Compile Include="FileResources\AudioGraphResource.cs" />
+    <Compile Include="FileResources\AudioMaterialResource.cs" />
+    <Compile Include="FileResources\BankResource.cs" />
+    <Compile Include="FileResources\PickableModelResource.cs" />
+    <Compile Include="FileResources\WorldChunkSource.cs" />
+    <Compile Include="FileResources\WorldSource.cs" />
+    <Compile Include="FileResources\TextureSource.cs" />
+    <Compile Include="FileResources\PickResource.cs" />
+    <Compile Include="FileResources\MaterialResource.cs" />
+    <Compile Include="FileResources\WorldChunkDefinition.cs" />
+    <Compile Include="FileResources\WorldDefinition.cs" />
     <Compile Include="FileResources\GeometryResource.cs" />
     <Compile Include="FileResources\GeometryResourceCanonical.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResourceLegacy.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_0a316ea155e30eda.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_67df52a55a73f7d3.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_6f2e88a41a7f1dce.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_b8e35358a76fa32a.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_bae7f85fc2f176e7.cs" />
-    <Compile Include="FileResources\Legacy\ScriptMetadataResource_d75de17df1892f86.cs" />
     <Compile Include="FileResources\ManifestResource.cs" />
     <Compile Include="FileResources\ScriptCompiledBytecodeResource.cs" />
     <Compile Include="FileResources\ScriptMetadataResource.cs" />
+    <Compile Include="FileResources\ClusterDefinitionResource.cs" />
     <Compile Include="FileResources\ScriptSourceTextResource.cs" />
     <Compile Include="FileResources\LuaScriptResource.cs" />
     <Compile Include="FileResources\SoundResource.cs" />
@@ -121,14 +127,23 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <Version>3.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
     <PackageReference Include="SanTools.LibCRN">
       <Version>1.0.8</Version>
+    </PackageReference>
+    <PackageReference Include="SanTools.LibDDS">
+      <Version>1.0.9</Version>
     </PackageReference>
     <PackageReference Include="SanTools.LibFSB">
       <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="SanTools.LibUserPreferences">
-      <Version>1.0.6</Version>
+      <Version>1.0.11</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

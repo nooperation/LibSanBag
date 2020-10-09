@@ -6,6 +6,7 @@ using LibSanBag.Providers;
 
 namespace LibSanBag.ResourceUtils
 {
+    // default crn quality = 128/255
     public static class LibCRN
     {
         [SuppressMessage("ReSharper", "InconsistentNaming")]

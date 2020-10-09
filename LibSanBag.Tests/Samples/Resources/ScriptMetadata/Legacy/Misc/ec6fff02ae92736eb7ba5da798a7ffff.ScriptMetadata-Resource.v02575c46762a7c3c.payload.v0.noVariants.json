@@ -1,23 +1,42 @@
 {
   "IsCompressed": true,
+  "AssemblyTooltip": "",
   "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
-  "AssemblyName": null,
-  "Warnings": "Warning: method LindenLab.Script.Console::WriteLine(System.String) is restricted.\nWarning: method LindenLab.Script.Console::WriteLine(System.String) is restricted.\n",
-  "Properties": [
+  "BuildWarnings": "Warning: method LindenLab.Script.Console::WriteLine(System.String) is restricted.\nWarning: method LindenLab.Script.Console::WriteLine(System.String) is restricted.\n",
+  "DefaultScript": "",
+  "OtherWarnings": "",
+  "UsesRestrictedAPI": 1,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": null,
+  "ScriptVersion": null,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": null,
+  "Scripts": [
     {
-      "Name": "IntraRegionTP::Destination_X",
-      "Type": "System.Single",
-      "Attributes": []
-    },
-    {
-      "Name": "IntraRegionTP::Destination_Y",
-      "Type": "System.Single",
-      "Attributes": []
-    },
-    {
-      "Name": "IntraRegionTP::Destination_Z",
-      "Type": "System.Single",
-      "Attributes": []
+      "ClassName": "",
+      "DisplayName": "",
+      "Tooltip": "",
+      "UnknownA": 0,
+      "Properties": [
+        {
+          "Name": "IntraRegionTP::Destination_X",
+          "Type": "System.Single",
+          "Attributes": []
+        },
+        {
+          "Name": "IntraRegionTP::Destination_Y",
+          "Type": "System.Single",
+          "Attributes": []
+        },
+        {
+          "Name": "IntraRegionTP::Destination_Z",
+          "Type": "System.Single",
+          "Attributes": []
+        }
+      ]
     }
   ],
   "Strings": [
@@ -37,5 +56,6 @@
       "Key": "ServiceVersion",
       "Value": "f202645.195"
     }
-  ]
+  ],
+  "ResourceVersion": 2
 }

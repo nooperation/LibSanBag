@@ -1,34 +1,38 @@
 {
   "IsCompressed": true,
-  "AssemblyTooltip": null,
-  "Warnings": "/tmp/sansar-script-524318490/source0.cs(50,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "AssemblyTooltip": "",
+  "ScriptSourceTextName": "",
+  "BuildWarnings": "/tmp/sansar-script-524318490/source0.cs(50,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
   "DefaultScript": "ExampleScript",
-  "UnknownA": 0,
-  "UnknownB": 0,
-  "UnknownC": 1,
-  "ScriptCount": 1,
-  "UnknownE": 2,
-  "HasAssemblyTooltip": false,
-  "AttributesVersion": 8,
+  "OtherWarnings": "",
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 2,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 8,
   "Scripts": [
     {
       "ClassName": "ExampleScript",
-      "DisplayName": null,
-      "Tooltip": null,
-      "UnknownF": 2,
-      "UnknownG": 1,
-      "UnknownH": 1,
+      "DisplayName": "",
+      "Tooltip": "",
+      "UnknownA": 2,
       "Properties": [
         {
           "Name": "ExampleStringPropertyDefaultDisplay",
           "Type": "System.String",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
               "Value": "Example Default Value"
             },
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -38,7 +42,8 @@
           "Type": "System.String",
           "Attributes": [
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -48,7 +53,8 @@
           "Type": "System.String",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
+              "Name": "DefaultValue.0",
+              "Type": "System.String",
               "Value": "Example Default Value"
             }
           ]
@@ -63,11 +69,13 @@
           "Type": "System.Int32",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
-              "Value": "42"
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 42
             },
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -77,8 +85,9 @@
           "Type": "System.Int32",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
-              "Value": "42"
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 42
             }
           ]
         },
@@ -87,7 +96,8 @@
           "Type": "System.Int32",
           "Attributes": [
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -102,11 +112,13 @@
           "Type": "System.Double",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
-              "Value": "42"
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 42
             },
             {
-              "Key": "DisplayName.0",
+              "Name": "DisplayName.0",
+              "Type": "System.String",
               "Value": "Example Display Name"
             }
           ]
@@ -116,8 +128,9 @@
           "Type": "System.Double",
           "Attributes": [
             {
-              "Key": "DefaultValue.0",
-              "Value": "42"
+              "Name": "DefaultValue.0",
+              "Type": "System.Int64",
+              "Value": 42
             }
           ]
         }
@@ -141,5 +154,6 @@
       "Key": "ServiceVersion",
       "Value": "021bbe8.286"
     }
-  ]
+  ],
+  "ResourceVersion": 4
 }

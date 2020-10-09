@@ -49,15 +49,14 @@ namespace LibSanBag.Tests.FileResources
         {
             foreach (var testData in Tests)
             {
-
                 var compressedFileBytes = File.ReadAllBytes(testData.CompressedFilePath);
 
                 using (var ms = new MemoryStream(compressedFileBytes))
                 {
                     var resource = ScriptSourceTextResource.Create(testData.RecordInfo.VersionHash);
                     resource.InitFromStream(ms);
-                    Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
-                    Assert.AreEqual(resource.Source, ExpectedSource);
+                    Assert.AreEqual(resource.Resource.SourceFileName, testData.ExpectedFileName);
+                    Assert.AreEqual(resource.Resource.SourceText, ExpectedSource);
                 }
             }
         }
@@ -80,8 +79,8 @@ namespace LibSanBag.Tests.FileResources
 
                 var resource = ScriptSourceTextResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRecord(fileStream, fileRecord);
-                Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
-                Assert.AreEqual(resource.Source, ExpectedSource);
+                Assert.AreEqual(resource.Resource.SourceFileName, testData.ExpectedFileName);
+                Assert.AreEqual(resource.Resource.SourceText, ExpectedSource);
             }
         }
 
@@ -94,8 +93,8 @@ namespace LibSanBag.Tests.FileResources
 
                 var resource = ScriptSourceTextResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRawCompressed(filebytes);
-                Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
-                Assert.AreEqual(resource.Source, ExpectedSource);
+                Assert.AreEqual(resource.Resource.SourceFileName, testData.ExpectedFileName);
+                Assert.AreEqual(resource.Resource.SourceText, ExpectedSource);
             }
         }
     }

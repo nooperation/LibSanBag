@@ -1,79 +1,106 @@
 {
   "IsCompressed": true,
-  "ScriptSourceTextName": null,
-  "AssemblyName": null,
-  "Warnings": "/tmp/sansar-script-909474213/source0.cs(41,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
-  "Properties": [
+  "AssemblyTooltip": "",
+  "ScriptSourceTextName": "",
+  "BuildWarnings": "/tmp/sansar-script-909474213/source0.cs(41,15): warning CS0219: The variable `warning' is assigned but its value is never used\n",
+  "DefaultScript": "",
+  "OtherWarnings": "",
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": null,
+  "ScriptVersion": null,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": 5,
+  "Scripts": [
     {
-      "Name": "ExampleScript::ExampleQuatDefaultDisplay",
-      "Type": "Sansar.Quaternion",
-      "Attributes": [
+      "ClassName": "",
+      "DisplayName": "",
+      "Tooltip": "",
+      "UnknownA": 0,
+      "Properties": [
         {
-          "Key": "DefaultValue",
-          "Value": "[1.2,3.4,5.6,7.8]"
+          "Name": "ExampleScript::ExampleQuatDefaultDisplay",
+          "Type": "Sansar.Quaternion",
+          "Attributes": [
+            {
+              "Name": "DefaultValue",
+              "Type": "System.String",
+              "Value": "[1.2,3.4,5.6,7.8]"
+            },
+            {
+              "Name": "DisplayName",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
         },
         {
-          "Key": "DisplayName",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleScript::ExampleQuatDefault",
-      "Type": "Sansar.Quaternion",
-      "Attributes": [
-        {
-          "Key": "DefaultValue",
-          "Value": "[1.2,3.4,5.6,7.8]"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleScript::ExampleQuatDisplay",
-      "Type": "Sansar.Quaternion",
-      "Attributes": [
-        {
-          "Key": "DisplayName",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleScript::ExampleQuat",
-      "Type": "Sansar.Quaternion",
-      "Attributes": []
-    },
-    {
-      "Name": "ExampleScript::ExampleBoolDefaultDisplay",
-      "Type": "System.Boolean",
-      "Attributes": [
-        {
-          "Key": "DefaultValue",
-          "Value": "True"
+          "Name": "ExampleScript::ExampleQuatDefault",
+          "Type": "Sansar.Quaternion",
+          "Attributes": [
+            {
+              "Name": "DefaultValue",
+              "Type": "System.String",
+              "Value": "[1.2,3.4,5.6,7.8]"
+            }
+          ]
         },
         {
-          "Key": "DisplayName",
-          "Value": "Example Display Name"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleScript::ExampleBoolDefault",
-      "Type": "System.Boolean",
-      "Attributes": [
+          "Name": "ExampleScript::ExampleQuatDisplay",
+          "Type": "Sansar.Quaternion",
+          "Attributes": [
+            {
+              "Name": "DisplayName",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
+        },
         {
-          "Key": "DefaultValue",
-          "Value": "True"
-        }
-      ]
-    },
-    {
-      "Name": "ExampleScript::ExampleBoolDisplay",
-      "Type": "System.Boolean",
-      "Attributes": [
+          "Name": "ExampleScript::ExampleQuat",
+          "Type": "Sansar.Quaternion",
+          "Attributes": []
+        },
         {
-          "Key": "DisplayName",
-          "Value": "Example Display Name"
+          "Name": "ExampleScript::ExampleBoolDefaultDisplay",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Name": "DefaultValue",
+              "Type": "System.Boolean",
+              "Value": true
+            },
+            {
+              "Name": "DisplayName",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
+        },
+        {
+          "Name": "ExampleScript::ExampleBoolDefault",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Name": "DefaultValue",
+              "Type": "System.Boolean",
+              "Value": true
+            }
+          ]
+        },
+        {
+          "Name": "ExampleScript::ExampleBoolDisplay",
+          "Type": "System.Boolean",
+          "Attributes": [
+            {
+              "Name": "DisplayName",
+              "Type": "System.String",
+              "Value": "Example Display Name"
+            }
+          ]
         }
       ]
     }
@@ -95,5 +122,6 @@
       "Key": "ServiceVersion",
       "Value": "f37fae5.276"
     }
-  ]
+  ],
+  "ResourceVersion": 3
 }

@@ -11,6 +11,7 @@ namespace LibSanBag
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         public enum ResourceType
         {
+            Unknown,
             BankResource,
             BlueprintResource,
             ClusterDefinition,
@@ -69,26 +70,25 @@ namespace LibSanBag
             HeightmapImport,
             hknpShapeImport,
             AnimationCanonical,
-            AnimationImport,
-            Unknown,
+            AnimationImport
         }
 
         public enum PayloadType
         {
+            Unknown,
             Payload,        // "payload"
             Manifest,       // "manifest"
             Debug,          // "debug"
             Capabilities,   // "capabilities"
             Null,           // "null"
-            Unknown,
         }
 
         public enum VariantType
         {
+            Unknown,
             NoVariants,     // "noVariants"
             Server,         // "server"
             PcClient,       // "pcClient"
-            Unknown
         }
 
         public class DownloadResults
@@ -111,11 +111,11 @@ namespace LibSanBag
 
         public string Hash { get; set; }
         public string ImagePath { get; set; }
-        public ResourceType Resource { get; set; }
+        public ResourceType Resource { get; set; } = ResourceType.Unknown;
         public string VersionHash { get; set; }
-        public PayloadType Payload { get; set; }
+        public PayloadType Payload { get; set; } = PayloadType.Unknown;
         public int UnknownVersionNumber { get; set; }
-        public VariantType Variant { get; set; }
+        public VariantType Variant { get; set; } = VariantType.Unknown;
 
         public bool IsRawImage => ImagePath != null;
 

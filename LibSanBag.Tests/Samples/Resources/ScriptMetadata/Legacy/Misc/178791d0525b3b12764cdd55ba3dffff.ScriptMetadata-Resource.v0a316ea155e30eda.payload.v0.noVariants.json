@@ -1,19 +1,20 @@
 {
   "IsCompressed": true,
-  "ScriptSourceTextName": null,
-  "AssemblyName": null,
-  "Warnings": "",
-  "Properties": [
-    {
-      "Name": "XRegionTP::DestinationPersonaHandle",
-      "Type": "System.String",
-      "Attributes": []
-    },
-    {
-      "Name": "XRegionTP::DestinationLocationHandle",
-      "Type": "System.String",
-      "Attributes": []
-    }
-  ],
-  "Strings": []
+  "AssemblyTooltip": "",
+  "ScriptSourceTextName": "",
+  "BuildWarnings": "",
+  "DefaultScript": "",
+  "OtherWarnings": "",
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": null,
+  "ScriptVersion": null,
+  "ScriptPayloadVersion": null,
+  "PropertyVersion": null,
+  "AttributeVersion": null,
+  "AttributePayloadVersion": null,
+  "Scripts": [],
+  "Strings": [],
+  "ResourceVersion": 1
 }

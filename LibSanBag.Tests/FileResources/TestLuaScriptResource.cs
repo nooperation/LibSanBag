@@ -51,8 +51,8 @@ namespace LibSanBag.Tests.FileResources
                 {
                     var resource = LuaScriptResource.Create(testData.RecordInfo.VersionHash);
                     resource.InitFromStream(ms);
-                    Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
-                    Assert.AreEqual(resource.Source, ExpectedSource);
+                    Assert.AreEqual(resource.Resource.Filename, testData.ExpectedFileName);
+                    Assert.AreEqual(resource.Resource.Source, ExpectedSource);
                 }
             }
         }
@@ -74,8 +74,8 @@ namespace LibSanBag.Tests.FileResources
 
                 var resource = LuaScriptResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRecord(fileStream, fileRecord);
-                Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
-                Assert.AreEqual(resource.Source, ExpectedSource);
+                Assert.AreEqual(resource.Resource.Filename, testData.ExpectedFileName);
+                Assert.AreEqual(resource.Resource.Source, ExpectedSource);
             }
         }
 
@@ -88,8 +88,8 @@ namespace LibSanBag.Tests.FileResources
 
                 var resource = LuaScriptResource.Create(testData.RecordInfo.VersionHash);
                 resource.InitFromRawCompressed(filebytes);
-                Assert.AreEqual(resource.Filename, testData.ExpectedFileName);
-                Assert.AreEqual(resource.Source, ExpectedSource);
+                Assert.AreEqual(resource.Resource.Filename, testData.ExpectedFileName);
+                Assert.AreEqual(resource.Resource.Source, ExpectedSource);
             }
         }
     }

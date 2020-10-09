@@ -1,51 +1,37 @@
-﻿using LibSanBag;
-using LibSanBag.ResourceUtils;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace LibSanBag.FileResources
 {
-    public abstract class LuaScriptResource : BaseFileResource
+    public class LuaScriptResource : BaseFileResource
     {
-        /// <summary>
-        /// Lua source filename
-        /// </summary>
-        public string Filename { get; set; }
-        /// <summary>
-        /// Lua source code
-        /// </summary>
-        public string Source { get; set; }
-
         public static LuaScriptResource Create(string version = "")
         {
-            switch (version)
-            {
-                case "2487dccddadf7656":
-                default:
-                    return new LuaScriptResource_2487dccddadf7656();
-            }
+            return new LuaScriptResource();
         }
-    }
 
-    public class LuaScriptResource_2487dccddadf7656 : LuaScriptResource
-    {
-        public override bool IsCompressed => true;
+        public class LuaScript
+        {
+            public uint Version { get; internal set; }
+            public string Filename { get; internal set; }
+            public string Source { get; internal set; }
+        }
+        private LuaScript Read_LuaScript(BinaryReader reader)
+        {
+            var result = new LuaScript();
 
+            result.Version = ReadVersion(reader, 1, 0x14121FD50);
+            result.Filename = ReadString(reader);
+            result.Source = ReadString(reader);
+
+            return result;
+        }
+
+        public LuaScript Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                var nameLength = decompressedStream.ReadInt32();
-                var nameChars = decompressedStream.ReadChars(nameLength);
-                Filename = new string(nameChars);
-
-                var sourceLength = decompressedStream.ReadInt32();
-                var sourceChars = decompressedStream.ReadChars(sourceLength);
-                Source = new string(sourceChars);
+                this.Resource = Read_LuaScript(decompressedStream);
             }
         }
     }

@@ -1,18 +1,37 @@
 {
   "IsCompressed": true,
+  "AssemblyTooltip": "",
   "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
-  "AssemblyName": null,
-  "Warnings": "",
-  "Properties": [
+  "BuildWarnings": "",
+  "DefaultScript": "",
+  "OtherWarnings": "",
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": null,
+  "ScriptVersion": null,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": null,
+  "Scripts": [
     {
-      "Name": "VisitorTrackerExample::OwnerName",
-      "Type": "System.String",
-      "Attributes": []
-    },
-    {
-      "Name": "VisitorTrackerExample::VisitorListCommand",
-      "Type": "System.String",
-      "Attributes": []
+      "ClassName": "",
+      "DisplayName": "",
+      "Tooltip": "",
+      "UnknownA": 0,
+      "Properties": [
+        {
+          "Name": "VisitorTrackerExample::OwnerName",
+          "Type": "System.String",
+          "Attributes": []
+        },
+        {
+          "Name": "VisitorTrackerExample::VisitorListCommand",
+          "Type": "System.String",
+          "Attributes": []
+        }
+      ]
     }
   ],
   "Strings": [
@@ -32,5 +51,6 @@
       "Key": "ServiceVersion",
       "Value": "67d6708.222"
     }
-  ]
+  ],
+  "ResourceVersion": 2
 }

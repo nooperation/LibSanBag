@@ -1,23 +1,42 @@
 {
   "IsCompressed": true,
+  "AssemblyTooltip": "",
   "ScriptSourceTextName": "ffffffffffffffffffffffffffffffff.ScriptSourceText-Resource.v6301a7d31aa6f628.payload.v0.noVariants.dll.parameters",
-  "AssemblyName": null,
-  "Warnings": "",
-  "Properties": [
+  "BuildWarnings": "",
+  "DefaultScript": "",
+  "OtherWarnings": "",
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
+  "AttributesVersion": 0,
+  "ScriptsVersion": null,
+  "ScriptVersion": null,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": null,
+  "Scripts": [
     {
-      "Name": "ObjectScriptExample::RigidBody",
-      "Type": "LindenLab.ServerScript.Scene.RigidBodyComponent",
-      "Attributes": []
-    },
-    {
-      "Name": "ObjectScriptExample::TrackAgentHits",
-      "Type": "System.Boolean",
-      "Attributes": []
-    },
-    {
-      "Name": "ObjectScriptExample::TrackObjectHits",
-      "Type": "System.Boolean",
-      "Attributes": []
+      "ClassName": "",
+      "DisplayName": "",
+      "Tooltip": "",
+      "UnknownA": 0,
+      "Properties": [
+        {
+          "Name": "ObjectScriptExample::RigidBody",
+          "Type": "LindenLab.ServerScript.Scene.RigidBodyComponent",
+          "Attributes": []
+        },
+        {
+          "Name": "ObjectScriptExample::TrackAgentHits",
+          "Type": "System.Boolean",
+          "Attributes": []
+        },
+        {
+          "Name": "ObjectScriptExample::TrackObjectHits",
+          "Type": "System.Boolean",
+          "Attributes": []
+        }
+      ]
     }
   ],
   "Strings": [
@@ -37,5 +56,6 @@
       "Key": "ServiceVersion",
       "Value": "f202645.195"
     }
-  ]
+  ],
+  "ResourceVersion": 2
 }

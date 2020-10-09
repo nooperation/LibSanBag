@@ -1,39 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace LibSanBag.FileResources
 {
-    public abstract class GeometryResourceCanonical : BaseFileResource
+    public class GeometryResourceCanonical : BaseFileResource
     {
-        public int ContentLength { get; set; }
-        public byte[] Content { get; set; }
-
         public static GeometryResourceCanonical Create(string version = "")
         {
-            switch (version)
-            {
-                case "51b89e39caab7b79":
-                default:
-                    return new GeometryResourceCanonical_51b89e39caab7b79();
-            }
+            return new GeometryResourceCanonical();
         }
-    }
 
-    public class GeometryResourceCanonical_51b89e39caab7b79 : GeometryResourceCanonical
-    {
-        public override bool IsCompressed => true;
+        public class GeometryCanonical
+        {
+            public uint Version { get; set; }
+            public byte[] Bytes { get; internal set; }
+        }
+        public GeometryCanonical Read_GeometryCanonical(BinaryReader reader)
+        {
+            var result = new GeometryCanonical();
 
+            result.Version = ReadVersion(reader, 1, 0xFF14118B750);
+            result.Bytes = Read_Array(reader);
+
+            return result;
+        }
+
+        public GeometryCanonical Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
-            using (var br = new BinaryReader(new MemoryStream(decompressedBytes)))
+            using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                ContentLength = br.ReadInt32();
-                Content = br.ReadBytes(ContentLength);
+                this.Resource = Read_GeometryCanonical(reader);
             }
         }
     }

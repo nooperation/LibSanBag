@@ -1,23 +1,25 @@
 {
   "IsCompressed": true,
   "AssemblyTooltip": "",
-  "Warnings": "",
+  "ScriptSourceTextName": "",
+  "BuildWarnings": "",
   "DefaultScript": "Multi1_A",
-  "UnknownA": 0,
-  "UnknownB": 0,
-  "UnknownC": 1,
-  "ScriptCount": 4,
-  "UnknownE": 3,
-  "HasAssemblyTooltip": true,
+  "OtherWarnings": "",
+  "UsesRestrictedAPI": 0,
+  "ScriptCount": 0,
   "AttributesVersion": 0,
+  "ScriptsVersion": 1,
+  "ScriptVersion": 3,
+  "ScriptPayloadVersion": 1,
+  "PropertyVersion": 1,
+  "AttributeVersion": 1,
+  "AttributePayloadVersion": null,
   "Scripts": [
     {
       "ClassName": "Multi1_A",
       "DisplayName": "Multi1_A",
       "Tooltip": "Multi1_A",
-      "UnknownF": 2,
-      "UnknownG": 1,
-      "UnknownH": 1,
+      "UnknownA": 2,
       "Properties": [
         {
           "Name": "Multi1_StringA",
@@ -30,9 +32,7 @@
       "ClassName": "Multi1_B",
       "DisplayName": "Multi1_B",
       "Tooltip": "Multi1_B",
-      "UnknownF": 2,
-      "UnknownG": 0,
-      "UnknownH": 0,
+      "UnknownA": 2,
       "Properties": [
         {
           "Name": "Multi1_StringB",
@@ -45,9 +45,7 @@
       "ClassName": "Multi1_C",
       "DisplayName": "Multi1_C",
       "Tooltip": "Multi1_C",
-      "UnknownF": 2,
-      "UnknownG": 0,
-      "UnknownH": 0,
+      "UnknownA": 2,
       "Properties": [
         {
           "Name": "Multi1_StringC",
@@ -60,9 +58,7 @@
       "ClassName": "Multi1_D",
       "DisplayName": "Multi1_D",
       "Tooltip": "Multi1_D",
-      "UnknownF": 2,
-      "UnknownG": 0,
-      "UnknownH": 0,
+      "UnknownA": 2,
       "Properties": [
         {
           "Name": "Multi1_StringD",
@@ -89,5 +85,6 @@
       "Key": "ServiceVersion",
       "Value": "ace5db1.157004"
     }
-  ]
+  ],
+  "ResourceVersion": 5
 }
