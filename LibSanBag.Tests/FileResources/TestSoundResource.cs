@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using LibSanBag.FileResources;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace LibSanBag.Tests.FileResources
@@ -10,33 +11,35 @@ namespace LibSanBag.Tests.FileResources
     {
         private struct TestData
         {
-            public string CompressedFilePath { get; set; }
-            public string ExpectedName { get; set; }
-            public FileRecordInfo RecordInfo { get; set; }
+            public string CompressedFilePath { get; }
+            public string JsonFilePath { get; }
+            public FileRecordInfo RecordInfo { get; }
 
-            public TestData(string compressedFilePath, string expectedFileName)
+            public TestData(string compressedFilePath, string jsonFilePath)
             {
+                JsonFilePath = jsonFilePath;
                 CompressedFilePath = Path.Combine(RootPath, compressedFilePath);
                 RecordInfo = FileRecordInfo.Create(compressedFilePath);
-                ExpectedName = expectedFileName;
             }
         }
 
         private static readonly string RootPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "Samples", "Resources", "Sound");
-        private static readonly string ExpectedFilePath = Path.Combine(RootPath, "Sample.fsb");
-
-        private byte[] ExpectedSoundBytes { get; set; }
-        private IEnumerable<TestData> Tests { get; } = new[]
-        {
-            new TestData("06996b132758196af622e23df4fe5811.Sound-Resource.v8510a121d70371a2.payload.v0.noVariants", "Sample"),
-        };
+        private static readonly List<TestData> Tests = new List<TestData>();
 
         [SetUp]
         public override void Setup()
         {
             base.Setup();
 
-            ExpectedSoundBytes = File.ReadAllBytes(ExpectedFilePath);
+            var jsonFilePaths = Directory.GetFiles(RootPath, "*.json", SearchOption.AllDirectories);
+            foreach (var jsonFilePath in jsonFilePaths)
+            {
+                var resourcePath = Path.Combine(Path.GetDirectoryName(jsonFilePath), Path.GetFileNameWithoutExtension(jsonFilePath));
+                if (File.Exists(resourcePath))
+                {
+                    Tests.Add(new TestData(resourcePath, jsonFilePath));
+                }
+            }
         }
 
         [Test]
@@ -44,51 +47,18 @@ namespace LibSanBag.Tests.FileResources
         {
             foreach (var testData in Tests)
             {
+                var expectedJson = File.ReadAllText(testData.JsonFilePath);
                 var compressedFileBytes = File.ReadAllBytes(testData.CompressedFilePath);
 
                 using (var ms = new MemoryStream(compressedFileBytes))
                 {
-                    var resource = SoundResource.Create(testData.RecordInfo.VersionHash);
-                    resource.InitFromStream(ms);
-                    Assert.AreEqual(resource.Name, testData.ExpectedName);
-                    Assert.AreEqual(resource.SoundBytes, ExpectedSoundBytes);
+                    var actual = ScriptMetadataResource.Create(testData.RecordInfo.VersionHash);
+                    actual.InitFromStream(ms);
+
+                    var actualJson = JsonConvert.SerializeObject(actual);
+
+                    Assert.AreEqual(expectedJson, actualJson);
                 }
-            }
-        }
-
-        [Test]
-        public void TestConstructFileInfo()
-        {
-            foreach (var testData in Tests)
-            {
-                var fileStream = File.OpenRead(testData.CompressedFilePath);
-                var fileRecord = new FileRecord
-                {
-                    Length = (uint)fileStream.Length,
-                    Info = null,
-                    Offset = 0,
-                    TimestampNs = 0,
-                    Name = "File Record"
-                };
-
-                var resource = SoundResource.Create(testData.RecordInfo.VersionHash);
-                resource.InitFromRecord(fileStream, fileRecord);
-                Assert.AreEqual(resource.Name, testData.ExpectedName);
-                Assert.AreEqual(resource.SoundBytes, ExpectedSoundBytes);
-            }
-        }
-
-        [Test]
-        public void TestConstructBytes()
-        {
-            foreach (var testData in Tests)
-            {
-                var filebytes = File.ReadAllBytes(testData.CompressedFilePath);
-
-                var resource = SoundResource.Create(testData.RecordInfo.VersionHash);
-                resource.InitFromRawCompressed(filebytes);
-                Assert.AreEqual(resource.Name, testData.ExpectedName);
-                Assert.AreEqual(resource.SoundBytes, ExpectedSoundBytes);
             }
         }
     }
