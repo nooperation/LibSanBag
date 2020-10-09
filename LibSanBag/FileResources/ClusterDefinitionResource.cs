@@ -9,53 +9,9 @@ namespace LibSanBag.FileResources
 {
     public class ClusterDefinitionResource : BaseFileResource
     {
-        public override bool IsCompressed => true;
-
         public static ClusterDefinitionResource Create(string version = "")
         {
             return new ClusterDefinitionResource();
-        }
-
-        public virtual string ReadString(BinaryReader decompressedStream)
-        {
-            var textLength = decompressedStream.ReadInt32();
-            var text = new string(decompressedStream.ReadChars(textLength));
-
-            return text;
-        }
-
-        private string ReadString_VersionSafe(BinaryReader reader, uint version, int max_version)
-        {
-            if (version >= max_version)
-            {
-                return "";
-            }
-
-            return ReadString(reader);
-        }
-
-        private string ReadUUID(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 2, 0x141196890);
-
-            var item1 = reader.ReadUInt64();
-            var item2 = reader.ReadUInt64();
-
-            var left = BitConverter.GetBytes(item1);
-            var right = BitConverter.GetBytes(item2);
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = left.Length - 1; i >= 0; i--)
-            {
-                sb.AppendFormat("{0:x2}", left[i]);
-            }
-            for (int i = right.Length - 1; i >= 0; i--)
-            {
-                sb.AppendFormat("{0:x2}", right[i]);
-            }
-
-            var uuid = sb.ToString();
-            return uuid;
         }
 
         private string ReadStringVersioned(BinaryReader reader)
@@ -64,131 +20,6 @@ namespace LibSanBag.FileResources
             var name = ReadString(reader);
 
             return name;
-        }
-
-        private string ReadUUID_B(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 2, 0x141160230);
-
-            var item1 = reader.ReadUInt64();
-            var item2 = reader.ReadUInt64();
-
-            var left = BitConverter.GetBytes(item1);
-            var right = BitConverter.GetBytes(item2);
-
-            StringBuilder sb = new StringBuilder();
-
-            for (int i = left.Length - 1; i >= 0; i--)
-            {
-                sb.AppendFormat("{0:x2}", left[i]);
-
-                if (i == 4 || i == 2 || i ==0)
-                {
-                    sb.Append('-');
-                }
-            }
-            for (int i = right.Length - 1; i >= 0; i--)
-            {
-                sb.AppendFormat("{0:x2}", right[i]);
-
-                if (i == 6)
-                {
-                    sb.Append('-');
-                }
-            }
-
-            var uuid = sb.ToString();
-            return uuid;
-        }
-
-        private Dictionary<ulong, uint> versionMap = new Dictionary<ulong, uint>();
-        private uint ReadVersion(BinaryReader reader, uint defaultVersion, ulong? versionType)
-        {
-            if (versionType != null && versionMap.ContainsKey(versionType.Value))
-            {
-                return versionMap[versionType.Value];
-            }
-
-            var version = reader.ReadUInt32();
-
-            if (versionType != null)
-            {
-                versionMap[versionType.Value] = version;
-            }
-
-            return version;
-        }
-
-        private List<T> Read_List<T>(BinaryReader reader, Func<BinaryReader, T> func, uint currentVersion, ulong versionType)
-        {
-            List<T> result = new List<T>();
-
-            var version = ReadVersion(reader, currentVersion, versionType);
-
-            var count = reader.ReadUInt32();
-            for (int i = 0; i < count; i++)
-            {
-                var value = func(reader);
-                result.Add(value);
-            }
-
-            return result;
-        }
-
-        private T ReadComponent<T>(BinaryReader reader, Func<BinaryReader, T> func)
-        {
-            var version = ReadVersion(reader, 1, 0x1413A0990);
-
-            var unknownA = reader.ReadUInt32();
-            if (unknownA != 0)
-            {
-                return func(reader);
-            }
-
-            return default(T);
-        }
-
-        private void ReadComponent(BinaryReader reader, Action<BinaryReader> func)
-        {
-            var version = ReadVersion(reader, 1, 0x1413A0990);
-
-            var unknownA = reader.ReadUInt32();
-            if (unknownA != 0)
-            {
-                func(reader);
-            }
-        }
-
-        private List<float> ReadVectorF(BinaryReader reader, int dimensions)
-        {
-            var result = new List<float>();
-
-            for (int i = 0; i < dimensions; i++)
-            {
-                var val = reader.ReadSingle();
-                result.Add(val);
-            }
-
-            return result;
-        }
-
-        public class Transform
-        {
-            public List<float> Q { get; set; }
-            public List<float> T { get; set; }
-        }
-        private Transform Read_Transform(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 1, 0x1411A0F00);
-
-            var q = ReadVectorF(reader, 4);
-            var t = ReadVectorF(reader, 3);
-
-            return new Transform()
-            {
-                Q = q,
-                T = t
-            };
         }
 
         public class GrabPointDefinition
@@ -249,7 +80,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private List<AudioResourcePoolSound> Read_RigidBody_AudioResourcePoolSounds(BinaryReader reader)
+        public List<AudioResourcePoolSound> Read_RigidBody_AudioResourcePoolSounds(BinaryReader reader)
         {
             var result = new List<AudioResourcePoolSound>();
 
@@ -468,7 +299,7 @@ namespace LibSanBag.FileResources
             public List<float> Scale { get; set; }
             public string Data { get; set; }
         }
-        private OffsetTransform Read_AnimationComponent_OffsetTransform(BinaryReader reader)
+        public OffsetTransform Read_AnimationComponent_OffsetTransform(BinaryReader reader)
         {
             var result = new OffsetTransform();
 
@@ -481,7 +312,7 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private List<OffsetTransform> Read_AnimationComponent_OffsetTransformsMap(BinaryReader reader)
+        public List<OffsetTransform> Read_AnimationComponent_OffsetTransformsMap(BinaryReader reader)
         {
             var result = new List<OffsetTransform>();
 
@@ -527,7 +358,7 @@ namespace LibSanBag.FileResources
         {
             var result = new AnimationComponent();
 
-            result.Version = ReadVersion(reader, 12, 0x1417056D0);
+            result.Version = ReadVersion(reader, 13, 0x1417056D0);
             result.ProjectDataUuid = ReadUUID(reader);
             result.ProxyShapeUuid = ReadUUID(reader);
             result.SkeletonUuid = ReadUUID(reader);
@@ -570,9 +401,12 @@ namespace LibSanBag.FileResources
             {
                 result.Scale = reader.ReadSingle();
             }
-            if (result.Version >= 8)
+            if (result.Version < 13)
             {
-                result.AnimationOverrides = Read_List(reader, Read_AnimationComponent_AnimationOverride, 1, 0x14170CE40);
+                if (result.Version >= 8)
+                {
+                    result.AnimationOverrides = Read_List(reader, Read_AnimationComponent_AnimationOverride, 1, 0x14170CE40);
+                }
             }
             if (result.Version >= 9)
             {
@@ -807,7 +641,7 @@ namespace LibSanBag.FileResources
             public string GeometryUuid { get; set; }
             public List<ModelDefinitionPart> Parts { get; set; }
         }
-        private ModelDefinition Read_ModelDefinition(BinaryReader reader)
+        public ModelDefinition Read_ModelDefinition(BinaryReader reader)
         {
             var result = new ModelDefinition();
 
@@ -836,12 +670,13 @@ namespace LibSanBag.FileResources
             public bool IsVisible { get; set; }
             public int EditInstanceId { get; set; }
             public int EditLinkId { get; set; }
+            public List<uint> MaterialIndex { get; internal set; }
         }
         private MeshComponent_V3 Read_MeshComponent_v3(BinaryReader reader)
         {
             var result = new MeshComponent_V3();
 
-            result.Version = ReadVersion(reader, 5, 0x141706B40);
+            result.Version = ReadVersion(reader, 6, 0x141706B40);
             result.Name = ReadString(reader);
 
             result.ModelDefinition = ReadComponent(reader, Read_ModelDefinition);
@@ -864,6 +699,10 @@ namespace LibSanBag.FileResources
             {
                 result.EditInstanceId = reader.ReadInt32();
                 result.EditLinkId = reader.ReadInt32();
+            }
+            if(result.Version >= 6)
+            {
+                result.MaterialIndex = Read_List(reader, n => n.ReadUInt32(), 1, 0x1411B9600);
             }
 
             return result;
@@ -999,25 +838,6 @@ namespace LibSanBag.FileResources
             }
 
             return result;
-        }
-
-        public class AABB
-        {
-            public List<float> Min { get; set; }
-            public List<float> Max { get; set; }
-        }
-        private AABB Read_AABB(BinaryReader reader)
-        {
-            var version = ReadVersion(reader, 1, 0x141205310);
-
-            var min = ReadVectorF(reader, 4);
-            var max = ReadVectorF(reader, 4);
-
-            return new AABB()
-            {
-                Min = min,
-                Max = max
-            }; ;
         }
 
         public class TerrainComponentRuntimeData
@@ -1216,32 +1036,13 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        private List<List<float>> Read_RotationMatrix(BinaryReader reader, int dimension=3)
-        {
-            var version = ReadVersion(reader, 1, 0x14119F1D0);
-
-            var matrix = new List<List<float>>();
-            for (int rowIndex = 0; rowIndex < dimension; rowIndex++)
-            {
-                var row = new List<float>();
-                for (int colIndex = 0; colIndex < dimension; colIndex++)
-                {
-                    var col = reader.ReadSingle();
-                    row.Add(col);
-                }
-                matrix.Add(row);
-            }
-
-            return matrix;
-        }
-
         public class ObjectClusterTransform
         {
             public uint Version { get; set; }
             public List<List<float>> Rotation { get; set; }
             public List<float> Translation { get; set; }
         }
-        private ObjectClusterTransform Read_ObjectClusterTransform(BinaryReader reader)
+        public ObjectClusterTransform Read_ObjectClusterTransform(BinaryReader reader)
         {
             var result = new ObjectClusterTransform();
 
@@ -1291,6 +1092,23 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+        class CharacterAnimationResult
+        {
+            public uint Version { get; set; }
+            public string ResourceId { get; internal set; }
+            public uint SkeletonType { get; internal set; }
+        }
+        private CharacterAnimationResult Read_ScriptComponent_CharacterAnimation(BinaryReader reader)
+        {
+            var result = new CharacterAnimationResult();
+
+            result.Version = ReadVersion(reader, 1, 0x1411EDC80);
+            result.ResourceId = ReadUUID(reader);
+            result.SkeletonType = reader.ReadUInt32();
+
+            return result;
+        }
+
         public enum ScriptTypeCodes
         {
             System_Boolean = 0x4101,
@@ -1317,6 +1135,7 @@ namespace LibSanBag.FileResources
             Sansar_Simulation_ClusterResource = 0x2002,
             Sansar_Simulation_SoundResource = 0x2003,
             Sansar_Simulation_Interaction = 0x10000,
+            Sansar_Simulation_CharacterAnimation = 0x12001,
             Sansar_Simulation_QuestDefinition = 0x20000,
             Sansar_Simulation_ObjectiveDefinition = 0x20001,
             Sansar_Simulation_QuestCharacter = 0x20002,
@@ -1435,6 +1254,9 @@ namespace LibSanBag.FileResources
                 case ScriptTypeCodes.Sansar_Simulation_Interaction: //0x10000
                     result = Read_ScriptComponent_Interaction(reader);
                     break;
+                case ScriptTypeCodes.Sansar_Simulation_CharacterAnimation: // 0x12001
+                    result = Read_ScriptComponent_CharacterAnimation(reader);
+                    break;
                 case ScriptTypeCodes.Sansar_Simulation_QuestDefinition: //0x20000
                     result = ReadUUID_B(reader);
                     break;
@@ -1463,7 +1285,7 @@ namespace LibSanBag.FileResources
             public List<ScriptParameter> Children { get; set; }
             public object Value { get; set; }
         }
-        private ScriptParameter Read_ScriptComponent_parameter(BinaryReader reader)
+        internal ScriptParameter Read_ScriptComponent_parameter(BinaryReader reader)
         {
             var result = new ScriptParameter();
 
@@ -1502,7 +1324,7 @@ namespace LibSanBag.FileResources
             public List<ScriptParameter> Parameters { get; set; } = new List<ScriptParameter>();
             public string BaseDefinition { get; set; }
         }
-        private ScriptComponent Read_ScriptComponent(BinaryReader reader)
+        public ScriptComponent Read_ScriptComponent(BinaryReader reader)
         {
             var result = new ScriptComponent();
 
@@ -1940,19 +1762,29 @@ namespace LibSanBag.FileResources
             return result;
         }
 
-        public string Name { get; set; } = "";
-        public uint Version { get; set; }
-        public List<ClusterObject> ObjectsDefs { get; set; }
-        public List<JointDefinitions> JointDefs { get; set; }
+        public class ClusterDefinition
+        {
+            public uint Version { get; set; }
+            public List<ClusterObject> ObjectsDefs { get; internal set; }
+            public List<JointDefinitions> JointDefs { get; internal set; }
+        }
+        private ClusterDefinition Read_ClusterDefinition(BinaryReader reader)
+        {
+            var result = new ClusterDefinition();
 
+            result.Version = ReadVersion(reader, 1, 0x1410E3B70);
+            result.ObjectsDefs = Read_List(reader, Read_Objects, 1, 0x1416E96E0);
+            result.JointDefs = Read_List(reader, Read_Joints, 1, 0x1416E96F0);
+
+            return result;
+        }
+
+        public ClusterDefinition Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var reader = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                this.Version = ReadVersion(reader, 1, 0x1410E3B70);
-                
-                this.ObjectsDefs = Read_List(reader, Read_Objects, 1, 0x1416E96E0);
-                this.JointDefs = Read_List(reader, Read_Joints, 1, 0x1416E96F0);
+                this.Resource = Read_ClusterDefinition(reader);
             }
         }
     }

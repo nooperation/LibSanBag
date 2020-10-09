@@ -40,7 +40,7 @@ namespace LibSanBag.Tests.FileResources
                     var resource = GeometryResourceCanonical.Create(testData.RecordInfo.VersionHash);
                     resource.InitFromStream(ms);
 
-                    Assert.AreEqual(resource.Content, testData.ExpectedContentBytes);
+                    Assert.AreEqual(resource.Resource.Bytes, testData.ExpectedContentBytes);
                 }
             }
         }

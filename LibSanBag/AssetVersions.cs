@@ -436,6 +436,7 @@ namespace LibSanBag
             },
             [ResourceType.TextureSource] = new List<string>
             {
+                "2",
                 "1",
                 "ef0903f03a55a571",
                 "403f4d383dcbd77c",
@@ -554,6 +555,7 @@ namespace LibSanBag
             //},
             [ResourceType.TextureResource] = new List<string>
             {
+                "3",
                 "2",
                 "1",
                 "f1b6b03a0c99d181",

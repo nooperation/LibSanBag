@@ -1,442 +1,178 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static LibSanBag.FileResources.ClusterDefinitionResource;
 
 namespace LibSanBag.FileResources
 {
-    public abstract class ScriptMetadataResource : BaseFileResource
+    public class ScriptMetadataResource : BaseFileResource
     {
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        public struct TypeCode
+        public static ScriptMetadataResource Create(string version = "")
         {
-            public const int System_Boolean = 0x4101;
-            public const int System_SByte = 0x101;
-            public const int System_Byte = 0x8101;
-            public const int System_Int16 = 0x102;
-            public const int System_UInt16 = 0x8102;
-            public const int System_Int32 = 0x104;
-            public const int System_UInt32 = 0x8104;
-            public const int System_Int64 = 0x108;
-            public const int System_UInt64 = 0x8108;
-            public const int System_Single = 0x204;
-            public const int System_Double = 0x208;
-            public const int System_String = 0x400;
-            public const int System_Object = 0x800;
-            public const int Sansar_Simulation_RigidBodyComponent = 0x802;
-            public const int Sansar_Simulation_AnimationComponent = 0x801;
-            public const int Sansar_Simulation_AudioComponent = 0x803;
-            public const int Sansar_Simulation_ClusterResource = 0x2002;
-            public const int Sansar_Simulation_SoundResource = 0x2003;
-            public const int Mono_Simd_Vector4f = 0x1001;
-            public const int Sansar_Vector = 0x1002;
-            public const int Sansar_Quaternion = 0x1003;
+            return new ScriptMetadataResource();
         }
 
-        public static Dictionary<int, string> TypeCodeToNameMap = new Dictionary<int, string>()
+        public class ScriptProperty
         {
-            {TypeCode.System_Boolean, "System.Boolean"},
-            {TypeCode.System_SByte, "System.SByte"},
-            {TypeCode.System_Byte, "System.Byte"},
-            {TypeCode.System_Int16, "System.Int16"},
-            {TypeCode.System_UInt16, "System.UInt16"},
-            {TypeCode.System_Int32, "System.Int32"},
-            {TypeCode.System_UInt32, "System.UInt32"},
-            {TypeCode.System_Int64, "System.Int64"},
-            {TypeCode.System_UInt64, "System.UInt64"},
-            {TypeCode.System_Single, "System.Single"},
-            {TypeCode.System_Double, "System.Double"},
-            {TypeCode.System_String, "System.String"},
-            {TypeCode.System_Object, "System.Object"},
-            {TypeCode.Sansar_Simulation_RigidBodyComponent, "Sansar.Simulation.RigidBodyComponent"},
-            {TypeCode.Sansar_Simulation_AnimationComponent, "Sansar.Simulation.AnimationComponent"},
-            {TypeCode.Sansar_Simulation_AudioComponent, "Sansar.Simulation.AudioComponent"},
-            {TypeCode.Sansar_Simulation_ClusterResource, "Sansar.Simulation.ClusterResource"},
-            {TypeCode.Sansar_Simulation_SoundResource, "Sansar.Simulation.SoundResource"},
-            {TypeCode.Mono_Simd_Vector4f, "Mono.Simd.Vector4f"},
-            {TypeCode.Sansar_Vector, "Sansar.Vector"},
-            {TypeCode.Sansar_Quaternion, "Sansar.Quaternion"},
-        };
+            public uint Version { get; set; }
+            public string Name { get; set; }
+            public string TypeString { get; set; }
+            public uint Type { get; set; }
+            public List<ScriptParameter> Attributes { get; set; }
+        }
+        private ScriptProperty Read_Property(BinaryReader reader)
+        {
+            var result = new ScriptProperty();
 
-        public class PropertyEntry
-        {
-            public string Name { get; set; } = string.Empty;
-            public string Type { get; set; } = string.Empty;
-            public List<PropertyAttribute> Attributes { get; set; } = new List<PropertyAttribute>();
+            result.Version = ReadVersion(reader, 1, 0x1411DD3E0);
+
+            result.Name = ReadString(reader);
+            result.TypeString = ReadString(reader);
+            result.Type = reader.ReadUInt32();
+            result.Attributes = Read_List(reader, clusterDefinition.Read_ScriptComponent_parameter, 1, 0x1411CF800);
+
+            return result;
         }
 
-        public class PropertyAttribute
+        public class ScriptClass
         {
-            public string Name { get; set; } = string.Empty;
-            public string Type { get; set; } = string.Empty;
-            public object Value { get; set; }
+            public uint Version { get; set; }
+            public string Name { get; set; }
+            public uint ScriptType { get; set; }
+            public List<ScriptProperty> Properties { get; set; }
+            public string DisplayName { get; set; }
+            public string Tooltip { get; set; }
+
+            public override string ToString() => DisplayName;
+        }
+        private ScriptClass Read_ScriptClass(BinaryReader reader)
+        {
+            var result = new ScriptClass();
+
+            result.Version = ReadVersion(reader, 3, 0x1411DD3F0);
+            result.Name = ReadString(reader);
+
+            if(result.Version >= 2)
+            {
+                result.ScriptType = reader.ReadUInt32();
+            }
+
+            result.Properties = Read_List(reader, Read_Property, 1, 0x1411D2360);
+
+            if(result.Version >= 3)
+            {
+                result.DisplayName = ReadString(reader);
+                result.Tooltip = ReadString(reader);
+            }
+
+            return result;
+        }
+
+        public class ScriptTag
+        {
+            public string Data { get; set; }
+            public string Value { get; set; }
+        }
+        private ScriptTag Read_ScriptTag(BinaryReader reader)
+        {
+            var result = new ScriptTag();
+
+            result.Data = ReadString(reader);
+            result.Value = ReadString(reader);
+
+            return result;
         }
 
         public class ScriptMetadata
         {
-            public string ClassName { get; set; } = string.Empty;
-            public string DisplayName { get; set; } = string.Empty;
-            public string Tooltip { get; set; } = string.Empty;
-            public int UnknownA { get; set; }
+            public uint Version { get; set; }
+            public List<KeyValuePair<string, string>> Parameters;
+            public string SourceFileName { get; set; }
+            public string Info { get; set; }
+            public string Errors { get; set; }
+            public uint Flags { get; set; }
+            public List<ScriptClass> ScriptClasses { get; set; }
+            public string DefaultScript { get; set; }
+            public List<ScriptProperty> Properties { get; set; }
+            public List<ScriptTag> Tags { get; set; }
+            public string Tooltip { get; set; }
+        }
+        private ScriptMetadata Read_ScriptMetadataResource(BinaryReader reader)
+        {
+            var result = new ScriptMetadata();
 
-            public List<PropertyEntry> Properties { get; set; } = new List<PropertyEntry>();
+            result.Version = ReadVersion(reader, 5, 0x141115FB0); // C3038F16B1058B48
 
-            public override string ToString()
+            if (result.Version < 2)
             {
-                return ClassName;
+                result.Parameters = new List<KeyValuePair<string, string>>();
+
+                var ParameterCount = reader.ReadUInt32(); // skip
+                for (int i = 0; i < ParameterCount; i++)
+                {
+                    var ParamKey = ReadString(reader);
+                    var ParamValue = ReadString(reader);
+
+                    result.Parameters.Add(new KeyValuePair<string, string>(ParamKey, ParamValue));
+                }
+
+                return result;
             }
+
+            if(result.Version < 3)
+            {
+                result.SourceFileName = ReadString(reader);
+            }
+
+            result.Info = ReadString(reader);
+            result.Errors = ReadString(reader);
+            result.Flags = reader.ReadUInt32();
+
+            if(result.Version >= 4)
+            {
+                result.ScriptClasses = Read_List(reader, Read_ScriptClass, 1, 0x1411D2370);
+                result.DefaultScript = ReadString(reader);
+            }
+            else
+            {
+                result.Properties = Read_List(reader, Read_Property, 1, 0x1411D2360);
+            }
+
+            result.Tags = Read_List(reader, Read_ScriptTag, 1, 0x1411D2380);
+            if (result.Version >= 5)
+            {
+                result.Tooltip = ReadString(reader);
+            }
+
+            return result;
         }
 
-        public string AssemblyTooltip { get; set; } = string.Empty;
-        public string ScriptSourceTextName { get; set; } = string.Empty;
-        public string BuildWarnings { get; set; } = string.Empty;
-        public string DefaultScript { get; set; } = string.Empty;
-        public string OtherWarnings { get; set; } = string.Empty;
-        public int UsesRestrictedAPI { get; set; }
-        public int ScriptCount { get; set; }
-        public int AttributesVersion { get; set; }
-
-        public int? ScriptsVersion { get; set; } = null;
-        public int? ScriptVersion { get; set; } = null;
-        public int? ScriptPayloadVersion { get; set; } = null;
-        public int? PropertyVersion { get; set; } = null;
-        public int? AttributeVersion { get; set; } = null;
-        public int? AttributePayloadVersion { get; set; } = null;
-
-        public List<ScriptMetadata> Scripts { get; set; } = new List<ScriptMetadata>();
-        public List<KeyValuePair<string, string>> Strings { get; set; } = new List<KeyValuePair<string, string>>();
-
-        public virtual string ReadString(BinaryReader decompressedStream)
-        {
-            var textLength = decompressedStream.ReadInt32();
-            var text = new string(decompressedStream.ReadChars(textLength));
-            return text;
-        }
-
-        public static ScriptMetadataResource Create(string version = "")
-        {
-            return new ScriptMetadataResource_v1();
-        }
-
-        public static Type GetTypeFor(string version = "")
-        {
-            return typeof(ScriptMetadataResource_v1);
-        }
-    }
-
-    public class ScriptMetadataResource_v1 : ScriptMetadataResource
-    {
-        public override bool IsCompressed => true;
-
+        public ScriptMetadata Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                ResourceVersion = decompressedStream.ReadInt32();
-                if(ResourceVersion < 2)
-                {
-                    // TODO: Some really old stuff here
-                    return;
-                }
-
-                if(ResourceVersion < 3)
-                {
-                    ScriptSourceTextName = ReadString(decompressedStream);
-                }
-
-                BuildWarnings = ReadString(decompressedStream);
-                OtherWarnings = ReadString(decompressedStream);
-                UsesRestrictedAPI = decompressedStream.ReadInt32();
-
-                if(ResourceVersion >= 4)
-                {
-                    Scripts = ParseScripts_V4(decompressedStream);
-                    DefaultScript = ReadString(decompressedStream);
-                }
-                else
-                {
-                    // TODO: See if we covered this in the legacy parsers
-                    ScriptMetadata script = new ScriptMetadata();
-                    script.ClassName = "";
-                    script.DisplayName = "";
-                    script.Properties = ParseScriptPayload_V4(decompressedStream);
-
-                    Scripts = new List<ScriptMetadata>() { script };
-                }
-
-                var stringsAreAvailable = decompressedStream.ReadInt32() != 0;
-                if (stringsAreAvailable)
-                {
-                    var stringCount = decompressedStream.ReadInt32();
-                    Strings = new List<KeyValuePair<string, string>>(stringCount);
-
-                    for (var stringIndex = 0; stringIndex < stringCount; ++stringIndex)
-                    {
-                        var key = ReadString(decompressedStream);
-                        var value = ReadString(decompressedStream);
-
-                        Strings.Add(new KeyValuePair<string, string>(key, value));
-                    }
-                }
-
-                if(ResourceVersion >= 5) 
-                {
-                    AssemblyTooltip = ReadString(decompressedStream);
-                }
+                this.Resource = Read_ScriptMetadataResource(decompressedStream);
             }
         }
 
-        private List<ScriptMetadata> ParseScripts_V4(BinaryReader decompressedStream)
+        #region ParserInit
+
+        private ClusterDefinitionResource clusterDefinition;
+        public ScriptMetadataResource()
         {
-            if(ScriptsVersion == null)
-            {
-                ScriptsVersion = decompressedStream.ReadInt32();
-            }
-
-            var scriptCount = decompressedStream.ReadInt32();
-
-            List<ScriptMetadata> scripts = new List<ScriptMetadata>();
-            for (int scriptIndex = 0; scriptIndex < scriptCount; scriptIndex++)
-            {
-                var script = ParseScript_V4(decompressedStream);
-                scripts.Add(script);
-            }
-
-            return scripts;
+            clusterDefinition = new ClusterDefinitionResource();
+            clusterDefinition.OverrideVersionMap(versionMap, this.componentMap);
         }
 
-        private ScriptMetadata ParseScript_V4(BinaryReader decompressedStream)
+        internal override void OverrideVersionMap(Dictionary<ulong, uint> newVersionMap, Dictionary<uint, object> newComponentMap)
         {
-            if(ScriptVersion == null)
-            {
-                ScriptVersion = decompressedStream.ReadInt32();
-            }
+            this.versionMap = newVersionMap;
+            this.componentMap = newComponentMap;
 
-            var script = new ScriptMetadata();
-            script.Properties = new List<PropertyEntry>();
-            script.ClassName = ReadString(decompressedStream);
-
-            if (ScriptVersion >= 2)
-            {
-                // Unknown - does not seem to affect resource parsing (output only)
-                script.UnknownA = decompressedStream.ReadInt32();
-            }
-
-            script.Properties = ParseScriptPayload_V4(decompressedStream);
-
-            if(ScriptVersion >= 3)
-            {
-                script.DisplayName = ReadString(decompressedStream);
-                script.Tooltip = ReadString(decompressedStream);
-            }
-
-            return script;
+            clusterDefinition.OverrideVersionMap(newVersionMap, newComponentMap);
         }
 
-        private List<PropertyEntry> ParseScriptPayload_V4(BinaryReader decompressedStream)
-        {
-            if (ScriptPayloadVersion == null)
-            {
-                ScriptPayloadVersion = decompressedStream.ReadInt32();
-            }
-
-            var propertyCount = decompressedStream.ReadInt32();
-
-            var properties = new List<PropertyEntry>();
-            for (int propertyIndex = 0; propertyIndex < propertyCount; propertyIndex++)
-            {
-                var prop = ParseScriptProperty_V4(decompressedStream);
-                properties.Add(prop);
-            }
-
-            return properties;
-        }
-
-        private PropertyEntry ParseScriptProperty_V4(BinaryReader decompressedStream)
-        {
-            if (PropertyVersion == null)
-            {
-                PropertyVersion = decompressedStream.ReadInt32();
-            }
-
-            var prop = new PropertyEntry();
-            prop.Name = ReadString(decompressedStream);
-            prop.Type = ReadString(decompressedStream);
-            var typeCode = decompressedStream.ReadInt32();
-            prop.Attributes = ReadScriptMetadata_Property_Attributes(decompressedStream);
-
-            return prop;
-        }
-
-        private List<PropertyAttribute> ReadScriptMetadata_Property_Attributes(BinaryReader decompressedStream)
-        {
-            if (AttributeVersion == null)
-            {
-                AttributeVersion = decompressedStream.ReadInt32();
-            }
-
-            var numAttributes = decompressedStream.ReadInt32();
-
-            var attributes = new List<PropertyAttribute>();
-            for (var attributeIndex = 0; attributeIndex < numAttributes; attributeIndex++)
-            {
-                var attr = ReadScriptMetadata_Attribute_Payload(decompressedStream);
-                attributes.Add(attr);
-            }
-
-            return attributes;
-        }
-
-        private PropertyAttribute ReadScriptMetadata_Attribute_Payload(BinaryReader decompressedStream)
-        {
-            if (AttributePayloadVersion == null)
-            {
-                AttributePayloadVersion = decompressedStream.ReadInt32();
-            }
-
-            var attribute = new PropertyAttribute();
-            attribute.Name = ReadString(decompressedStream);
-            attribute.Value = "";
-
-            if (AttributePayloadVersion < 6)
-            {
-                // Do some nasty crap here. NO-OP stuff?
-            }
-
-            var typeCode = decompressedStream.ReadInt32();
-            if(TypeCodeToNameMap.ContainsKey(typeCode))
-            {
-                attribute.Type = TypeCodeToNameMap[typeCode];
-            }
-            else
-            {
-                attribute.Type = "!UNKNOWN!";
-            }
-
-            bool isMethodA;
-            if ((typeCode & 0xF0000000) > 0)
-            {
-                isMethodA = (typeCode == 0x20000000);
-            }
-            else
-            {
-                isMethodA = ((typeCode >> 28) & 1) > 0;
-            }
-
-            if(isMethodA)
-            {
-                throw new NotImplementedException("MethodA is not tested");
-
-                // TODO: Method A
-                ReadScriptMetadata_Attribute_Payload_MethodA(decompressedStream);
-
-                attribute.Value = "TODO: MethodA";
-                return attribute;
-            }
-
-            bool isMethodB = false;
-            if ((typeCode & 0xF0000000) > 0)
-            {
-                isMethodB = (typeCode == 0x10000000);
-            }
-            else
-            {
-                isMethodB = ((typeCode >> 28) & 1) > 0;
-            }
-
-            if(isMethodB)
-            {
-                throw new NotImplementedException("MethodB is not tested");
-
-                // TODO: Method B
-                ReadScriptMetadata_Property_Attributes(decompressedStream);
-
-                attribute.Value = "TODO: MethodB";
-                return attribute;
-            }
-
-            // TODO: Method C - This is the standard case. Stream just points to a value we need to read.
-            attribute.Value = ReadScriptMetadata_Attribute_Payload_MethodC(decompressedStream, typeCode, AttributePayloadVersion >= 11);
-            return attribute;
-        }
-
-        private void ReadScriptMetadata_Attribute_Payload_MethodA(BinaryReader decompressedStream)
-        {
-            throw new NotImplementedException("MethodA is not tested");
-            if (AttributePayloadVersion == null)
-            {
-                AttributePayloadVersion = decompressedStream.ReadInt32();
-            }
-
-            var numAttributes = decompressedStream.ReadInt32();
-
-            for (int i = 0; i < numAttributes; i++)
-            {
-                var unknown = ReadString(decompressedStream);
-                ReadScriptMetadata_Attribute_Payload(decompressedStream);
-            }
-        }
-
-        private object ReadScriptMetadata_Attribute_Payload_MethodC(BinaryReader decompressedStream, int attributeValueCode, bool isNewVersion)
-        {
-            object attributeValue = new object();
-
-            switch (attributeValueCode)
-            {
-                case TypeCode.System_Boolean: // 4101
-                    attributeValue = decompressedStream.ReadUInt64() != 0;
-                    break;
-                case TypeCode.System_SByte: //  101
-                    attributeValue = decompressedStream.ReadSByte();
-                    break;
-                case TypeCode.System_Byte: // 8101
-                    attributeValue = decompressedStream.ReadByte();
-                    break;
-                case TypeCode.System_Int16: //  102
-                    attributeValue = decompressedStream.ReadInt16();
-                    break;
-                case TypeCode.System_UInt16: // 8102
-                    attributeValue = decompressedStream.ReadUInt16();
-                    break;
-                case TypeCode.System_Int32: //  104
-                    attributeValue = decompressedStream.ReadInt32();
-                    break;
-                case TypeCode.System_UInt32: // 8104
-                    attributeValue = decompressedStream.ReadUInt32();
-                    break;
-                case TypeCode.System_Int64: //  108
-                    attributeValue = decompressedStream.ReadInt64();
-                    break;
-                case TypeCode.System_UInt64: // 8108
-                    attributeValue = decompressedStream.ReadUInt64();
-                    break;
-                case TypeCode.System_Single: //  204
-                    attributeValue = decompressedStream.ReadSingle();
-                    break;
-                case TypeCode.System_Double: //  208
-                    attributeValue = decompressedStream.ReadDouble();
-                    break;
-                case TypeCode.System_String: //  400
-                case TypeCode.System_Object: //  800
-                case TypeCode.Sansar_Simulation_RigidBodyComponent: //  802
-                case TypeCode.Sansar_Simulation_AnimationComponent: //  801
-                case TypeCode.Sansar_Simulation_AudioComponent: //  803
-                case TypeCode.Sansar_Simulation_ClusterResource: // 2002
-                case TypeCode.Sansar_Simulation_SoundResource: // 2003
-                case TypeCode.Mono_Simd_Vector4f: // 1001
-                case TypeCode.Sansar_Vector: // 1002
-                case TypeCode.Sansar_Quaternion: // 1003
-                    attributeValue = ReadString(decompressedStream);
-                    break;
-                default:
-                    attributeValue = new object();
-                    break;
-            }
-
-            return attributeValue;
-        }
+        #endregion
     }
 }

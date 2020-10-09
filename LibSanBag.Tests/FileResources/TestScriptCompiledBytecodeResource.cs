@@ -53,8 +53,8 @@ namespace LibSanBag.Tests.FileResources
                     resource.InitFromStream(ms);
 
                     var expectedAssemblyBytes = File.ReadAllBytes(testData.AssemblyPath);
-                    Assert.AreEqual(resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
-                    Assert.AreEqual(resource.AssemblyBytes, expectedAssemblyBytes);
+                    Assert.AreEqual(resource.Resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
+                    Assert.AreEqual(resource.Resource.AssemblyBytes, expectedAssemblyBytes);
                 }
             }
         }
@@ -78,8 +78,8 @@ namespace LibSanBag.Tests.FileResources
                 resource.InitFromRecord(fileStream, fileRecord);
 
                 var expectedAssemblyBytes = File.ReadAllBytes(testData.AssemblyPath);
-                Assert.AreEqual(resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
-                Assert.AreEqual(resource.AssemblyBytes, expectedAssemblyBytes);
+                Assert.AreEqual(resource.Resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
+                Assert.AreEqual(resource.Resource.AssemblyBytes, expectedAssemblyBytes);
             }
         }
 
@@ -94,8 +94,8 @@ namespace LibSanBag.Tests.FileResources
                 resource.InitFromRawCompressed(filebytes);
 
                 var expectedAssemblyBytes = File.ReadAllBytes(testData.AssemblyPath);
-                Assert.AreEqual(resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
-                Assert.AreEqual(resource.AssemblyBytes, expectedAssemblyBytes);
+                Assert.AreEqual(resource.Resource.ScriptSourceTextPath, testData.ExpectedAssemblyPath);
+                Assert.AreEqual(resource.Resource.AssemblyBytes, expectedAssemblyBytes);
             }
         }
     }

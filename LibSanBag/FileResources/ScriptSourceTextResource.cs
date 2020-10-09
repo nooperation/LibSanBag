@@ -1,76 +1,59 @@
-﻿using LibSanBag;
-using LibSanBag.ResourceUtils;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibSanBag.FileResources;
 
 namespace LibSanBag.FileResources
 {
-    public abstract class ScriptSourceTextResource : BaseFileResource
+    public class ScriptSourceTextResource : BaseFileResource
     {
-        /// <summary>
-        /// Script filename
-        /// </summary>
-        public string Filename { get; set; }
-        /// <summary>
-        /// Script source code
-        /// </summary>
-        public string Source { get; set; }
-
         public static ScriptSourceTextResource Create(string version = "")
         {
-            switch (version)
-            {
-                case "6301a7d31aa6f628":
-                case "dedd8914f8dfe71e":
-                    return new ScriptSourceTextResource_dedd8914f8dfe71e();
-                case "4cde67396803610f":
-                default:
-                    return new ScriptSourceTextResource_4cde67396803610f();
-            }
+            return new ScriptSourceTextResource();
         }
-    }
 
-    public class ScriptSourceTextResource_4cde67396803610f : ScriptSourceTextResource
-    {
-        public override bool IsCompressed => true;
+        public class SourceScriptText
+        {
+            public uint Version { get; set; }
+            public string SourceFileName { get; set; }
+            public List<string> SourceTexts { get; set; }
+            public string SourceText { get; set; }
+            public string ApiVersion { get; set; }
+            public List<string> SourceNames { get; set; }
+        }
+        private SourceScriptText Read_ScriptSourceText(BinaryReader reader)
+        {
+            var result = new SourceScriptText();
 
+            result.Version = ReadVersion(reader, 5, 0x14176AB20);
+            result.SourceFileName = ReadString_VersionSafe(reader, result.Version, 2);
+
+            if(result.Version >= 4)
+            {
+                result.SourceTexts = Read_List(reader, ReadString, 1, 0x14119ADB0);
+            }
+            else
+            {
+                result.SourceText = ReadString(reader);
+            }
+
+            if(result.Version >= 3)
+            {
+                result.ApiVersion = ReadString(reader);
+            }
+
+            if(result.Version >= 5)
+            {
+                result.SourceNames = Read_List(reader, ReadString, 1, 0x14119ADB0);
+            }
+
+            return result;
+        }
+
+        public SourceScriptText Resource { get; set; }
         public override void InitFromRawDecompressed(byte[] decompressedBytes)
         {
             using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
             {
-                ResourceVersion = decompressedStream.ReadInt32();
-
-                Filename = string.Empty;
-
-                var sourceLength = decompressedStream.ReadInt32();
-                var sourceChars = decompressedStream.ReadChars(sourceLength);
-                Source = new string(sourceChars);
-            }
-        }
-    }
-
-    public class ScriptSourceTextResource_dedd8914f8dfe71e : ScriptSourceTextResource
-    {
-        public override bool IsCompressed => true;
-
-        public override void InitFromRawDecompressed(byte[] decompressedBytes)
-        {
-            using (var decompressedStream = new BinaryReader(new MemoryStream(decompressedBytes)))
-            {
-                ResourceVersion = decompressedStream.ReadInt32();
-
-                var nameLength = decompressedStream.ReadInt32();
-                var nameChars = decompressedStream.ReadChars(nameLength);
-                Filename = new string(nameChars);
-
-                var sourceLength = decompressedStream.ReadInt32();
-                var sourceChars = decompressedStream.ReadChars(sourceLength);
-                Source = new string(sourceChars);
+                this.Resource = Read_ScriptSourceText(decompressedStream);
             }
         }
     }
