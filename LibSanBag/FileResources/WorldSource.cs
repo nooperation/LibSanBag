@@ -681,7 +681,7 @@ namespace LibSanBag.FileResources
         {
             var result = new WorldObject();
 
-            result.Version = ReadVersion(reader, 18, 0x1410E3B50);
+            result.Version = ReadVersion(reader, 20, 0x1410E3B50);
             result.Blueprint = ReadUUID(reader);
             result.Name = ReadString(reader);
 
@@ -754,6 +754,11 @@ namespace LibSanBag.FileResources
             if(result.Version >= 16)
             {
                 result.ScriptsUsingSceneScript = Read_List(reader, Read_ScriptUsingSceneScript, 1, 0x1411AA400);
+            }
+
+            if(result.Version < 18)
+            {
+                // noop
             }
 
             return result;

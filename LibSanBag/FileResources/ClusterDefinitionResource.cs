@@ -146,7 +146,7 @@ namespace LibSanBag.FileResources
             public uint Version { get; set; }
             public string BodyResourceHandle { get; set; }
 
-            [JsonIgnore]
+            //[JsonIgnore]
             public byte[] BodyCinfo { get; set; }
             public int BodyCinfoLength => BodyCinfo?.Length ?? 0;
 

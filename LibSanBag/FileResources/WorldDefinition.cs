@@ -209,7 +209,7 @@ namespace LibSanBag.FileResources
             var result = new WorldChunk();
 
             // TODO: Something isn't right here. why is the read_uuid version read before calling ReadUUID...? seems like a mistake
-            result.Version = ReadVersion(reader, 1, 0x141196890);
+            result.Version = ReadVersion(reader, 2 /* actual value is 1, what are these 2 versions coming from... */, 0x141196890);
             result.Id = ReadUUID(reader);
 
             return result;
