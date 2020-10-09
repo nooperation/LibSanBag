@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace LibSanBag.FileResources
 {
@@ -1656,16 +1657,17 @@ namespace LibSanBag.FileResources
 
         public class UnknownCase5Data
         {
-            public int Subtype { get; internal set; }
-            public List<V1_InnerN_inner_inner> Array { get; internal set; }
+            public uint Subtype { get; internal set; }
+            public AdditionalTypeDataResult UnknownB { get; internal set; }
             public List<uint> ArrayTrackingTags { get; internal set; }
         }
         private UnknownCase5Data Read_UnknownCase5(BinaryReader reader, ulong version)
         {
-            var result = new UnknownCase5Data();
+            UnknownCase5Data result = new UnknownCase5Data();
 
-            result.Subtype = reader.ReadInt32();
-            result.Array = Read_List(reader, Read_BlueprintResource_v1_innerN_inner_inner, 1, 0x1411B25B0);
+            result.Subtype = reader.ReadUInt32();
+            result.UnknownB = Read_AdditionalTypeData(reader);
+
             if (version >= 6)
             {
                 result.ArrayTrackingTags = Read_List(reader, n => n.ReadUInt32(), 1, 0x1411A28D0);
@@ -1684,6 +1686,7 @@ namespace LibSanBag.FileResources
             var result = new UnknownCase7Data();
 
             result.Id = ReadUUID(reader);
+            //result.Id = ReadUUID_B(reader);
             if (version == 3)
             {
                 result.TrackingTag = reader.ReadInt32();
@@ -1722,76 +1725,119 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+
+        public class AdditionalTypeDataResult
+        {
+            public List<V1_InnerN_inner_inner> Array { get; internal set; }
+        }
+        private AdditionalTypeDataResult Read_AdditionalTypeData(BinaryReader reader)
+        {
+            AdditionalTypeDataResult result = new AdditionalTypeDataResult();
+            result.Array = new List<V1_InnerN_inner_inner>();
+
+            var verson = ReadVersion(reader, 1, 0x141040680);
+
+            var numItems = reader.ReadUInt32();
+            for (int i = 0; i < numItems; i++)
+            {
+                var item = Read_BlueprintResource_v1_innerN_inner_inner(reader);
+                result.Array.Add(item);
+            }
+
+            return null;
+        }
+
         public class UnknownCase13Data
         {
             public int Subtype { get; internal set; }
-            public List<V1_InnerN_inner_inner> Array { get; internal set; }
+            public AdditionalTypeDataResult Unknown { get; set; }
         }
         private UnknownCase13Data Read_UnknownCase13(BinaryReader reader)
         {
             var result = new UnknownCase13Data();
 
             result.Subtype = reader.ReadInt32();
-            result.Array = Read_List(reader, Read_BlueprintResource_v1_innerN_inner_inner, 1, 0x1411B25B0);
+            result.Unknown = Read_AdditionalTypeData(reader);
 
             return result;
 
         }
         public object ReadSomethingCrazy(BinaryReader reader, int val, ulong version)
         {
+            object result = null;
+
             switch (val)
             {
                 case 0:
-                    return null;
+                    break;
                 case 1: // int64
-                    return reader.ReadInt64();
+                    result = reader.ReadInt64(); // 8byte
+                    break;
                 case 2: // double
-                    return reader.ReadDouble();
+                    result = reader.ReadDouble(); // 8byte
+                    break;
                 case 3: // vector4
-                    return ReadVectorF(reader, 4);
+                    result = ReadVectorF(reader, 4); // 16byte
+                    break;
                 case 4: // mTransform
-                    return clusterDefinition.Read_ObjectClusterTransform(reader);
+                    result = clusterDefinition.Read_ObjectClusterTransform(reader);
+                    break;
                 case 5: // subtype
-                    return Read_UnknownCase5(reader, version);
+                    result = Read_UnknownCase5(reader, version);
+                    break;
                 case 6: // string
-                    return ReadString(reader);
-                case 7: // resource id
-                    return Read_UnknownCase7(reader, version);
+                    ReadString(reader);
+                    break;
+                case 7: // resource id | "textureSource"|"scriptMetadata"|"soundResource"|"audioMaterialResource"|"clusterSource"
+                    result = Read_UnknownCase7(reader, version);
+                    break;
                 case 8: // ElementHandle
-                    return Read_BlueprintResource_v1_innerL_v4_innerC(reader);
+                    result = Read_BlueprintResource_v1_innerL_v4_innerC(reader);
+                    break;
                 case 9: // subtype
-                    return Read_UnknownCase9(reader);
+                    result = Read_UnknownCase9(reader);
+                    break;
                 case 10:
                 case 11:
                 case 12:
                 case 13:
-                    return Read_UnknownCase13(reader);
+                    result = Read_UnknownCase13(reader);
+                    break;
                 case 14: // TrackedElementId
-                    return Read_BlueprintResource_v1_innerL_v4_innerB(reader);
+                    result = Read_BlueprintResource_v1_innerL_v4_innerB(reader);
+                    break;
                 case 15: // TrackedMemberId
-                    return Read_UnknownCase15(reader);
+                    result = Read_UnknownCase15(reader);
+                    break;
                 default:
-                    return null;
+                    break;
             }
 
+            if (version >= 7)
+            {
+                // additionalTypeData
+                Read_AdditionalTypeData(reader);
+            }
             /*
-            0x1418DF53E  0x1418D9AA4
-            0x1418DF48B  0x1418D9ABC
-            0x1418DF48B  0x1418D9AD1
-            0x1418DF4CC  0x1418D9AE6
-            0x1418DF56C  0x1418D9B44
-            0x1418DF377  0x1418D995D
-            0x1418DF554  0x1418D9B29
-            0x1418DF57A  0x1418D9B64
-            0x1418DF4FC  0x1418D9B01
-            0x1418DF61B  0x1418D9F0A
-            0x1418DF441  0x1418D9A62
-            0x1418DF441  0x1418D9A62
-            0x1418DF441  0x1418D9A62
-            0x1418DF441  0x1418D9A62
-            0x1418DF665  0x1418D9F48
-            0x1418DF676  0x1418D9F60
+              0   14199569F
+              1   14199549B
+              2   14199549B
+              3   1419954DF
+              4   141995574
+              5   141995387
+              6   141995559
+              7   141995585
+              8   141995512
+              9   14199563E
+              10  141995451
+              11  141995451
+              12  141995451
+              13  141995451
+              14  141995685
+              15  141995693 
             */
+
+            return result;
         }
 
         private int ConvertTypeValue(uint typeValue)
@@ -1813,7 +1859,7 @@ namespace LibSanBag.FileResources
                 case 0x80000000:
                     return 5;
                 case 0x81000000:
-                    return 9;
+                    return 9; // special case :(
                 case 0x1000000:
                     return 7;
                 case 0xC000000:
@@ -1843,10 +1889,10 @@ namespace LibSanBag.FileResources
         {
             var result = new V1_InnerN_inner_inner();
 
-            result.Version = ReadVersion(reader, 6, 0x1411A3E00);
+            result.Version = ReadVersion(reader, 7, 0x1411A3E00);
             result.Type = reader.ReadUInt32();
 
-            var realType = ConvertTypeValue(result.Type);
+            var realType = ConvertTypeValue(result.Type); //  50331648
             result.Data = ReadSomethingCrazy(reader, realType, result.Version);
 
             return result;
@@ -1869,6 +1915,11 @@ namespace LibSanBag.FileResources
             result.Attributes = Read_BlueprintResource_v1_innerN_inner_inner(reader);
             result.MetadataName = ReadString(reader);
             result.DisplayName = ReadString(reader);
+
+            if(result.Version < 2)
+            {
+                // noop/semanticType
+            }
 
             return result;
         }
@@ -2287,14 +2338,20 @@ namespace LibSanBag.FileResources
             public string Data { get; internal set; }
             public uint Version { get; internal set; }
             public V1_InnerK_Inner_Inner_A_innerD_X Value { get; internal set; }
+            public uint ColorConversion { get; internal set; }
         }
         private V1_InnerK_Inner_Inner_A_innerD Read_BlueprintResource_v1_innerK_Inner_Inner_A_innerD(BinaryReader reader)
         {
             var result = new V1_InnerK_Inner_Inner_A_innerD();
 
             result.Data = ReadString(reader); // might be readarray?
-            result.Version = ReadVersion(reader, 1, 0x14121E230);
+            result.Version = ReadVersion(reader, 2, 0x14121E230);
             result.Value = Read_BlueprintResource_v1_innerK_Inner_Inner_A_innerD_X(reader);
+
+            if(result.Version >= 2)
+            {
+                result.ColorConversion = reader.ReadUInt32();
+            }
 
             return result;
         }
