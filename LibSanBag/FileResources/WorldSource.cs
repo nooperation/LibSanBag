@@ -915,12 +915,13 @@ namespace LibSanBag.FileResources
             public bool UseGrid { get; internal set; }
             public List<float> GridSpacing { get; internal set; }
             public WorldDefinitionResource.RuntimeInventorySettings RuntimeInventorySettings { get; internal set; }
+            public string IlluminationCacheResourceId { get; internal set; }
         }
         private World Read_WorldSource(BinaryReader reader)
         {
             var result = new World();
 
-            result.Version = ReadVersion(reader, 25, 0x141133CF0);
+            result.Version = ReadVersion(reader, 26, 0x141133CF0);
             result.WorldUp = ReadVectorF(reader, 4);
             result.WorldForward = ReadVectorF(reader, 4);
             result.ChunkSources = Read_List(reader, ReadUUID, 1, 0x1411A03F0);
@@ -1058,6 +1059,10 @@ namespace LibSanBag.FileResources
                 result.RuntimeInventorySettings = WorldDefinitionReader.Read_RuntimeInventorySettings(reader);
             }
 
+            if(result.Version >= 26)
+            {
+                result.IlluminationCacheResourceId = ReadUUID(reader);
+            }
             return result;
         }
 

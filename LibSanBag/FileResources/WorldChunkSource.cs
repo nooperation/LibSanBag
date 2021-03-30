@@ -85,7 +85,7 @@ namespace LibSanBag.FileResources
         {
             var result = new ClusterInstantiation();
 
-            result.Version = ReadVersion(reader, 3, 0x1411ADFD0);
+            result.Version = ReadVersion(reader, 4, 0x1411ADFD0);
             result.SourceTransform = Read_Transform(reader);
             result.ClusterId = reader.ReadUInt32();
             result.ClusterSource = WorldSourceReader.Read_WorldObject(reader);
