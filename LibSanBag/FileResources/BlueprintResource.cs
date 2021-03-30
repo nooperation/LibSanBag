@@ -357,14 +357,20 @@ namespace LibSanBag.FileResources
             public uint Version { get; internal set; }
             public int AttachmentId { get; internal set; }
             public V1_InnerU_inner UnknownA { get; internal set; }
+            public byte IsInWorldSpace { get; internal set; }
         }
         private V1_InnerV Read_BlueprintResource_v1_innerV(BinaryReader reader)
         {
             var result = new V1_InnerV();
 
-            result.Version = ReadVersion(reader, 1, 0x1410BB0F0);
+            result.Version = ReadVersion(reader, 2, 0x1410BB0F0);
             result.UnknownA = Read_BlueprintResource_v1_innerU_inner(reader);
             result.AttachmentId = reader.ReadInt32();
+
+            if(result.Version >= 2)
+            {
+                result.IsInWorldSpace = reader.ReadByte();
+            }
 
             return result;
         }
@@ -2599,6 +2605,45 @@ namespace LibSanBag.FileResources
             return result;
         }
 
+
+        public class TexturePath_Path
+        {
+            public string Root { get; internal set; }
+            public string RelDir { get; internal set; }
+            public string Filename { get; internal set; }
+            public uint Version { get; internal set; }
+        }
+        private TexturePath_Path Read_TexturePath_Path(BinaryReader reader)
+        {
+            var result = new TexturePath_Path();
+
+            result.Version = ReadVersion(reader, 1, 0x141026020);
+            result.Root = ReadString(reader);
+            result.RelDir = ReadString(reader);
+            result.Filename = ReadString(reader);
+
+            return result;
+        }
+
+        public class TexturePath
+        {
+            public uint Version { get; internal set; }
+            public uint PartIndex { get; internal set; }
+            public string FieldName { get; internal set; }
+            public TexturePath_Path Path { get; internal set; }
+        }
+        private TexturePath Read_TexturePath(BinaryReader reader)
+        {
+            var result = new TexturePath();
+
+            result.Version = ReadVersion(reader, 1, 0x1410A45C0);
+            result.PartIndex = reader.ReadUInt32();
+            result.FieldName = ReadString(reader);
+            result.Path = Read_TexturePath_Path(reader);
+
+            return result;
+        }
+
         public class V1_InnerK_Inner
         {
             public uint Version { get; internal set; }
@@ -2614,12 +2659,13 @@ namespace LibSanBag.FileResources
             public bool IsScriptable { get; internal set; }
             public bool IsInitiallyVisible { get; internal set; }
             public AInner Schematic { get; internal set; }
+            public List<TexturePath> TexturePaths { get; internal set; }
         }
         private V1_InnerK_Inner Read_BlueprintResource_v1_innerK_Inner(BinaryReader reader)
         {
             var result = new V1_InnerK_Inner();
 
-            result.Version = ReadVersion(reader, 8, 0x1411DD9A0);
+            result.Version = ReadVersion(reader, 9, 0x1411DD9A0);
 
             if (result.Version >= 4)
             {
@@ -2664,6 +2710,10 @@ namespace LibSanBag.FileResources
             if (result.Version >= 8)
             {
                 result.IsInitiallyVisible = reader.ReadBoolean();
+            }
+            if(result.Version >= 9)
+            {
+                result.TexturePaths = Read_List(reader, Read_TexturePath, 1, 0x141098510);
             }
 
             return result;
